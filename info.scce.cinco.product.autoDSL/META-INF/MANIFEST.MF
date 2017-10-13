@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: info.scce.cinco.product.autoDSL
+Bundle-SymbolicName: info.scce.cinco.product.autoDSL; singleton:=true
+Bundle-Version: 1.0.0
+Require-Bundle:  org.eclipse.emf.ecore,
+ org.eclipse.core.runtime,
+ de.jabc.cinco.meta.core.ge.style,
+ de.jabc.cinco.meta.core.mgl.model,
+ de.jabc.cinco.meta.core.ge.style.model
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

@@ -1,0 +1,26 @@
+appearance default {
+	lineWidth 2
+	background (229,229,229)
+}
+
+nodeStyle labeledCircle (1){
+	ellipse {
+		appearance default
+		size(40,40)
+		text {
+			position ( CENTER, MIDDLE )
+			value "%s"
+		}
+	}
+}
+
+edgeStyle simpleArrow {	
+	appearance default
+	
+	decorator {
+		location (1.0) // at the end of the edge
+		ARROW
+		appearance default 
+	}
+}
+
