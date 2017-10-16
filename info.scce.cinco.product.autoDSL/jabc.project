@@ -1,0 +1,13 @@
+#Saving jABC Project
+#Mon Oct 16 20:09:30 CEST 2017
+jabc.project.definition=1.0
+transem.codegenerator.targetDir=src-gen/
+jabc.project.name=AutoDSL
+jabc.project.sibpath.0=<classpath>
+transem.codegenerator.sourceDir=slg/
+jabc.project.classpath.0=\\bin\\
+transem.SIBDir=slg-gen/
+transem.qualified.package=info.scce.cinco.product.autoDSL.autodsl.AutodslPackage
+ID=357aa3dd-b366-4522-b185-9aada1d1fd86
+transem.other.ePackage.1=org.eclipse.graphiti.mm.pictograms.impl.PictogramsPackageImpl
+transem.other.ePackage.0=org.eclipse.graphiti.mm.algorithms.impl.AlgorithmsPackageImpl

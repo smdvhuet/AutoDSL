@@ -6,10 +6,32 @@ appearance default {
 nodeStyle labeledCircle (1){
 	ellipse {
 		appearance default
-		size(40,40)
+		size(100,100)
 		text {
 			position ( CENTER, MIDDLE )
 			value "%s"
+		}
+	}
+}
+
+nodeStyle stateOff {
+	ellipse {
+		appearance default
+		size(100,100)
+		text {
+			position ( CENTER, MIDDLE )
+			value "Off"
+		}
+	}
+}
+
+nodeStyle stateOn {
+	ellipse {
+		appearance default
+		size(250,300)
+		text {
+			position ( CENTER, TOP )
+			value "On"
 		}
 	}
 }
@@ -24,3 +46,12 @@ edgeStyle simpleArrow {
 	}
 }
 
+nodeStyle componentContainerRectangle {
+	rectangle {
+		appearance {
+			lineWidth 3
+			background (255, 255, 255)
+		}
+		size(140,200)
+	}
+}

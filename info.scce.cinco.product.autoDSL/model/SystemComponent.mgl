@@ -1,0 +1,14 @@
+@primeviewer
+@style("model/AutoDSL.style")
+graphModel SystemComponent {
+	package info.scce.cinco.product.autoDSL.systemcomponent
+	nsURI "http://cinco.scce.info/product/systemcomponent"
+	diagramExtension "syscomp"
+	
+	@style(labeledCircle, "${label}")
+	node SomeNodeComp {
+		incomingEdges (*)
+		outgoingEdges (*)
+		attr EString as label
+	}
+}

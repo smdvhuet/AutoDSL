@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+<extension
+	point="org.eclipse.ui.navigator.navigatorContent">
+<!--@CincoGen PROJECT_WIZARD_AUTODSLTOOL_NAV -->		
+<commonWizard
+	menuGroupId="mgl"
+	type="new"
+	wizardId="info.scce.cinco.product.autoDSL.wizard.autodsltoolproject">
+	<enablement></enablement>
+</commonWizard>
+</extension>
+<extension point="org.eclipse.ui.perspectives">
+<!--@CincoGen AUTODSLTOOL-->
+	<perspective class="info.scce.cinco.product.autoDSL.AutoDSLToolPerspective" fixed="false" id="info.scce.cinco.product.autoDSL.autodsltoolperspective" name="AutoDSLTool Perspective">
+	</perspective>
+</extension><extension point="de.jabc.cinco.meta.core.referenceregistry">
+	<!--@CincoGen AutoDSL-->
+		<FileExtensionsRegistry class="info.scce.cinco.product.autoDSL.autodsl.graphiti.AutoDSLFileExtensions">
+		</FileExtensionsRegistry>
+	</extension><extension point="org.eclipse.ui.navigator.navigatorContent">
+	<!--@CincoGen AutoDSL-->
+		<commonWizard menuGroupId="mgl" type="new" wizardId="info.scce.cinco.product.autoDSL.autodsl.wizard.autodsl">
+			<enablement/>
+		</commonWizard>
+	</extension><extension point="org.eclipse.ui.popupMenus">
+	<!--@CincoGen AutoDSL-->
+		<objectContribution adaptable="false" id="info.scce.cinco.product.autoDSL.autodsl.AutoDSLObjectContributor" nameFilter="*autodsl" objectClass="org.eclipse.core.resources.IResource">
+			<action class="info.scce.cinco.product.autoDSL.autodsl.graphiti.CreateAutoDSLDiagram" id="info.scce.cinco.product.autoDSL.autodsl.CreateAutoDSLDiagramAction" label="Create AutoDSL Diagram">
+			</action>
+		</objectContribution>
+	</extension><extension point="org.eclipse.core.contenttype.contentTypes">
+	<!--@CincoGen AutoDSL-->
+		<content-type file-extensions="autodsl" id="info.scce.cinco.product.autoDSL.autodsl.AutoDSLContentType" name="AutoDSL Content Type" priority="normal">
+		</content-type>
+	</extension><extension point="org.eclipse.ui.editors">
+	<!--@CincoGen AutoDSL-->
+		<editor class="info.scce.cinco.product.autoDSL.autodsl.graphiti.AutoDSLDiagramEditor" contributorClass="org.eclipse.graphiti.ui.editor.DiagramEditorActionBarContributor" default="false" id="info.scce.cinco.product.autoDSL.autodsl.AutoDSLEditor" matchingStrategy="org.eclipse.graphiti.ui.editor.DiagramEditorMatchingStrategy" name="AutoDSL Editor">
+			<contentTypeBinding contentTypeId="info.scce.cinco.product.autoDSL.autodsl.AutoDSLContentType">
+			</contentTypeBinding>
+			<contentTypeBinding contentTypeId="org.eclipse.graphiti.content.diagram">
+			</contentTypeBinding>
+		</editor>
+	</extension><extension point="org.eclipse.ui.newWizards">
+	<!--@CincoGen AutoDSL-->
+		<wizard category="de.jabc.cinco.meta.core.wizards.category.cinco" class="info.scce.cinco.product.autoDSL.autodsl.graphiti.wizard.NewAutoDSLDiagramWizard" id="info.scce.cinco.product.autoDSL.autodsl.wizard.autodsl" name="New AutoDSL">
+		</wizard>
+	</extension><extension point="org.eclipse.graphiti.ui.imageProviders">
+	<!--@CincoGen AutoDSL-->
+		<imageProvider class="info.scce.cinco.product.autoDSL.autodsl.graphiti.AutoDSLImageProvider" id="info.scce.cinco.product.autoDSL.autodsl.AutoDSLImageProvider">
+		</imageProvider>
+	</extension><extension point="org.eclipse.graphiti.ui.diagramTypeProviders">
+	<!--@CincoGen AutoDSL-->
+		<diagramTypeProvider class="info.scce.cinco.product.autoDSL.autodsl.graphiti.AutoDSLDiagramTypeProvider" description="This is the generated editor for the AutoDSL" id="info.scce.cinco.product.autoDSL.autodsl.AutoDSLDiagramTypeProvider" name="AutoDSL Diagram Editor">
+			<diagramType id="info.scce.cinco.product.autoDSL.autodsl.AutoDSLDiagramType">
+			</diagramType>
+			<imageProvider id="info.scce.cinco.product.autoDSL.autodsl.AutoDSLImageProvider">
+			</imageProvider>
+		</diagramTypeProvider>
+	</extension><extension point="org.eclipse.graphiti.ui.diagramTypes">
+	<!--@CincoGen AutoDSL-->
+		<diagramType description="This is the generated diagram Type for AutoDSL" id="info.scce.cinco.product.autoDSL.autodsl.AutoDSLDiagramType" name="AutoDSL Graphiti Diagram Type" type="AutoDSL">
+		</diagramType>
+	</extension><extension point="de.jabc.cinco.meta.core.referenceregistry">
+	<!--@CincoGen SystemComponent-->
+		<FileExtensionsRegistry class="info.scce.cinco.product.autoDSL.systemcomponent.graphiti.SystemComponentFileExtensions">
+		</FileExtensionsRegistry>
+	</extension><extension point="org.eclipse.ui.navigator.navigatorContent">
+	<!--@CincoGen SystemComponent-->
+		<commonWizard menuGroupId="mgl" type="new" wizardId="info.scce.cinco.product.autoDSL.systemcomponent.wizard.systemcomponent">
+			<enablement/>
+		</commonWizard>
+	</extension><extension point="org.eclipse.ui.popupMenus">
+	<!--@CincoGen SystemComponent-->
+		<objectContribution adaptable="false" id="info.scce.cinco.product.autoDSL.systemcomponent.SystemComponentObjectContributor" nameFilter="*syscomp" objectClass="org.eclipse.core.resources.IResource">
+			<action class="info.scce.cinco.product.autoDSL.systemcomponent.graphiti.CreateSystemComponentDiagram" id="info.scce.cinco.product.autoDSL.systemcomponent.CreateSystemComponentDiagramAction" label="Create SystemComponent Diagram">
+			</action>
+		</objectContribution>
+	</extension><extension point="org.eclipse.core.contenttype.contentTypes">
+	<!--@CincoGen SystemComponent-->
+		<content-type file-extensions="syscomp" id="info.scce.cinco.product.autoDSL.systemcomponent.SystemComponentContentType" name="SystemComponent Content Type" priority="normal">
+		</content-type>
+	</extension><extension point="org.eclipse.ui.editors">
+	<!--@CincoGen SystemComponent-->
+		<editor class="info.scce.cinco.product.autoDSL.systemcomponent.graphiti.SystemComponentDiagramEditor" contributorClass="org.eclipse.graphiti.ui.editor.DiagramEditorActionBarContributor" default="false" id="info.scce.cinco.product.autoDSL.systemcomponent.SystemComponentEditor" matchingStrategy="org.eclipse.graphiti.ui.editor.DiagramEditorMatchingStrategy" name="SystemComponent Editor">
+			<contentTypeBinding contentTypeId="info.scce.cinco.product.autoDSL.systemcomponent.SystemComponentContentType">
+			</contentTypeBinding>
+			<contentTypeBinding contentTypeId="org.eclipse.graphiti.content.diagram">
+			</contentTypeBinding>
+		</editor>
+	</extension><extension point="org.eclipse.ui.newWizards">
+	<!--@CincoGen SystemComponent-->
+		<wizard category="de.jabc.cinco.meta.core.wizards.category.cinco" class="info.scce.cinco.product.autoDSL.systemcomponent.graphiti.wizard.NewSystemComponentDiagramWizard" id="info.scce.cinco.product.autoDSL.systemcomponent.wizard.systemcomponent" name="New SystemComponent">
+		</wizard>
+	</extension><extension point="org.eclipse.graphiti.ui.imageProviders">
+	<!--@CincoGen SystemComponent-->
+		<imageProvider class="info.scce.cinco.product.autoDSL.systemcomponent.graphiti.SystemComponentImageProvider" id="info.scce.cinco.product.autoDSL.systemcomponent.SystemComponentImageProvider">
+		</imageProvider>
+	</extension><extension point="org.eclipse.graphiti.ui.diagramTypeProviders">
+	<!--@CincoGen SystemComponent-->
+		<diagramTypeProvider class="info.scce.cinco.product.autoDSL.systemcomponent.graphiti.SystemComponentDiagramTypeProvider" description="This is the generated editor for the SystemComponent" id="info.scce.cinco.product.autoDSL.systemcomponent.SystemComponentDiagramTypeProvider" name="SystemComponent Diagram Editor">
+			<diagramType id="info.scce.cinco.product.autoDSL.systemcomponent.SystemComponentDiagramType">
+			</diagramType>
+			<imageProvider id="info.scce.cinco.product.autoDSL.systemcomponent.SystemComponentImageProvider">
+			</imageProvider>
+		</diagramTypeProvider>
+	</extension><extension point="org.eclipse.graphiti.ui.diagramTypes">
+	<!--@CincoGen SystemComponent-->
+		<diagramType description="This is the generated diagram Type for SystemComponent" id="info.scce.cinco.product.autoDSL.systemcomponent.SystemComponentDiagramType" name="SystemComponent Graphiti Diagram Type" type="SystemComponent">
+		</diagramType>
+	</extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated CAutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.api.cautodsl.CautodslPackage" genModel="src-gen/model/CAutoDSL.genmodel" uri="http://cinco.scce.info/product/cautodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated CSystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.api.csystemcomponent.CsystemcomponentPackage" genModel="src-gen/model/CSystemComponent.genmodel" uri="http://cinco.scce.info/product/csystemcomponent"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/systemcomponent"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/systemcomponent"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/systemcomponent"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/systemcomponent"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/systemcomponent"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/systemcomponent"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/systemcomponent"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/systemcomponent"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/systemcomponent"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/systemcomponent"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/systemcomponent"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/systemcomponent"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/systemcomponent"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/systemcomponent"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/systemcomponent"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/systemcomponent"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/systemcomponent"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/systemcomponent"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.ui.newWizards">
+<!--@CincoGen PROJECT_WIZARD_AUTODSLTOOL_WIZ -->
+<wizard category="de.jabc.cinco.meta.core.wizards.category.cinco" class="info.scce.cinco.product.autoDSL.AutoDSLToolProjectWizard" id="info.scce.cinco.product.autoDSL.wizard.autodsltoolproject" name="New AutoDSLTool Project">
+</wizard>
+</extension></plugin>

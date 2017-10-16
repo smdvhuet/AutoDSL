@@ -1,3 +1,4 @@
 cincoProduct AutoDSLTool {
+	mgl "model/SystemComponent.mgl"
 	mgl "model/AutoDSL.mgl"
 }		
