@@ -256,6 +256,12 @@
    </extension><extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated AutoDSL -->
       <package class="info.scce.cinco.product.autoDSL.autodsl.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated SystemComponent -->
+      <package class="info.scce.cinco.product.autoDSL.systemcomponent.systemcomponent.SystemcomponentPackage" genModel="src-gen/model/SystemComponent.genmodel" uri="http://cinco.scce.info/product/systemcomponent"/>
+   </extension><extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated AutoDSL -->
+      <package class="info.scce.cinco.product.autoDSL.autodsl.autodsl.AutodslPackage" genModel="src-gen/model/AutoDSL.genmodel" uri="http://cinco.scce.info/product/autodsl"/>
    </extension><extension point="org.eclipse.ui.newWizards">
 <!--@CincoGen PROJECT_WIZARD_AUTODSLTOOL_WIZ -->
 <wizard category="de.jabc.cinco.meta.core.wizards.category.cinco" class="info.scce.cinco.product.autoDSL.AutoDSLToolProjectWizard" id="info.scce.cinco.product.autoDSL.wizard.autodsltoolproject" name="New AutoDSLTool Project">
