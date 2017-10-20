@@ -8,44 +8,43 @@ graphModel AutoDSL {
 	diagramExtension "autodsl"
 
 	containableElements(
-		OffState [0,1],
-		OnState [0,1]
+		OffState [1,1],
+		State [0,*]
 	)
 
 	@style(stateOff)
 	node OffState {
-		incomingEdges (*)
-		outgoingEdges (*)
+		incomingEdges (StateToState[0,*])
+		outgoingEdges (StateToState[1,*])
 	}
 
-	// TODO: CreateHook hier, der automatisch den Container reinpackt, dann disable unten bei container einschalten
-	@style(stateOn)
-	container OnState {
+	@style(state, "${label}")
+	container State {
+		attr EString as label
 		containableElements(
-			SystemComponentContainer [0,1]
+			ComponentNode [0,*]
 		)
-		incomingEdges (*)
-		outgoingEdges (*)
+		incomingEdges (StateToState[1,*])
+		outgoingEdges (StateToState[0,*])
 	}
-
-	//@disable(delete,create,resize,move)
-	@style(componentContainerRectangle)
-	container SystemComponentContainer {
-		containableElements(
-			{ComponentNode} [0,*]
-		)
-	}	
 
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.DropSystemComponentHook")
-	@style(labeledCircle, "${label}")
+	@style(syscomponent, "${label}")
 	node ComponentNode {
 		@pvFileExtension("syscomp")
 		prime systemcomponent::SystemComponent as sysComp
 		attr EString as label
+		incomingEdges(SyscompToSyscomp[0,1])
+		outgoingEdges(SyscompToSyscomp[0,1])
 	}	
 	
+	
 	@style(simpleArrow)
-	edge Transition { 
+	edge SyscompToSyscomp {
+	}
+	
+	@style(simpleArrow)
+	edge StateToState {
 	}
 }
 
