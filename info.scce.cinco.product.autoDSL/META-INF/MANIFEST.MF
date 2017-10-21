@@ -12,10 +12,18 @@ Export-Package: info.scce.cinco.product.autoDSL.systemcomponent.system
  SL.autodsl.autodsl.util,info.scce.cinco.product.autoDSL.autodsl.graph
  iti,info.scce.cinco.product.autoDSL.autodsl.api.cautodsl,info.scce.ci
  nco.product.autoDSL.autodsl.api.cautodsl.impl,info.scce.cinco.product
- .autoDSL.autodsl.api.cautodsl.util,info.scce.cinco.product.autoDSL.sy
- stemcomponent.graphiti.features.create.nodes,info.scce.cinco.product.
- autoDSL.autodsl.graphiti.features.create.nodes,info.scce.cinco.produc
- t.autoDSL.autodsl.graphiti.features.create.edges
+ .autoDSL.autodsl.api.cautodsl.util,info.scce.cinco.product.autoDSL.ch
+ eck.check,info.scce.cinco.product.autoDSL.check.check.impl,info.scce.
+ cinco.product.autoDSL.check.check.util,info.scce.cinco.product.autoDS
+ L.check.graphiti,info.scce.cinco.product.autoDSL.check.api.ccheck,inf
+ o.scce.cinco.product.autoDSL.check.api.ccheck.impl,info.scce.cinco.pr
+ oduct.autoDSL.check.api.ccheck.util,info.scce.cinco.product.autoDSL.c
+ heck.graphiti.features.create.nodes,info.scce.cinco.product.autoDSL.c
+ heck.graphiti.features.create.edges,info.scce.cinco.product.autoDSL.s
+ ystemcomponent.graphiti.features.create.nodes,info.scce.cinco.product
+ .autoDSL.systemcomponent.graphiti.features.create.edges,info.scce.cin
+ co.product.autoDSL.autodsl.graphiti.features.create.nodes,info.scce.c
+ inco.product.autoDSL.autodsl.graphiti.features.create.edges
 Bundle-Name: %pluginName
 Bundle-Version: 1.0.0
 Bundle-ClassPath: .
@@ -31,7 +39,7 @@ Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,info.scce.c
  .transaction,org.eclipse.core.resources,de.jabc.cinco.meta.core.refer
  enceregistry,org.eclipse.ui.views.properties.tabbed,de.jabc.cinco.met
  a.libraries,org.eclipse.xtend.typesystem.emf,org.eclipse.emf.ecore.xm
- i
+ i;visibility:=reexport
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

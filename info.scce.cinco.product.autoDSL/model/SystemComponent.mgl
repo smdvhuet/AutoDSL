@@ -1,3 +1,5 @@
+import "platform:/resource/info.scce.cinco.product.autoDSL/model/Check.mgl" as check
+
 @primeviewer
 @style("model/AutoDSL.style")
 graphModel SystemComponent {
@@ -10,5 +12,55 @@ graphModel SystemComponent {
 		incomingEdges (*)
 		outgoingEdges (*)
 		attr EString as label
+	}
+	
+	@style(greenCircle)
+	node Start{
+		outgoingEdges(ControlFlowArrow[1,1])
+	}
+	
+	@style(yellowCircle)
+	node Continue{
+		incomingEdges(*)
+	}
+	
+	@style(redCircle)
+	node End{
+		incomingEdges(*)
+	}
+	
+	@style(simpleArrow)
+	edge ControlFlowArrow {
+	}
+	
+	@style(simpleArrow)
+	edge InputArrow{
+	}
+	
+	@style(labeledArrow, "${value}")
+	edge DecisionControlFlow{
+		attr EBoolean as value
+	}
+	
+	@style(syscomponent, "Regler")
+	node Regler{
+		incomingEdges(DecisionControlFlow[1,1],ControlFlowArrow[1,1], InputArrow[2,2])
+		outgoingEdges(ControlFlowArrow[1,1])
+	}
+	
+	@style(whiteLabeledCircle, "Check")
+	node Check {
+		@pvFileExtension("check")
+		prime check::Check as check
+		attr EString as label
+		incomingEdges(*)
+		outgoingEdges(ControlFlowArrow[2,2])
+	}
+	
+	@style(labeledCircle, "${label}")
+	node GetValueFromSensor{
+		outgoingEdges(InputArrow[1,1])
+		attr EString as label
+
 	}
 }

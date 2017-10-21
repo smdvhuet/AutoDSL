@@ -1,0 +1,35 @@
+@primeviewer
+@style("model/AutoDSL.style")
+graphModel Check {
+	package info.scce.cinco.product.autoDSL.check
+	nsURI "http://cinco.scce.info/product/check"
+	diagramExtension "check"
+	
+	@style(labeledCircle, "Start")
+	node Start{
+		outgoingEdges(SimpleArrow[1,1])
+	}
+	
+	
+	//Um nodes ergänzen die einen richtigen Check ausführen können
+	@style(labeledCircle, "${label}")
+	node SomeNodeComp {
+		incomingEdges (*)
+		outgoingEdges (*)
+		attr EString as label
+	}
+	
+	@style(labeledCircle, "True")
+	node True{
+		incomingEdges(*)
+	}
+	
+	@style(labeledCircle, "False")
+	node False{
+		incomingEdges(*)
+	}
+	
+	@style(simpleArrow)
+	edge SimpleArrow {
+	}
+}

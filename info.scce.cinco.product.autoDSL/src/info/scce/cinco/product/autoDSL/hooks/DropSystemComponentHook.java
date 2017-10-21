@@ -10,7 +10,7 @@ public class DropSystemComponentHook extends CincoPostCreateHook<ComponentNode> 
 
 	@Override
 	public void postCreate(ComponentNode droppedNode) {
-		List<SomeNodeComp> l = droppedNode.getSysComp().getSomeNodeComps();
+		List<SomeNodeComp> l = droppedNode.getSyscomp().getSomeNodeComps();
 		if (!l.isEmpty()) {
 			System.out.println("Dropped node contains: " + l.get(0).getLabel());
 		} else {
