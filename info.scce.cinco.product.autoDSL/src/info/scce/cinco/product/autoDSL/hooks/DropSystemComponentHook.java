@@ -2,9 +2,9 @@ package info.scce.cinco.product.autoDSL.hooks;
 
 import java.util.List;
 
+import de.jabc.cinco.meta.runtime.hook.CincoPostCreateHook;
 import info.scce.cinco.product.autoDSL.autodsl.autodsl.ComponentNode;
 import info.scce.cinco.product.autoDSL.systemcomponent.systemcomponent.SomeNodeComp;
-import de.jabc.cinco.meta.core.ge.style.model.customfeature.CincoPostCreateHook;
 
 public class DropSystemComponentHook extends CincoPostCreateHook<ComponentNode> {
 

@@ -49,7 +49,7 @@ graphModel SystemComponent {
 	}
 	
 	@style(whiteLabeledCircle, "Check")
-	node Check {
+	node CheckNode { // darf nicht Check heißen
 		@pvFileExtension("check")
 		prime check::Check as check
 		attr EString as label
