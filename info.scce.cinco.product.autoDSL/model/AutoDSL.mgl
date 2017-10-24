@@ -1,4 +1,4 @@
-import "platform:/resource/info.scce.cinco.product.autoDSL/model/SystemComponent.mgl" as syscomp
+import "platform:/resource/info.scce.cinco.product.autoDSL/model/Rule.mgl" as rule
 
 @primeviewer
 @style("model/AutoDSL.style")
@@ -28,11 +28,11 @@ graphModel AutoDSL {
 		outgoingEdges (StateToState[0,*])
 	}
 
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.DropSystemComponentHook")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.DropRuleHook")
 	@style(syscomponent, "${label}")
 	node ComponentNode {
-		@pvFileExtension("syscomp")
-		prime syscomp::SystemComponent as syscomp
+		@pvFileExtension("rule")
+		prime rule::Rule as rule
 		attr EString as label
 		incomingEdges(SyscompToSyscomp[0,1])
 		outgoingEdges(SyscompToSyscomp[0,1])

@@ -2,17 +2,17 @@ import "platform:/resource/info.scce.cinco.product.autoDSL/model/Check.mgl" as c
 
 @primeviewer
 @style("model/AutoDSL.style")
-graphModel SystemComponent {
-	package info.scce.cinco.product.autoDSL.systemcomponent
-	nsURI "http://cinco.scce.info/product/systemcomponent"
-	diagramExtension "syscomp"
+graphModel Rule {
+	package info.scce.cinco.product.autoDSL.rule
+	nsURI "http://cinco.scce.info/product/rule"
+	diagramExtension "rule"
 	
-	@style(labeledCircle, "${label}")
+/* 	@style(labeledCircle, "${label}")
 	node SomeNodeComp {
 		incomingEdges (*)
 		outgoingEdges (*)
 		attr EString as label
-	}
+	}*/
 	
 	@style(greenCircle)
 	node Start{
