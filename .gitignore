@@ -1,5 +1,9 @@
 */src-gen
 */bin
+*/xtend-gen
+*/plugin.xml
+*/plugin.properties
+*/jabc.project
 .metadata/
 info.scce.cinco.product.autoDSL.autodsl.gratext/
 /info.scce.cinco.product.autoDSL.autodsl.gratext.ui/
