@@ -7,60 +7,44 @@ graphModel Rule {
 	nsURI "http://cinco.scce.info/product/rule"
 	diagramExtension "rule"
 	
-/* 	@style(labeledCircle, "${label}")
-	node SomeNodeComp {
-		incomingEdges (*)
-		outgoingEdges (*)
+	abstract edge InputArrow{
+	}
+	
+	@style(labeledArrow, "${label}")
+	edge NumberArrow extends InputArrow{
+		final attr EString as label := "number"
+	}
+	
+	@style(labeledArrow, "${label}")
+	edge BooleanArrow extends InputArrow{
+		final attr EString as label := "boolean"
+	}
+	
+	abstract node Value{
 		attr EString as label
-	}*/
-	
-	@style(greenCircle)
-	node Start{
-		outgoingEdges(ControlFlowArrow[1,1])
 	}
-	
-	@style(yellowCircle)
-	node Continue{
-		incomingEdges(*)
+
+	abstract node NumberValue extends Value{
+		
 	}
-	
-	@style(redCircle)
-	node End{
-		incomingEdges(*)
-	}
-	
-	@style(simpleArrow)
-	edge ControlFlowArrow {
-	}
-	
-	@style(simpleArrow)
-	edge InputArrow{
-	}
-	
-	@style(labeledArrow, "${value}")
-	edge DecisionControlFlow{
-		attr EBoolean as value
-	}
-	
-	@style(syscomponent, "Regler")
-	node Regler{
-		incomingEdges(DecisionControlFlow[1,1],ControlFlowArrow[1,1], InputArrow[2,2])
-		outgoingEdges(ControlFlowArrow[1,1])
-	}
-	
-	@style(whiteLabeledCircle, "Check")
-	node CheckNode { // darf nicht Check heißen
-		@pvFileExtension("check")
-		prime check::Check as check
-		attr EString as label
-		incomingEdges(*)
-		outgoingEdges(ControlFlowArrow[2,2])
+
+	abstract node BooleanValue extends Value{
+		
 	}
 	
 	@style(labeledCircle, "${label}")
-	node GetValueFromSensor{
-		outgoingEdges(InputArrow[1,1])
-		attr EString as label
-
+	node GetSpeed extends NumberValue{
+		outgoingEdges(NumberArrow[1,1])
+	}
+	
+	@style(labeledCircle, "${label}")
+	node SetSpeed extends NumberValue{
+		incomingEdges(NumberArrow[1,1])
+	}
+	
+	@style(labeledCircle, "+")
+	node Addition{
+		incomingEdges(NumberArrow[0,*])
+		outgoingEdges(NumberArrow[1,1])
 	}
 }

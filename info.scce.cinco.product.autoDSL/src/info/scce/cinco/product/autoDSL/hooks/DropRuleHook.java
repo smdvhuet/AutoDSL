@@ -1,11 +1,8 @@
 package info.scce.cinco.product.autoDSL.hooks;
 
-import java.util.List;
-
 import de.jabc.cinco.meta.runtime.hook.CincoPostCreateHook;
 import info.scce.cinco.product.autoDSL.autodsl.autodsl.ComponentNode;
 import info.scce.cinco.product.autoDSL.rule.rule.Rule;
-import info.scce.cinco.product.autoDSL.rule.rule.Start;
 
 public class DropRuleHook extends CincoPostCreateHook<ComponentNode> {
 
