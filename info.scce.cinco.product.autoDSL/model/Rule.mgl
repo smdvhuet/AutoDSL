@@ -7,6 +7,46 @@ graphModel Rule {
 	nsURI "http://cinco.scce.info/product/rule"
 	diagramExtension "rule"
 	
+	//abstract container DummyContainer extends SIB { } // unused. required for #15357 (DIME)
+
+	// super type for Input, Output, and TypeIO
+	abstract container IO {
+		/*containableElements (
+			DummyContainer[0,*]
+		)*/
+	} 
+
+	abstract container Input extends IO {
+		//@readOnly
+		@mcam_label
+		attr EString as name := "input"
+	}
+
+	abstract container InputStatic extends Input { }
+
+	abstract container InputPort extends Input {
+		attr EBoolean as isList := "false"
+	}
+	
+	enum PrimitiveType {
+		Text
+		Number
+		Boolean
+		Timestamp
+	}
+	
+	@style(inputPort, "${name}", "${isList ? '[' : ''}", "${dataType}", "${isList ? ']' : ''}")
+	@disable(move,resize)
+	//@contextMenuAction("info.scce.dime.process.actions.PrimitivePortToStatic")
+	//@postCreate("info.scce.dime.process.hooks.InputHook")
+	//@preDelete("info.scce.dime.process.hooks.CIOPreDelete")
+	//@palette("Ports")
+	@icon("icons/inputPort.png")
+	container PrimitiveInputPort extends InputPort {
+		attr PrimitiveType as dataType
+		//incomingEdges ({PrimitiveRead,PrimitiveDirectDataFlow}[0,1])	
+	}
+
 	abstract edge InputArrow{
 	}
 	
@@ -41,10 +81,14 @@ graphModel Rule {
 	node SetSpeed extends NumberValue{
 		incomingEdges(NumberArrow[1,1])
 	}
-	
-	@style(labeledCircle, "+")
-	node Addition{
+
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateAddition")
+	@style(operator, "+")
+	container Addition{
 		incomingEdges(NumberArrow[0,*])
 		outgoingEdges(NumberArrow[1,1])
+		containableElements (
+			PrimitiveInputPort[2,*]
+		)
 	}
 }

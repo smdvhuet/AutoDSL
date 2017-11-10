@@ -3,6 +3,10 @@ appearance default {
 	background (229,229,229)
 }
 
+appearance labelFont {
+	font ("Sans",10)
+}
+
 appearance redBorder extends default {
 			foreground (164,29,29)
 			background (255,255,255)
@@ -28,6 +32,26 @@ nodeStyle whiteLabeledCircle (1){
 		text {
 			position ( CENTER, MIDDLE )
 			value "%s"
+		}
+	}
+}
+
+nodeStyle operator(1) {
+	roundedRectangle {
+		size (120,80)
+		corner (10,10)
+		text {
+			appearance labelFont
+			position ( CENTER, TOP 4 )	
+		 	value "%s"
+		}
+		/*image {
+			position (CENTER, TOP 24)
+		 	size (fix 32, fix 32)	
+		 	path ( "icons/searchSIB.png" )
+		}*/
+        polyline {
+			points [ (7,20) (113,20) ]
 		}
 	}
 }
@@ -133,6 +157,24 @@ nodeStyle redCircle {
 			appearance redBorder
 			position ( CENTER, MIDDLE )
 			size (24,24)
+		}
+	}
+}
+
+nodeStyle inputPort (4) {
+	rectangle {
+		appearance {
+			transparency 1.0
+		}
+		size (90,18)
+		image {
+			position (LEFT, MIDDLE)
+			size (fix 12,fix 12)
+			path ( "icons/inputPort.png" )
+		}
+		text {
+			position ( LEFT 16, MIDDLE)
+			value "%s :%s%s%s"			
 		}
 	}
 }
