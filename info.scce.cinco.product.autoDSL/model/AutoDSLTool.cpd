@@ -1,5 +1,6 @@
 cincoProduct AutoDSLTool {
 	mgl "model/Check.mgl"
 	mgl "model/Rule.mgl"
+	mgl "model/TmpRule.mgl"
 	mgl "model/AutoDSL.mgl"
 }		

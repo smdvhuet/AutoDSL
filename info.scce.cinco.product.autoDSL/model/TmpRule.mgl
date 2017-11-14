@@ -1,0 +1,127 @@
+@primeviewer
+@style("model/TmpRule.style")
+graphModel TmpRule {
+	package info.scce.cinco.product.autoDSL.tmprule
+	nsURI "http://cinco.scce.info/product/tmprule"
+	diagramExtension "tmprule"
+	
+	containableElements(
+		Operation[0,*],
+		Decision[0,*]
+	)
+	
+	@style(simpleArrow)
+	edge ControllFlow {
+		
+	}
+	
+	@style(simpleArrow)
+	edge DataFlow {
+		
+	}
+	
+	@style(simpleArrow)
+	edge BooleanDataFlow extends DataFlow {
+		
+	}
+	
+	@style(simpleArrow)
+	edge NumberDataFlow extends DataFlow {
+		
+	}
+	
+	abstract node PrimitiveInputPort {}
+	abstract node PrimitiveOutputPort {}
+	
+	@style(inputPort, "in")
+	@disable(resize)
+	@palette("Ports")
+	node BooleanInputPort extends PrimitiveInputPort {
+		incomingEdges(BooleanDataFlow[1,1])
+	}
+	
+	@style(outputPort, "out")
+	@disable(resize)
+	@palette("Ports")
+	node BooleanOutputPort extends PrimitiveOutputPort {
+		outgoingEdges(BooleanDataFlow[1,*])
+	}
+	
+	@style(inputPort, "in")
+	@disable(resize)
+	@palette("Ports")
+	node NumberInputPort extends PrimitiveInputPort {
+		incomingEdges(NumberDataFlow[1,1])
+	}
+	
+	@style(outputPort, "out")
+	@disable(resize)
+	@palette("Ports")
+	node NumberOutputPort extends PrimitiveOutputPort {
+		outgoingEdges(NumberDataFlow[1,*])
+	}
+	
+	abstract container Operation {
+		incomingEdges(ControllFlow[1,*])
+		outgoingEdges(ControllFlow[1,1])
+	}
+	
+	abstract container CommutableOperation extends Operation {
+		containableElements(PrimitiveInputPort[0,*], PrimitiveOutputPort[1,1])
+	}
+	
+	abstract container NonCommutableOperation extends Operation {
+		containableElements(PrimitiveInputPort[2,2], PrimitiveOutputPort[1,1])
+	}
+
+	@style(commutableOperation, "+")
+	container Addition extends CommutableOperation {
+		
+	}
+	
+	@style(commutableOperation, "×")
+	container Multiplication extends CommutableOperation {
+		
+	}
+
+	@style(nonCommutableOperation, "-")
+	container Substraction extends NonCommutableOperation {
+		
+	}
+	
+	@style(nonCommutableOperation, "<")
+	container Less extends NonCommutableOperation {
+	}
+	
+	@style(nonCommutableOperation, "≤")
+	container LessOrEqual extends NonCommutableOperation {
+	}
+	
+	@style(commutableOperation, "max")
+	container Maximum extends CommutableOperation {
+	}
+	
+	@style(commutableOperation, "min")
+	container Minimum extends CommutableOperation {
+	}
+	
+	@style(commutableOperation, "∧")
+	container LogicalAnd extends CommutableOperation {
+	}
+	
+	@style(commutableOperation, "∨")
+	container LogicalOr extends CommutableOperation {
+	}
+	
+	@style(commutableOperation, "¬")
+	container Negation extends Operation {
+		containableElements(BooleanInputPort[1,1], BooleanOutputPort[1,1])
+	}
+	
+	@style(decision, "?")
+	container Decision {
+		incomingEdges(ControllFlow[1,*])
+		outgoingEdges(ControllFlow[2,2])
+		containableElements(BooleanInputPort[1,1])
+	}
+}

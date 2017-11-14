@@ -1,0 +1,84 @@
+edgeStyle simpleArrow {	
+	decorator {
+		location (1.0)
+		ARROW
+	}
+}
+
+nodeStyle inputPort (1) {
+	rectangle {
+		appearance {
+			transparency 1.0
+		}
+		size (90,18)
+		image {
+			position (LEFT, MIDDLE)
+			size (fix 12,fix 12)
+			path ( "icons/inputPort.png" )
+		}
+		text {
+			position ( LEFT 16, MIDDLE)
+			value "%s :"			
+		}
+	}
+}
+
+nodeStyle outputPort (1) {
+	rectangle {
+		appearance {
+			transparency 1.0
+		}
+		size (90,18)
+		image {
+			position (RIGHT, MIDDLE)
+			size (fix 12,fix 12)
+			path ( "icons/inputPort.png" )
+		}
+		text {
+			position ( LEFT, MIDDLE)
+			value "%s :"			
+		}
+	}
+}
+
+nodeStyle commutableOperation (1) {
+	roundedRectangle {
+		size (120,80)
+		corner (10,10)
+		text {
+			position ( CENTER, TOP 4 )
+			value "%s"	
+		}
+		polyline {
+			points [ (7,20) (113,20) ]
+		}
+	}
+}
+
+nodeStyle nonCommutableOperation (1) {
+	roundedRectangle {
+		size (120,80)
+		corner (10,10)
+		text {
+			position ( CENTER, TOP 24 )
+			value "%s"	
+		}
+		polyline {
+			points [ (7,60) (113,60) ]
+		}
+	}
+}
+
+nodeStyle decision (1) {
+	roundedRectangle {
+		size (120,40)
+		corner (10,10)
+		text {
+			position ( CENTER, TOP 4 )
+			value "%s"	
+		}
+		polyline {
+			points [ (7,20) (113,20) ]
+		}
+	}
+}
