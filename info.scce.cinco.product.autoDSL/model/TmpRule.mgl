@@ -20,45 +20,66 @@ graphModel TmpRule {
 		
 	}
 	
-	@style(simpleArrow)
-	edge BooleanDataFlow extends DataFlow {
-		
+	enum PrimitiveType {
+		Text
+		Number
+		Boolean
+		Timestamp
 	}
 	
-	@style(simpleArrow)
-	edge NumberDataFlow extends DataFlow {
-		
+	enum CarInputType {
+		a
+		b
+		c
 	}
 	
-	abstract node PrimitiveInputPort {}
-	abstract node PrimitiveOutputPort {}
+	enum CarOutputType {
+		a
+		b
+		c
+	}
+
+	abstract node Input {
+		attr PrimitiveType as datatype
+	}
+	abstract node Output {
+		attr PrimitiveType as datatype
+	}
+	
 	
 	@style(inputPort, "in")
 	@disable(resize)
 	@palette("Ports")
-	node BooleanInputPort extends PrimitiveInputPort {
-		incomingEdges(BooleanDataFlow[1,1])
+	node CarInput extends Input {
+		attr CarInputType as inputtype
 	}
 	
 	@style(outputPort, "out")
 	@disable(resize)
 	@palette("Ports")
-	node BooleanOutputPort extends PrimitiveOutputPort {
-		outgoingEdges(BooleanDataFlow[1,*])
+	node CarOutput extends Output {
+		attr CarOutputType as outputtype
 	}
-	
+		
 	@style(inputPort, "in")
 	@disable(resize)
 	@palette("Ports")
-	node NumberInputPort extends PrimitiveInputPort {
-		incomingEdges(NumberDataFlow[1,1])
+	node InputPort extends Input {
+		incomingEdges(DataFlow[1,1])
 	}
 	
 	@style(outputPort, "out")
 	@disable(resize)
 	@palette("Ports")
-	node NumberOutputPort extends PrimitiveOutputPort {
-		outgoingEdges(NumberDataFlow[1,*])
+	node OutputPort extends Output {
+		outgoingEdges(DataFlow[1,*])
+	}
+	
+	@style(inputPort, "in")
+	@disable(resize)
+	@palette("Ports")
+	node NumberStaticInput extends Input {
+		attr EInt as staticValue
 	}
 	
 	abstract container Operation {
@@ -67,11 +88,11 @@ graphModel TmpRule {
 	}
 	
 	abstract container CommutableOperation extends Operation {
-		containableElements(PrimitiveInputPort[0,*], PrimitiveOutputPort[1,1])
+		containableElements(Input[0,*], Output[1,1])
 	}
 	
 	abstract container NonCommutableOperation extends Operation {
-		containableElements(PrimitiveInputPort[2,2], PrimitiveOutputPort[1,1])
+		containableElements(Input[2,2], Output[1,1])
 	}
 
 	@style(commutableOperation, "+")
@@ -115,13 +136,13 @@ graphModel TmpRule {
 	
 	@style(commutableOperation, "¬")
 	container Negation extends Operation {
-		containableElements(BooleanInputPort[1,1], BooleanOutputPort[1,1])
+		containableElements(Input[1,1], Output[1,1])
 	}
 	
 	@style(decision, "?")
 	container Decision {
 		incomingEdges(ControllFlow[1,*])
 		outgoingEdges(ControllFlow[2,2])
-		containableElements(BooleanInputPort[1,1])
+		containableElements(Input[1,1])
 	}
 }
