@@ -23,6 +23,42 @@ nodeStyle inputPort (1) {
 	}
 }
 
+nodeStyle carInput (1) {
+	rectangle {
+		appearance {
+			transparency 1.0
+		}
+		size (90,18)
+		image {
+			position (LEFT, MIDDLE)
+			size (fix 12,fix 12)
+			path ( "icons/CarInput.png" )
+		}
+		text {
+			position ( LEFT 16, MIDDLE)
+			value "%s :"			
+		}
+	}
+}
+
+nodeStyle staticInput (1) {
+	rectangle {
+		appearance {
+			transparency 1.0
+		}
+		size (90,18)
+		image {
+			position (LEFT, MIDDLE)
+			size (fix 12,fix 12)
+			path ( "icons/StaticInput.png" )
+		}
+		text {
+			position ( LEFT 16, MIDDLE)
+			value "%s :"			
+		}
+	}
+}
+
 nodeStyle outputPort (1) {
 	rectangle {
 		appearance {
@@ -32,7 +68,25 @@ nodeStyle outputPort (1) {
 		image {
 			position (RIGHT, MIDDLE)
 			size (fix 12,fix 12)
-			path ( "icons/inputPort.png" )
+			path ( "icons/outputPort.png" )
+		}
+		text {
+			position ( LEFT, MIDDLE)
+			value "%s :"			
+		}
+	}
+}
+
+nodeStyle carOutput (1) {
+	rectangle {
+		appearance {
+			transparency 1.0
+		}
+		size (90,18)
+		image {
+			position (RIGHT, MIDDLE)
+			size (fix 12,fix 12)
+			path ( "icons/CarOutput.png" )
 		}
 		text {
 			position ( LEFT, MIDDLE)
