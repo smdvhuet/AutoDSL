@@ -64,6 +64,7 @@ graphModel TmpRule {
 	@style(inputPort, "in")
 	@disable(resize)
 	@palette("Ports")
+	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.InputPortToStatic")
 	node InputPort extends Input {
 		incomingEdges(DataFlow[1,1])
 	}
