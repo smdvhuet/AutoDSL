@@ -18,12 +18,12 @@ nodeStyle inputPort (1) {
 		}
 		text {
 			position ( LEFT 16, MIDDLE)
-			value "%s :"			
+			value "%s"			
 		}
 	}
 }
 
-nodeStyle carInput (1) {
+nodeStyle carInput (2) {
 	rectangle {
 		appearance {
 			transparency 1.0
@@ -36,12 +36,12 @@ nodeStyle carInput (1) {
 		}
 		text {
 			position ( LEFT 16, MIDDLE)
-			value "%s :"			
+			value "%s : %s"			
 		}
 	}
 }
 
-nodeStyle staticInput (1) {
+nodeStyle staticInput (2) {
 	rectangle {
 		appearance {
 			transparency 1.0
@@ -54,7 +54,7 @@ nodeStyle staticInput (1) {
 		}
 		text {
 			position ( LEFT 16, MIDDLE)
-			value "%s :"			
+			value "%s : %s"			
 		}
 	}
 }
@@ -72,12 +72,12 @@ nodeStyle outputPort (1) {
 		}
 		text {
 			position ( LEFT, MIDDLE)
-			value "%s :"			
+			value "%s"			
 		}
 	}
 }
 
-nodeStyle carOutput (1) {
+nodeStyle carOutput (2) {
 	rectangle {
 		appearance {
 			transparency 1.0
@@ -90,7 +90,7 @@ nodeStyle carOutput (1) {
 		}
 		text {
 			position ( LEFT, MIDDLE)
-			value "%s :"			
+			value "%s : %s"			
 		}
 	}
 }

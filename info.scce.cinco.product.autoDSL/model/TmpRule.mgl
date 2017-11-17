@@ -47,35 +47,35 @@ graphModel TmpRule {
 	}
 	
 	
-	@style(carInput, "in")
+	@style(carInput, "${inputtype}", "${datatype}")
 	@disable(resize)
 	@palette("Ports")
 	node CarInput extends Input {
 		attr CarInputType as inputtype
 	}
 	
-	@style(carOutput, "out")
+	@style(carOutput, "${outputtype}", "${datatype}")
 	@disable(resize)
 	@palette("Ports")
 	node CarOutput extends Output {
 		attr CarOutputType as outputtype
 	}
 		
-	@style(inputPort, "in")
+	@style(inputPort, "${datatype}")
 	@disable(resize)
 	@palette("Ports")
 	node InputPort extends Input {
 		incomingEdges(DataFlow[1,1])
 	}
 	
-	@style(outputPort, "out")
+	@style(outputPort, "${datatype}")
 	@disable(resize)
 	@palette("Ports")
 	node OutputPort extends Output {
 		outgoingEdges(DataFlow[1,*])
 	}
 	
-	@style(staticInput, "in")
+	@style(staticInput, "${staticValue}", "${datatype}")
 	@disable(resize)
 	@palette("Ports")
 	node NumberStaticInput extends Input {
