@@ -118,8 +118,8 @@ graphModel TmpRule {
 		
 	}
 
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateSubtraction")
 	@style(nonCommutableOperation, "-")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateSubtraction")
 	container Subtraction extends NonCommutableOperation {
 		
 	}
@@ -130,7 +130,7 @@ graphModel TmpRule {
 	}
 	
 	@style(nonCommutableOperation, "≤")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateLessOrEqual") //TODO
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateLessOrEqual")
 	container LessOrEqual extends NonCommutableOperation {
 	}
 	
