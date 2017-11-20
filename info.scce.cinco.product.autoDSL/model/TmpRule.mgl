@@ -125,7 +125,7 @@ graphModel TmpRule {
 	}
 	
 	@style(nonCommutableOperation, "<")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateLess") //TODO
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateLessOrEqual")
 	container Less extends NonCommutableOperation {
 	}
 	

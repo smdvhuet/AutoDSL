@@ -13,11 +13,12 @@ class InputPortToStaticInput extends CincoCustomAction<InputPort> {
 		val x = inp.x as int
 		val y = inp.y as int
 		val cont = inp.container
+		val type = inp.datatype
 		inp.delete
 		if (cont instanceof CommutableOperation)
-			(cont as CommutableOperation).newNumberStaticInput(x, y)
+			(cont as CommutableOperation).newNumberStaticInput(x, y).setDatatype(type)
 		else
-			(cont as NonCommutableOperation).newNumberStaticInput(x, y)
+			(cont as NonCommutableOperation).newNumberStaticInput(x, y).setDatatype(type)
 	}
 	
 }
