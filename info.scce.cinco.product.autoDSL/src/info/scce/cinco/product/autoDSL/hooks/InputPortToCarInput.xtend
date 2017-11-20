@@ -3,10 +3,10 @@ package info.scce.cinco.product.autoDSL.hooks
 import de.jabc.cinco.meta.runtime.action.CincoCustomAction
 import info.scce.cinco.product.autoDSL.tmprule.tmprule.*
 
-class InputPortToStatic extends CincoCustomAction<InputPort> {
+class InputPortToCarInput extends CincoCustomAction<InputPort> {
 	
 	override getName() {
-		"Input to Static"
+		"Convert to: Car input"
 	}
 	
 	override execute(InputPort inp) {
@@ -15,9 +15,9 @@ class InputPortToStatic extends CincoCustomAction<InputPort> {
 		val cont = inp.container
 		inp.delete
 		if (cont instanceof CommutableOperation)
-			(cont as CommutableOperation).newNumberStaticInput(x, y)
+			(cont as CommutableOperation).newCarInput(x, y)
 		else
-			(cont as NonCommutableOperation).newNumberStaticInput(x, y)
+			(cont as NonCommutableOperation).newCarInput(x, y)
 	}
 	
 }

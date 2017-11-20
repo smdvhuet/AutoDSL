@@ -1,9 +1,35 @@
+
 edgeStyle simpleArrow {	
 	decorator {
 		location (1.0)
 		ARROW
 	}
 }
+
+edgeStyle controlFlow {
+	appearance {
+		lineStyle SOLID
+	}
+	decorator {
+		location (1.0)
+		ARROW
+	}
+}
+
+edgeStyle dataFlow {
+	appearance {
+		lineStyle DOT
+	}
+	decorator {
+		location (1.0)
+		ARROW
+		appearance {
+			lineStyle DOT
+		}
+	}
+}
+
+
 
 nodeStyle inputPort (1) {
 	rectangle {

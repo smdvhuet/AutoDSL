@@ -10,12 +10,12 @@ graphModel TmpRule {
 		Decision[0,*]
 	)
 	
-	@style(simpleArrow)
+	@style(controlFlow)
 	edge ControllFlow {
 		
 	}
 	
-	@style(simpleArrow)
+	@style(dataFlow)
 	edge DataFlow {
 		
 	}
@@ -50,6 +50,9 @@ graphModel TmpRule {
 	@style(carInput, "${inputtype}", "${datatype}")
 	@disable(resize)
 	@palette("Ports")
+//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CarInputToStaticInput")  //TODO
+//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CarInputToInputPort") //TODO
+//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateCarInput") //TODO
 	node CarInput extends Input {
 		attr CarInputType as inputtype
 	}
@@ -57,6 +60,7 @@ graphModel TmpRule {
 	@style(carOutput, "${outputtype}", "${datatype}")
 	@disable(resize)
 	@palette("Ports")
+//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateCarOutput") //TODO
 	node CarOutput extends Output {
 		attr CarOutputType as outputtype
 	}
@@ -64,7 +68,9 @@ graphModel TmpRule {
 	@style(inputPort, "${datatype}")
 	@disable(resize)
 	@palette("Ports")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.InputPortToStatic")
+	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.InputPortToStaticInput") 
+	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.InputPortToCarInput")
+//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateInputPort") //TODO
 	node InputPort extends Input {
 		incomingEdges(DataFlow[1,1])
 	}
@@ -72,6 +78,7 @@ graphModel TmpRule {
 	@style(outputPort, "${datatype}")
 	@disable(resize)
 	@palette("Ports")
+//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateOutputPort") //TODO
 	node OutputPort extends Output {
 		outgoingEdges(DataFlow[1,*])
 	}
@@ -79,6 +86,9 @@ graphModel TmpRule {
 	@style(staticInput, "${staticValue}", "${datatype}")
 	@disable(resize)
 	@palette("Ports")
+// TODO Static InputToX
+// Wie viele StaticInput-Typen gibt es und brauchen wir einen Hook für jeden? 
+//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberStaticInput") //TODO
 	node NumberStaticInput extends Input {
 		attr EInt as staticValue
 	}
@@ -97,50 +107,61 @@ graphModel TmpRule {
 	}
 
 	@style(commutableOperation, "+")
+//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateAddition") //TODO
 	container Addition extends CommutableOperation {
 		
 	}
 	
 	@style(commutableOperation, "×")
+//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateMultiplication") //TODO
 	container Multiplication extends CommutableOperation {
 		
 	}
 
 	@style(nonCommutableOperation, "-")
+//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateSubtraction") //TODO
 	container Substraction extends NonCommutableOperation {
 		
 	}
 	
 	@style(nonCommutableOperation, "<")
+//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateLess") //TODO
 	container Less extends NonCommutableOperation {
 	}
 	
 	@style(nonCommutableOperation, "≤")
+//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateLessOrEqual") //TODO
 	container LessOrEqual extends NonCommutableOperation {
 	}
 	
 	@style(commutableOperation, "max")
+//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateMaximum") //TODO
 	container Maximum extends CommutableOperation {
 	}
 	
 	@style(commutableOperation, "min")
+//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateMinimum") //TODO
 	container Minimum extends CommutableOperation {
 	}
 	
 	@style(commutableOperation, "∧")
+//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateAND") //TODO
 	container LogicalAnd extends CommutableOperation {
 	}
 	
 	@style(commutableOperation, "∨")
+//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateOR") //TODO
 	container LogicalOr extends CommutableOperation {
 	}
 	
 	@style(commutableOperation, "¬")
+//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateNegation") //TODO
 	container Negation extends Operation {
 		containableElements(Input[1,1], Output[1,1])
 	}
 	
 	@style(decision, "?")
+//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateDecision") //TODO
 	container Decision {
 		incomingEdges(ControllFlow[1,*])
 		outgoingEdges(ControllFlow[2,2])
