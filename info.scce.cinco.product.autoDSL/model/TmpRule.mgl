@@ -11,7 +11,7 @@ graphModel TmpRule {
 	)
 	
 	@style(controlFlow)
-	edge ControllFlow {
+	edge ControlFlow {
 		
 	}
 	
@@ -94,8 +94,8 @@ graphModel TmpRule {
 	}
 	
 	abstract container Operation {
-		incomingEdges(ControllFlow[1,*])
-		outgoingEdges(ControllFlow[1,1])
+		incomingEdges(ControlFlow[1,*])
+		outgoingEdges(ControlFlow[1,1])
 	}
 	
 	abstract container CommutableOperation extends Operation {
@@ -118,9 +118,9 @@ graphModel TmpRule {
 		
 	}
 
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateSubtraction")
 	@style(nonCommutableOperation, "-")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateSubtraction") //TODO
-	container Substraction extends NonCommutableOperation {
+	container Subtraction extends NonCommutableOperation {
 		
 	}
 	
@@ -163,8 +163,8 @@ graphModel TmpRule {
 	@style(decision, "?")
 //	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateDecision") //TODO
 	container Decision {
-		incomingEdges(ControllFlow[1,*])
-		outgoingEdges(ControllFlow[2,2])
+		incomingEdges(ControlFlow[1,*])
+		outgoingEdges(ControlFlow[2,2])
 		containableElements(Input[1,1])
 	}
 }

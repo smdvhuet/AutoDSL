@@ -1,11 +1,10 @@
-
-edgeStyle simpleArrow {	
-	decorator {
-		location (1.0)
-		ARROW
-	}
+/* Shared appearances */
+appearance io {
+	background (255,255,255)
+	foreground (255,255,255)
 }
 
+/* Edge styles */
 edgeStyle controlFlow {
 	appearance {
 		lineStyle SOLID
@@ -29,14 +28,11 @@ edgeStyle dataFlow {
 	}
 }
 
-
-
+/* Node styles for IO */
 nodeStyle inputPort (1) {
 	rectangle {
-		appearance {
-			transparency 1.0
-		}
-		size (90,18)
+		appearance io
+		size (110,18)
 		image {
 			position (LEFT, MIDDLE)
 			size (fix 12,fix 12)
@@ -51,10 +47,8 @@ nodeStyle inputPort (1) {
 
 nodeStyle carInput (2) {
 	rectangle {
-		appearance {
-			transparency 1.0
-		}
-		size (90,18)
+		appearance io
+		size (110,18)
 		image {
 			position (LEFT, MIDDLE)
 			size (fix 12,fix 12)
@@ -69,10 +63,8 @@ nodeStyle carInput (2) {
 
 nodeStyle staticInput (2) {
 	rectangle {
-		appearance {
-			transparency 1.0
-		}
-		size (90,18)
+		appearance io
+		size (110,18)
 		image {
 			position (LEFT, MIDDLE)
 			size (fix 12,fix 12)
@@ -87,10 +79,8 @@ nodeStyle staticInput (2) {
 
 nodeStyle outputPort (1) {
 	rectangle {
-		appearance {
-			transparency 1.0
-		}
-		size (90,18)
+		appearance io
+		size (110,18)
 		image {
 			position (RIGHT, MIDDLE)
 			size (fix 12,fix 12)
@@ -105,10 +95,8 @@ nodeStyle outputPort (1) {
 
 nodeStyle carOutput (2) {
 	rectangle {
-		appearance {
-			transparency 1.0
-		}
-		size (90,18)
+		appearance io
+		size (110,18)
 		image {
 			position (RIGHT, MIDDLE)
 			size (fix 12,fix 12)
@@ -121,9 +109,10 @@ nodeStyle carOutput (2) {
 	}
 }
 
+/* Node styles for Operations*/
 nodeStyle commutableOperation (1) {
 	roundedRectangle {
-		size (120,80)
+		size (fix 120,90)
 		corner (10,10)
 		text {
 			position ( CENTER, TOP 4 )
@@ -137,21 +126,27 @@ nodeStyle commutableOperation (1) {
 
 nodeStyle nonCommutableOperation (1) {
 	roundedRectangle {
-		size (120,80)
+		size (fix 120,90)
 		corner (10,10)
 		text {
-			position ( CENTER, TOP 24 )
+			position ( CENTER, TOP 26 )
 			value "%s"	
 		}
 		polyline {
-			points [ (7,60) (113,60) ]
+			points [ (7,25) (113,25) ]
+		}
+		polyline {
+			points [ (7,45) (113,45) ]
+		}
+		polyline {
+			points [ (0,65) (120,65) ]
 		}
 	}
 }
 
 nodeStyle decision (1) {
 	roundedRectangle {
-		size (120,40)
+		size (fix 120,50)
 		corner (10,10)
 		text {
 			position ( CENTER, TOP 4 )
