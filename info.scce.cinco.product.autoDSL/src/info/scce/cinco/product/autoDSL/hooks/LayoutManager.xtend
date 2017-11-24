@@ -1,12 +1,7 @@
 package info.scce.cinco.product.autoDSL.hooks
 
-import graphmodel.Container
-import info.scce.cinco.product.autoDSL.tmprule.tmprule.Input
-import info.scce.cinco.product.autoDSL.tmprule.tmprule.Operation
-import info.scce.cinco.product.autoDSL.tmprule.tmprule.CommutableOperation
-import info.scce.cinco.product.autoDSL.tmprule.tmprule.NonCommutableOperation
+import info.scce.cinco.product.autoDSL.rule.rule.*
 import graphmodel.Node
-import info.scce.cinco.product.autoDSL.tmprule.tmprule.PrimitiveType
 
 class LayoutManager {
 	static val NODE_MARGIN_LEFT = 5;

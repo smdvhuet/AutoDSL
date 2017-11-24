@@ -1,7 +1,7 @@
 package info.scce.cinco.product.autoDSL.hooks
 
 import de.jabc.cinco.meta.runtime.action.CincoCustomAction
-import info.scce.cinco.product.autoDSL.tmprule.tmprule.*
+import info.scce.cinco.product.autoDSL.rule.rule.*
 
 class InputPortToCarInput extends CincoCustomAction<InputPort> {
 	

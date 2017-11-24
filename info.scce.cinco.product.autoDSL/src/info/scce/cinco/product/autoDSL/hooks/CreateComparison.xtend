@@ -1,8 +1,8 @@
 package info.scce.cinco.product.autoDSL.hooks
 
 import de.jabc.cinco.meta.runtime.hook.CincoPostCreateHook
-import info.scce.cinco.product.autoDSL.tmprule.tmprule.NonCommutableOperation
-import info.scce.cinco.product.autoDSL.tmprule.tmprule.PrimitiveType
+import info.scce.cinco.product.autoDSL.rule.rule.NonCommutableOperation
+import info.scce.cinco.product.autoDSL.rule.rule.PrimitiveType
 
 class CreateComparison extends CincoPostCreateHook<NonCommutableOperation> {
 	
