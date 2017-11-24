@@ -107,13 +107,13 @@ graphModel TmpRule {
 	}
 
 	@style(commutableOperation, "+")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateAddition") //TODO
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateCommutableNumberOp")
 	container Addition extends CommutableOperation {
 		
 	}
 	
 	@style(commutableOperation, "×")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateMultiplication") //TODO
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateCommutableNumberOp")
 	container Multiplication extends CommutableOperation {
 		
 	}
@@ -125,43 +125,43 @@ graphModel TmpRule {
 	}
 	
 	@style(nonCommutableOperation, "<")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateLessOrEqual")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateComparison")
 	container Less extends NonCommutableOperation {
 	}
 	
 	@style(nonCommutableOperation, "≤")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateLessOrEqual")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateComparison")
 	container LessOrEqual extends NonCommutableOperation {
 	}
 	
 	@style(commutableOperation, "max")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateMaximum") //TODO
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateCommutableNumberOp")
 	container Maximum extends CommutableOperation {
 	}
 	
 	@style(commutableOperation, "min")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateMinimum") //TODO
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateCommutableNumberOp")
 	container Minimum extends CommutableOperation {
 	}
 	
 	@style(commutableOperation, "∧")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateAND") //TODO
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateCommutableBooleanOp")
 	container LogicalAnd extends CommutableOperation {
 	}
 	
 	@style(commutableOperation, "∨")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateOR") //TODO
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateCommutableBooleanOp")
 	container LogicalOr extends CommutableOperation {
 	}
 	
 	@style(commutableOperation, "¬")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateNegation") //TODO
+//	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateUnaryOp")
 	container Negation extends Operation {
 		containableElements(Input[1,1], Output[1,1])
 	}
 	
 	@style(decision, "?")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateDecision") //TODO
+//	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateDecision") //TODO
 	container Decision {
 		incomingEdges(ControlFlow[1,*])
 		outgoingEdges(ControlFlow[2,2])

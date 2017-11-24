@@ -4,8 +4,7 @@ import de.jabc.cinco.meta.runtime.hook.CincoPostCreateHook
 import info.scce.cinco.product.autoDSL.tmprule.tmprule.NonCommutableOperation
 import info.scce.cinco.product.autoDSL.tmprule.tmprule.PrimitiveType
 
-//TODO rename or split if necessary
-class CreateLessOrEqual extends CincoPostCreateHook<NonCommutableOperation> {
+class CreateComparison extends CincoPostCreateHook<NonCommutableOperation> {
 	
 	override  postCreate(NonCommutableOperation droppedNode) {
 		droppedNode.newInputPort(5, 6).setDatatype(PrimitiveType.NUMBER)
