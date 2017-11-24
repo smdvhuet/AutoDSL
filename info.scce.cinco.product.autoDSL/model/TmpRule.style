@@ -35,7 +35,7 @@ nodeStyle inputPort (1) {
 		size (110,18)
 		image {
 			position (LEFT, MIDDLE)
-			size (fix 12,fix 12)
+			size (fix 16,fix 16)
 			path ( "icons/inputPort.png" )
 		}
 		text {
@@ -51,7 +51,7 @@ nodeStyle carInput (2) {
 		size (110,18)
 		image {
 			position (LEFT, MIDDLE)
-			size (fix 12,fix 12)
+			size (fix 16,fix 16)
 			path ( "icons/CarInput.png" )
 		}
 		text {
@@ -67,7 +67,7 @@ nodeStyle staticInput (2) {
 		size (110,18)
 		image {
 			position (LEFT, MIDDLE)
-			size (fix 12,fix 12)
+			size (fix 16,fix 16)
 			path ( "icons/StaticInput.png" )
 		}
 		text {
@@ -83,7 +83,7 @@ nodeStyle outputPort (1) {
 		size (110,18)
 		image {
 			position (RIGHT, MIDDLE)
-			size (fix 12,fix 12)
+			size (fix 16,fix 16)
 			path ( "icons/outputPort.png" )
 		}
 		text {
@@ -99,7 +99,7 @@ nodeStyle carOutput (2) {
 		size (110,18)
 		image {
 			position (RIGHT, MIDDLE)
-			size (fix 12,fix 12)
+			size (fix 16,fix 16)
 			path ( "icons/CarOutput.png" )
 		}
 		text {
@@ -154,6 +154,46 @@ nodeStyle decision (1) {
 		}
 		polyline {
 			points [ (7,20) (113,20) ]
+		}
+	}
+}
+
+nodeStyle comment(1) {
+	roundedRectangle {
+		appearance {
+			background (250, 240, 200)
+		}
+		size (120,90)
+		corner (10,10)
+		multiText {
+			position (LEFT 4, TOP 4)
+			value "%s"	
+		}
+	}
+}
+
+nodeStyle pid (3) {
+	roundedRectangle {
+		size (fix 120,140)
+		corner (10,10)
+		text {
+			position ( CENTER, TOP 4 )
+			value "PID"	
+		}
+		text {
+			position ( CENTER, TOP 24 )
+			value "p: %1$s"
+		}
+		text {
+			position ( CENTER, TOP 44 )
+			value "i: %2$s"
+		}
+		text {
+			position ( CENTER, TOP 64 )
+			value "d: %3$s"
+		}
+		polyline {
+			points [ (7,84) (113,84) ]
 		}
 	}
 }
