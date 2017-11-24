@@ -7,7 +7,10 @@ graphModel TmpRule {
 	
 	containableElements(
 		Operation[0,*],
-		Decision[0,*]
+		Decision[0,*],
+		Comment[0,*],
+		OutputNode[0,*],
+		BooleanGuardOutput[0,*]
 	)
 	
 	@style(controlFlow)
@@ -166,5 +169,37 @@ graphModel TmpRule {
 		incomingEdges(ControlFlow[1,*])
 		outgoingEdges(ControlFlow[2,2])
 		containableElements(Input[1,1])
+	}
+	
+	@style(comment, "${comment}")
+	node Comment {
+		@multiLine
+		attr EString as comment := ""
+	}
+	
+	@style(commutableOperation, "Output")
+//	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOutputNode") //TODO
+	container OutputNode {
+		incomingEdges(ControlFlow[1,*])
+		outgoingEdges(ControlFlow[0,1])
+		containableElements(Input[1,1], CarOutput[1,1])
+	}
+	
+	@style(decision, "Guard")
+//	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateBooleanGuardOutput") //TODO
+	container BooleanGuardOutput {
+		incomingEdges(ControlFlow[1,*])
+		containableElements(Input[1,1])
+	}
+	
+	@style(pid, "${p}", "${i}","${d}")
+//	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreatePIDController") //TODO
+	container PIDController extends Operation{
+		incomingEdges(ControlFlow[1,*])
+		outgoingEdges(ControlFlow[0,1])
+		attr EDouble as p
+		attr EDouble as i
+		attr EDouble as d
+		containableElements(Input[2,2], Output[1,1])
 	}
 }
