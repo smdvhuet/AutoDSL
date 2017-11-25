@@ -1,5 +1,6 @@
 @primeviewer
 @style("model/Rule.style")
+@generatable("info.scce.cinco.product.autoDSL.generator.RuleGenerator","/src-gen/")
 graphModel Rule {
 	package info.scce.cinco.product.autoDSL.rule
 	nsURI "http://cinco.scce.info/product/rule"
