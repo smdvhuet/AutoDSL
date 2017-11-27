@@ -65,10 +65,10 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 		}
 	}
 	
-	//TODO Connect PID to input
+	//TODO Connect PID to input and make pid global
 	override casePIDController(PIDController op)'''
 		//PID Controller
-		static PID<«op.p», «op.i», «op.d»> pid«op.id» = new PID<>();
+		PID pid«op.id» = new PID(«op.p», «op.i», «op.d»);
 		double «op.id» = pid«op.id».calc(0, 0, 0);
 		
 		«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»

@@ -32,14 +32,22 @@ class RuleGenerator implements IGenerator<Rule> {
 	}
 	
 	def generatePIDClass()'''
-		public class PID<P extends Double, I extends Double, D extends Double>{
+		public class PID{
+			private double p;
+			private double i;
+			private double d;
+			
 			private final double MAX_VALUE = Double.MAX_VALUE;
 			private final double MIN_VALUE = Double.MIN_VALUE;
 				
 			private double lastValue = 0.0;
 			private double integral = 0.0;
 			
-			public PID(){}
+			public PID(double p, double i, double d){
+				this.p = p;
+				this.i = i;
+				this.d = d;
+			}
 				
 			public double calc(double currentValue, double targetValue, double dTimeSec){
 				double error = targetValue - currentValue;
@@ -53,12 +61,12 @@ class RuleGenerator implements IGenerator<Rule> {
 				else if(integral < MIN_VALUE)
 					integral = MIN_VALUE;
 						
-				return (error + I * integral + D * diff) * P;
+				return (error + i * integral + d * diff) * p;
 			}
 				
-			public final double getP() { return P; }
-			public final double getI() { return I; }
-			public final double getD() { return D; }
+			public final double getP() { return p; }
+			public final double getI() { return i; }
+			public final double getD() { return d; }
 		}
 	'''
 	
