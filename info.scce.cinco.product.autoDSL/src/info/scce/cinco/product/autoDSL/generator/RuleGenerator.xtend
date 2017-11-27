@@ -33,6 +33,8 @@ class RuleGenerator implements IGenerator<Rule> {
 		val IProject project = ProjectCreator.getProject(rule.eResource())
 		mainFolder = project.getFolder("src-gen")
 		
+		EclipseFileUtils.writeToFile(mainFolder.getFile("PID.java"),generatePIDClass())
+		
 		generateStatic()
 		
 		for(Operation op : rule.operations){
@@ -40,7 +42,7 @@ class RuleGenerator implements IGenerator<Rule> {
 				EclipseFileUtils.writeToFile(mainFolder.getFile("Rule.java"),
 				'''
 				public class Rule{
-					public void aplyRule(){
+					public void applyRule(){
 						«generateRule(op)»
 					}
 					
@@ -93,25 +95,53 @@ class RuleGenerator implements IGenerator<Rule> {
 		}
 	}
 	
-	//TODO Implement
+	def generatePIDClass()'''
+		public class PID<P extends Double, I extends Double, D extends Double>{
+			private final double MAX_VALUE = Double.MAX_VALUE;
+			private final double MIN_VALUE = Double.MIN_VALUE;
+				
+			private double lastValue = 0.0;
+			private double integral = 0.0;
+			
+			public PID(){}
+				
+			public double calc(double currentValue, double targetValue, double dTimeSec){
+				double error = targetValue - currentValue;
+				double diff = (lastValue - error) / dTimeSec;
+					
+				lastValue = error;
+				integral += (error * dTimeSec);  
+					
+				if(integral > MAX_VALUE)
+					integral = MAX_VALUE;
+				else if(integral < MIN_VALUE)
+					integral = MIN_VALUE;
+						
+				return (error + I * integral + D * diff) * P;
+			}
+				
+			public final double getP() { return P; }
+			public final double getI() { return I; }
+			public final double getD() { return D; }
+		}
+	'''
+	
+	//TODO Connect PID to input
 	def generatePID(PIDController op)'''
-	
-	
-	//PID Controller
-	«if(!op.operationSuccessors.nullOrEmpty)generateRule(op.operationSuccessors.last)»
+		//PID Controller
+		static PID<«op.p», «op.i», «op.d»> pid«op.id» = new PID<>();
+		double «op.id» = pid«op.id».calc(0, 0, 0);
+		
+		«if(!op.operationSuccessors.nullOrEmpty)generateRule(op.operationSuccessors.last)»
 	'''
 	
 	def generateNegation(Negation op)'''
-	
-	
 	//Negation Operator
 	boolean «op.outputs.head.id» = !«op.inputs.head.referenceInput»;
 	«if(!op.operationSuccessors.nullOrEmpty)generateRule(op.operationSuccessors.last)»
 	'''
 	
 	def generateAdd(Addition op)'''
-	
-	
 	//Addition Operator
 	float «op.outputs.head.id» = «FOR in : op.inputs SEPARATOR '+'»«
 									in.referenceInput»«
@@ -120,8 +150,6 @@ class RuleGenerator implements IGenerator<Rule> {
 	'''
 	
 	def generateMult(Multiplication op)'''
-	
-	
 	//Multiplication Operator
 	float «op.outputs.head.id» = «FOR in : op.inputs SEPARATOR '*'»«
 									in.referenceInput»«
@@ -130,8 +158,6 @@ class RuleGenerator implements IGenerator<Rule> {
 	'''
 	
 	def generateMax(Maximum op)'''
-	
-	
 	//Max Operator
 	float[] «op.id» = {«FOR  in : op.inputs SEPARATOR ','»«
 						in.referenceInput»«
@@ -141,8 +167,6 @@ class RuleGenerator implements IGenerator<Rule> {
 	'''
 	
 	def generateMin(Minimum op)'''
-	
-	
 	//Min Operator
 	float[] «op.id» = {«FOR  in : op.inputs SEPARATOR ','»«
 							in.referenceInput»«
@@ -152,8 +176,6 @@ class RuleGenerator implements IGenerator<Rule> {
 	'''
 	
 	def generateAnd(LogicalAnd op)'''
-	
-	
 	//And Operator
 	boolean «op.outputs.head.id» = «FOR in : op.inputs SEPARATOR '&&'»«
 										in.referenceInput»«
@@ -162,8 +184,6 @@ class RuleGenerator implements IGenerator<Rule> {
 	'''
 	
 	def generateOr(LogicalOr op)'''
-	
-	
 	//Or Operator
 	boolean «op.outputs.head.id» = «FOR in : op.inputs SEPARATOR '||'»«
 											in.referenceInput»«
@@ -172,24 +192,18 @@ class RuleGenerator implements IGenerator<Rule> {
 	'''
 	
 	def generateSub(Subtraction op)'''
-	
-	
 	//Substraction Operator
 	float «op.outputs.head.id» = «op.inputs.head.referenceInput» - «op.inputs.last.referenceInput»;
 	«if(!op.operationSuccessors.nullOrEmpty)generateRule(op.operationSuccessors.last)»
 	'''
 	
 	def generateLess(Less op)'''
-	
-	
 	//Less Operator
 	boolean «op.outputs.head.id» = «op.inputs.head.referenceInput» < «op.inputs.last.referenceInput»;
 	«if(!op.operationSuccessors.nullOrEmpty)generateRule(op.operationSuccessors.last)»
 	'''
 	
 	def generateLessOrEqual(LessOrEqual op)'''
-	
-	
 	//LessOrEqual Operator
 	boolean «op.outputs.head.id» = «op.inputs.head.referenceInput» <= «op.inputs.last.referenceInput»;
 	«if(!op.operationSuccessors.nullOrEmpty)generateRule(op.operationSuccessors.last)»
