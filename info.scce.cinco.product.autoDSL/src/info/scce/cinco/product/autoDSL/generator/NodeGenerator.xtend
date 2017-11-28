@@ -1,25 +1,27 @@
 package info.scce.cinco.product.autoDSL.generator
 
-import info.scce.cinco.product.autoDSL.rule.rule.util.RuleSwitch
-import info.scce.cinco.product.autoDSL.rule.rule.Rule
-import info.scce.cinco.product.autoDSL.rule.rule.PIDController
-import info.scce.cinco.product.autoDSL.rule.rule.Negation
+import graphmodel.Node
 import info.scce.cinco.product.autoDSL.rule.rule.Addition
-import info.scce.cinco.product.autoDSL.rule.rule.Multiplication
-import info.scce.cinco.product.autoDSL.rule.rule.Maximum
-import info.scce.cinco.product.autoDSL.rule.rule.Minimum
-import info.scce.cinco.product.autoDSL.rule.rule.LogicalAnd
-import info.scce.cinco.product.autoDSL.rule.rule.LogicalOr
-import info.scce.cinco.product.autoDSL.rule.rule.Subtraction
+import info.scce.cinco.product.autoDSL.rule.rule.Comment
+import info.scce.cinco.product.autoDSL.rule.rule.Decision
+import info.scce.cinco.product.autoDSL.rule.rule.Input
 import info.scce.cinco.product.autoDSL.rule.rule.Less
 import info.scce.cinco.product.autoDSL.rule.rule.LessOrEqual
-import info.scce.cinco.product.autoDSL.rule.rule.Input
+import info.scce.cinco.product.autoDSL.rule.rule.LogicalAnd
+import info.scce.cinco.product.autoDSL.rule.rule.LogicalOr
+import info.scce.cinco.product.autoDSL.rule.rule.Maximum
+import info.scce.cinco.product.autoDSL.rule.rule.Minimum
+import info.scce.cinco.product.autoDSL.rule.rule.Multiplication
+import info.scce.cinco.product.autoDSL.rule.rule.Negation
+import info.scce.cinco.product.autoDSL.rule.rule.NumberOutputNode
 import info.scce.cinco.product.autoDSL.rule.rule.NumberStaticInput
-import info.scce.cinco.product.autoDSL.rule.rule.CarInput
-import info.scce.cinco.product.autoDSL.rule.rule.Decision
-import info.scce.cinco.product.autoDSL.rule.rule.Comment
-import info.scce.cinco.product.autoDSL.rule.rule.OutputNode
-import graphmodel.Node
+import info.scce.cinco.product.autoDSL.rule.rule.PIDController
+import info.scce.cinco.product.autoDSL.rule.rule.Rule
+import info.scce.cinco.product.autoDSL.rule.rule.Subtraction
+import info.scce.cinco.product.autoDSL.rule.rule.util.RuleSwitch
+import info.scce.cinco.product.autoDSL.rule.rule.NumberCarInput
+
+//TODO Adapt to new alterations in mgl
 
 class NodeGenerator extends RuleSwitch<CharSequence> {
 	
@@ -76,7 +78,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseNegation(Negation op)'''
 	//Negation Operator
-	boolean «op.outputs.head.id» = !«op.inputs.head.referenceInput»;
+	boolean «op.booleanOutputs.head.id» = !«op.booleanInputs.head.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
@@ -149,15 +151,15 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	'''
 	
 	override caseDecision(Decision d)'''
-	if(«d.inputs.head.referenceInput»){
+	if(«d.booleanInputs.head.referenceInput»){
 		«d.getSuccessors.head.doSwitch»
 	}«IF d.successors.size>1» else{
 		«d.getSuccessors.last.doSwitch»
 	}«ENDIF»
 	'''
 	
-	override caseOutputNode(OutputNode out)'''
-	«out.carOutputs.head.outputtype.toString» = «out.inputs.head.referenceInput»;
+	override caseNumberOutputNode(NumberOutputNode out)'''
+	«out.numberCarOutputs.head.outputtype.toString» = «out.numberInputs.head.referenceInput»;
 	«if(!out.getSuccessors.nullOrEmpty)out.getSuccessors.head.doSwitch»
 	'''
 	
@@ -168,7 +170,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	def referenceInput(Input in){
 		switch in{
 			NumberStaticInput :	in.staticValue
-			CarInput :	in.inputtype.toString
+			NumberCarInput :	in.inputtype.toString
 			default :	if(in.predecessors.nullOrEmpty){
 							"/*input not a reference*/"
 						}else{

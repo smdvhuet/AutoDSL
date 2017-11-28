@@ -9,18 +9,18 @@ class LayoutManager {
 	static val PORT_HEIGHT = 20;
 	
 	// Only works for commutable operations so far
-	static def insertInput(Operation target, PrimitiveType type) {
+	static def insertInput(Operation target) {
 		val inputs = target.existingInputs
 		val max = if (!inputs.isEmpty()) inputs.max[Node a, Node b | a.y - b.y] else null
 		val highestY = if (max != null) max.y else NODE_MARGIN_TOP - PORT_HEIGHT
 		if (highestY + PORT_HEIGHT > target.height) {
 			target.height = target.height + PORT_HEIGHT;
 		}
-		target.newInputPort(NODE_MARGIN_LEFT, highestY + PORT_HEIGHT).datatype = type
+		target.newInputPort(NODE_MARGIN_LEFT, highestY + PORT_HEIGHT)
 		target.shiftOutputs
 	}
 
-	static def insertOutput(Operation target, PrimitiveType type) {
+	static def insertOutput(Operation target) {
 		val outputs = target.existingOutputs;
 		var max = if (!outputs.isEmpty()) outputs.max[Node a, Node b | a.y - b.y] as Node else null
 		if (max == null) {
@@ -31,7 +31,7 @@ class LayoutManager {
 		if (highestY + PORT_HEIGHT > target.height) {
 			target.height = target.height + PORT_HEIGHT;
 		}
-		target.newOutputPort(NODE_MARGIN_LEFT, highestY + PORT_HEIGHT).datatype = type
+		target.newOutputPort(NODE_MARGIN_LEFT, highestY + PORT_HEIGHT)
 	}
 
 	private static def shiftOutputs(Operation op) {
