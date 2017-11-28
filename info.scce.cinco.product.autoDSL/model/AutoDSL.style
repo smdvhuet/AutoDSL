@@ -92,6 +92,24 @@ nodeStyle state (1){
 	}
 }
 
+nodeStyle guard (1) {
+	roundedRectangle {
+		appearance {
+			background (180, 230, 180)
+		}
+		size(250,300)
+		corner(30,30)
+		text {
+			position ( CENTER , TOP)
+			value "<<GUARD>>"
+		}
+		text {
+			position ( CENTER , TOP 20)
+			value "%s"
+		}
+	}
+}
+
 edgeStyle simpleArrow {	
 	appearance default
 	

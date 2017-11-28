@@ -9,24 +9,37 @@ graphModel AutoDSL {
 
 	containableElements(
 		OffState [1,1],
-		State [0,*]
+		State [0,*],
+		Guard [0,*]
 	)
 
 	@style(stateOff)
 	node OffState {
-		incomingEdges (StateToState[0,*])
-		outgoingEdges (StateToState[1,*])
+		incomingEdges (GuardToState[0,*])
+		outgoingEdges (StateToGuard[1,*])
 	}
 
 	@style(state, "${label}")
 	container State {
-		attr EString as label
+		attr EString as label := "Unnamed"
 		containableElements(
+			State [0,1],
 			ComponentNode [0,*]
 		)
-		incomingEdges (StateToState[1,*])
-		outgoingEdges (StateToState[0,*])
+		incomingEdges (GuardToState[1,*])
+		outgoingEdges (StateToGuard[0,*])
 	}
+	
+	@style(guard, "${label}")
+	container Guard {
+		attr EString as label := "Unnamed" 
+     	containableElements(
+			ComponentNode[1,1]
+		)
+		incomingEdges(StateToGuard[1,*])
+		outgoingEdges(GuardToState[1,1])
+	}
+	
 
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.DropRuleHook")
 	@style(syscomponent, "${label}")
@@ -44,7 +57,14 @@ graphModel AutoDSL {
 	}
 	
 	@style(simpleArrow)
-	edge StateToState {
+	edge StateToGuard {
+		
 	}
+	
+	@style(simpleArrow)
+	edge GuardToState {
+		
+	}
+
 }
 
