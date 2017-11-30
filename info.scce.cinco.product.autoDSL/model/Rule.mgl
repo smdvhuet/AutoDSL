@@ -252,7 +252,7 @@ graphModel Rule {
 	
 	@style(commutableOperation, "Output")
 //	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateNumberOutputNode") //TODO
-	container NumberOutputNode {
+	container NumberOutputNode extends OutputNode {
 		containableElements(NumberInput[1,1], NumberCarOutput[1,1])
 	}
 	
