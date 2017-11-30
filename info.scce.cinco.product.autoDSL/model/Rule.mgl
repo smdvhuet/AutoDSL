@@ -14,8 +14,16 @@ graphModel Rule {
 		BooleanGuardOutput[0,*]
 	)
 	
-	@style(controlFlow)
-	edge ControlFlow {}
+	abstract edge ControlFlow {}
+	
+	@style (controlFlow)
+	edge ControlFlowBasic extends ControlFlow {}
+	
+	@style(labeledControlFlow, "True")
+	edge ControlFlowDecisionTrue extends ControlFlow {}
+	
+	@style(labeledControlFlow, "False")
+	edge ControlFlowDecisionFalse extends ControlFlow {}
 		
 	@style(dataFlow)
 	edge BooleanDataFlow {}
@@ -140,7 +148,7 @@ graphModel Rule {
 	
 	abstract container Operation {
 		incomingEdges(ControlFlow[1,*])
-		outgoingEdges(ControlFlow[1,1])
+		outgoingEdges(ControlFlowBasic[1,1])
 	}
 	
 	abstract container CommutableOperation extends Operation {
@@ -215,7 +223,7 @@ graphModel Rule {
 //	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateDecision") //TODO
 	container Decision {
 		incomingEdges(ControlFlow[1,*])
-		outgoingEdges(ControlFlow[2,2])
+		outgoingEdges(ControlFlowDecisionFalse[1,1], ControlFlowDecisionTrue[1,1])
 		containableElements(BooleanInput[1,1])
 	}
 	
@@ -227,7 +235,7 @@ graphModel Rule {
 	
 	abstract container OutputNode {
 		incomingEdges(ControlFlow[1,*])
-		outgoingEdges(ControlFlow[0,1])
+		outgoingEdges(ControlFlowBasic[0,1])
 	}
 	
 	@style(commutableOperation, "Output")
@@ -253,7 +261,7 @@ graphModel Rule {
 //	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreatePIDController") //TODO
 	container PIDController extends Operation{
 		incomingEdges(ControlFlow[1,*])
-		outgoingEdges(ControlFlow[0,1])
+		outgoingEdges(ControlFlowBasic[0,1])
 		attr EDouble as p
 		attr EDouble as i
 		attr EDouble as d

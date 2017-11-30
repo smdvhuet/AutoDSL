@@ -15,6 +15,23 @@ edgeStyle controlFlow {
 	}
 }
 
+edgeStyle labeledControlFlow(1){
+	appearance {
+		lineStyle SOLID
+	}
+	decorator {
+		location (1.0)
+		ARROW
+	}
+	decorator{
+		location(0.5)
+		text {
+			value "%s"
+		}
+		movable
+	}
+}
+
 edgeStyle dataFlow {
 	appearance {
 		lineStyle DOT
