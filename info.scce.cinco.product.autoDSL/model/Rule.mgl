@@ -64,7 +64,7 @@ graphModel Rule {
 	@palette("Ports")
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.BooleanCarToStatic")
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.BooleanCarToPort")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateBooleanCarInput") //TODO
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateInput")
 	node BooleanCarInput extends BooleanInput {
 		attr CarInputTypeBoolean as inputtype
 	}
@@ -75,7 +75,7 @@ graphModel Rule {
 	@palette("Ports")
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberCarToStatic")
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberCarToPort")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateNumberCarInput") //TODO
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateInput")
 	node NumberCarInput extends NumberInput {
 		attr CarInputTypeNumber as inputtype
 	}
@@ -101,7 +101,7 @@ graphModel Rule {
 	@palette("Ports")
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberPortToStatic") 
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberPortToCar")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateNumberInputPort") //TODO
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateInput")
 	node NumberInputPort extends NumberInput {
 		incomingEdges(NumberDataFlow[1,1])
 	}
@@ -111,7 +111,7 @@ graphModel Rule {
 	@palette("Ports")
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.BooleanPortToStatic") 
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.BooleanPortToCar")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateBooleanInputPort") //TODO
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateInput")
 	node BooleanInputPort extends BooleanInput {
 		incomingEdges(BooleanDataFlow[1,1])
 	}
@@ -137,7 +137,7 @@ graphModel Rule {
 	@palette("Ports")
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.BooleanStaticToPort") 
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.BooleanStaticToCar")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberStaticInput") //TODO
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateInput")
 	node BooleanStaticInput extends BooleanInput {
 		attr EBoolean as staticValue
 	}
@@ -147,7 +147,7 @@ graphModel Rule {
 	@palette("Ports")
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberStaticToPort") 
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberStaticToCar")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberStaticInput") //TODO
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateInput")
 	node NumberStaticInput extends NumberInput {
 		attr EFloat as staticValue
 	}

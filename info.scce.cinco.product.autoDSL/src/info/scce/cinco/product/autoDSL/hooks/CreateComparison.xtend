@@ -8,6 +8,6 @@ class CreateComparison extends CincoPostCreateHook<NonCommutableOperation> {
 	override  postCreate(NonCommutableOperation droppedNode) {
 		droppedNode.newNumberInputPort(5, 6)
 		droppedNode.newNumberInputPort(5, 46)
-		LayoutManager.insertBooleanOutput(droppedNode)
+		LayoutManager.insertNewBooleanOutput(droppedNode)
 	}
 }

@@ -2,36 +2,37 @@ package info.scce.cinco.product.autoDSL.hooks
 
 import info.scce.cinco.product.autoDSL.rule.rule.*
 import graphmodel.Node
+import java.awt.Point
 
 class LayoutManager {
 	static val NODE_MARGIN_LEFT = 5;
 	static val NODE_MARGIN_TOP = 26; // header height
 	static val PORT_HEIGHT = 20;
 	
-	// Only works for commutable operations so far
-	static def insertBooleanInput(Operation target) {
+	/**
+	 * Increases the height of an Operation node (if necessary) and
+	 * calculates coordinates for a new input.
+	 * Note: Only designed for commutable operations so far!
+	 * @param target Operation into which the Input shall be inserted
+	 * @return Point object with coordinates
+	 */
+	static def prepareInputInsertion(Operation target) {
 		val inputs = target.existingInputs
 		val max = if (!inputs.isEmpty()) inputs.max[Node a, Node b | a.y - b.y] else null
 		val highestY = if (max != null) max.y else NODE_MARGIN_TOP - PORT_HEIGHT
 		if (highestY + PORT_HEIGHT > target.height) {
 			target.height = target.height + PORT_HEIGHT;
 		}
-		target.newBooleanInputPort(NODE_MARGIN_LEFT, highestY + PORT_HEIGHT)
-		target.shiftOutputs
+		new Point(NODE_MARGIN_LEFT, highestY + PORT_HEIGHT)
 	}
 
-	static def insertNumberInput(Operation target) {
-		val inputs = target.existingInputs
-		val max = if (!inputs.isEmpty()) inputs.max[Node a, Node b | a.y - b.y] else null
-		val highestY = if (max != null) max.y else NODE_MARGIN_TOP - PORT_HEIGHT
-		if (highestY + PORT_HEIGHT > target.height) {
-			target.height = target.height + PORT_HEIGHT;
-		}
-		target.newNumberInputPort(NODE_MARGIN_LEFT, highestY + PORT_HEIGHT)
-		target.shiftOutputs
-	}
-
-	static def insertBooleanOutput(Operation target) {
+	/**
+	 * Increases the height of an Operation node (if necessary) and
+	 * calculates coordinates for a new output.
+	 * @param target Operation into which the Output shall be inserted
+	 * @return Point object with coordinates
+	 */	
+	static def prepareOutputInsertion(Operation target) {
 		val outputs = target.existingOutputs;
 		var max = if (!outputs.isEmpty()) outputs.max[Node a, Node b | a.y - b.y] as Node else null
 		if (max == null) {
@@ -42,21 +43,29 @@ class LayoutManager {
 		if (highestY + PORT_HEIGHT > target.height) {
 			target.height = target.height + PORT_HEIGHT;
 		}
-		target.newBooleanOutputPort(NODE_MARGIN_LEFT, highestY + PORT_HEIGHT)
+		new Point(NODE_MARGIN_LEFT, highestY + PORT_HEIGHT)
+	}
+	
+	static def insertNewBooleanInput(Operation target) {
+		val pt = prepareInputInsertion(target)
+		target.newBooleanInputPort(pt.x, pt.y)
+		target.shiftOutputs
 	}
 
-	static def insertNumberOutput(Operation target) {
-		val outputs = target.existingOutputs;
-		var max = if (!outputs.isEmpty()) outputs.max[Node a, Node b | a.y - b.y] as Node else null
-		if (max == null) {
-			val inputs = target.existingInputs
-			max = if (!inputs.isEmpty()) inputs.max[Node a, Node b | a.y - b.y] else null
-		}
-		val highestY = if (max != null) max.y else NODE_MARGIN_TOP - PORT_HEIGHT
-		if (highestY + PORT_HEIGHT > target.height) {
-			target.height = target.height + PORT_HEIGHT;
-		}
-		target.newNumberOutputPort(NODE_MARGIN_LEFT, highestY + PORT_HEIGHT)
+	static def insertNewNumberInput(Operation target) {
+		val pt = prepareInputInsertion(target)
+		target.newNumberInputPort(pt.x, pt.y)
+		target.shiftOutputs
+	}
+
+	static def insertNewBooleanOutput(Operation target) {
+		val pt = prepareOutputInsertion(target)
+		target.newBooleanOutputPort(pt.x, pt.y)
+	}
+
+	static def insertNewNumberOutput(Operation target) {
+		val pt = prepareOutputInsertion(target)
+		target.newNumberOutputPort(pt.x, pt.y)
 	}
 
 	private static def shiftOutputs(Operation op) {
