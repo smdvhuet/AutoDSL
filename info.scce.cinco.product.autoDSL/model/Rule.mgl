@@ -31,17 +31,23 @@ graphModel Rule {
 	@style(dataFlow)
 	edge NumberDataFlow {}
 	
-	enum CarInputType {
-		a
-		b
-		c
+	enum CarInputTypeBoolean{
+		Ruecklicht_An
+		Bremse_Kaputt
+	}
+		
+	enum CarInputTypeNumber{
+		Geschwindigkeit
+		Anzahl_Raeder
 	}
 	
-	enum CarOutputType {
-		a
-		b
-		c
+	enum CarOutputTypeBoolean {
+		Scheinwerfer_An
 	}
+	enum CarOutputTypeNumber {
+		Geschwindigkeit
+	}
+	
 
 	abstract node Input {}
 	abstract node BooleanInput extends Input {}
@@ -60,7 +66,7 @@ graphModel Rule {
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.BooleanCarToPort")
 //	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateBooleanCarInput") //TODO
 	node BooleanCarInput extends BooleanInput {
-		attr CarInputType as inputtype
+		attr CarInputTypeBoolean as inputtype
 	}
 	
 	@style(carInput, "${inputtype}", "Number")
@@ -71,7 +77,7 @@ graphModel Rule {
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberCarToPort")
 //	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateNumberCarInput") //TODO
 	node NumberCarInput extends NumberInput {
-		attr CarInputType as inputtype
+		attr CarInputTypeNumber as inputtype
 	}
 	
 	@style(carOutput, "${outputtype}", "Boolean")
@@ -79,7 +85,7 @@ graphModel Rule {
 	@palette("Ports")
 //	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateBooleanCarOutput") //TODO
 	node BooleanCarOutput extends BooleanOutput {
-		attr CarOutputType as outputtype
+		attr CarOutputTypeBoolean as outputtype
 	}
 	
 	@style(carOutput, "${outputtype}", "Number")
@@ -87,7 +93,7 @@ graphModel Rule {
 	@palette("Ports")
 //	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateNumberCarOutput") //TODO
 	node NumberCarOutput extends NumberOutput {
-		attr CarOutputType as outputtype
+		attr CarOutputTypeNumber as outputtype
 	}
 		
 	@style(inputPort, "Number")
