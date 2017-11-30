@@ -9,18 +9,29 @@ class LayoutManager {
 	static val PORT_HEIGHT = 20;
 	
 	// Only works for commutable operations so far
-	static def insertInput(Operation target) {
+	static def insertBooleanInput(Operation target) {
 		val inputs = target.existingInputs
 		val max = if (!inputs.isEmpty()) inputs.max[Node a, Node b | a.y - b.y] else null
 		val highestY = if (max != null) max.y else NODE_MARGIN_TOP - PORT_HEIGHT
 		if (highestY + PORT_HEIGHT > target.height) {
 			target.height = target.height + PORT_HEIGHT;
 		}
-		target.newInputPort(NODE_MARGIN_LEFT, highestY + PORT_HEIGHT)
+		target.newBooleanInputPort(NODE_MARGIN_LEFT, highestY + PORT_HEIGHT)
 		target.shiftOutputs
 	}
 
-	static def insertOutput(Operation target) {
+	static def insertNumberInput(Operation target) {
+		val inputs = target.existingInputs
+		val max = if (!inputs.isEmpty()) inputs.max[Node a, Node b | a.y - b.y] else null
+		val highestY = if (max != null) max.y else NODE_MARGIN_TOP - PORT_HEIGHT
+		if (highestY + PORT_HEIGHT > target.height) {
+			target.height = target.height + PORT_HEIGHT;
+		}
+		target.newNumberInputPort(NODE_MARGIN_LEFT, highestY + PORT_HEIGHT)
+		target.shiftOutputs
+	}
+
+	static def insertBooleanOutput(Operation target) {
 		val outputs = target.existingOutputs;
 		var max = if (!outputs.isEmpty()) outputs.max[Node a, Node b | a.y - b.y] as Node else null
 		if (max == null) {
@@ -31,7 +42,21 @@ class LayoutManager {
 		if (highestY + PORT_HEIGHT > target.height) {
 			target.height = target.height + PORT_HEIGHT;
 		}
-		target.newOutputPort(NODE_MARGIN_LEFT, highestY + PORT_HEIGHT)
+		target.newBooleanOutputPort(NODE_MARGIN_LEFT, highestY + PORT_HEIGHT)
+	}
+
+	static def insertNumberOutput(Operation target) {
+		val outputs = target.existingOutputs;
+		var max = if (!outputs.isEmpty()) outputs.max[Node a, Node b | a.y - b.y] as Node else null
+		if (max == null) {
+			val inputs = target.existingInputs
+			max = if (!inputs.isEmpty()) inputs.max[Node a, Node b | a.y - b.y] else null
+		}
+		val highestY = if (max != null) max.y else NODE_MARGIN_TOP - PORT_HEIGHT
+		if (highestY + PORT_HEIGHT > target.height) {
+			target.height = target.height + PORT_HEIGHT;
+		}
+		target.newNumberOutputPort(NODE_MARGIN_LEFT, highestY + PORT_HEIGHT)
 	}
 
 	private static def shiftOutputs(Operation op) {
@@ -59,21 +84,41 @@ class LayoutManager {
 		}
 	}
 
-	private static def newInputPort(Operation op, int x, int y) {
+	private static def newBooleanInputPort(Operation op, int x, int y) {
 		if (op instanceof CommutableOperation) {
-			(op as CommutableOperation).newInputPort(x, y);
+			(op as CommutableOperation).newBooleanInputPort(x, y);
 		} else if (op instanceof NonCommutableOperation) {
-			(op as NonCommutableOperation).newInputPort(x, y);
+			(op as NonCommutableOperation).newBooleanInputPort(x, y);
 		} else {
 			throw new IllegalArgumentException("Unknown Operation subclass")
 		}
 	}
 
-	private static def newOutputPort(Operation op, int x, int y) {
+	private static def newNumberInputPort(Operation op, int x, int y) {
 		if (op instanceof CommutableOperation) {
-			(op as CommutableOperation).newOutputPort(x, y);
+			(op as CommutableOperation).newNumberInputPort(x, y);
 		} else if (op instanceof NonCommutableOperation) {
-			(op as NonCommutableOperation).newOutputPort(x, y);
+			(op as NonCommutableOperation).newNumberInputPort(x, y);
+		} else {
+			throw new IllegalArgumentException("Unknown Operation subclass")
+		}
+	}
+
+	private static def newBooleanOutputPort(Operation op, int x, int y) {
+		if (op instanceof CommutableOperation) {
+			(op as CommutableOperation).newBooleanOutputPort(x, y);
+		} else if (op instanceof NonCommutableOperation) {
+			(op as NonCommutableOperation).newBooleanOutputPort(x, y);
+		} else {
+			throw new IllegalArgumentException("Unknown Operation subclass")
+		}
+	}
+
+	private static def newNumberOutputPort(Operation op, int x, int y) {
+		if (op instanceof CommutableOperation) {
+			(op as CommutableOperation).newNumberOutputPort(x, y);
+		} else if (op instanceof NonCommutableOperation) {
+			(op as NonCommutableOperation).newNumberOutputPort(x, y);
 		} else {
 			throw new IllegalArgumentException("Unknown Operation subclass")
 		}
