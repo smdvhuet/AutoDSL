@@ -12,18 +12,32 @@ class LayoutManager {
 	/**
 	 * Increases the height of an Operation node (if necessary) and
 	 * calculates coordinates for a new input.
-	 * Note: Only designed for commutable operations so far!
 	 * @param target Operation into which the Input shall be inserted
+	 * @param newInput The Input object to be inserted (only needs to be passed if it already exists and needs to be filtered)
 	 * @return Point object with coordinates
 	 */
-	static def prepareInputInsertion(Operation target) {
-		val inputs = target.existingInputs
-		val max = if (!inputs.isEmpty()) inputs.max[Node a, Node b | a.y - b.y] else null
-		val highestY = if (max != null) max.y else NODE_MARGIN_TOP - PORT_HEIGHT
-		if (highestY + PORT_HEIGHT > target.height) {
-			target.height = target.height + PORT_HEIGHT;
+	static def prepareInputInsertion(Operation target, Input newInput) {
+		var highestInputY = 0;
+		if (target instanceof CommutableOperation) {
+			// Must not factor newInput dropped by user into calculation (it could be at any position right now)
+			val max = ymax(target.existingInputs.filter[it != newInput])
+			highestInputY = if (max != null) max.y else NODE_MARGIN_TOP - PORT_HEIGHT
+			val maxOut = ymax(target.existingOutputs)
+			if ((if (maxOut != null) maxOut.y else highestInputY) + PORT_HEIGHT*2 > target.height) {
+				target.height = target.height + PORT_HEIGHT;
+			}
+		} else if (target instanceof NonCommutableOperation) {
+			val inp = target.existingInputs
+			if (inp.size() == 1) {
+				highestInputY = NODE_MARGIN_TOP - PORT_HEIGHT*2;
+			} else if (inp.size() == 2) {
+				highestInputY = NODE_MARGIN_TOP;
+			} else
+				throw new IllegalStateException("NonCommutable has too many inputs")
+		} else {
+			return null // no auto-positioning supported
 		}
-		new Point(NODE_MARGIN_LEFT, highestY + PORT_HEIGHT)
+		new Point(NODE_MARGIN_LEFT, highestInputY + PORT_HEIGHT)
 	}
 
 	/**
@@ -31,13 +45,12 @@ class LayoutManager {
 	 * calculates coordinates for a new output.
 	 * @param target Operation into which the Output shall be inserted
 	 * @return Point object with coordinates
-	 */	
+	 */
 	static def prepareOutputInsertion(Operation target) {
-		val outputs = target.existingOutputs;
-		var max = if (!outputs.isEmpty()) outputs.max[Node a, Node b | a.y - b.y] as Node else null
+		var max = ymax(target.existingOutputs)
 		if (max == null) {
-			val inputs = target.existingInputs
-			max = if (!inputs.isEmpty()) inputs.max[Node a, Node b | a.y - b.y] else null
+			// No outputs yet, get highest input instead
+			max = ymax(target.existingInputs)
 		}
 		val highestY = if (max != null) max.y else NODE_MARGIN_TOP - PORT_HEIGHT
 		if (highestY + PORT_HEIGHT > target.height) {
@@ -47,15 +60,11 @@ class LayoutManager {
 	}
 	
 	static def insertNewBooleanInput(Operation target) {
-		val pt = prepareInputInsertion(target)
-		target.newBooleanInputPort(pt.x, pt.y)
-		target.shiftOutputs
+		target.newBooleanInputPort(0,0) // create hook will call insertInput
 	}
 
 	static def insertNewNumberInput(Operation target) {
-		val pt = prepareInputInsertion(target)
-		target.newNumberInputPort(pt.x, pt.y)
-		target.shiftOutputs
+		target.newNumberInputPort(0,0) // create hook will call insertInput
 	}
 
 	static def insertNewBooleanOutput(Operation target) {
@@ -66,6 +75,19 @@ class LayoutManager {
 	static def insertNewNumberOutput(Operation target) {
 		val pt = prepareOutputInsertion(target)
 		target.newNumberOutputPort(pt.x, pt.y)
+	}
+	
+	static def insertInput(Operation target, Input input) {
+		val pt = prepareInputInsertion(target, input)
+		if (pt != null) {
+			input.move(pt.x, pt.y)
+			target.shiftOutputs
+		}
+	}
+
+	static def insertOutput(Operation target, Input input) {
+		val pt = prepareOutputInsertion(target)
+		input.move(pt.x, pt.y)
 	}
 
 	private static def shiftOutputs(Operation op) {
@@ -131,5 +153,12 @@ class LayoutManager {
 		} else {
 			throw new IllegalArgumentException("Unknown Operation subclass")
 		}
+	}
+
+	/**
+	 * Returns the Node with the highest Y value in l or null if the list is empty.
+	 */
+	private static def ymax(Iterable<? extends Node> l) {
+		if (l.isEmpty()) null else l.max[Node a, Node b | a.y - b.y]
 	}
 }
