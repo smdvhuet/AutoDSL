@@ -82,6 +82,7 @@ graphModel Rule {
 	
 	@style(carOutput, "${outputtype}", "Boolean")
 	@disable(resize)
+	@icon("icons/CarOutput.png")
 	@palette("Ports")
 //	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateBooleanCarOutput") //TODO
 	node BooleanCarOutput extends BooleanOutput {
@@ -90,6 +91,7 @@ graphModel Rule {
 	
 	@style(carOutput, "${outputtype}", "Number")
 	@disable(resize)
+	@icon("icons/CarOutput.png")
 	@palette("Ports")
 //	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateNumberCarOutput") //TODO
 	node NumberCarOutput extends NumberOutput {
@@ -99,6 +101,7 @@ graphModel Rule {
 	@style(inputPort, "Number")
 	@disable(resize)
 	@palette("Ports")
+	@icon("icons/inputPort.png")
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberPortToStatic") 
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberPortToCar")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateInput")
@@ -109,6 +112,7 @@ graphModel Rule {
 	@style(inputPort, "Boolean")
 	@disable(resize)
 	@palette("Ports")
+	@icon("icons/inputPort.png")
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.BooleanPortToStatic") 
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.BooleanPortToCar")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateInput")
@@ -118,6 +122,7 @@ graphModel Rule {
 	
 	@style(outputPort, "Boolean")
 	@disable(resize)
+	@icon("icons/outputPort.png")
 	@palette("Ports")
 //	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateOutputPort") //TODO
 	node BooleanOutputPort extends BooleanOutput {
@@ -126,6 +131,7 @@ graphModel Rule {
 
 	@style(outputPort, "Number")
 	@disable(resize)
+	@icon("icons/outputPort.png")
 	@palette("Ports")
 //	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateOutputPort") //TODO
 	node NumberOutputPort extends NumberOutput {
@@ -135,6 +141,7 @@ graphModel Rule {
 	@style(staticInput, "${staticValue}", "Boolean")
 	@disable(resize)
 	@palette("Ports")
+	@icon("icons/StaticInput.png")
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.BooleanStaticToPort") 
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.BooleanStaticToCar")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateInput")
@@ -145,6 +152,7 @@ graphModel Rule {
 	@style(staticInput, "${staticValue}", "Number")
 	@disable(resize)
 	@palette("Ports")
+	@icon("icons/StaticInput.png")
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberStaticToPort") 
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberStaticToCar")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateInput")
