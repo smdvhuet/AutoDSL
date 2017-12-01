@@ -14,10 +14,8 @@ class BooleanStaticToPort extends CincoCustomAction<BooleanStaticInput> {
 		val y = inp.y as int
 		val cont = inp.container
 		inp.delete
-		if (cont instanceof CommutableOperation)
-			(cont as CommutableOperation).newBooleanInputPort(x, y)
-		else
-			(cont as NonCommutableOperation).newBooleanInputPort(x, y)
+		if (cont instanceof Operation)
+			(cont as Operation).newBooleanInputPort(x, y)
 	}
 	
 }

@@ -14,10 +14,8 @@ class NumberStaticToPort extends CincoCustomAction<NumberStaticInput> {
 		val y = inp.y as int
 		val cont = inp.container
 		inp.delete
-		if (cont instanceof CommutableOperation)
-			(cont as CommutableOperation).newNumberInputPort(x, y)
-		else
-			(cont as NonCommutableOperation).newNumberInputPort(x, y)
+		if (cont instanceof Operation)
+			(cont as Operation).newNumberInputPort(x, y)
 	}
 	
 }

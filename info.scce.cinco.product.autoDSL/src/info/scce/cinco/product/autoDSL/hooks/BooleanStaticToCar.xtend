@@ -14,10 +14,8 @@ class BooleanStaticToCar extends CincoCustomAction<BooleanStaticInput> {
 		val y = inp.y as int
 		val cont = inp.container
 		inp.delete
-		if (cont instanceof CommutableOperation)
-			(cont as CommutableOperation).newBooleanCarInput(x, y)
-		else
-			(cont as NonCommutableOperation).newBooleanCarInput(x, y)
+		if (cont instanceof Operation)
+			(cont as Operation).newBooleanCarInput(x, y)
 	}
 	
 }

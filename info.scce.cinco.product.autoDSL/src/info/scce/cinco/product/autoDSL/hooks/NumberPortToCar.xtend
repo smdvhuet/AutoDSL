@@ -14,10 +14,8 @@ class NumberPortToCar extends CincoCustomAction<NumberInputPort> {
 		val y = inp.y as int
 		val cont = inp.container
 		inp.delete
-		if (cont instanceof CommutableOperation)
-			(cont as CommutableOperation).newNumberCarInput(x, y)
-		else
-			(cont as NonCommutableOperation).newNumberCarInput(x, y)
+		if (cont instanceof Operation)
+			(cont as Operation).newNumberCarInput(x, y)
 	}
 	
 }

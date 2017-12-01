@@ -163,74 +163,70 @@ graphModel Rule {
 	abstract container Operation {
 		incomingEdges(ControlFlow[1,*])
 		outgoingEdges(ControlFlowBasic[1,1])
-	}
-	
-	abstract container CommutableOperation extends Operation {
 		containableElements(Input[1,*], Output[1,1]) 
 	}
-	
-	abstract container NonCommutableOperation extends Operation {
-		containableElements(Input[2,2], Output[1,1])
-	}
+   
+	abstract container CommutableOperation extends Operation {}
+	abstract container NonCommutableOperation extends Operation {} 
 
 	@style(commutableOperation, "+")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateCommutableNumberOp")
 	container Addition extends CommutableOperation {
-		containableElements(NumberInput[1,*], NumberOutput[1,1])
+		containableElements(BooleanInput[0,0], NumberInput[1,*], NumberOutput[1,1])
 	}
 	
 	@style(commutableOperation, "×")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateCommutableNumberOp")
 	container Multiplication extends CommutableOperation {
-		containableElements(NumberInput[1,*], NumberOutput[1,1])		
+		containableElements(BooleanInput[0,0], NumberInput[1,*], NumberOutput[1,1])		
 	}
 
 	@style(nonCommutableOperation, "-")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateSubtraction")
 	container Subtraction extends NonCommutableOperation {
-		containableElements(NumberInput[2,2], NumberOutput[1,1])
+		containableElements(BooleanInput[0,0], NumberInput[2,2], NumberOutput[1,1])
 	}
 	
 	@style(nonCommutableOperation, "<")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateComparison")
 	container Less extends NonCommutableOperation {
-		containableElements(NumberInput[2,2], BooleanOutput[1,1])
+		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[1,1])
 	}
 	
 	@style(nonCommutableOperation, "≤")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateComparison")
 	container LessOrEqual extends NonCommutableOperation {
-		containableElements(NumberInput[2,2], BooleanOutput[1,1])
+		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[1,1])
 	}
 	
 	@style(commutableOperation, "max")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateCommutableNumberOp")
 	container Maximum extends CommutableOperation {
-		containableElements(NumberInput[1,*], NumberOutput[1,1])
+		containableElements(BooleanInput[0,0], NumberInput[1,*], NumberOutput[1,1])
 	}
 	
 	@style(commutableOperation, "min")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateCommutableNumberOp")
 	container Minimum extends CommutableOperation {
-		containableElements(NumberInput[1,*], NumberOutput[1,1])
+		containableElements(BooleanInput[0,0], NumberInput[1,*], NumberOutput[1,1])
 	}
 	
 	@style(commutableOperation, "∧")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateCommutableBooleanOp")
 	container LogicalAnd extends CommutableOperation {
-		containableElements(BooleanInput[1,*], BooleanOutput[1,1])
+		containableElements(BooleanInput[1,*], NumberInput[0,0], BooleanOutput[1,1])
 	}
 	
 	@style(commutableOperation, "∨")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateCommutableBooleanOp")
 	container LogicalOr extends CommutableOperation {
-		containableElements(BooleanInput[1,*], BooleanOutput[1,1])
+		containableElements(BooleanInput[1,*], NumberInput[0,0], BooleanOutput[1,1])
 	}
 	
 	@style(commutableOperation, "¬")
 //	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateUnaryOp")
 	container Negation extends Operation {
-		containableElements(BooleanInput[1,1], BooleanOutput[1,1])
+		containableElements(BooleanInput[1,1], NumberInput[0,0], BooleanOutput[1,1])
 	}
 	
 	@style(decision, "?")
@@ -273,12 +269,12 @@ graphModel Rule {
 	
 	@style(pid, "${p}", "${i}","${d}")
 //	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreatePIDController") //TODO
-	container PIDController extends Operation{
+	container PIDController extends Operation {
 		incomingEdges(ControlFlow[1,*])
 		outgoingEdges(ControlFlowBasic[0,1])
 		attr EDouble as p
 		attr EDouble as i
 		attr EDouble as d
-		containableElements(NumberInput[2,2], NumberOutput[1,1])
+		containableElements(BooleanInput[0,0], NumberInput[2,2], NumberOutput[1,1])
 	}
 }
