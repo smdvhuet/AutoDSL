@@ -49,11 +49,12 @@ graphModel Rule {
 	}
 	
 
-	abstract node Input {}
+	abstract node IO {}
+	abstract node Input extends IO {}
 	abstract node BooleanInput extends Input {}
 	abstract node NumberInput extends Input {}
 	
-	abstract node Output {}
+	abstract node Output extends IO {}
 	abstract node BooleanOutput extends Output {}
 	abstract node NumberOutput extends Output {}
 	
@@ -62,8 +63,7 @@ graphModel Rule {
 	@icon("icons/CarInput.png")
 	@disable(resize)
 	@palette("Ports")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.BooleanCarToStatic")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.BooleanCarToPort")
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToStatic")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateInput")
 	node BooleanCarInput extends BooleanInput {
 		attr CarInputTypeBoolean as inputtype
@@ -73,8 +73,7 @@ graphModel Rule {
 	@icon("icons/CarInput.png")
 	@disable(resize)
 	@palette("Ports")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberCarToStatic")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberCarToPort")
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToStatic")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateInput")
 	node NumberCarInput extends NumberInput {
 		attr CarInputTypeNumber as inputtype
@@ -84,7 +83,8 @@ graphModel Rule {
 	@disable(resize)
 	@icon("icons/CarOutput.png")
 	@palette("Ports")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateBooleanCarOutput") //TODO
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
+//	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateBooleanCarOutput") //TODO
 	node BooleanCarOutput extends BooleanOutput {
 		attr CarOutputTypeBoolean as outputtype
 	}
@@ -93,7 +93,8 @@ graphModel Rule {
 	@disable(resize)
 	@icon("icons/CarOutput.png")
 	@palette("Ports")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateNumberCarOutput") //TODO
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
+//	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateNumberCarOutput") //TODO
 	node NumberCarOutput extends NumberOutput {
 		attr CarOutputTypeNumber as outputtype
 	}
@@ -101,9 +102,8 @@ graphModel Rule {
 	@style(inputPort, "Number")
 	@disable(resize)
 	@palette("Ports")
-	@icon("icons/inputPort.png")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberPortToStatic") 
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberPortToCar")
+	@icon("icons/inputPort.png") 
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToCar")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateInput")
 	node NumberInputPort extends NumberInput {
 		incomingEdges(NumberDataFlow[1,1])
@@ -113,8 +113,7 @@ graphModel Rule {
 	@disable(resize)
 	@palette("Ports")
 	@icon("icons/inputPort.png")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.BooleanPortToStatic") 
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.BooleanPortToCar")
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToCar")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateInput")
 	node BooleanInputPort extends BooleanInput {
 		incomingEdges(BooleanDataFlow[1,1])
@@ -124,7 +123,8 @@ graphModel Rule {
 	@disable(resize)
 	@icon("icons/outputPort.png")
 	@palette("Ports")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateOutputPort") //TODO
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToCar")
+//	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOutputPort") //TODO
 	node BooleanOutputPort extends BooleanOutput {
 		outgoingEdges(BooleanDataFlow[1,*])
 	}
@@ -133,7 +133,8 @@ graphModel Rule {
 	@disable(resize)
 	@icon("icons/outputPort.png")
 	@palette("Ports")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateOutputPort") //TODO
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToCar")
+//	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOutputPort") //TODO
 	node NumberOutputPort extends NumberOutput {
 		outgoingEdges(NumberDataFlow[1,*])
 	}
@@ -142,8 +143,7 @@ graphModel Rule {
 	@disable(resize)
 	@palette("Ports")
 	@icon("icons/StaticInput.png")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.BooleanStaticToPort") 
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.BooleanStaticToCar")
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateInput")
 	node BooleanStaticInput extends BooleanInput {
 		attr EBoolean as staticValue
@@ -153,8 +153,7 @@ graphModel Rule {
 	@disable(resize)
 	@palette("Ports")
 	@icon("icons/StaticInput.png")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberStaticToPort") 
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberStaticToCar")
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateInput")
 	node NumberStaticInput extends NumberInput {
 		attr EFloat as staticValue
@@ -224,7 +223,7 @@ graphModel Rule {
 	}
 	
 	@style(commutableOperation, "¬")
-//	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateUnaryOp")
+//	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateUnaryOp") //TODO
 	container Negation extends Operation {
 		containableElements(BooleanInput[1,1], NumberInput[0,0], BooleanOutput[1,1])
 	}

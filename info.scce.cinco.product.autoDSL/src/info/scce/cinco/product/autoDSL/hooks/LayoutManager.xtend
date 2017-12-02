@@ -4,6 +4,7 @@ import info.scce.cinco.product.autoDSL.rule.rule.*
 import graphmodel.Node
 import java.awt.Point
 
+//TODO IO conversions create as well but should not rearrange
 class LayoutManager {
 	static val NODE_MARGIN_LEFT = 5;
 	static val NODE_MARGIN_TOP = 26; // header height
