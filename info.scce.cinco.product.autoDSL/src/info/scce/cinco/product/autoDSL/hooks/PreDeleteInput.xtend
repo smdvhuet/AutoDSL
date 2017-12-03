@@ -1,7 +1,6 @@
 package info.scce.cinco.product.autoDSL.hooks
 
 import de.jabc.cinco.meta.runtime.hook.CincoPreDeleteHook
-import org.eclipse.emf.ecore.EObject
 import info.scce.cinco.product.autoDSL.rule.rule.Input
 import info.scce.cinco.product.autoDSL.rule.rule.Operation
 

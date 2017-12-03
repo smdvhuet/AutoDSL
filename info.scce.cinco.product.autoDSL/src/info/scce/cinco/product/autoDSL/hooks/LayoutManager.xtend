@@ -92,8 +92,8 @@ class LayoutManager {
 	
 	static def deleteInput(Operation target, Input input) {
 		val affectedPorts = target.inputs.filter[it.y > input.y];
-		affectedPorts.forEach[ element, index | element.move(element.x, element.y - PORT_HEIGHT)]
-		target.outputs.forEach[element, index | element.move(element.x, element.y - PORT_HEIGHT)]
+		affectedPorts.forEach[ element | element.move(element.x, element.y - PORT_HEIGHT)]
+		target.outputs.forEach[ element | element.move(element.x, element.y - PORT_HEIGHT)]
 		target.height = target.height - PORT_HEIGHT
 	}
 
