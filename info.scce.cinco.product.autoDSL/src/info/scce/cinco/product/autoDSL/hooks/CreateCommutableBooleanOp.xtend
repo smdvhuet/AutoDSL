@@ -6,8 +6,8 @@ import info.scce.cinco.product.autoDSL.rule.rule.Operation
 class CreateCommutableBooleanOp extends CincoPostCreateHook<Operation> {
 	
 	override  postCreate(Operation droppedNode) {
-		LayoutManager.insertNewBooleanInput(droppedNode)
-		LayoutManager.insertNewBooleanInput(droppedNode)
-		LayoutManager.insertNewBooleanOutput(droppedNode)
+		droppedNode.newBooleanInputPort(0 ,0)
+		droppedNode.newBooleanInputPort(0 ,0)
+		droppedNode.newBooleanOutputPort(0 ,0)
 	}
 }

@@ -6,8 +6,8 @@ import info.scce.cinco.product.autoDSL.rule.rule.Operation
 class CreateCommutableNumberOp extends CincoPostCreateHook<Operation> {
 	
 	override  postCreate(Operation droppedNode) {
-		LayoutManager.insertNewNumberInput(droppedNode)
-		LayoutManager.insertNewNumberInput(droppedNode)
-		LayoutManager.insertNewNumberOutput(droppedNode)
+		droppedNode.newNumberInputPort(0, 0)
+		droppedNode.newNumberInputPort(0, 0)
+		droppedNode.newNumberOutputPort(0, 0)
 	}
 }

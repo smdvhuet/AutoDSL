@@ -6,8 +6,8 @@ import info.scce.cinco.product.autoDSL.rule.rule.Operation
 class CreateComparison extends CincoPostCreateHook<Operation> {
 	
 	override  postCreate(Operation droppedNode) {
-		droppedNode.newNumberInputPort(5, 6)
-		droppedNode.newNumberInputPort(5, 46)
-		LayoutManager.insertNewBooleanOutput(droppedNode)
+		droppedNode.newNumberInputPort(0, 0)
+		droppedNode.newNumberInputPort(0, 0)
+		droppedNode.newBooleanOutputPort(0, 0)
 	}
 }
