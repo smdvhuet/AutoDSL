@@ -33,9 +33,13 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 		for(Node node : rule.operations){
 			if(node.incoming.nullOrEmpty&&!(node instanceof Comment)){
 				return
-				'''
-				public class Rule{
-					public void applyRule(){
+				'''	
+				package info.scce.cinco.product;
+				
+				public class Rule implements State{
+					public double Geschwindigkeit;
+					
+					public void Execute(){
 						«node.doSwitch»
 					}
 					
@@ -59,6 +63,19 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 							}
 						}
 						return result;
+					}
+					
+					
+					public void onEntry(){
+						
+					}
+					
+					public void onExit(){
+						
+					}
+					
+					public String getName(){
+						return "Rule";
 					}
 				}
 				'''

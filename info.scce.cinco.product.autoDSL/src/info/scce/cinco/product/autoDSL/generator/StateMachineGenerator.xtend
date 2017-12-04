@@ -1,7 +1,9 @@
 package info.scce.cinco.product.autoDSL.generator
 
 class StateMachineGenerator {
-	static def StateMachineClass() '''
+	static def StateMachineClass() '''	
+	package info.scce.cinco.product;
+	
 	import java.util.HashMap;
 	import java.util.List;
 	import java.util.ArrayList;
@@ -92,6 +94,8 @@ class StateMachineGenerator {
 	'''
 	
 	static def StateClass() '''
+	package info.scce.cinco.product;
+	
 	interface State {
 		abstract void onEntry();
 		abstract void Execute();

@@ -13,6 +13,7 @@ import java.util.ArrayList
 class RuleGenerator implements IGenerator<Rule> {
 	
 	var IFolder mainFolder
+	var IFolder mainPackage
 	
 	override generate(Rule rule, IPath targetDir, IProgressMonitor monitor) {
 		val ArrayList<String> srcFolders = new ArrayList<String>();
@@ -20,18 +21,27 @@ class RuleGenerator implements IGenerator<Rule> {
 		
 		val IProject project = ProjectCreator.createProject("Generated Product",srcFolders,null,null,null,null,monitor)
 		mainFolder = project.getFolder("src-gen")
+		mainPackage = mainFolder.getFolder("info/scce/cinco/product")
+		EclipseFileUtils.mkdirs(mainPackage,monitor)
 		generateStatic()
 		
 		val CharSequence nodes = new NodeGenerator().generate(rule);
-		EclipseFileUtils.writeToFile(mainFolder.getFile("Rule.java"),nodes)
+		EclipseFileUtils.writeToFile(mainPackage.getFile("Rule.java"),nodes)
 	}
 	
 	//TODO implement Car,Simulator,etc
 	def generateStatic(){
-		EclipseFileUtils.writeToFile(mainFolder.getFile("PID.java"),generatePIDClass())
+		EclipseFileUtils.writeToFile(mainPackage.getFile("PID.java"),generatePIDClass())
+		
+		EclipseFileUtils.writeToFile(mainPackage.getFile("State.java"),StateMachineGenerator.StateClass())
+		EclipseFileUtils.writeToFile(mainPackage.getFile("StateMachine.java"),StateMachineGenerator.StateMachineClass())
+		EclipseFileUtils.writeToFile(mainPackage.getFile("EgoCar.java"), new EgoCarGenerator().generateEgoCar())
+		
 	}
 	
 	def generatePIDClass()'''
+		package info.scce.cinco.product;
+	
 		public class PID{
 			private double p;
 			private double i;
