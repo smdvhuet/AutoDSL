@@ -29,7 +29,6 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 		rule.caseRule
 	}
 	
-	
 	override caseRule(Rule rule){
 		for(Node node : rule.operations){
 			if(node.incoming.nullOrEmpty&&!(node instanceof Comment)){
@@ -40,10 +39,10 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 						«node.doSwitch»
 					}
 					
-					private float min(float[] values){
-						float result = values[0];
+					private double min(double[] values){
+						double result = values[0];
 						for(int i = 1; i < values.length; i++){
-							float x = values[i];
+							double x = values[i];
 							if(x < result){
 								result = values[i];
 							}
@@ -51,10 +50,10 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 						return result;
 					}
 					
-					private float max(float[] values){
-						float result = values[0];
+					private double max(double[] values){
+						double result = values[0];
 						for(int i = 1; i < values.length; i++){
-							float x = values[i];
+							double x = values[i];
 							if(x > result){
 								result = values[i];
 							}
@@ -70,21 +69,21 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	//TODO Connect PID to input and make pid global
 	override casePIDController(PIDController op)'''
 		//PID Controller
-		PID pid«op.id» = new PID(«op.p», «op.i», «op.d»);
-		double «op.id» = pid«op.id».calc(0, 0, 0);
+		PID pid«IDHasher.GetStringHash(op.id)» = new PID(«op.p», «op.i», «op.d»);
+		double «IDHasher.GetStringHash(op.id)» = pid«IDHasher.GetStringHash(op.id)».calc(0, 0, 0);
 		
 		«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseNegation(Negation op)'''
 	//Negation Operator
-	boolean «op.booleanOutputs.head.id» = !«op.booleanInputs.head.referenceInput»;
+	boolean «IDHasher.GetStringHash(op.booleanOutputs.head.id)» = !«op.booleanInputs.head.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseAddition(Addition op)'''
 	//Addition Operator
-	float «op.outputs.head.id» = «FOR input : op.inputs SEPARATOR '+'»«
+	double «IDHasher.GetStringHash(op.outputs.head.id)» = «FOR input : op.inputs SEPARATOR '+'»«
 									input.referenceInput»«
 								ENDFOR»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
@@ -92,7 +91,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseMultiplication(Multiplication op)'''
 	//Multiplication Operator
-	float «op.outputs.head.id» = «FOR input : op.inputs SEPARATOR '*'»«
+	double «IDHasher.GetStringHash(op.outputs.head.id)» = «FOR input : op.inputs SEPARATOR '*'»«
 									input.referenceInput»«
 								ENDFOR»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
@@ -100,25 +99,25 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseMaximum(Maximum op)'''
 	//Max Operator
-	float[] «op.id» = {«FOR  input : op.inputs SEPARATOR ','»«
+	double[] «IDHasher.GetStringHash(op.id)» = {«FOR  input : op.inputs SEPARATOR ','»«
 						input.referenceInput»«
 						ENDFOR»}
-	float «op.outputs.head.id» = max(«op.id»);
+	double «IDHasher.GetStringHash(op.outputs.head.id)» = max(«IDHasher.GetStringHash(op.id)»);
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseMinimum(Minimum op)'''
 	//Min Operator
-	float[] «op.id» = {«FOR  input : op.inputs SEPARATOR ','»«
+	double[] «IDHasher.GetStringHash(op.id)» = {«FOR  input : op.inputs SEPARATOR ','»«
 							input.referenceInput»«
 						ENDFOR»}
-	float «op.outputs.head.id» = min(«op.id»);
+	double «IDHasher.GetStringHash(op.outputs.head.id)» = min(IDHasher.GetStringHash(«op.id»));
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseLogicalAnd(LogicalAnd op)'''
 	//And Operator
-	boolean «op.outputs.head.id» = «FOR in : op.inputs SEPARATOR '&&'»«
+	boolean «IDHasher.GetStringHash(op.outputs.head.id)» = «FOR in : op.inputs SEPARATOR '&&'»«
 										in.referenceInput»«
 									ENDFOR»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
@@ -126,7 +125,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseLogicalOr(LogicalOr op)'''
 	//Or Operator
-	boolean «op.outputs.head.id» = «FOR in : op.inputs SEPARATOR '||'»«
+	boolean «IDHasher.GetStringHash(op.outputs.head.id)» = «FOR in : op.inputs SEPARATOR '||'»«
 											in.referenceInput»«
 										ENDFOR»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
@@ -134,19 +133,19 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseSubtraction(Subtraction op)'''
 	//Substraction Operator
-	float «op.outputs.head.id» = «op.inputs.head.referenceInput» - «op.inputs.last.referenceInput»;
+	double «IDHasher.GetStringHash(op.outputs.head.id)» = «op.inputs.head.referenceInput» - «op.inputs.last.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseLess(Less op)'''
 	//Less Operator
-	boolean «op.outputs.head.id» = «op.inputs.head.referenceInput» < «op.inputs.last.referenceInput»;
+	boolean «IDHasher.GetStringHash(op.outputs.head.id)» = «op.inputs.head.referenceInput» < «op.inputs.last.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseLessOrEqual(LessOrEqual op)'''
 	//LessOrEqual Operator
-	boolean «op.outputs.head.id» = «op.inputs.head.referenceInput» <= «op.inputs.last.referenceInput»;
+	boolean «IDHasher.GetStringHash(op.outputs.head.id)» = «op.inputs.head.referenceInput» <= «op.inputs.last.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
@@ -174,7 +173,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 			default :	if(in.predecessors.nullOrEmpty){
 							"/*input not a reference*/"
 						}else{
-							in.predecessors.head.id
+							IDHasher.GetStringHash(in.predecessors.head.id)
 						}
 		}	
 	}
