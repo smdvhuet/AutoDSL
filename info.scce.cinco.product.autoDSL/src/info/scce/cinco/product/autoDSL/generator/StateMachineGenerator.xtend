@@ -35,6 +35,7 @@ class StateMachineGenerator {
 		
 		//Member variables
 		private State currentState;
+		//Contains a state and all the transitions leading away from this state
 		private HashMap<State, List<Transition>> transitions; 
 		
 		private State entryState;
