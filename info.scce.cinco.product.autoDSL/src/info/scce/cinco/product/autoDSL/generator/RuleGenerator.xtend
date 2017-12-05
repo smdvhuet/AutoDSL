@@ -26,22 +26,18 @@ class RuleGenerator implements IGenerator<Rule> {
 		generateStatic()
 		
 		val CharSequence nodes = new NodeGenerator().generate(rule);
-		EclipseFileUtils.writeToFile(mainPackage.getFile("Rule.java"),nodes)
+		EclipseFileUtils.writeToFile(mainPackage.getFile("Rule" + IDHasher.GetStringHash(rule.id) + ".java"),nodes)
 	}
 	
 	//TODO implement Car,Simulator,etc
 	def generateStatic(){
 		EclipseFileUtils.writeToFile(mainPackage.getFile("PID.java"),generatePIDClass())
-		
-		EclipseFileUtils.writeToFile(mainPackage.getFile("State.java"),StateMachineGenerator.StateClass())
-		EclipseFileUtils.writeToFile(mainPackage.getFile("MultiState.java"),StateMachineGenerator.MultiStateClass())
-		EclipseFileUtils.writeToFile(mainPackage.getFile("StateMachine.java"),StateMachineGenerator.StateMachineClass())
 		EclipseFileUtils.writeToFile(mainPackage.getFile("EgoCar.java"), new EgoCarGenerator().generateEgoCar())		
 	}
-	
+
 	def generatePIDClass()'''
 		package info.scce.cinco.product;
-	
+		
 		public class PID{
 			private double p;
 			private double i;
