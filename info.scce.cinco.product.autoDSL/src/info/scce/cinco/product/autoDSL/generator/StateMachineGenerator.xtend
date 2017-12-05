@@ -97,10 +97,48 @@ class StateMachineGenerator {
 	package info.scce.cinco.product;
 	
 	interface State {
-		abstract void onEntry();
-		abstract void Execute();
-		abstract void onExit();
-		abstract String getName();
+		public abstract void onEntry();
+		public abstract void Execute();
+		public abstract void onExit();
+		public abstract String getName();
+	}
+	'''
+	
+	static def MultiStateClass() '''
+	package info.scce.cinco.product;
+	
+	import java.util.ArrayList;
+	import java.util.List;
+	
+	public class MultiState implements State{
+		private List<State> states = new ArrayList<>();
+		
+		public void onEntry(){
+			for(State state : states)
+				state.onEntry();
+		}
+		
+		public void Execute(){
+			for(State state : states)
+				state.Execute();
+		}
+		
+		public void onExit(){
+			for(State state : states)
+				state.onExit();
+		}
+		
+		public String getName(){
+			String rules = "MultiState";
+			for(State state : states)
+				rules += " " + state.getName();
+			return rules;
+		}
+		
+		public void AddState(State state){
+			if(!states.contains(state))
+				states.add(state);
+		}
 	}
 	'''
 }

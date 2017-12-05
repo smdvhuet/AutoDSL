@@ -34,9 +34,9 @@ class RuleGenerator implements IGenerator<Rule> {
 		EclipseFileUtils.writeToFile(mainPackage.getFile("PID.java"),generatePIDClass())
 		
 		EclipseFileUtils.writeToFile(mainPackage.getFile("State.java"),StateMachineGenerator.StateClass())
+		EclipseFileUtils.writeToFile(mainPackage.getFile("MultiState.java"),StateMachineGenerator.MultiStateClass())
 		EclipseFileUtils.writeToFile(mainPackage.getFile("StateMachine.java"),StateMachineGenerator.StateMachineClass())
-		EclipseFileUtils.writeToFile(mainPackage.getFile("EgoCar.java"), new EgoCarGenerator().generateEgoCar())
-		
+		EclipseFileUtils.writeToFile(mainPackage.getFile("EgoCar.java"), new EgoCarGenerator().generateEgoCar())		
 	}
 	
 	def generatePIDClass()'''
