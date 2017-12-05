@@ -13,13 +13,13 @@ import info.scce.cinco.product.autoDSL.rule.rule.Maximum
 import info.scce.cinco.product.autoDSL.rule.rule.Minimum
 import info.scce.cinco.product.autoDSL.rule.rule.Multiplication
 import info.scce.cinco.product.autoDSL.rule.rule.Negation
-import info.scce.cinco.product.autoDSL.rule.rule.NumberOutputNode
 import info.scce.cinco.product.autoDSL.rule.rule.NumberStaticInput
 import info.scce.cinco.product.autoDSL.rule.rule.PIDController
 import info.scce.cinco.product.autoDSL.rule.rule.Rule
 import info.scce.cinco.product.autoDSL.rule.rule.Subtraction
 import info.scce.cinco.product.autoDSL.rule.rule.util.RuleSwitch
 import info.scce.cinco.product.autoDSL.rule.rule.NumberCarInput
+import info.scce.cinco.product.autoDSL.rule.rule.DirectNumberOutput
 
 //TODO Adapt to new alterations in mgl
 
@@ -158,7 +158,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	}«ENDIF»
 	'''
 	
-	override caseNumberOutputNode(NumberOutputNode out)'''
+	override caseDirectNumberOutput(DirectNumberOutput out)'''
 	«out.numberCarOutputs.head.outputtype.toString» = «out.numberInputs.head.referenceInput»;
 	«if(!out.getSuccessors.nullOrEmpty)out.getSuccessors.head.doSwitch»
 	'''

@@ -161,20 +161,6 @@ nodeStyle nonCommutableOperation (1) {
 	}
 }
 
-nodeStyle decision (1) {
-	roundedRectangle {
-		size (fix 120,50)
-		corner (10,10)
-		text {
-			position ( CENTER, TOP 4 )
-			value "%s"	
-		}
-		polyline {
-			points [ (7,20) (113,20) ]
-		}
-	}
-}
-
 nodeStyle comment(1) {
 	roundedRectangle {
 		appearance {

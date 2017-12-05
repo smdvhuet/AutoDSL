@@ -5,6 +5,7 @@ import info.scce.cinco.product.autoDSL.rule.rule.Input
 import info.scce.cinco.product.autoDSL.rule.rule.NonCommutableOperation
 import info.scce.cinco.product.autoDSL.rule.rule.Operation
 import info.scce.cinco.product.autoDSL.rule.rule.Output
+import info.scce.cinco.product.autoDSL.rule.rule.PIDController
 
 //TODO Handling/preventing deletion of nodes in NonCommutableOperations. 
 class LayoutManager {
@@ -25,7 +26,8 @@ class LayoutManager {
 					io.y = op.inputs.size * NODE_HEIGHT + CONTAINER_PADDING_V
 					switch op {
 						// In a NonCommutableOperation the first input is placed above the text. 
-						NonCommutableOperation : if ( op.inputs.size == 1 ) io.y = io.y - NODE_HEIGHT
+						NonCommutableOperation case op.inputs.size == 1 : io.y = io.y - NODE_HEIGHT
+						PIDController : io.y = io.y + 3 * NODE_HEIGHT
 					}
 				}
 				Output : io.y = op.adjustedHeight - ( CONTAINER_PADDING_V + NODE_HEIGHT )
@@ -38,7 +40,11 @@ class LayoutManager {
 	} 
 	
 	private static def adjustedHeight(Operation op) {
-		( 1 + op.inputs.size + op.outputs.size ) * NODE_HEIGHT + 2 * CONTAINER_PADDING_V 
+		var adjusted = ( 1 + op.inputs.size + op.outputs.size ) * NODE_HEIGHT + 2 * CONTAINER_PADDING_V 
+		switch op {
+			PIDController : adjusted + 3 * NODE_HEIGHT
+			default : adjusted
+		}
 	}
 
 	private static def shiftOutputs(Operation op) {
