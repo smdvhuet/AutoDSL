@@ -61,7 +61,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 					«connectStates(guard)»
 					«ENDFOR»
 					
-					SetEntryState(states.get(«IDHasher.GetIntHash(dsl.states.get(0).id)»));
+					SetEntryState(states.get(«IDHasher.GetIntHash(dsl.offStates.get(0).id)»));
 				}
 			}
 		'''
@@ -81,8 +81,15 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	'''
 	
 	static def connectStates(Guard guard)'''
-	AddTransition(states.get(«IDHasher.GetIntHash(guard.incoming.get(0).rootElement.id)»), states.get(«IDHasher.GetIntHash(guard.outgoing.get(0).targetElement.id)»), (State state) -> true);'''
+	AddTransition(states.get(«IDHasher.GetIntHash(getIncomingEdges(guard).get(0).sourceElement.id)»), states.get(«IDHasher.GetIntHash(getOutgoingEdges(guard).get(0).targetElement.id)»), (State state) -> true);'''
 	
+	static def getIncomingEdges(Guard guard){
+		return guard.incoming.filter[it.sourceElement instanceof State] + guard.incoming.filter[it.sourceElement instanceof OffState];
+	}
+	
+	static def getOutgoingEdges(Guard guard){
+		return guard.outgoing.filter[it.targetElement instanceof State] + guard.outgoing.filter[it.targetElement instanceof OffState];
+	}
 	
 	static def StateMachineClass() '''	
 	package info.scce.cinco.product;
