@@ -16,6 +16,7 @@ import info.scce.cinco.product.autoDSL.autodsl.autodsl.Guard
 class DSLGenerator implements IGenerator<AutoDSL> {
 	var IFolder mainFolder
 	var IFolder mainPackage
+	var IFolder guiPackage
 	
 	override generate(AutoDSL dsl, IPath targetDir, IProgressMonitor monitor) {
 		val ArrayList<String> srcFolders = new ArrayList<String>();
@@ -24,7 +25,9 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		val IProject project = ProjectCreator.createProject("Generated Product",srcFolders,null,null,null,null,monitor)
 		mainFolder = project.getFolder("src-gen")
 		mainPackage = mainFolder.getFolder("info/scce/cinco/product")
+		guiPackage = mainFolder.getFolder("info/scce/cinco/gui")
 		EclipseFileUtils.mkdirs(mainPackage,monitor)
+		EclipseFileUtils.mkdirs(guiPackage,monitor)
 		generateStatic()
 		
 		EclipseFileUtils.writeToFile(mainPackage.getFile("AutoDSL" + IDHasher.GetStringHash(dsl.id) + ".java"), generateStateMachine(dsl))
@@ -34,6 +37,13 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		EclipseFileUtils.writeToFile(mainPackage.getFile("State.java"), StateClass())
 		EclipseFileUtils.writeToFile(mainPackage.getFile("MultiState.java"),MultiStateClass())
 		EclipseFileUtils.writeToFile(mainPackage.getFile("StateMachine.java"),StateMachineClass())
+		
+		EclipseFileUtils.writeToFile(guiPackage.getFile("CarControlsPanel.java"), GuiGenerator.generateCarControlsPanel())
+		EclipseFileUtils.writeToFile(guiPackage.getFile("InfoPanel.java"), GuiGenerator.generateInfoPanel())
+		EclipseFileUtils.writeToFile(guiPackage.getFile("Mode.java"), GuiGenerator.generateMode())
+		EclipseFileUtils.writeToFile(guiPackage.getFile("SimControlPanel.java"), GuiGenerator.generateSimControlPanel())
+		EclipseFileUtils.writeToFile(guiPackage.getFile("SimulatorPanel.java"), GuiGenerator.generateSimulatorPanel())
+		EclipseFileUtils.writeToFile(guiPackage.getFile("RoadVisualizationPanel.java"), GuiGenerator.generateRoadVisualizationPanel())		
 	}
 	
 		static def generateStateMachine(AutoDSL dsl){
