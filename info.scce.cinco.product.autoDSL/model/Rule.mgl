@@ -8,10 +8,7 @@ graphModel Rule {
 	
 	containableElements(
 		Operation[0,*],
-		Decision[0,*],
-		Comment[0,*],
-		OutputNode[0,*],
-		BooleanGuardOutput[0,*]
+		Comment[0,*]
 	)
 	
 	abstract edge ControlFlow {}
@@ -49,11 +46,12 @@ graphModel Rule {
 	}
 	
 
-	abstract node Input {}
+	abstract node IO {}
+	abstract node Input extends IO {}
 	abstract node BooleanInput extends Input {}
 	abstract node NumberInput extends Input {}
 	
-	abstract node Output {}
+	abstract node Output extends IO {}
 	abstract node BooleanOutput extends Output {}
 	abstract node NumberOutput extends Output {}
 	
@@ -62,10 +60,9 @@ graphModel Rule {
 	@icon("icons/CarInput.png")
 	@disable(resize)
 	@palette("Ports")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.BooleanCarToStatic")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.BooleanCarToPort")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateInput")
-	@preDelete("info.scce.cinco.product.autoDSL.hooks.PreDeleteInput")
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToStatic")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
+	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	node BooleanCarInput extends BooleanInput {
 		attr CarInputTypeBoolean as inputtype
 	}
@@ -74,10 +71,9 @@ graphModel Rule {
 	@icon("icons/CarInput.png")
 	@disable(resize)
 	@palette("Ports")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberCarToStatic")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberCarToPort")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateInput")
-	@preDelete("info.scce.cinco.product.autoDSL.hooks.PreDeleteInput")
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToStatic")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
+	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	node NumberCarInput extends NumberInput {
 		attr CarInputTypeNumber as inputtype
 	}
@@ -86,7 +82,9 @@ graphModel Rule {
 	@disable(resize)
 	@icon("icons/CarOutput.png")
 	@palette("Ports")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateBooleanCarOutput") //TODO
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
+	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	node BooleanCarOutput extends BooleanOutput {
 		attr CarOutputTypeBoolean as outputtype
 	}
@@ -95,7 +93,9 @@ graphModel Rule {
 	@disable(resize)
 	@icon("icons/CarOutput.png")
 	@palette("Ports")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateNumberCarOutput") //TODO
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
+	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	node NumberCarOutput extends NumberOutput {
 		attr CarOutputTypeNumber as outputtype
 	}
@@ -103,11 +103,10 @@ graphModel Rule {
 	@style(inputPort, "Number")
 	@disable(resize)
 	@palette("Ports")
-	@icon("icons/inputPort.png")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberPortToStatic") 
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberPortToCar")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateInput")
-	@preDelete("info.scce.cinco.product.autoDSL.hooks.PreDeleteInput")
+	@icon("icons/inputPort.png") 
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToCar")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
+	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	node NumberInputPort extends NumberInput {
 		incomingEdges(NumberDataFlow[1,1])
 	}
@@ -116,10 +115,9 @@ graphModel Rule {
 	@disable(resize)
 	@palette("Ports")
 	@icon("icons/inputPort.png")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.BooleanPortToStatic") 
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.BooleanPortToCar")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateInput")
-	@preDelete("info.scce.cinco.product.autoDSL.hooks.PreDeleteInput")
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToCar")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
+	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	node BooleanInputPort extends BooleanInput {
 		incomingEdges(BooleanDataFlow[1,1])
 	}
@@ -128,7 +126,9 @@ graphModel Rule {
 	@disable(resize)
 	@icon("icons/outputPort.png")
 	@palette("Ports")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateOutputPort") //TODO
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToCar")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
+	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	node BooleanOutputPort extends BooleanOutput {
 		outgoingEdges(BooleanDataFlow[1,*])
 	}
@@ -137,7 +137,9 @@ graphModel Rule {
 	@disable(resize)
 	@icon("icons/outputPort.png")
 	@palette("Ports")
-//	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.CreateOutputPort") //TODO
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToCar")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
+	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	node NumberOutputPort extends NumberOutput {
 		outgoingEdges(NumberDataFlow[1,*])
 	}
@@ -146,10 +148,9 @@ graphModel Rule {
 	@disable(resize)
 	@palette("Ports")
 	@icon("icons/StaticInput.png")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.BooleanStaticToPort") 
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.BooleanStaticToCar")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateInput")
-	@preDelete("info.scce.cinco.product.autoDSL.hooks.PreDeleteInput")
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
+	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	node BooleanStaticInput extends BooleanInput {
 		attr EBoolean as staticValue
 	}
@@ -158,17 +159,16 @@ graphModel Rule {
 	@disable(resize)
 	@palette("Ports")
 	@icon("icons/StaticInput.png")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberStaticToPort") 
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.NumberStaticToCar")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateInput")
-	@preDelete("info.scce.cinco.product.autoDSL.hooks.PreDeleteInput")
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
+	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	node NumberStaticInput extends NumberInput {
 		attr EFloat as staticValue
 	}
 	
 	abstract container Operation {
 		incomingEdges(ControlFlow[1,*])
-		outgoingEdges(ControlFlowBasic[1,1])
+		outgoingEdges(ControlFlowBasic[0,1])
 		containableElements(Input[1,*], Output[1,1]) 
 	}
    
@@ -176,71 +176,70 @@ graphModel Rule {
 	abstract container NonCommutableOperation extends Operation {} 
 
 	@style(commutableOperation, "+")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateCommutableNumberOp")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	container Addition extends CommutableOperation {
-		containableElements(BooleanInput[0,0], NumberInput[1,*], NumberOutput[1,1])
+		containableElements(BooleanInput[0,0], NumberInput[1,*], BooleanOutput[0,0], NumberOutput[1,1])
 	}
 	
 	@style(commutableOperation, "×")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateCommutableNumberOp")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	container Multiplication extends CommutableOperation {
-		containableElements(BooleanInput[0,0], NumberInput[1,*], NumberOutput[1,1])		
+		containableElements(BooleanInput[0,0], NumberInput[1,*], BooleanOutput[0,0], NumberOutput[1,1])		
 	}
 
 	@style(nonCommutableOperation, "-")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateSubtraction")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	container Subtraction extends NonCommutableOperation {
-		containableElements(BooleanInput[0,0], NumberInput[2,2], NumberOutput[1,1])
+		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[0,0], NumberOutput[1,1])
 	}
 	
 	@style(nonCommutableOperation, "<")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateComparison")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	container Less extends NonCommutableOperation {
-		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[1,1])
+		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[1,1], NumberOutput[0,0])
 	}
 	
 	@style(nonCommutableOperation, "≤")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateComparison")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	container LessOrEqual extends NonCommutableOperation {
-		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[1,1])
+		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[1,1], NumberOutput[0,0])
 	}
 	
 	@style(commutableOperation, "max")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateCommutableNumberOp")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	container Maximum extends CommutableOperation {
-		containableElements(BooleanInput[0,0], NumberInput[1,*], NumberOutput[1,1])
+		containableElements(BooleanInput[0,0], NumberInput[1,*], BooleanOutput[0,0], NumberOutput[1,1])
 	}
 	
 	@style(commutableOperation, "min")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateCommutableNumberOp")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	container Minimum extends CommutableOperation {
-		containableElements(BooleanInput[0,0], NumberInput[1,*], NumberOutput[1,1])
+		containableElements(BooleanInput[0,0], NumberInput[1,*], BooleanOutput[0,0], NumberOutput[1,1])
 	}
 	
 	@style(commutableOperation, "∧")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateCommutableBooleanOp")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	container LogicalAnd extends CommutableOperation {
-		containableElements(BooleanInput[1,*], NumberInput[0,0], BooleanOutput[1,1])
+		containableElements(BooleanInput[1,*], NumberInput[0,0], BooleanOutput[1,1], NumberOutput[0,0])
 	}
 	
 	@style(commutableOperation, "∨")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateCommutableBooleanOp")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	container LogicalOr extends CommutableOperation {
-		containableElements(BooleanInput[1,*], NumberInput[0,0], BooleanOutput[1,1])
+		containableElements(BooleanInput[1,*], NumberInput[0,0], BooleanOutput[1,1], NumberOutput[0,0])
 	}
 	
 	@style(commutableOperation, "¬")
-//	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateUnaryOp")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	container Negation extends Operation {
-		containableElements(BooleanInput[1,1], NumberInput[0,0], BooleanOutput[1,1])
+		containableElements(BooleanInput[1,1], NumberInput[0,0], BooleanOutput[1,1], NumberOutput[0,0])
 	}
 	
-	@style(decision, "?")
-//	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateDecision") //TODO
-	container Decision {
-		incomingEdges(ControlFlow[1,*])
-		outgoingEdges(ControlFlowDecisionFalse[1,1], ControlFlowDecisionTrue[1,1])
-		containableElements(BooleanInput[1,1])
+	@style(commutableOperation, "?")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
+	container Decision extends Operation {
+		outgoingEdges(ControlFlowDecisionFalse[1,1], ControlFlowDecisionTrue[1,1], ControlFlowBasic[0,0])
+		containableElements(BooleanInput[1,1], NumberInput[0,0], BooleanOutput[0,0], NumberOutput[0,0])
 	}
 	
 	@style(comment, "${comment}")
@@ -248,39 +247,32 @@ graphModel Rule {
 		@multiLine
 		attr EString as comment := ""
 	}
-	
-	abstract container OutputNode {
-		incomingEdges(ControlFlow[1,*])
-		outgoingEdges(ControlFlowBasic[0,1])
+
+	@style(commutableOperation, "Output")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
+	container DirectBooleanOutput extends Operation {
+		containableElements(BooleanInput[1,1], NumberInput[0,0], BooleanCarOutput[1,1], BooleanOutputPort[0,0], NumberOutput[0,0])
 	}
 	
 	@style(commutableOperation, "Output")
-//	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateBooleanOutputNode") //TODO
-	container BooleanOutputNode extends OutputNode {
-		containableElements(BooleanInput[1,1], BooleanCarOutput[1,*])
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
+	container DirectNumberOutput extends Operation {
+		containableElements(BooleanInput[0,0], NumberInput[1,1], BooleanOutput[0,0], NumberCarOutput[1,1], NumberOutputPort[0,0])
 	}
 	
-	@style(commutableOperation, "Output")
-//	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateNumberOutputNode") //TODO
-	container NumberOutputNode extends OutputNode {
-		containableElements(NumberInput[1,1], NumberCarOutput[1,1])
-	}
-	
-	@style(decision, "Guard")
-//	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateBooleanGuardOutput") //TODO
-	container BooleanGuardOutput extends OutputNode {
-		incomingEdges(ControlFlow[1,*])
-		containableElements(BooleanInput[1,1])
+	@style(commutableOperation, "Guard")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
+	container BooleanGuardOutput extends Operation {
+		outgoingEdges(*[0,0])
+		containableElements(BooleanInput[1,1], NumberInput[0,0], BooleanOutput[0,0], NumberOutput[0,0])
 	}
 	
 	@style(pid, "${p}", "${i}","${d}")
-//	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreatePIDController") //TODO
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	container PIDController extends Operation {
-		incomingEdges(ControlFlow[1,*])
-		outgoingEdges(ControlFlowBasic[0,1])
 		attr EDouble as p
 		attr EDouble as i
 		attr EDouble as d
-		containableElements(BooleanInput[0,0], NumberInput[2,2], NumberOutput[1,1])
+		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[0,0], NumberOutput[1,1])
 	}
 }

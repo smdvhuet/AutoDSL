@@ -13,9 +13,9 @@ class CheckForInvalidOutputsInGuards extends AutoDSLCheck{
 	}
 		
 	def checkRuleForExistanceCarOutputs(Rule rule){
-		if(!rule.booleanOutputNodes.empty)
+		if(!rule.directBooleanOutputs.empty)
 			return false
-		else if (!rule.numberOutputNodes.empty)
+		else if (!rule.directNumberOutputs.empty)
 			return false
 		else if (!rule.commutableOperations.filter[!it.booleanCarOutputs.empty || !it.numberCarOutputs.empty].empty)
 			return false
