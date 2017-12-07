@@ -9,6 +9,9 @@ import info.scce.cinco.product.autoDSL.rule.rule.NumberOutput
 
 class ToPort extends CincoCustomAction<IO> {
 	
+//TODO find generic but precise name (will be displayed in ContextMenu) 	
+//	override getName() {}
+	
 	override execute(IO io) {
 		val x = io.x as int
 		val y = io.y as int

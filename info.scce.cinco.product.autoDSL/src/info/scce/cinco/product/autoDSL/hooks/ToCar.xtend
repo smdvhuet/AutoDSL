@@ -8,6 +8,9 @@ import info.scce.cinco.product.autoDSL.rule.rule.NumberInput
 import info.scce.cinco.product.autoDSL.rule.rule.NumberOutput
 
 class ToCar extends CincoCustomAction<IO> {
+
+//TODO find generic but precise name (will be displayed in ContextMenu) 	
+//	override getName() {}
 	
 	override execute(IO io) {
 		val x = io.x as int
