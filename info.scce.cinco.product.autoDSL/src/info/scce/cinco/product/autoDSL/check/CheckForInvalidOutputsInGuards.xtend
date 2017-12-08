@@ -10,8 +10,8 @@ class CheckForInvalidOutputsInGuards extends AutoDSLCheck{
 	override check(AutoDSL model) {
 		for (guard : model.guards) {
 			for (cNode : guard.componentNodes) {
-				if(!hasCarOutputs(cNode.rule)){
-					guard.addError("Rule models contained in guards may not contain any car outputs.")				
+				if(hasCarOutputs(cNode.rule)){
+					guard.addError("Rule models contained in guards may not contain any car outputs."				
 				}
 			}
 		}
