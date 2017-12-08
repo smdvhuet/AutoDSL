@@ -20,8 +20,15 @@ import info.scce.cinco.product.autoDSL.rule.rule.Subtraction
 import info.scce.cinco.product.autoDSL.rule.rule.util.RuleSwitch
 import info.scce.cinco.product.autoDSL.rule.rule.NumberCarInput
 import info.scce.cinco.product.autoDSL.rule.rule.DirectNumberOutput
-
-//TODO Adapt to new alterations in mgl
+import info.scce.cinco.product.autoDSL.rule.rule.ControlFlowDecisionTrue
+import info.scce.cinco.product.autoDSL.rule.rule.ControlFlowDecisionFalse
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanCarInput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanStaticInput
+import info.scce.cinco.product.autoDSL.rule.rule.DirectBooleanOutput
+import info.scce.cinco.product.autoDSL.rule.rule.Output
+import info.scce.cinco.product.autoDSL.rule.rule.NumberCarOutput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanCarOutput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanGuardOutput
 
 class NodeGenerator extends RuleSwitch<CharSequence> {
 	
@@ -36,8 +43,44 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 				'''	
 				package info.scce.cinco.product;
 				
-				public class Rule implements State{
-					public double Geschwindigkeit;
+				public class «rule.name» implements State{
+					//Number Outputs
+					public double out_Acceleration;
+					public double out_Steering;
+					public double out_GamepadFeedbackX;
+					public double out_GamepadFeedbackY;
+					
+					//Boolean Outputs
+					public boolean out_Scheinwerfer_An;
+					public boolean guard;
+					
+					//Number Inputs
+					public double in_DistanceFront;
+					public double in_DistanceRear;
+					public double in_TimeDistanceFront;
+					public double in_CurrentSpeed;
+					
+					//Boolean Inputs
+					public boolean in_GamepadA;
+					public boolean in_GamepadB;
+					public boolean in_GamepadX;
+					public boolean in_GamepadY;
+					public boolean in_GamepadLB;
+					public boolean in_GamepadRB;
+					public boolean in_GamepadBACK;
+					public boolean in_GamepadSTART;
+					public boolean in_GamepadXBOX;
+					public boolean in_GamepadLStickPressed;
+					public boolean in_GamepadRStickPressed;
+					public boolean in_GamepadDpadLeft;
+					public boolean in_GamepadDpadRight;
+					public boolean in_GamepadDpadUp;
+					public boolean in_GamepadDpadDown;
+					
+					//PID Controllers
+					«FOR pid : rule.PIDControllers»
+					private PID pid«IDHasher.GetStringHash(pid.id)» = new PID(«pid.p», «pid.i», «pid.d»);
+					«ENDFOR»
 					
 					public void Execute(){
 						«node.doSwitch»
@@ -75,7 +118,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 					}
 					
 					public String getName(){
-						return "Rule";
+						return "«rule.name»";
 					}
 				}
 				'''
@@ -83,11 +126,10 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 		}
 	}
 	
-	//TODO Connect PID to input and make pid global
+	//TODO Connect PID to input
 	override casePIDController(PIDController op)'''
 		//PID Controller
-		PID pid«IDHasher.GetStringHash(op.id)» = new PID(«op.p», «op.i», «op.d»);
-		double «IDHasher.GetStringHash(op.id)» = pid«IDHasher.GetStringHash(op.id)».calc(0, 0, 0);
+		double «op.outputs.head.referenceOutput» = pid«IDHasher.GetStringHash(op.id)».calc(0, 0, 0);
 		
 		«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
@@ -100,7 +142,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseAddition(Addition op)'''
 	//Addition Operator
-	double «IDHasher.GetStringHash(op.outputs.head.id)» = «FOR input : op.inputs SEPARATOR '+'»«
+	double «op.outputs.head.referenceOutput» = «FOR input : op.inputs SEPARATOR '+'»«
 									input.referenceInput»«
 								ENDFOR»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
@@ -108,7 +150,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseMultiplication(Multiplication op)'''
 	//Multiplication Operator
-	double «IDHasher.GetStringHash(op.outputs.head.id)» = «FOR input : op.inputs SEPARATOR '*'»«
+	double «op.outputs.head.referenceOutput» = «FOR input : op.inputs SEPARATOR '*'»«
 									input.referenceInput»«
 								ENDFOR»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
@@ -118,8 +160,8 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	//Max Operator
 	double[] «IDHasher.GetStringHash(op.id)» = {«FOR  input : op.inputs SEPARATOR ','»«
 						input.referenceInput»«
-						ENDFOR»}
-	double «IDHasher.GetStringHash(op.outputs.head.id)» = max(«IDHasher.GetStringHash(op.id)»);
+						ENDFOR»};
+	double «op.outputs.head.referenceOutput» = max(«IDHasher.GetStringHash(op.id)»);
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
@@ -127,14 +169,14 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	//Min Operator
 	double[] «IDHasher.GetStringHash(op.id)» = {«FOR  input : op.inputs SEPARATOR ','»«
 							input.referenceInput»«
-						ENDFOR»}
-	double «IDHasher.GetStringHash(op.outputs.head.id)» = min(IDHasher.GetStringHash(«op.id»));
+						ENDFOR»};
+	double «op.outputs.head.referenceOutput» = min(«IDHasher.GetStringHash(op.id)»);
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseLogicalAnd(LogicalAnd op)'''
 	//And Operator
-	boolean «IDHasher.GetStringHash(op.outputs.head.id)» = «FOR in : op.inputs SEPARATOR '&&'»«
+	boolean «op.outputs.head.referenceOutput» = «FOR in : op.inputs SEPARATOR '&&'»«
 										in.referenceInput»«
 									ENDFOR»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
@@ -142,7 +184,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseLogicalOr(LogicalOr op)'''
 	//Or Operator
-	boolean «IDHasher.GetStringHash(op.outputs.head.id)» = «FOR in : op.inputs SEPARATOR '||'»«
+	boolean «op.outputs.head.referenceOutput» = «FOR in : op.inputs SEPARATOR '||'»«
 											in.referenceInput»«
 										ENDFOR»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
@@ -150,48 +192,70 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseSubtraction(Subtraction op)'''
 	//Substraction Operator
-	double «IDHasher.GetStringHash(op.outputs.head.id)» = «op.inputs.head.referenceInput» - «op.inputs.last.referenceInput»;
+	double «op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» - «op.inputs.last.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseLess(Less op)'''
 	//Less Operator
-	boolean «IDHasher.GetStringHash(op.outputs.head.id)» = «op.inputs.head.referenceInput» < «op.inputs.last.referenceInput»;
+	boolean «op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» < «op.inputs.last.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseLessOrEqual(LessOrEqual op)'''
 	//LessOrEqual Operator
-	boolean «IDHasher.GetStringHash(op.outputs.head.id)» = «op.inputs.head.referenceInput» <= «op.inputs.last.referenceInput»;
+	boolean «op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» <= «op.inputs.last.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseDecision(Decision d)'''
 	if(«d.booleanInputs.head.referenceInput»){
-		«d.getSuccessors.head.doSwitch»
-	}«IF d.successors.size>1» else{
-		«d.getSuccessors.last.doSwitch»
+		«d.outgoing.filter(ControlFlowDecisionTrue).head.getTargetElement.doSwitch»
+	}«IF !d.outgoing.filter(ControlFlowDecisionFalse).nullOrEmpty» else{
+		«d.outgoing.filter(ControlFlowDecisionFalse).head.getTargetElement.doSwitch»
 	}«ENDIF»
 	'''
 	
 	override caseDirectNumberOutput(DirectNumberOutput out)'''
-	«out.numberCarOutputs.head.outputtype.toString» = «out.numberInputs.head.referenceInput»;
+	//Number Output
+	«out.numberCarOutputs.head.referenceOutput» = «out.numberInputs.head.referenceInput»;
 	«if(!out.getSuccessors.nullOrEmpty)out.getSuccessors.head.doSwitch»
 	'''
 	
-	def CaseNode(Node n)'''/*Node «n.toString» not found*/
+	override caseDirectBooleanOutput(DirectBooleanOutput out)'''
+	//Boolean Output
+	«out.booleanCarOutputs.head.referenceOutput» = «out.booleanInputs.head.referenceInput»;
+	«if(!out.getSuccessors.nullOrEmpty)out.getSuccessors.head.doSwitch»
+	'''	
+	override caseBooleanGuardOutput(BooleanGuardOutput out)'''
+	//Guard Output
+	guard = «out.booleanInputs.head.referenceInput»;
+	'''
+	
+	override caseNode(Node n)'''/*Node «n.toString» not found*/
 	«if(!n.getSuccessors.nullOrEmpty)n.getSuccessors.head.doSwitch»
 	'''
+
 	
 	def referenceInput(Input in){
 		switch in{
 			NumberStaticInput :	in.staticValue
-			NumberCarInput :	in.inputtype.toString
+			NumberCarInput :	"in_"+in.inputtype.toString
+			BooleanStaticInput:	in.staticValue
+			BooleanCarInput:	"in_"+in.inputtype.toString
 			default :	if(in.predecessors.nullOrEmpty){
 							"/*input not a reference*/"
 						}else{
 							IDHasher.GetStringHash(in.predecessors.head.id)
 						}
+		}	
+	}
+	
+	def referenceOutput(Output out){
+		switch out{
+			NumberCarOutput :	"out_"+out.outputtype.toString
+			BooleanCarOutput:	"out_"+out.outputtype.toString
+			default :	IDHasher.GetStringHash(out.id)
 		}	
 	}
 }

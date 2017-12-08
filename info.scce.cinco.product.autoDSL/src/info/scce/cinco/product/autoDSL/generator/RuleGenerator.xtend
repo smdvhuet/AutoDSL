@@ -26,7 +26,7 @@ class RuleGenerator implements IGenerator<Rule> {
 		generateStatic()
 		
 		val CharSequence nodes = new NodeGenerator().generate(rule);
-		EclipseFileUtils.writeToFile(mainPackage.getFile("Rule" + IDHasher.GetStringHash(rule.id) + ".java"),nodes)
+		EclipseFileUtils.writeToFile(mainPackage.getFile(rule.name + ".java"),nodes)
 	}
 	
 	//TODO implement Car,Simulator,etc
