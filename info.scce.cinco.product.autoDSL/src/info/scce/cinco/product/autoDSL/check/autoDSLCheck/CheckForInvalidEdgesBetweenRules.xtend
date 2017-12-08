@@ -8,5 +8,6 @@ import info.scce.cinco.product.autoDSL.rule.rule.Operation
 class CheckForInvalidEdgesBetweenRules extends AutoDSLCheck{
 	
 	override check(AutoDSL model) {
+		
 	}
 }

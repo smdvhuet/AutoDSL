@@ -6,6 +6,6 @@ import info.scce.cinco.product.autoDSL.rule.rule.Rule
 class CheckForUnreachableOperations extends RuleCheck{
 	
 	override check(Rule rule) {
-		rule.addWarning("Check not implemented")
+		
 	}
 }
