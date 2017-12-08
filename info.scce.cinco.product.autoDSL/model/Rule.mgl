@@ -1,5 +1,8 @@
 @primeviewer
 @style("model/Rule.style")
+@mcam("check")
+@mcam_checkmodule("info.scce.cinco.product.autoDSL.check.RuleCheck.CheckRuleForCycles")
+@mcam_checkmodule("info.scce.cinco.product.autoDSL.check.RuleCheck.CheckForUnreachableOperations")
 @generatable("info.scce.cinco.product.autoDSL.generator.RuleGenerator","/src-gen/")
 graphModel Rule {
 	package info.scce.cinco.product.autoDSL.rule
