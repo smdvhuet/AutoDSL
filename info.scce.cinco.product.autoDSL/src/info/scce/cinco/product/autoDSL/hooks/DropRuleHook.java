@@ -10,12 +10,6 @@ public class DropRuleHook extends CincoPostCreateHook<ComponentNode> {
 	public void postCreate(ComponentNode droppedNode) {
 		Rule rule = droppedNode.getRule();
 		droppedNode.setLabel(rule.eResource().getURI().lastSegment());
-		/*List<Start> l = droppedNode.getRule().getStarts();
-		if (!l.isEmpty()) {
-			System.out.println("Dropped node has outgoing edges: " + l.get(0).getOutgoing());
-		} else {
-			System.out.println("Dropped node contains no Start!");
-		}*/
 	}
 
 }

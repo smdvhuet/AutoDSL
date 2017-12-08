@@ -27,22 +27,45 @@ graphModel Rule {
 	
 	@style(dataFlow)
 	edge NumberDataFlow {}
-	
-	enum CarInputTypeBoolean{
-		Ruecklicht_An
-		Bremse_Kaputt
+
+	enum CarInputTypeBoolean {
+		GamepadA
+		GamepadB
+		GamepadX
+		GamepadY
+		GamepadLB
+		GamepadRB
+		GamepadBACK
+		GamepadSTART
+		GamepadXBOX
+		GamepadLStickPressed
+		GamepadRStickPressed
+		GamepadDpadLeft
+		GamepadDpadRight
+		GamepadDpadUp
+		GamepadDpadDown
 	}
-		
+
 	enum CarInputTypeNumber{
-		Geschwindigkeit
-		Anzahl_Raeder
+		DistanceFront
+		DistanceRear
+		TimeDistanceFront
+		CurrentSpeed
+
+		GamepadSteering
+		GamepadThrottle
 	}
-	
+
 	enum CarOutputTypeBoolean {
 		Scheinwerfer_An
 	}
+
 	enum CarOutputTypeNumber {
-		Geschwindigkeit
+		Acceleration
+		Steering
+
+		GamepadFeedbackX
+		GamepadFeedbackY
 	}
 	
 
