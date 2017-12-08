@@ -1,4 +1,4 @@
-package info.scce.cinco.product.autoDSL.check
+package info.scce.cinco.product.autoDSL.check.autoDSLCheck
 
 import info.scce.cinco.product.autoDSL.autodsl.autodsl.AutoDSL
 import info.scce.cinco.product.autoDSL.autodsl.mcam.modules.checks.AutoDSLCheck
