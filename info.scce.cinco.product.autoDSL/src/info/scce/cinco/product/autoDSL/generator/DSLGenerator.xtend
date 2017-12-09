@@ -58,7 +58,6 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	
 	public class AutoDSL«IDHasher.GetStringHash(dsl.id)» extends StateMachine{
 		HashMap<Integer, MultiState> states;
-		
 		«registerAllGuardValidationFunctions(dsl)»
 		
 		public AutoDSL«IDHasher.GetStringHash(dsl.id)»(){
