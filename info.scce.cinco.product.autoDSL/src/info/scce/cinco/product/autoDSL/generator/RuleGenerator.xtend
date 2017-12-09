@@ -31,49 +31,7 @@ class RuleGenerator implements IGenerator<Rule> {
 	
 	//TODO implement Car,Simulator,etc
 	def generateStatic(){
-		EclipseFileUtils.writeToFile(mainPackage.getFile("PID.java"),generatePIDClass())
+		EclipseFileUtils.writeToFile(mainPackage.getFile("PID.java"), StaticClasses::PIDClass())
 		EclipseFileUtils.writeToFile(mainPackage.getFile("EgoCar.java"), new EgoCarGenerator().generateEgoCar())		
 	}
-
-	def generatePIDClass()'''
-		package info.scce.cinco.product;
-		
-		public class PID{
-			private double p;
-			private double i;
-			private double d;
-			
-			private final double MAX_VALUE = Double.MAX_VALUE;
-			private final double MIN_VALUE = Double.MIN_VALUE;
-				
-			private double lastValue = 0.0;
-			private double integral = 0.0;
-			
-			public PID(double p, double i, double d){
-				this.p = p;
-				this.i = i;
-				this.d = d;
-			}
-				
-			public double calc(double currentValue, double targetValue, double dTimeSec){
-				double error = targetValue - currentValue;
-				double diff = (lastValue - error) / dTimeSec;
-					
-				lastValue = error;
-				integral += (error * dTimeSec);  
-					
-				if(integral > MAX_VALUE)
-					integral = MAX_VALUE;
-				else if(integral < MIN_VALUE)
-					integral = MIN_VALUE;
-						
-				return (error + i * integral + d * diff) * p;
-			}
-				
-			public final double getP() { return p; }
-			public final double getI() { return i; }
-			public final double getD() { return d; }
-		}
-	'''
-	
 }
