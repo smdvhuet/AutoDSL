@@ -188,4 +188,32 @@ class StaticClasses {
 			public final double getD() { return d; }
 		}
 	'''
+	
+	static def UtilityClass()'''
+	package info.scce.cinco.product;
+	
+	public class Utility{
+		public static double max(double[] values){
+			double result = values[0];
+			for(int i = 1; i < values.length; i++){
+				double x = values[i];
+				if(x > result){
+					result = values[i];
+				}
+			}
+			return result;
+		}
+		
+		public static double min(double[] values){
+			double result = values[0];
+			for(int i = 1; i < values.length; i++){
+				double x = values[i];
+				if(x < result){
+					result = values[i];
+				}
+			}
+			return result;
+		}
+	}
+	'''
 }

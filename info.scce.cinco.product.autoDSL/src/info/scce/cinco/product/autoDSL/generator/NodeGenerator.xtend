@@ -86,29 +86,6 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 						«node.doSwitch»
 					}
 					
-					private double min(double[] values){
-						double result = values[0];
-						for(int i = 1; i < values.length; i++){
-							double x = values[i];
-							if(x < result){
-								result = values[i];
-							}
-						}
-						return result;
-					}
-					
-					private double max(double[] values){
-						double result = values[0];
-						for(int i = 1; i < values.length; i++){
-							double x = values[i];
-							if(x > result){
-								result = values[i];
-							}
-						}
-						return result;
-					}
-					
-					
 					public void onEntry(){
 						
 					}
@@ -161,7 +138,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	double[] «IDHasher.GetStringHash(op.id)» = {«FOR  input : op.inputs SEPARATOR ','»«
 						input.referenceInput»«
 						ENDFOR»};
-	double «op.outputs.head.referenceOutput» = max(«IDHasher.GetStringHash(op.id)»);
+	double «op.outputs.head.referenceOutput» = Utility.max(«IDHasher.GetStringHash(op.id)»);
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
@@ -170,7 +147,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	double[] «IDHasher.GetStringHash(op.id)» = {«FOR  input : op.inputs SEPARATOR ','»«
 							input.referenceInput»«
 						ENDFOR»};
-	double «op.outputs.head.referenceOutput» = min(«IDHasher.GetStringHash(op.id)»);
+	double «op.outputs.head.referenceOutput» = Utility.min(«IDHasher.GetStringHash(op.id)»);
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	

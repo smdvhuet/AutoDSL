@@ -41,6 +41,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		EclipseFileUtils.writeToFile(mainPackage.getFile("State.java"), StaticClasses::StateClass())
 		EclipseFileUtils.writeToFile(mainPackage.getFile("MultiState.java"), StaticClasses::MultiStateClass())
 		EclipseFileUtils.writeToFile(mainPackage.getFile("StateMachine.java"), StaticClasses::StateMachineClass())
+		EclipseFileUtils.writeToFile(mainPackage.getFile("Utility.java"), StaticClasses::UtilityClass())
 	}
 	
 	def generateStateMachine(AutoDSL dsl)'''
@@ -52,13 +53,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	public class AutoDSL«IDHasher.GetStringHash(dsl.id)» extends StateMachine{
 		HashMap<Integer, MultiState> states;
 		
-		«FOR guard : dsl.guards SEPARATOR ''»
-		«FOR container : guard.componentNodes SEPARATOR ' '»
-		«IF container != null && container.rule != null»
-		«generateGuardValidationFunction(container.rule)»
-		«ENDIF»
-		«ENDFOR»
-		«ENDFOR»
+		«registerAllGuardValidationFunctions(dsl)»
 		
 		public AutoDSL«IDHasher.GetStringHash(dsl.id)»(){
 			states = new HashMap<>();
@@ -72,7 +67,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 			«if(dsl.offStates.length() > 0) chooseEntryState(dsl)»
 		}
 		
-
+		«generateAllGuardValidtionsFunctions(dsl)»
 	}
 	'''
 	
@@ -147,6 +142,27 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	  }
 	  
 	  return '''«ruleName»'''
+	}
+	
+	def registerAllGuardValidationFunctions(AutoDSL dsl){
+		for(guard : dsl.guards)
+			for(container : guard.componentNodes)
+				if(container != null && container.rule != null)
+					generateGuardValidationFunction(container.rule)
+		return ''
+	}
+	
+	def generateAllGuardValidtionsFunctions(AutoDSL dsl){
+		knownGuardFunctions.clear();
+		'''
+		«FOR guard : dsl.guards SEPARATOR '\n'»
+		«FOR container : guard.componentNodes SEPARATOR ' '»
+		«IF container != null && container.rule != null»
+		«generateGuardValidationFunction(container.rule)»
+		«ENDIF»
+		«ENDFOR»
+		«ENDFOR»
+		'''
 	}
 	
 	def generateGuardValidationFunction(Rule guardingRule){
