@@ -3,7 +3,6 @@
 @mcam("check")
 //@mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckRuleForCycles")
 //@mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckForUnreachableOperations")
-@generatable("info.scce.cinco.product.autoDSL.generator.RuleGenerator","/src-gen/")
 graphModel Rule {
 	package info.scce.cinco.product.autoDSL.rule
 	nsURI "http://cinco.scce.info/product/rule"

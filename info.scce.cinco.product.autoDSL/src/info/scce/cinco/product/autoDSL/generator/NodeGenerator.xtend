@@ -24,9 +24,11 @@ import info.scce.cinco.product.autoDSL.rule.rule.DirectNumberOutput
 //TODO Adapt to new alterations in mgl
 
 class NodeGenerator extends RuleSwitch<CharSequence> {
+	var String name;
 	
-	def generate(Rule rule){
-		rule.caseRule
+	def generate(Rule rule, String name){
+		this.name = name;
+		return rule.caseRule
 	}
 	
 	override caseRule(Rule rule){
@@ -36,7 +38,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 				'''	
 				package info.scce.cinco.product;
 				
-				public class Rule implements State{
+				public class «name» implements State{
 					public double Geschwindigkeit;
 					
 					public void Execute(){

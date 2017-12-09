@@ -12,11 +12,12 @@ import info.scce.cinco.product.autoDSL.autodsl.autodsl.AutoDSL
 import info.scce.cinco.product.autoDSL.autodsl.autodsl.OffState
 import info.scce.cinco.product.autoDSL.autodsl.autodsl.State
 import info.scce.cinco.product.autoDSL.autodsl.autodsl.Guard
+import info.scce.cinco.product.autoDSL.rule.rule.Rule
+import java.util.function.Predicate
 
 class DSLGenerator implements IGenerator<AutoDSL> {
 	var IFolder mainFolder
 	var IFolder mainPackage
-	var IFolder guiPackage
 	
 	override generate(AutoDSL dsl, IPath targetDir, IProgressMonitor monitor) {
 		val ArrayList<String> srcFolders = new ArrayList<String>();
@@ -25,9 +26,8 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		val IProject project = ProjectCreator.createProject("Generated Product",srcFolders,null,null,null,null,monitor)
 		mainFolder = project.getFolder("src-gen")
 		mainPackage = mainFolder.getFolder("info/scce/cinco/product")
-		guiPackage = mainFolder.getFolder("info/scce/cinco/gui")
 		EclipseFileUtils.mkdirs(mainPackage,monitor)
-		EclipseFileUtils.mkdirs(guiPackage,monitor)
+		
 		generateStatic()
 		
 		EclipseFileUtils.writeToFile(mainPackage.getFile("AutoDSL" + IDHasher.GetStringHash(dsl.id) + ".java"), generateStateMachine(dsl))
@@ -37,50 +37,61 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		EclipseFileUtils.writeToFile(mainPackage.getFile("State.java"), StateClass())
 		EclipseFileUtils.writeToFile(mainPackage.getFile("MultiState.java"),MultiStateClass())
 		EclipseFileUtils.writeToFile(mainPackage.getFile("StateMachine.java"),StateMachineClass())
+	}
+	
+	def generateStateMachine(AutoDSL dsl)'''
+	package info.scce.cinco.product;
+	
+	import java.util.HashMap;
+	
+	public class AutoDSL«IDHasher.GetStringHash(dsl.id)» extends StateMachine{
+		HashMap<Integer, MultiState> states;
 		
-		EclipseFileUtils.writeToFile(guiPackage.getFile("CarControlsPanel.java"), GuiGenerator.generateCarControlsPanel())
-		EclipseFileUtils.writeToFile(guiPackage.getFile("InfoPanel.java"), GuiGenerator.generateInfoPanel())
-		EclipseFileUtils.writeToFile(guiPackage.getFile("Mode.java"), GuiGenerator.generateMode())
-		EclipseFileUtils.writeToFile(guiPackage.getFile("SimControlPanel.java"), GuiGenerator.generateSimControlPanel())
-		EclipseFileUtils.writeToFile(guiPackage.getFile("SimulatorPanel.java"), GuiGenerator.generateSimulatorPanel())
-		EclipseFileUtils.writeToFile(guiPackage.getFile("RoadVisualizationPanel.java"), GuiGenerator.generateRoadVisualizationPanel())		
-	}
-	
-		static def generateStateMachine(AutoDSL dsl){
-		'''
-			package info.scce.cinco.product;
+		public AutoDSL«IDHasher.GetStringHash(dsl.id)»(){
+			states = new HashMap<>();
 			
-			import java.util.HashMap;
+			«if(dsl.offStates.length() > 0) generateAllStates(dsl)»
 			
-			public class AutoDSL«IDHasher.GetStringHash(dsl.id)» extends StateMachine{
-				HashMap<Integer, MultiState> states;
-				
-				public AutoDSL«IDHasher.GetStringHash(dsl.id)»(){
-					states = new HashMap<>();
-					//Add all states	
-					«FOR state : dsl.states SEPARATOR '\n'»
-					«generateState(state, IDHasher.GetIntHash(state.id))»
-					«ENDFOR»
-					//Add all offstates
-					«FOR state : dsl.offStates SEPARATOR '\n'»
-					«generateOffState(state, IDHasher.GetIntHash(state.id))»
-					«ENDFOR»
-					
-					//Connect all states
-					«FOR guard : dsl.guards SEPARATOR ''»
-					«connectStates(guard)»
-					«ENDFOR»
-					
-					SetEntryState(states.get(«IDHasher.GetIntHash(dsl.offStates.get(0).id)»));
-				}
+			«if(dsl.offStates.length() > 0) generateAllOffStates(dsl)»
+			
+			«if(dsl.offStates.length() > 0) generateAllGuards(dsl)»
+			
+			«if(dsl.offStates.length() > 0) chooseEntryState(dsl)»
 			}
-		'''
-	}
+		}
+	'''
 	
-	static def generateState(State state, int index)'''
+	def generateAllStates(AutoDSL dsl)'''
+	//Add all states	
+	«FOR state : dsl.states SEPARATOR '\n'»
+	«generateState(state, IDHasher.GetIntHash(state.id))»
+	«ENDFOR»
+	'''
+	
+	def generateAllOffStates(AutoDSL dsl)'''
+	//Add all offstates
+	«FOR state : dsl.offStates SEPARATOR '\n'»
+	«generateOffState(state, IDHasher.GetIntHash(state.id))»
+	«ENDFOR»
+	'''
+	
+	def generateAllGuards(AutoDSL dsl)'''
+	//Connect all states
+	«FOR guard : dsl.guards SEPARATOR ''»
+	«connectStates(guard)»
+	«ENDFOR»
+	'''
+	
+	def chooseEntryState(AutoDSL dsl)'''
+	//Select entry state
+	SetEntryState(states.get(«IDHasher.GetIntHash(dsl.offStates.get(0).id)»));
+	'''
+	
+	def generateState(State state, int index)'''
 	MultiState state«index» = new MultiState();
-	«FOR rule : state.componentNodes SEPARATOR '\n'»
-	state«index».AddState(new Rule«IDHasher.GetStringHash(rule.id)»());
+	«FOR container : state.componentNodes SEPARATOR '\n'»
+	state«index».AddState(new Rule«IDHasher.GetStringHash(container.rule.id)»());
+	«if(container.rule != null) EclipseFileUtils.writeToFile(mainPackage.getFile("Rule" + IDHasher.GetStringHash(container.rule.id) + ".java"),new NodeGenerator().generate(container.rule, "Rule" + IDHasher.GetStringHash(container.rule.id)))»
 	«ENDFOR»
 	states.put(«IDHasher.GetIntHash(state.id)», state«index»);
 	'''
@@ -90,14 +101,29 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	states.put(«IDHasher.GetIntHash(state.id)», state«index»);
 	'''
 	
-	static def connectStates(Guard guard)'''
-	AddTransition(states.get(«IDHasher.GetIntHash(getIncomingEdges(guard).get(0).sourceElement.id)»), states.get(«IDHasher.GetIntHash(getOutgoingEdges(guard).get(0).targetElement.id)»), (State state) -> true);'''
+	def connectStates(Guard guard){
+	var incomingEdges = getIncomingEdges(guard)
+	var outgoingEdges = getOutgoingEdges(guard)
 	
-	static def getIncomingEdges(Guard guard){
+	for(container : guard.componentNodes)
+		if(container.rule != null)
+		 EclipseFileUtils.writeToFile(mainPackage.getFile("Rule" + IDHasher.GetStringHash(container.rule.id) + ".java"),
+		 								new NodeGenerator().generate(container.rule, "Rule" + IDHasher.GetStringHash(container.rule.id)))
+	
+	'''	
+	«FOR inEdge : incomingEdges SEPARATOR '\n'»
+	«FOR outEdge : outgoingEdges SEPARATOR '\n'»
+	AddTransition(states.get(«IDHasher.GetIntHash(inEdge.sourceElement.id)»), states.get(«IDHasher.GetIntHash(outEdge.targetElement.id)»), (State state) -> true);
+	«ENDFOR»
+	«ENDFOR»
+	'''
+	}
+	
+	def getIncomingEdges(Guard guard){
 		return guard.incoming.filter[it.sourceElement instanceof State] + guard.incoming.filter[it.sourceElement instanceof OffState];
 	}
 	
-	static def getOutgoingEdges(Guard guard){
+	def getOutgoingEdges(Guard guard){
 		return guard.outgoing.filter[it.targetElement instanceof State] + guard.outgoing.filter[it.targetElement instanceof OffState];
 	}
 	
