@@ -57,12 +57,10 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	import info.scce.cinco.core.StateMachine;
 	
 	public class AutoDSL«IDHasher.GetStringHash(dsl.id)» extends StateMachine{
-		HashMap<Integer, MultiState> states;
+		HashMap<Integer, MultiState> states = new HashMap<>();
 		«registerAllGuardValidationFunctions(dsl)»
 		
 		public AutoDSL«IDHasher.GetStringHash(dsl.id)»(){
-			states = new HashMap<>();
-			
 			«if(dsl.offStates.length() > 0) generateAllStates(dsl)»
 			
 			«if(dsl.offStates.length() > 0) generateAllOffStates(dsl)»
