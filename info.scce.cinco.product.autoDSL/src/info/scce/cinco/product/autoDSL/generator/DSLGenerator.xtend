@@ -13,13 +13,13 @@ import info.scce.cinco.product.autoDSL.autodsl.autodsl.OffState
 import info.scce.cinco.product.autoDSL.autodsl.autodsl.State
 import info.scce.cinco.product.autoDSL.autodsl.autodsl.Guard
 import info.scce.cinco.product.autoDSL.rule.rule.Rule
-import java.util.function.Predicate
 import java.util.HashMap
 
 class DSLGenerator implements IGenerator<AutoDSL> {
 	var IFolder mainFolder
 	var IFolder mainPackage
 	var HashMap<Integer, String> knownRuleTypes =  new HashMap<Integer, String>()
+	var HashMap<Integer, String> knownGuardFunctions = new HashMap<Integer, String>()
 	
 	override generate(AutoDSL dsl, IPath targetDir, IProgressMonitor monitor) {
 		knownRuleTypes.clear();
@@ -46,10 +46,19 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	def generateStateMachine(AutoDSL dsl)'''
 	package info.scce.cinco.product;
 	
+	import java.util.function.Predicate;
 	import java.util.HashMap;
 	
 	public class AutoDSL«IDHasher.GetStringHash(dsl.id)» extends StateMachine{
 		HashMap<Integer, MultiState> states;
+		
+		«FOR guard : dsl.guards SEPARATOR ''»
+		«FOR container : guard.componentNodes SEPARATOR ' '»
+		«IF container != null && container.rule != null»
+		«generateGuardValidationFunction(container.rule)»
+		«ENDIF»
+		«ENDFOR»
+		«ENDFOR»
 		
 		public AutoDSL«IDHasher.GetStringHash(dsl.id)»(){
 			states = new HashMap<>();
@@ -61,8 +70,10 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 			«if(dsl.offStates.length() > 0) generateAllGuards(dsl)»
 			
 			«if(dsl.offStates.length() > 0) chooseEntryState(dsl)»
-			}
 		}
+		
+
+	}
 	'''
 	
 	def generateAllStates(AutoDSL dsl)'''
@@ -95,7 +106,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	MultiState state«index» = new MultiState();
 	«FOR container : state.componentNodes SEPARATOR '\n'»
 	«IF container.rule != null»
-	state«index».AddState(«generateNewRule(container.rule)»);
+	state«index».AddState(new «generateRuleType(container.rule)»());
 	«ENDIF»
 	«ENDFOR»
 	states.put(«IDHasher.GetIntHash(state.id)», state«index»);
@@ -112,24 +123,21 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	
 	for(container : guard.componentNodes)
 		if(container.rule != null){
-		 generateNewRule(container.rule)
+		  generateRuleType(container.rule)
 	}
 		 								
 	
 	'''	
 	«FOR inEdge : incomingEdges SEPARATOR '\n'»
 	«FOR outEdge : outgoingEdges SEPARATOR '\n'»
-	
-	«FOR container : guard.componentNodes SEPARATOR '\n'»
-	//Predicate<State> guard_«IDHasher.GetStringHash(guard.id)» = () -> true «if(container.rule != null) generateNewRule(container.rule)»
-	«ENDFOR»
-	AddTransition(states.get(«IDHasher.GetIntHash(inEdge.sourceElement.id)»), states.get(«IDHasher.GetIntHash(outEdge.targetElement.id)»), (State state) -> true);
+	Predicate<State> guard«IDHasher.GetStringHash(guard.id)» = (State state) -> «FOR container : guard.componentNodes SEPARATOR '&&'»«IF container.rule != null»«knownGuardFunctions.get(IDHasher.GetIntHash(container.rule.id))»()«ELSE»true«ENDIF»  «ENDFOR»;
+	AddTransition(states.get(«IDHasher.GetIntHash(inEdge.sourceElement.id)»), states.get(«IDHasher.GetIntHash(outEdge.targetElement.id)»), guard«IDHasher.GetStringHash(guard.id)»);
 	«ENDFOR»
 	«ENDFOR»
 	'''
 	}
 	
-	def generateNewRule(Rule rule){
+	def generateRuleType(Rule rule){
 	  var String ruleName = knownRuleTypes.get(IDHasher.GetIntHash(rule.id))
 	  if(ruleName == null){
 	  	rule.name = "Rule" + IDHasher.GetStringHash(rule.id)
@@ -138,7 +146,29 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	  	ruleName = rule.name	
 	  }
 	  
-	  return '''new «ruleName»() '''
+	  return '''«ruleName»'''
+	}
+	
+	def generateGuardValidationFunction(Rule guardingRule){
+		if(knownGuardFunctions.containsKey(IDHasher.GetIntHash(guardingRule.id))){
+			return ''
+		}else{
+			val guardName = "isGuardValid" + IDHasher.GetStringHash(guardingRule.id)
+			knownGuardFunctions.put(IDHasher.GetIntHash(guardingRule.id), guardName)
+			return '''
+			«generateRuleType(guardingRule)» guardRule«IDHasher.GetStringHash(guardingRule.id)» = new «generateRuleType(guardingRule)»(); 
+			private boolean «guardName»(){
+				boolean result = false;
+				
+				guardRule«IDHasher.GetStringHash(guardingRule.id)».onEntry();
+				guardRule«IDHasher.GetStringHash(guardingRule.id)».Execute();
+				result = guardRule«IDHasher.GetStringHash(guardingRule.id)».guard;
+				guardRule«IDHasher.GetStringHash(guardingRule.id)».onExit();
+				
+				return result;
+			}
+			'''
+		}
 	}
 	
 	def getIncomingEdges(Guard guard){
