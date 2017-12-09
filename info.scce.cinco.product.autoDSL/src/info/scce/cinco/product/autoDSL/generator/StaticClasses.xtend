@@ -5,7 +5,7 @@ class StaticClasses {
 //								NODES SECTION
 //*********************************************************************************
 	static def StateMachineClass() '''	
-	package info.scce.cinco.product;
+	package info.scce.cinco.core;
 	
 	import java.util.HashMap;
 	import java.util.List;
@@ -97,9 +97,9 @@ class StaticClasses {
 	'''
 	
 	static def StateClass() '''
-	package info.scce.cinco.product;
+	package info.scce.cinco.core;
 	
-	interface State {
+	public interface State {
 		public abstract void onEntry();
 		public abstract void Execute();
 		public abstract void onExit();
@@ -108,7 +108,7 @@ class StaticClasses {
 	'''
 	
 	static def MultiStateClass() '''
-	package info.scce.cinco.product;
+	package info.scce.cinco.core;
 	
 	import java.util.ArrayList;
 	import java.util.List;
@@ -149,7 +149,7 @@ class StaticClasses {
 //								NODES SECTION
 //*********************************************************************************
 	static def PIDClass()'''
-		package info.scce.cinco.product;
+		package info.scce.cinco.core;
 		
 		public class PID{
 			private double p;
@@ -190,7 +190,7 @@ class StaticClasses {
 	'''
 	
 	static def UtilityClass()'''
-	package info.scce.cinco.product;
+	package info.scce.cinco.core;
 	
 	public class Utility{
 		public static double max(double[] values){

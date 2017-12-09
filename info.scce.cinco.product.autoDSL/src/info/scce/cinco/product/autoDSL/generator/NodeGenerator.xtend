@@ -43,6 +43,9 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 				'''	
 				package info.scce.cinco.product;
 				
+				import info.scce.cinco.core.State;
+				«IF importUtilityClass(rule)»import info.scce.cinco.core.Utility; «ENDIF»
+				
 				public class «rule.name» implements State{
 					//Number Outputs
 					public double out_Acceleration;
@@ -234,5 +237,9 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 			BooleanCarOutput:	"out_"+out.outputtype.toString
 			default :	IDHasher.GetStringHash(out.id)
 		}	
+	}
+	
+	def boolean importUtilityClass(Rule rule){
+		return (rule.operations.filter(Minimum) + rule.operations.filter(Maximum)).length > 0
 	}
 }

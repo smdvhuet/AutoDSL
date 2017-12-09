@@ -18,6 +18,7 @@ import java.util.HashMap
 class DSLGenerator implements IGenerator<AutoDSL> {
 	var IFolder mainFolder
 	var IFolder mainPackage
+	var IFolder corePackage
 	var HashMap<Integer, String> knownRuleTypes =  new HashMap<Integer, String>()
 	var HashMap<Integer, String> knownGuardFunctions = new HashMap<Integer, String>()
 	
@@ -31,6 +32,8 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		mainFolder = project.getFolder("src-gen")
 		mainPackage = mainFolder.getFolder("info/scce/cinco/product")
 		EclipseFileUtils.mkdirs(mainPackage,monitor)
+		corePackage = mainFolder.getFolder("info/scce/cinco/core")
+		EclipseFileUtils.mkdirs(corePackage,monitor)
 		
 		generateStatic()
 		
@@ -38,10 +41,10 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	}
 	
 	def generateStatic(){
-		EclipseFileUtils.writeToFile(mainPackage.getFile("State.java"), StaticClasses::StateClass())
-		EclipseFileUtils.writeToFile(mainPackage.getFile("MultiState.java"), StaticClasses::MultiStateClass())
-		EclipseFileUtils.writeToFile(mainPackage.getFile("StateMachine.java"), StaticClasses::StateMachineClass())
-		EclipseFileUtils.writeToFile(mainPackage.getFile("Utility.java"), StaticClasses::UtilityClass())
+		EclipseFileUtils.writeToFile(corePackage.getFile("State.java"), StaticClasses::StateClass())
+		EclipseFileUtils.writeToFile(corePackage.getFile("MultiState.java"), StaticClasses::MultiStateClass())
+		EclipseFileUtils.writeToFile(corePackage.getFile("StateMachine.java"), StaticClasses::StateMachineClass())
+		EclipseFileUtils.writeToFile(corePackage.getFile("Utility.java"), StaticClasses::UtilityClass())
 	}
 	
 	def generateStateMachine(AutoDSL dsl)'''
@@ -49,6 +52,9 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	
 	import java.util.function.Predicate;
 	import java.util.HashMap;
+	import info.scce.cinco.core.MultiState;
+	import info.scce.cinco.core.State;
+	import info.scce.cinco.core.StateMachine;
 	
 	public class AutoDSL«IDHasher.GetStringHash(dsl.id)» extends StateMachine{
 		HashMap<Integer, MultiState> states;
