@@ -90,8 +90,8 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	def generateState(State state, int index)'''
 	MultiState state«index» = new MultiState();
 	«FOR container : state.componentNodes SEPARATOR '\n'»
-	state«index».AddState(new Rule«IDHasher.GetStringHash(container.rule.id)»());
-	«if(container.rule != null) EclipseFileUtils.writeToFile(mainPackage.getFile("Rule" + IDHasher.GetStringHash(container.rule.id) + ".java"),new NodeGenerator().generate(container.rule, "Rule" + IDHasher.GetStringHash(container.rule.id)))»
+	state«index».AddState(new «IDHasher.GetStringHash(container.rule.name)»());
+	«if(container.rule != null) EclipseFileUtils.writeToFile(mainPackage.getFile("Rule" + IDHasher.GetStringHash(container.rule.id) + ".java"),new NodeGenerator().generate(container.rule))»
 	«ENDFOR»
 	states.put(«IDHasher.GetIntHash(state.id)», state«index»);
 	'''
@@ -108,7 +108,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	for(container : guard.componentNodes)
 		if(container.rule != null)
 		 EclipseFileUtils.writeToFile(mainPackage.getFile("Rule" + IDHasher.GetStringHash(container.rule.id) + ".java"),
-		 								new NodeGenerator().generate(container.rule, "Rule" + IDHasher.GetStringHash(container.rule.id)))
+		 								new NodeGenerator().generate(container.rule))
 	
 	'''	
 	«FOR inEdge : incomingEdges SEPARATOR '\n'»
