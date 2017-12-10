@@ -63,6 +63,7 @@ nodeStyle inputPort (1) {
 }
 
 nodeStyle carInput (2) {
+	appearanceProvider ("info.scce.cinco.product.autoDSL.appearances.StyleIO")
 	rectangle {
 		appearance io
 		size (110,20)
