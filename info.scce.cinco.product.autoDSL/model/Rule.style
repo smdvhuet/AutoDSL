@@ -49,7 +49,7 @@ edgeStyle dataFlow {
 nodeStyle inputPort (1) {
 	rectangle {
 		appearance io
-		size (110,18)
+		size (110,20)
 		image {
 			position (LEFT, MIDDLE)
 			size (fix 16,fix 16)
@@ -57,7 +57,7 @@ nodeStyle inputPort (1) {
 		}
 		text {
 			position ( LEFT 16, MIDDLE)
-			value "%s"			
+			value ": %s"			
 		}
 	}
 }
@@ -65,7 +65,7 @@ nodeStyle inputPort (1) {
 nodeStyle carInput (2) {
 	rectangle {
 		appearance io
-		size (110,18)
+		size (110,20)
 		image {
 			position (LEFT, MIDDLE)
 			size (fix 16,fix 16)
@@ -81,7 +81,7 @@ nodeStyle carInput (2) {
 nodeStyle staticInput (2) {
 	rectangle {
 		appearance io
-		size (110,18)
+		size (110,20)
 		image {
 			position (LEFT, MIDDLE)
 			size (fix 16,fix 16)
@@ -97,7 +97,7 @@ nodeStyle staticInput (2) {
 nodeStyle outputPort (1) {
 	rectangle {
 		appearance io
-		size (110,18)
+		size (110,20)
 		image {
 			position (RIGHT, MIDDLE)
 			size (fix 16,fix 16)
@@ -105,7 +105,7 @@ nodeStyle outputPort (1) {
 		}
 		text {
 			position ( LEFT, MIDDLE)
-			value "%s"			
+			value ": %s"			
 		}
 	}
 }
@@ -113,7 +113,7 @@ nodeStyle outputPort (1) {
 nodeStyle carOutput (2) {
 	rectangle {
 		appearance io
-		size (110,18)
+		size (110,20)
 		image {
 			position (RIGHT, MIDDLE)
 			size (fix 16,fix 16)
@@ -129,34 +129,44 @@ nodeStyle carOutput (2) {
 /* Node styles for Operations*/
 nodeStyle commutableOperation (1) {
 	roundedRectangle {
-		size (fix 120,90)
+		size (120, fix 20)
 		corner (10,10)
-		text {
-			position ( CENTER, TOP 4 )
-			value "%s"	
+		rectangle {
+			appearance io
+			position (CENTER, TOP 5)
+			size (110, fix 20)
+			text {
+				position (CENTER, MIDDLE)
+				value "%s"
+			}	
 		}
 		polyline {
-			points [ (7,20) (113,20) ]
+			points [ (0,25) (120,25) ]
 		}
 	}
 }
 
 nodeStyle nonCommutableOperation (1) {
 	roundedRectangle {
-		size (fix 120,90)
+		size (120, fix 20)
 		corner (10,10)
-		text {
-			position ( CENTER, TOP 26 )
-			value "%s"	
+		rectangle {
+			appearance io
+			position (CENTER, TOP 26)
+			size (110, fix 20)
+			text {
+				position (CENTER, MIDDLE)
+				value "%s"
+			}	
 		}
 		polyline {
 			points [ (7,25) (113,25) ]
 		}
 		polyline {
-			points [ (7,45) (113,45) ]
+			points [ (7,46) (113,46) ]
 		}
 		polyline {
-			points [ (0,65) (120,65) ]
+			points [ (0,67) (120,67) ]
 		}
 	}
 }
@@ -177,26 +187,46 @@ nodeStyle comment(1) {
 
 nodeStyle pid (3) {
 	roundedRectangle {
-		size (fix 120,140)
+		size (120, fix 20)
 		corner (10,10)
-		text {
-			position ( CENTER, TOP 4 )
-			value "PID"	
+		rectangle {
+			appearance io
+			position (CENTER, TOP 5)
+			size (110, fix 20)
+			text {
+				position (CENTER, MIDDLE)
+				value "PID"
+			}	
 		}
-		text {
-			position ( CENTER, TOP 24 )
-			value "p: %1$s"
+		rectangle {
+			appearance io
+			position (CENTER, TOP 26)
+			size (110, fix 20)
+			text {
+				position (CENTER, MIDDLE)
+				value "p: %1$s"
+			}	
 		}
-		text {
-			position ( CENTER, TOP 44 )
-			value "i: %2$s"
+		rectangle {
+			appearance io
+			position (CENTER, TOP 47)
+			size (110, fix 20)
+			text {
+				position (CENTER, MIDDLE)
+				value "i: %2$s"
+			}	
 		}
-		text {
-			position ( CENTER, TOP 64 )
-			value "d: %3$s"
+		rectangle {
+			appearance io
+			position (CENTER, TOP 68)
+			size (110, fix 20)
+			text {
+				position (CENTER, MIDDLE)
+				value "d: %3$s"
+			}	
 		}
 		polyline {
-			points [ (7,84) (113,84) ]
+			points [ (7,88) (113,88) ]
 		}
 	}
 }
