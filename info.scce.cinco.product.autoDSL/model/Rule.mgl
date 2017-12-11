@@ -239,6 +239,13 @@ graphModel Rule {
 		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[0,0], NumberOutput[1,1])
 	}
 	
+	@style(nonCommutableOperation, "÷")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	container Division extends NonCommutableOperation {
+		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[0,0], NumberOutput[1,1])
+	}
+	
 	@style(nonCommutableOperation, "<")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
