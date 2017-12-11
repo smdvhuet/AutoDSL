@@ -36,31 +36,30 @@ class EgoCarGenerator {
 		}
 		    
 		public void step(double dTimeSec) {
+			IO.out_Acceleration = 0.0;
+			IO.in_CurrentSpeed = this.velocityMPerSec;
+			
+			autoDSL.Run();
+			double accel = IO.out_Acceleration;
+		    
+			if (velocityMPerSec == 0 && accel == 0) {
+				return;
+			}
+		        
+			double dVel = (accel - (f0 + f1 * velocityMPerSec + f2 * velocityMPerSec * velocityMPerSec) / massKg) * dTimeSec;
+			double xDot = velocityMPerSec * dTimeSec;
+			
+			
 			
 			final double MAX_VEL = 250 / 3.6;
-			
-			double dVel = IO.in_GamepadThrottle * dTimeSec;
 			double newVel = this.velocityMPerSec + dVel;
 			
 			if(newVel < 0)
 				newVel = 0;
 			else if(newVel > MAX_VEL)
 				newVel = MAX_VEL;
+			
 			this.velocityMPerSec = newVel;
-			
-			IO.in_CurrentSpeed = this.velocityMPerSec;
-			
-			autoDSL.Run();
-			double accel = this.velocityMPerSec + IO.out_Acceleration;
-		    
-			if (velocityMPerSec == 0 && accel == 0) {
-				return;
-			}
-		        
-			double vDot = (accel + (f0 + f1 * velocityMPerSec + f2 * velocityMPerSec * velocityMPerSec) / massKg) * dTimeSec;
-			double xDot = velocityMPerSec * dTimeSec;
-		        
-			this.velocityMPerSec += vDot;
 			this.posM += xDot;
 		}
 		    
