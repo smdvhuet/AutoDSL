@@ -36,6 +36,18 @@ class EgoCarGenerator {
 		}
 		    
 		public void step(double dTimeSec) {
+			
+			final double MAX_VEL = 250 / 3.6;
+			
+			double dVel = IO.in_GamepadThrottle * dTimeSec;
+			double newVel = this.velocityMPerSec + dVel;
+			
+			if(newVel < 0)
+				newVel = 0;
+			else if(newVel > MAX_VEL)
+				newVel = MAX_VEL;
+			this.velocityMPerSec = newVel;
+			
 			IO.in_CurrentSpeed = this.velocityMPerSec;
 			
 			autoDSL.Run();
