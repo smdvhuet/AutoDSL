@@ -6,10 +6,14 @@ class GuiGenerator {
 		package info.scce.cinco.gui;
 		
 		import javax.swing.JFrame;
+		import javax.swing.JOptionPane;
+		import info.scce.cinco.product.EgoCar;
+		import info.scce.cinco.core.IO;
 		
 		public class InteractiveSimulator {
 		    
 		    private SimulatorPanel simPanel;
+		    private EgoCar egoCar;
 		    
 		    public InteractiveSimulator() {
 		        
@@ -19,12 +23,114 @@ class GuiGenerator {
 		        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		        frame.pack();
 		        frame.setVisible(true);
+		        egoCar = new EgoCar(0,0);
 		    }
 		    
 		    public static void main(String[] args) {
 		        
 		        InteractiveSimulator sim = new InteractiveSimulator();
 		    }
+		    
+		    public void run(){
+		        double carPosInM = 0.0;
+		        double carVelocityInMS = 0.0;
+		        boolean hasCar = false;
+		        boolean crash = false;
+		    	long last = System.currentTimeMillis();
+		          
+		        while (true) {
+		
+		            try {
+		                Thread.sleep(100);
+		            } catch (InterruptedException ex) {
+		                //
+		            }
+		              
+		            if (!simPanel.isVisible()) {
+		                break;
+		            }
+		
+		            simPanel.setCheckable(egoCar.getVelocity() * 3.6);
+		            
+		            Mode mode = simPanel.getMode();
+		            if (mode == Mode.PAUSE) {
+		                last = System.currentTimeMillis();
+		                continue;
+		            }
+		
+		            // simulate world
+		            long time = System.currentTimeMillis();                
+		            double dt = ((double) (time-last)) / 1000.0;  
+		              
+		            if (hasCar) {
+		                double oldCarPosInM = carPosInM;
+		                carPosInM += carVelocityInMS * dt;
+		                  
+		                if (Math.abs(carPosInM - egoCar.getPositionM()) < 2.5 ||
+		                        (oldCarPosInM > egoCar.getPositionM() && carPosInM < egoCar.getPositionM())) {
+		                    crash = true; 
+		                }
+		            }                    
+		              
+		            if (crash) {
+		                JOptionPane.showMessageDialog(null, "BOOOM!!!");
+		                hasCar = false;
+		                crash = false;                    
+		                simPanel.setHasCar(false);
+		            }
+		              
+		            // read gui
+		            if (simPanel.hasCar()) {                    
+		                  carVelocityInMS = simPanel.getCarVelocityInMS();                   
+		                  if (!hasCar) {
+		                      hasCar = true;
+		                      carPosInM = egoCar.getPositionM() + simPanel.getDistanceInM();
+		                  }                    
+		              } else {
+		                  hasCar = false;
+		              }
+		              
+		              //Simulate driver
+		              final double MAX_DECEL = 7;
+		              final double MAX_ACCEL = 2;
+		              final double MAX_VEL = 250 / 3.6;
+		              double acceleration = 0.0;
+		              if(simPanel.getDeceleration() > 0)
+		                  acceleration = (-1) * simPanel.getDeceleration() * MAX_DECEL;
+		              else
+		                  acceleration = simPanel.getAcceleration() * MAX_ACCEL;
+		
+		              double dVel = acceleration * dt;
+		              double newVel = egoCar.getVelocity() + dVel;
+		
+		              if(newVel < 0)
+		                  newVel = 0;
+		              else if(newVel > MAX_VEL)
+		                  newVel = MAX_VEL;
+		
+		              //Feeding ACC
+		              //IO.in_GamepadA = ui.getAcceleration();
+		              //IO.in_GamepadB = ;
+		              
+		              IO.in_CurrentSpeed = simPanel.getCarVelocityInMS();
+		                              
+		              // simulate acc
+		              egoCar.step(dt);                
+		
+		              last = time;
+		              
+		              // update gui    
+		              simPanel.setAccSpeed(IO.in_SetSpeed);
+		              simPanel.setVelocity(IO.in_CurrentSpeed);
+		              simPanel.setEgoPos(egoCar.getPositionM());
+		              
+		              simPanel.setDrawCar(hasCar);
+		              simPanel.setCarPos(carPosInM);
+		              
+		              simPanel.update();   
+		          }
+		          System.exit(0);
+		      }
 		}
 	'''
 	
@@ -33,16 +139,17 @@ class GuiGenerator {
 		
 		import java.awt.BorderLayout;
 		import javax.swing.JPanel;
+		import javax.swing.JOptionPane;
 		
 		public class SimulatorPanel extends JPanel {
 		        
-		    private InfoPanel info;
+		    public InfoPanel info;
 		    
-		    private CarControlsPanel carControls;
+		    public CarControlsPanel carControls;
 		    
-		    private SimControlPanel simControls;
+		    public SimControlPanel simControls;
 		    
-		    private RoadVisualizationPanel road; 
+		    public RoadVisualizationPanel road; 
 		    
 		    public SimulatorPanel() {
 		        initialize();
