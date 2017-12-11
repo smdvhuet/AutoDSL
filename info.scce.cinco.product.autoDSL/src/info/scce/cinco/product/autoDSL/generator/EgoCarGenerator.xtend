@@ -20,22 +20,22 @@ class EgoCarGenerator {
 		
 		private final double f2 = 0.4342;
 		
-		private AutoDSL_«IDHasher.GetStringHash(auto.id)» autoDSL;
+		private AutoDSL«IDHasher.GetStringHash(auto.id)» autoDSL;
 		
 		public EgoCar(double posM, double velocityMPerSec) {
 			this.posM = posM;
 			this.velocityMPerSec = velocityMPerSec;
 			
-			autoDSL = new AutoDSL_«IDHasher.GetStringHash(auto.id)»();
+			autoDSL = new AutoDSL«IDHasher.GetStringHash(auto.id)»();
 		}
 		
 		
 		    
 		public void step(double dTimeSec) {
-			((Rule)autoDSL.getCurrentState()).Geschwindigkeit = this.velocityMPerSec;
+			autoDSL.getCurrentState().in_CurrentSpeed = this.velocityMPerSec;
 			
 			autoDSL.Run();
-			double force = this.velocityMPerSec + ((Rule)autoDSL.getCurrentState()).Geschwindigkeit;
+			double force = this.velocityMPerSec + autoDSL.getCurrentState().out_Acceleration;
 		    
 			if (velocityMPerSec == 0 && force == 0) {
 				return;
