@@ -39,13 +39,13 @@ class EgoCarGenerator {
 			IO.in_CurrentSpeed = this.velocityMPerSec;
 			
 			autoDSL.Run();
-			double force = this.velocityMPerSec + IO.out_Acceleration;
+			double accel = this.velocityMPerSec + IO.out_Acceleration;
 		    
-			if (velocityMPerSec == 0 && force == 0) {
+			if (velocityMPerSec == 0 && accel == 0) {
 				return;
 			}
 		        
-			double vDot = (force - (f0 + f1 * velocityMPerSec + f2 * velocityMPerSec * velocityMPerSec)) / massKg * dTimeSec;
+			double vDot = (accel + (f0 + f1 * velocityMPerSec + f2 * velocityMPerSec * velocityMPerSec) / massKg) * dTimeSec);
 			double xDot = velocityMPerSec * dTimeSec;
 		        
 			this.velocityMPerSec += vDot;

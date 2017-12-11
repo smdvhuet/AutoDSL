@@ -181,7 +181,7 @@ class StaticClasses {
 				else if(integral < MIN_VALUE)
 					integral = MIN_VALUE;
 						
-				return ((error + i * integral + d * diff) * p)/dTime;
+				return ((error + i * integral + d * diff) * p)/dTimeSec;
 			}
 				
 			public final double getP() { return p; }
