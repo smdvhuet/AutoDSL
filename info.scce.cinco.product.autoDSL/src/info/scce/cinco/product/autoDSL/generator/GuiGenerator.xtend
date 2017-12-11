@@ -108,8 +108,8 @@ class GuiGenerator {
 		              
 		              
 		              IO.in_GamepadB = acceleration < -0.1;
+		              IO.in_DistanceFront = hasCar ? egoCar.getPositionM() - carPosInM : Double.MAX_VALUE;
 		             
-		              
 		              // simulate acc
 		              egoCar.step(dt);                
 		
