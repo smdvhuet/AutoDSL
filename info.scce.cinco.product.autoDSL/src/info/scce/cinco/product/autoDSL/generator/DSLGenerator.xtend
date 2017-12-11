@@ -49,6 +49,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		EclipseFileUtils.writeToFile(corePackage.getFile("StateMachine.java"), StaticClasses::StateMachineClass())
 		EclipseFileUtils.writeToFile(corePackage.getFile("Utility.java"), StaticClasses::UtilityClass())
 		EclipseFileUtils.writeToFile(corePackage.getFile("PID.java"), StaticClasses::PIDClass())
+		EclipseFileUtils.writeToFile(corePackage.getFile("IO.java"), StaticClasses::IOClass())
 		EclipseFileUtils.writeToFile(mainPackage.getFile("EgoCar.java"), new EgoCarGenerator().generateEgoCar(dsl))
 
 		

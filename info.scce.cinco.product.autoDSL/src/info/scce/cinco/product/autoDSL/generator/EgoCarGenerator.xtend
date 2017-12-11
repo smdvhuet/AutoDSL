@@ -7,6 +7,8 @@ class EgoCarGenerator {
 	def generateEgoCar(AutoDSL auto)'''
 	package info.scce.cinco.product;
 	
+	import info.scce.cinco.core.IO;
+	
 	public class EgoCar{
 		private double posM;
 		    
@@ -29,13 +31,15 @@ class EgoCarGenerator {
 			autoDSL = new AutoDSL«IDHasher.GetStringHash(auto.id)»();
 		}
 		
-		
+		public void toggleACC(){
+			IO.in_GamepadX = !IO.in_GamepadX;
+		}
 		    
 		public void step(double dTimeSec) {
-			autoDSL.getCurrentState().in_CurrentSpeed = this.velocityMPerSec;
+			IO.in_CurrentSpeed = this.velocityMPerSec;
 			
 			autoDSL.Run();
-			double force = this.velocityMPerSec + autoDSL.getCurrentState().out_Acceleration;
+			double force = this.velocityMPerSec + IO.out_Acceleration;
 		    
 			if (velocityMPerSec == 0 && force == 0) {
 				return;

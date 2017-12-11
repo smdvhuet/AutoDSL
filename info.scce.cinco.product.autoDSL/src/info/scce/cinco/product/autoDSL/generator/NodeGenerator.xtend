@@ -48,10 +48,13 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 				
 				import info.scce.cinco.core.State;
 				import info.scce.cinco.core.PID;
+				import info.scce.cinco.core.IO;
+				
 				«IF importUtilityClass(rule)»import info.scce.cinco.core.Utility; «ENDIF»
 				
-				public class «rule.name» extends State{
+				public class «rule.name» implements State{
 					
+					public boolean guard;
 					
 					//PID Controllers
 					«FOR pid : rule.PIDControllers»
@@ -211,9 +214,9 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	def referenceInput(Input in){
 		switch in{
 			NumberStaticInput :	in.staticValue
-			NumberCarInput :	"in_"+in.inputtype.toString
+			NumberCarInput :	"IO.in_"+in.inputtype.toString
 			BooleanStaticInput:	in.staticValue
-			BooleanCarInput:	"in_"+in.inputtype.toString
+			BooleanCarInput:	"IO.in_"+in.inputtype.toString
 			default :	if(in.predecessors.nullOrEmpty){
 							"/*input not a reference*/"
 						}else{
@@ -224,8 +227,8 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	def referenceOutput(Output out){
 		switch out{
-			NumberCarOutput :	"out_"+out.outputtype.toString
-			BooleanCarOutput:	"out_"+out.outputtype.toString
+			NumberCarOutput :	"IO.out_"+out.outputtype.toString
+			BooleanCarOutput:	"IO.out_"+out.outputtype.toString
 			default :	IDHasher.GetStringHash(out.id)
 		}	
 	}

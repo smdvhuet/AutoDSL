@@ -99,41 +99,7 @@ class StaticClasses {
 	static def StateClass() '''
 	package info.scce.cinco.core;
 	
-	public abstract class State {
-		
-		//Number Outputs
-		public double out_Acceleration;
-		public double out_Steering;
-		public double out_GamepadFeedbackX;
-		public double out_GamepadFeedbackY;
-		
-		//Boolean Outputs
-		public boolean out_Scheinwerfer_An;
-		public boolean guard;
-		
-		//Number Inputs
-		public double in_DistanceFront;
-		public double in_DistanceRear;
-		public double in_TimeDistanceFront;
-		public double in_CurrentSpeed;
-		public double in_SetSpeed;
-		
-		//Boolean Inputs
-		public boolean in_GamepadA;
-		public boolean in_GamepadB;
-		public boolean in_GamepadX;
-		public boolean in_GamepadY;
-		public boolean in_GamepadLB;
-		public boolean in_GamepadRB;
-		public boolean in_GamepadBACK;
-		public boolean in_GamepadSTART;
-		public boolean in_GamepadXBOX;
-		public boolean in_GamepadLStickPressed;
-		public boolean in_GamepadRStickPressed;
-		public boolean in_GamepadDpadLeft;
-		public boolean in_GamepadDpadRight;
-		public boolean in_GamepadDpadUp;
-		public boolean in_GamepadDpadDown;
+	public interface State {
 		
 		public abstract void onEntry();
 		public abstract void Execute();
@@ -148,7 +114,7 @@ class StaticClasses {
 	import java.util.ArrayList;
 	import java.util.List;
 	
-	public class MultiState extends State{
+	public class MultiState implements State{
 		private List<State> states = new ArrayList<>();
 		
 		public void onEntry(){
@@ -251,4 +217,43 @@ class StaticClasses {
 		}
 	}
 	'''
+	static def IOClass()'''
+	package info.scce.cinco.core;
+	
+	public class IO{
+		//Number Outputs
+		static public double out_Acceleration;
+		static public double out_Steering;
+		static public double out_GamepadFeedbackX;
+		static public double out_GamepadFeedbackY;
+		
+		//Boolean Outputs
+		static public boolean out_Scheinwerfer_An;
+		
+		//Number Inputs
+		static public double in_DistanceFront;
+		static public double in_DistanceRear;
+		static public double in_TimeDistanceFront;
+		static public double in_CurrentSpeed;
+		static public double in_SetSpeed;
+		
+		//Boolean Inputs
+		static public boolean in_GamepadA;
+		static public boolean in_GamepadB;
+		static public boolean in_GamepadX;
+		static public boolean in_GamepadY;
+		static public boolean in_GamepadLB;
+		static public boolean in_GamepadRB;
+		static public boolean in_GamepadBACK;
+		static public boolean in_GamepadSTART;
+		static public boolean in_GamepadXBOX;
+		static public boolean in_GamepadLStickPressed;
+		static public boolean in_GamepadRStickPressed;
+		static public boolean in_GamepadDpadLeft;
+		static public boolean in_GamepadDpadRight;
+		static public boolean in_GamepadDpadUp;
+		static public boolean in_GamepadDpadDown;
+	}
+	'''
+	
 }
