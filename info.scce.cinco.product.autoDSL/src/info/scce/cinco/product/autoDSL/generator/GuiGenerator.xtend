@@ -117,7 +117,7 @@ class GuiGenerator {
 		              
 		              // update gui    
 		              simPanel.setAccSpeed(IO.in_SetSpeed);
-		              simPanel.setVelocity(IO.in_CurrentSpeed);
+		              simPanel.setVelocity(egoCar.getVelocity());
 		              simPanel.setEgoPos(egoCar.getPositionM());
 		              
 		              simPanel.setDrawCar(hasCar);
