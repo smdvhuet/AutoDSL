@@ -24,4 +24,8 @@ class IDHasher {
 	public static def Clear(){
 		stringHash2IdHash.clear();
 	}
+	
+	public static def boolean Contains(String stringHash){
+		return stringHash2IdHash.containsKey(stringHash);
+	}
 }

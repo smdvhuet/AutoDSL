@@ -85,7 +85,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 			«if(dsl.offStates.length() > 0) chooseEntryState(dsl)»
 		}
 		
-		«generateAllGuardValidtionsFunctions(dsl)»
+		«generateAllGuardValidationsFunctions(dsl)»
 	}
 	'''
 	
@@ -143,11 +143,18 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	'''	
 	«FOR inEdge : incomingEdges SEPARATOR '\n'»
 	«FOR outEdge : outgoingEdges SEPARATOR '\n'»
-	Predicate<State> guard«IDHasher.GetStringHash(guard.id)» = (State state) -> «FOR container : guard.componentNodes SEPARATOR '&&'»«IF container.rule != null»«knownGuardFunctions.get(IDHasher.GetIntHash(container.rule.id))»()«ELSE»true«ENDIF»  «ENDFOR»;
+	«generateGuardPredicate(guard)»
 	AddTransition(states.get(«IDHasher.GetIntHash(inEdge.sourceElement.id)»), states.get(«IDHasher.GetIntHash(outEdge.targetElement.id)»), guard«IDHasher.GetStringHash(guard.id)»);
 	«ENDFOR»
 	«ENDFOR»
 	'''
+	}
+	
+	def generateGuardPredicate(Guard guard){
+		if(IDHasher.Contains(guard.id)) 
+			return ''''''
+		else
+			return '''Predicate<State> guard«IDHasher.GetStringHash(guard.id)» = (State state) -> «FOR container : guard.componentNodes SEPARATOR '&&'»«IF container.rule != null»«knownGuardFunctions.get(IDHasher.GetIntHash(container.rule.id))»()«ELSE»true«ENDIF»  «ENDFOR»;'''
 	}
 	
 	def generateRuleType(Rule rule){
@@ -170,7 +177,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		return ''
 	}
 	
-	def generateAllGuardValidtionsFunctions(AutoDSL dsl){
+	def generateAllGuardValidationsFunctions(AutoDSL dsl){
 		knownGuardFunctions.clear();
 		'''
 		«FOR guard : dsl.guards SEPARATOR '\n'»

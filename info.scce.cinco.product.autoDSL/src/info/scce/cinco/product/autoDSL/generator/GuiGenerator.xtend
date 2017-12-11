@@ -29,6 +29,7 @@ class GuiGenerator {
 		    public static void main(String[] args) {
 		        
 		        InteractiveSimulator sim = new InteractiveSimulator();
+		        sim.run(); 
 		    }
 		    
 		    public void run(){
@@ -37,6 +38,7 @@ class GuiGenerator {
 		        boolean hasCar = false;
 		        boolean crash = false;
 		    	long last = System.currentTimeMillis();
+		    	boolean bPressed = false, xPressed = false;
 		          
 		        while (true) {
 		
@@ -50,8 +52,6 @@ class GuiGenerator {
 		                break;
 		            }
 		
-		            simPanel.setCheckable(egoCar.getVelocity() * 3.6);
-		            
 		            Mode mode = simPanel.getMode();
 		            if (mode == Mode.PAUSE) {
 		                last = System.currentTimeMillis();
@@ -89,31 +89,27 @@ class GuiGenerator {
 		              } else {
 		                  hasCar = false;
 		              }
-		              
-		              //Simulate driver
-		              final double MAX_DECEL = 7;
-		              final double MAX_ACCEL = 2;
-		              final double MAX_VEL = 250 / 3.6;
-		              double acceleration = 0.0;
-		              if(simPanel.getDeceleration() > 0)
-		                  acceleration = (-1) * simPanel.getDeceleration() * MAX_DECEL;
-		              else
-		                  acceleration = simPanel.getAcceleration() * MAX_ACCEL;
 		
-		              double dVel = acceleration * dt;
-		              double newVel = egoCar.getVelocity() + dVel;
-		
-		              if(newVel < 0)
-		                  newVel = 0;
-		              else if(newVel > MAX_VEL)
-		                  newVel = MAX_VEL;
+		            final double MAX_DECEL = 7;
+		            final double MAX_ACCEL = 2;
+		            final double MAX_VEL = 250 / 3.6;
+		            double acceleration = 0.0;
+		            if(simPanel.getDeceleration() > 0)
+		                acceleration = (-1) * simPanel.getDeceleration() * MAX_DECEL;
+		            else
+		                acceleration = simPanel.getAcceleration() * MAX_ACCEL;
 		
 		              //Feeding ACC
-		              //IO.in_GamepadA = ui.getAcceleration();
-		              //IO.in_GamepadB = ;
+		              IO.in_GamepadThrottle = acceleration;
+		              if(xPressed != simPanel.getAccActive()){
+		            	  IO.in_GamepadX = simPanel.getAccActive();
+		            	  xPressed = simPanel.getAccActive();
+		              }
 		              
-		              IO.in_CurrentSpeed = simPanel.getCarVelocityInMS();
-		                              
+		              
+		              IO.in_GamepadB = acceleration < -0.1;
+		             
+		              
 		              // simulate acc
 		              egoCar.step(dt);                
 		
