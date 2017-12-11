@@ -9,7 +9,7 @@ graphModel Rule {
 	diagramExtension "rule"
 	
 	containableElements(
-		Operation[0,*],
+		Operation[1,*],
 		Comment[0,*]
 	)
 	
