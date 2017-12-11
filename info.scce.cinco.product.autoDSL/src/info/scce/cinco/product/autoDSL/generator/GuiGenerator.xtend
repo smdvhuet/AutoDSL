@@ -102,6 +102,7 @@ class GuiGenerator {
 		              IO.in_GamepadThrottle = acceleration;
 		              if(xPressed != simPanel.getAccActive()){
 		            	  IO.in_GamepadX = simPanel.getAccActive();
+		            	  IO.in_SetSpeed = egoCar.getVelocity();
 		            	  xPressed = simPanel.getAccActive();
 		              }
 		              

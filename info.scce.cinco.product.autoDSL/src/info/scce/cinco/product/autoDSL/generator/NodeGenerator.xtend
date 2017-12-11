@@ -47,10 +47,10 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 				package info.scce.cinco.product;
 				
 				import info.scce.cinco.core.State;
-				import info.scce.cinco.core.IO;
 				
-				«IF importUtilityClass(rule)»import info.scce.cinco.core.Utility; «ENDIF»
-				«IF importPIDClass(rule)»import info.scce.cinco.core.PID; «ENDIF»
+				«IF importUtilityClass(rule)»import info.scce.cinco.core.Utility;«ENDIF»
+				«IF importPIDClass(rule)»import info.scce.cinco.core.PID;«ENDIF»
+				«IF importIOClass(rule)»import info.scce.cinco.core.IO;«ENDIF»
 				
 				public class «rule.name» implements State{
 					
@@ -239,5 +239,12 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	def boolean importPIDClass(Rule rule){
 		return rule.operations.filter(PIDController).length > 0
+	}
+	
+	def boolean importIOClass(Rule rule){
+		for(op : rule.operations)
+			if(op.booleanCarInputs.length + op.booleanCarOutputs.length + op.numberCarInputs.length + op.numberCarOutputs.length > 0)
+				return true;
+		return false;
 	}
 }
