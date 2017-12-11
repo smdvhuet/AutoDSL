@@ -181,7 +181,7 @@ class StaticClasses {
 				else if(integral < MIN_VALUE)
 					integral = MIN_VALUE;
 						
-				return (error + i * integral + d * diff) * p;
+				return ((error + i * integral + d * diff) * p)/dTime;
 			}
 				
 			public final double getP() { return p; }
@@ -235,6 +235,8 @@ class StaticClasses {
 		static public double in_DistanceRear;
 		static public double in_TimeDistanceFront;
 		static public double in_CurrentSpeed;
+		static public double in_GamepadSteering;
+		static public double in_GamepadThrottle;
 		static public double in_SetSpeed;
 		
 		//Boolean Inputs
