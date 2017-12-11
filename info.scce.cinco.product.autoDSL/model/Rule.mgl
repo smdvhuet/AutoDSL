@@ -9,7 +9,7 @@ graphModel Rule {
 	diagramExtension "rule"
 	
 	containableElements(
-		Operation[0,*],
+		Operation[1,*],
 		Comment[0,*]
 	)
 	
@@ -211,7 +211,7 @@ graphModel Rule {
 	}
 	
 	abstract container Operation {
-		incomingEdges(ControlFlow[1,*])
+		incomingEdges(ControlFlow[0,*])
 		outgoingEdges(ControlFlowBasic[0,1])
 		containableElements(Input[1,*], Output[0,1]) 
 	}
