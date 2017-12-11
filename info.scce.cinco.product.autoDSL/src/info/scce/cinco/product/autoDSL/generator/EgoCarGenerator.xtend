@@ -45,7 +45,7 @@ class EgoCarGenerator {
 				return;
 			}
 		        
-			double vDot = (accel + (f0 + f1 * velocityMPerSec + f2 * velocityMPerSec * velocityMPerSec) / massKg) * dTimeSec);
+			double vDot = (accel + (f0 + f1 * velocityMPerSec + f2 * velocityMPerSec * velocityMPerSec) / massKg) * dTimeSec;
 			double xDot = velocityMPerSec * dTimeSec;
 		        
 			this.velocityMPerSec += vDot;
