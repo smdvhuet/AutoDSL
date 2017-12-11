@@ -212,7 +212,7 @@ graphModel Rule {
 	abstract container Operation {
 		incomingEdges(ControlFlow[1,*])
 		outgoingEdges(ControlFlowBasic[0,1])
-		containableElements(Input[1,*], Output[1,1]) 
+		containableElements(Input[1,*], Output[0,1]) 
 	}
    
 	abstract container CommutableOperation extends Operation {}
