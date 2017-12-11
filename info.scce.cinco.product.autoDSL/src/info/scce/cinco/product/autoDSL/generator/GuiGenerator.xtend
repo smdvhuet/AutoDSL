@@ -38,7 +38,7 @@ class GuiGenerator {
 		        boolean hasCar = false;
 		        boolean crash = false;
 		    	long last = System.currentTimeMillis();
-		    	boolean bPressed = false, xPressed = false;
+		    	boolean xPressed = false;
 		          
 		        while (true) {
 		
@@ -92,7 +92,6 @@ class GuiGenerator {
 		
 		            final double MAX_DECEL = 7;
 		            final double MAX_ACCEL = 2;
-		            final double MAX_VEL = 250 / 3.6;
 		            double acceleration = 0.0;
 		            if(simPanel.getDeceleration() > 0)
 		                acceleration = (-1) * simPanel.getDeceleration() * MAX_DECEL;
@@ -135,8 +134,8 @@ class GuiGenerator {
 		
 		import java.awt.BorderLayout;
 		import javax.swing.JPanel;
-		import javax.swing.JOptionPane;
 		
+		@SuppressWarnings("serial")
 		public class SimulatorPanel extends JPanel {
 		        
 		    public InfoPanel info;
@@ -260,6 +259,7 @@ class GuiGenerator {
 		import javax.swing.JSeparator;
 		import javax.swing.JTextField;
 		
+		@SuppressWarnings("serial")
 		class SimControlPanel extends JPanel {
 		
 		    private Mode mode = Mode.PAUSE;
@@ -397,6 +397,7 @@ class GuiGenerator {
 		import java.awt.geom.Rectangle2D;
 		import javax.swing.JPanel;
 		
+		@SuppressWarnings("serial")
 		class RoadVisualizationPanel extends JPanel {
 		
 		    private Rectangle2D ego;    
@@ -542,6 +543,7 @@ class GuiGenerator {
 		import javax.swing.SwingConstants;
 		import javax.swing.border.EmptyBorder;
 		
+		@SuppressWarnings("serial")
 		class InfoPanel extends JPanel {
 		
 		    private boolean accInfo = false;
@@ -647,6 +649,7 @@ class GuiGenerator {
 		import javax.swing.JPanel;
 		import javax.swing.JSlider;
 		
+		@SuppressWarnings("serial")
 		class CarControlsPanel extends JPanel {
 		        
 		    private JSlider accelerator;
