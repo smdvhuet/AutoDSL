@@ -129,7 +129,7 @@ nodeStyle carOutput (2) {
 /* Node styles for Operations*/
 nodeStyle commutableOperation (1) {
 	roundedRectangle {
-		size (120, fix 20)
+		size (120, 20)
 		corner (10,10)
 		rectangle {
 			appearance io
@@ -148,7 +148,7 @@ nodeStyle commutableOperation (1) {
 
 nodeStyle nonCommutableOperation (1) {
 	roundedRectangle {
-		size (120, fix 20)
+		size (120, 20)
 		corner (10,10)
 		rectangle {
 			appearance io
@@ -187,7 +187,7 @@ nodeStyle comment(1) {
 
 nodeStyle pid (3) {
 	roundedRectangle {
-		size (120, fix 20)
+		size (120, 20)
 		corner (10,10)
 		rectangle {
 			appearance io
