@@ -58,6 +58,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		EclipseFileUtils.writeToFile(guiPackage.getFile("Mode.java"), GuiGenerator::generateMode())
 		EclipseFileUtils.writeToFile(guiPackage.getFile("generateInfoPanel.java"), GuiGenerator::generateInfoPanel())
 		EclipseFileUtils.writeToFile(guiPackage.getFile("CarControlsPanel.java"), GuiGenerator::generateCarControlsPanel())
+		EclipseFileUtils.writeToFile(guiPackage.getFile("InteractiveSimulator.java"), GuiGenerator::generateInteractiveSimulator())
 	}
 	
 	def generateStateMachine(AutoDSL dsl)'''

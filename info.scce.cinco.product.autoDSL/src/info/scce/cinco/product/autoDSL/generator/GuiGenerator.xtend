@@ -2,6 +2,32 @@ package info.scce.cinco.product.autoDSL.generator
 
 class GuiGenerator {
 	
+	static def generateInteractiveSimulator()'''
+		package info.scce.cinco.gui;
+		
+		import javax.swing.JFrame;
+		
+		public class InteractiveSimulator {
+		    
+		    private SimulatorPanel simPanel;
+		    
+		    public InteractiveSimulator() {
+		        
+		        simPanel = new SimulatorPanel();        
+		        JFrame frame = new JFrame();
+		        frame.setContentPane(simPanel);
+		        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		        frame.pack();
+		        frame.setVisible(true);
+		    }
+		    
+		    public static void main(String[] args) {
+		        
+		        InteractiveSimulator sim = new InteractiveSimulator();
+		    }
+		}
+	'''
+	
 	static def generateSimulatorPanel()'''
 		package info.scce.cinco.gui;
 		
