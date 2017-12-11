@@ -32,6 +32,6 @@ class RuleGenerator implements IGenerator<Rule> {
 	//TODO implement Car,Simulator,etc
 	def generateStatic(){
 		EclipseFileUtils.writeToFile(mainPackage.getFile("PID.java"), StaticClasses::PIDClass())
-		EclipseFileUtils.writeToFile(mainPackage.getFile("EgoCar.java"), new EgoCarGenerator().generateEgoCar())		
+//		EclipseFileUtils.writeToFile(mainPackage.getFile("EgoCar.java"), new EgoCarGenerator().generateEgoCar())		
 	}
 }

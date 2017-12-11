@@ -29,6 +29,9 @@ import info.scce.cinco.product.autoDSL.rule.rule.Output
 import info.scce.cinco.product.autoDSL.rule.rule.NumberCarOutput
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanCarOutput
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanGuardOutput
+import info.scce.cinco.product.autoDSL.rule.rule.Greater
+import info.scce.cinco.product.autoDSL.rule.rule.GreaterOrEqual
+import info.scce.cinco.product.autoDSL.rule.rule.Division
 
 class NodeGenerator extends RuleSwitch<CharSequence> {
 	
@@ -44,41 +47,11 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 				package info.scce.cinco.product;
 				
 				import info.scce.cinco.core.State;
+				import info.scce.cinco.core.PID;
 				«IF importUtilityClass(rule)»import info.scce.cinco.core.Utility; «ENDIF»
 				
-				public class «rule.name» implements State{
-					//Number Outputs
-					public double out_Acceleration;
-					public double out_Steering;
-					public double out_GamepadFeedbackX;
-					public double out_GamepadFeedbackY;
+				public class «rule.name» extends State{
 					
-					//Boolean Outputs
-					public boolean out_Scheinwerfer_An;
-					public boolean guard;
-					
-					//Number Inputs
-					public double in_DistanceFront;
-					public double in_DistanceRear;
-					public double in_TimeDistanceFront;
-					public double in_CurrentSpeed;
-					
-					//Boolean Inputs
-					public boolean in_GamepadA;
-					public boolean in_GamepadB;
-					public boolean in_GamepadX;
-					public boolean in_GamepadY;
-					public boolean in_GamepadLB;
-					public boolean in_GamepadRB;
-					public boolean in_GamepadBACK;
-					public boolean in_GamepadSTART;
-					public boolean in_GamepadXBOX;
-					public boolean in_GamepadLStickPressed;
-					public boolean in_GamepadRStickPressed;
-					public boolean in_GamepadDpadLeft;
-					public boolean in_GamepadDpadRight;
-					public boolean in_GamepadDpadUp;
-					public boolean in_GamepadDpadDown;
 					
 					//PID Controllers
 					«FOR pid : rule.PIDControllers»
@@ -106,10 +79,10 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 		}
 	}
 	
-	//TODO Connect PID to input
+	//TODO get dT for PID
 	override casePIDController(PIDController op)'''
 		//PID Controller
-		double «op.outputs.head.referenceOutput» = pid«IDHasher.GetStringHash(op.id)».calc(0, 0, 0);
+		double «op.outputs.head.referenceOutput» = pid«IDHasher.GetStringHash(op.id)».calc(«op.inputs.head.referenceInput», «op.inputs.last.referenceInput», 0.1);
 		
 		«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
@@ -176,6 +149,12 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
+	override caseDivision(Division op)'''
+	//Division Operator
+	double «op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» / «op.inputs.last.referenceInput»;
+	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
+	'''
+	
 	override caseLess(Less op)'''
 	//Less Operator
 	boolean «op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» < «op.inputs.last.referenceInput»;
@@ -185,6 +164,18 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	override caseLessOrEqual(LessOrEqual op)'''
 	//LessOrEqual Operator
 	boolean «op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» <= «op.inputs.last.referenceInput»;
+	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
+	'''
+	
+	override caseGreater(Greater op)'''
+	//Greater Operator
+	boolean «op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» > «op.inputs.last.referenceInput»;
+	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
+	'''
+	
+	override caseGreaterOrEqual(GreaterOrEqual op)'''
+	//GreaterOrEqual Operator
+	boolean «op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» >= «op.inputs.last.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	

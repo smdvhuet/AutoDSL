@@ -99,7 +99,42 @@ class StaticClasses {
 	static def StateClass() '''
 	package info.scce.cinco.core;
 	
-	public interface State {
+	public abstract class State {
+		
+		//Number Outputs
+		public double out_Acceleration;
+		public double out_Steering;
+		public double out_GamepadFeedbackX;
+		public double out_GamepadFeedbackY;
+		
+		//Boolean Outputs
+		public boolean out_Scheinwerfer_An;
+		public boolean guard;
+		
+		//Number Inputs
+		public double in_DistanceFront;
+		public double in_DistanceRear;
+		public double in_TimeDistanceFront;
+		public double in_CurrentSpeed;
+		public double in_SetSpeed;
+		
+		//Boolean Inputs
+		public boolean in_GamepadA;
+		public boolean in_GamepadB;
+		public boolean in_GamepadX;
+		public boolean in_GamepadY;
+		public boolean in_GamepadLB;
+		public boolean in_GamepadRB;
+		public boolean in_GamepadBACK;
+		public boolean in_GamepadSTART;
+		public boolean in_GamepadXBOX;
+		public boolean in_GamepadLStickPressed;
+		public boolean in_GamepadRStickPressed;
+		public boolean in_GamepadDpadLeft;
+		public boolean in_GamepadDpadRight;
+		public boolean in_GamepadDpadUp;
+		public boolean in_GamepadDpadDown;
+		
 		public abstract void onEntry();
 		public abstract void Execute();
 		public abstract void onExit();
@@ -113,7 +148,7 @@ class StaticClasses {
 	import java.util.ArrayList;
 	import java.util.List;
 	
-	public class MultiState implements State{
+	public class MultiState extends State{
 		private List<State> states = new ArrayList<>();
 		
 		public void onEntry(){

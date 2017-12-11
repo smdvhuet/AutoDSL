@@ -19,6 +19,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	var IFolder mainFolder
 	var IFolder mainPackage
 	var IFolder corePackage
+	var IFolder guiPackage
 	var HashMap<Integer, String> knownRuleTypes =  new HashMap<Integer, String>()
 	var HashMap<Integer, String> knownGuardFunctions = new HashMap<Integer, String>()
 	
@@ -34,17 +35,29 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		EclipseFileUtils.mkdirs(mainPackage,monitor)
 		corePackage = mainFolder.getFolder("info/scce/cinco/core")
 		EclipseFileUtils.mkdirs(corePackage,monitor)
+		guiPackage = mainFolder.getFolder("info/scce/cinco/gui")
+		EclipseFileUtils.mkdirs(guiPackage,monitor)
 		
-		generateStatic()
+		generateStatic(dsl)
 		
 		EclipseFileUtils.writeToFile(mainPackage.getFile("AutoDSL" + IDHasher.GetStringHash(dsl.id) + ".java"), generateStateMachine(dsl))
 	}
 	
-	def generateStatic(){
+	def generateStatic(AutoDSL dsl){
 		EclipseFileUtils.writeToFile(corePackage.getFile("State.java"), StaticClasses::StateClass())
 		EclipseFileUtils.writeToFile(corePackage.getFile("MultiState.java"), StaticClasses::MultiStateClass())
 		EclipseFileUtils.writeToFile(corePackage.getFile("StateMachine.java"), StaticClasses::StateMachineClass())
 		EclipseFileUtils.writeToFile(corePackage.getFile("Utility.java"), StaticClasses::UtilityClass())
+		EclipseFileUtils.writeToFile(corePackage.getFile("PID.java"), StaticClasses::PIDClass())
+		EclipseFileUtils.writeToFile(mainPackage.getFile("EgoCar.java"), new EgoCarGenerator().generateEgoCar(dsl))
+
+		
+		EclipseFileUtils.writeToFile(guiPackage.getFile("SimulatorPanel.java"), GuiGenerator::generateSimulatorPanel())
+		EclipseFileUtils.writeToFile(guiPackage.getFile("SimControlPanel.java"), GuiGenerator::generateSimControlPanel())
+		EclipseFileUtils.writeToFile(guiPackage.getFile("RoadVisualizationPanel.java"), GuiGenerator::generateRoadVisualizationPanel())
+		EclipseFileUtils.writeToFile(guiPackage.getFile("Mode.java"), GuiGenerator::generateMode())
+		EclipseFileUtils.writeToFile(guiPackage.getFile("generateInfoPanel.java"), GuiGenerator::generateInfoPanel())
+		EclipseFileUtils.writeToFile(guiPackage.getFile("CarControlsPanel.java"), GuiGenerator::generateCarControlsPanel())
 	}
 	
 	def generateStateMachine(AutoDSL dsl)'''

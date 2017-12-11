@@ -1,8 +1,10 @@
 package info.scce.cinco.product.autoDSL.generator
 
+import info.scce.cinco.product.autoDSL.autodsl.autodsl.AutoDSL
+
 class EgoCarGenerator {
 	
-	def generateEgoCar()'''
+	def generateEgoCar(AutoDSL auto)'''
 	package info.scce.cinco.product;
 	
 	public class EgoCar{
@@ -18,25 +20,22 @@ class EgoCarGenerator {
 		
 		private final double f2 = 0.4342;
 		
-		private StateMachine acc;
+		private AutoDSL_«IDHasher.GetStringHash(auto.id)» autoDSL;
 		
 		public EgoCar(double posM, double velocityMPerSec) {
 			this.posM = posM;
 			this.velocityMPerSec = velocityMPerSec;
 			
-			acc = new StateMachine();
-			Rule rule = new Rule();
-			rule.Geschwindigkeit = velocityMPerSec;
-			acc.SetEntryState(rule);
+			autoDSL = new AutoDSL_«IDHasher.GetStringHash(auto.id)»();
 		}
 		
 		
 		    
 		public void step(double dTimeSec) {
-			((Rule)acc.getCurrentState()).Geschwindigkeit = this.velocityMPerSec;
+			((Rule)autoDSL.getCurrentState()).Geschwindigkeit = this.velocityMPerSec;
 			
-			acc.Run();
-			double force = this.velocityMPerSec + ((Rule)acc.getCurrentState()).Geschwindigkeit;
+			autoDSL.Run();
+			double force = this.velocityMPerSec + ((Rule)autoDSL.getCurrentState()).Geschwindigkeit;
 		    
 			if (velocityMPerSec == 0 && force == 0) {
 				return;
