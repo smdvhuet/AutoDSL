@@ -111,6 +111,7 @@ class LayoutManager {
 	}
 	
 	static def resizeOperation(Operation op, int newWidth) {
+		op.adjustHeight
 		for(var i = 0; i < 2; i++) {
 			/* Setting the new size deliberately twice to prevent display errors!
 			 * Interior components are distributed more or less randomly otherwise. (bug?)
