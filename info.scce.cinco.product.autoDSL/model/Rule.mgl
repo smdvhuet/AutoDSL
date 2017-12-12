@@ -221,98 +221,98 @@ graphModel Rule {
 
 	@style(commutableOperation, "+")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
-	// postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container Addition extends CommutableOperation {
 		containableElements(BooleanInput[0,0], NumberInput[1,*], BooleanOutput[0,0], NumberOutput[1,1])
 	}
 	
 	@style(commutableOperation, "×")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
-	// postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container Multiplication extends CommutableOperation {
 		containableElements(BooleanInput[0,0], NumberInput[1,*], BooleanOutput[0,0], NumberOutput[1,1])		
 	}
 
 	@style(nonCommutableOperation, "-")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
-	// postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container Subtraction extends NonCommutableOperation {
 		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[0,0], NumberOutput[1,1])
 	}
 	
 	@style(nonCommutableOperation, "÷")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
-	// postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container Division extends NonCommutableOperation {
 		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[0,0], NumberOutput[1,1])
 	}
 	
 	@style(nonCommutableOperation, "<")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
-	// postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container Less extends NonCommutableOperation {
 		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[1,1], NumberOutput[0,0])
 	}
 	
 	@style(nonCommutableOperation, "≤")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
-	// postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container LessOrEqual extends NonCommutableOperation {
 		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[1,1], NumberOutput[0,0])
 	}
 	
 	@style(nonCommutableOperation, ">")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
-	// postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container Greater extends NonCommutableOperation {
 		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[1,1], NumberOutput[0,0])
 	}
 	
 	@style(nonCommutableOperation, "≥")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
-	// postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container GreaterOrEqual extends NonCommutableOperation {
 		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[1,1], NumberOutput[0,0])
 	}
 	
 	@style(commutableOperation, "max")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
-	// postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container Maximum extends CommutableOperation {
 		containableElements(BooleanInput[0,0], NumberInput[1,*], BooleanOutput[0,0], NumberOutput[1,1])
 	}
 	
 	@style(commutableOperation, "min")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
-	// postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container Minimum extends CommutableOperation {
 		containableElements(BooleanInput[0,0], NumberInput[1,*], BooleanOutput[0,0], NumberOutput[1,1])
 	}
 	
 	@style(commutableOperation, "∧")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
-	// postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container LogicalAnd extends CommutableOperation {
 		containableElements(BooleanInput[1,*], NumberInput[0,0], BooleanOutput[1,1], NumberOutput[0,0])
 	}
 	
 	@style(commutableOperation, "∨")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
-	// postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container LogicalOr extends CommutableOperation {
 		containableElements(BooleanInput[1,*], NumberInput[0,0], BooleanOutput[1,1], NumberOutput[0,0])
 	}
 	
 	@style(commutableOperation, "¬")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
-	// postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container Negation extends Operation {
 		containableElements(BooleanInput[1,1], NumberInput[0,0], BooleanOutput[1,1], NumberOutput[0,0])
 	}
 	
 	@style(commutableOperation, "?")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
-	// postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container Decision extends Operation {
 		outgoingEdges(ControlFlowDecisionFalse[1,1], ControlFlowDecisionTrue[1,1], ControlFlowBasic[0,0])
 		containableElements(BooleanInput[1,1], NumberInput[0,0], BooleanOutput[0,0], NumberOutput[0,0])
@@ -326,21 +326,21 @@ graphModel Rule {
 
 	@style(commutableOperation, "Output")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
-	// postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container DirectBooleanOutput extends Operation {
 		containableElements(BooleanInput[1,1], NumberInput[0,0], BooleanCarOutput[1,1], BooleanOutputPort[0,0], NumberOutput[0,0])
 	}
 	
 	@style(commutableOperation, "Output")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
-	// postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container DirectNumberOutput extends Operation {
 		containableElements(BooleanInput[0,0], NumberInput[1,1], BooleanOutput[0,0], NumberCarOutput[1,1], NumberOutputPort[0,0])
 	}
 	
 	@style(commutableOperation, "Guard")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
-	// postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container BooleanGuardOutput extends Operation {
 		outgoingEdges(*[0,0])
 		containableElements(BooleanInput[1,1], NumberInput[0,0], BooleanOutput[0,0], NumberOutput[0,0])
@@ -348,7 +348,7 @@ graphModel Rule {
 	
 	@style(pid, "${p}", "${i}","${d}")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
-	// postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container PIDController extends Operation {
 		attr EDouble as p
 		attr EDouble as i

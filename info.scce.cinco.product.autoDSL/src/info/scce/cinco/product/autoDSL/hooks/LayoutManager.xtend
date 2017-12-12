@@ -112,12 +112,18 @@ class LayoutManager {
 	
 	static def resizeOperation(Operation op, int newWidth) {
 		op.adjustHeight
+		/* Setting the new size deliberately twice to prevent display errors!
+		 * Interior components are distributed more or less randomly otherwise. (bug?)
+		 */
 		for(var i = 0; i < 2; i++) {
-			/* Setting the new size deliberately twice to prevent display errors!
-			 * Interior components are distributed more or less randomly otherwise. (bug?)
-			 */ 
-			op.inputs.forEach[it.width = newWidth - 2 * CONTAINER_PADDING]
-			op.outputs.forEach[it.width = newWidth - 2 * CONTAINER_PADDING]	
+			/* filter[it.eAdapters.size > 4] prevents access to Nodes without reestablished representation
+			 * during (re)opening of files.
+			 * Determined by random testing the size is 4 when opening a file and 7 otherwise.
+			 * TODO As this fix should only be temporary, remove when no longer necessary.
+			 * TODO Otherwise call resizeOperation after necessary access to all Nodes is possible. 
+			 */
+			op.inputs.filter[it.eAdapters.size > 4].forEach[it.width = newWidth - 2 * CONTAINER_PADDING]
+			op.outputs.filter[it.eAdapters.size > 4].forEach[it.width = newWidth - 2 * CONTAINER_PADDING]	
 		}
 	}
 	
