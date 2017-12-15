@@ -18,16 +18,7 @@ class StyleIO implements StyleAppearanceProvider<IO> {
 
 	override getAppearance(IO io, String element) {
 		val app = StyleFactory.eINSTANCE.createAppearance
-		//For demonstration only, no real use
-		val color = StyleFactory.eINSTANCE.createColor
-		var pos = io.y
-		if (pos > 255) pos = 255
-		color.r = pos
-		color.g = pos
-		color.b = pos
-		app.lineInVisible = true
-		app.foreground = color
-		//TODO get app.imagePath to work
+		//TODO wait until app.imagePath is fixed (works just fine under Cinco 0.7)
 		switch io {
 			BooleanStaticInput, NumberStaticInput : app.imagePath = "icons/StaticInput.png"
 			BooleanCarInput, NumberCarInput : app.imagePath = "icons/CarInput.png"
@@ -35,10 +26,6 @@ class StyleIO implements StyleAppearanceProvider<IO> {
 			BooleanCarOutput, NumberCarOutput : app.imagePath = "icons/CarOutput.png"
 			BooleanOutputPort, NumberOutputPort : app.imagePath = "icons/outputPort.png"
 		}
-//		Possible, but ugly and non-consistent access:
-//		val cs = io.class.methods.findFirst[it.returnType.equals(ContainerShape)].invoke(io) as ContainerShape
-//		val img = cs.children.findFirst[it.graphicsAlgorithm instanceof Image].graphicsAlgorithm as Image
-//		img.id = "icons/StaticInput.png"
 		app
 	}
 	

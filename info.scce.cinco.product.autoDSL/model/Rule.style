@@ -46,23 +46,7 @@ edgeStyle dataFlow {
 }
 
 /* Node styles for IO */
-nodeStyle inputPort (1) {
-	rectangle {
-		appearance io
-		size (110,20)
-		image {
-			position (LEFT, MIDDLE)
-			size (fix 16,fix 16)
-			path ( "icons/inputPort.png" )
-		}
-		text {
-			position ( LEFT 16, MIDDLE)
-			value ": %s"			
-		}
-	}
-}
-
-nodeStyle carInput (2) {
+nodeStyle input (2) {
 	appearanceProvider ("info.scce.cinco.product.autoDSL.appearances.StyleIO")
 	rectangle {
 		appearance io
@@ -79,39 +63,8 @@ nodeStyle carInput (2) {
 	}
 }
 
-nodeStyle staticInput (2) {
-	rectangle {
-		appearance io
-		size (110,20)
-		image {
-			position (LEFT, MIDDLE)
-			size (fix 16,fix 16)
-			path ( "icons/StaticInput.png" )
-		}
-		text {
-			position ( LEFT 16, MIDDLE)
-			value "%s : %s"			
-		}
-	}
-}
-
-nodeStyle outputPort (1) {
-	rectangle {
-		appearance io
-		size (110,20)
-		image {
-			position (RIGHT, MIDDLE)
-			size (fix 16,fix 16)
-			path ( "icons/outputPort.png" )
-		}
-		text {
-			position ( LEFT, MIDDLE)
-			value ": %s"			
-		}
-	}
-}
-
-nodeStyle carOutput (2) {
+nodeStyle output (2) {
+	appearanceProvider ("info.scce.cinco.product.autoDSL.appearances.StyleIO")
 	rectangle {
 		appearance io
 		size (110,20)
