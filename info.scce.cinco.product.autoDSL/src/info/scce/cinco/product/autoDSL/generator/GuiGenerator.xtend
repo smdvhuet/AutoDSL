@@ -60,8 +60,11 @@ class GuiGenerator {
 		
 		            // simulate world
 		            long time = System.currentTimeMillis();                
-		            double dt = ((double) (time-last)) / 1000.0;  
-		              
+		            double dt = ((double) (time-last)) / 1000.0;
+					if(xPressed&&simPanel.getAccSpeed()!=IO.in_SetSpeed){
+						IO.in_SetSpeed = simPanel.getAccSpeed();
+					}
+		            
 		            if (hasCar) {
 		                double oldCarPosInM = carPosInM;
 		                carPosInM += carVelocityInMS * dt;
@@ -104,6 +107,7 @@ class GuiGenerator {
 		            	  IO.in_GamepadX = simPanel.getAccActive();
 		            	  IO.in_SetSpeed = egoCar.getVelocity();
 		            	  xPressed = simPanel.getAccActive();
+		            	  simPanel.setAccActive(xPressed);
 		              }
 		              
 		              
@@ -210,6 +214,10 @@ class GuiGenerator {
 		    public void setAccSpeed(double ccVelocity) {
 		        info.setACCSpeed(ccVelocity);
 		    }
+		
+			public double getAccSpeed(){
+				return info.getACCSpeed();
+			}
 		
 		    public void setWarning(boolean outWarning) {
 		        info.setWarning(outWarning);
@@ -537,8 +545,11 @@ class GuiGenerator {
 		import java.awt.Color;
 		import java.awt.Dimension;
 		import java.awt.Font;
+		import java.awt.event.ActionEvent;
+		import java.awt.event.ActionListener;
 		import java.text.DecimalFormat;
 		import javax.swing.BoxLayout;
+		import javax.swing.JButton;
 		import javax.swing.JLabel;
 		import javax.swing.JPanel;
 		import javax.swing.SwingConstants;
@@ -582,6 +593,26 @@ class GuiGenerator {
 		        speedLabel = new JLabel();
 		        warnLabel = new JLabel();
 		        
+				final JButton incrementButton = new JButton("+");
+				incrementButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						if(accInfo){
+							accSpeedInMproS += 5/3.6;
+						}
+					}
+				});
+					
+				final JButton decrementButton = new JButton("-");
+				decrementButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						if(accInfo){
+							accSpeedInMproS -= 5/3.6;
+						}
+					}
+				});
+		        
 		        Font font = new Font("SansSerif", Font.BOLD, 30);
 		
 		        accLabel.setFont(font);
@@ -599,7 +630,9 @@ class GuiGenerator {
 		        speedLabel.setBorder(new EmptyBorder(5, 20, 5, 20));        
 		        warnLabel.setBorder(new EmptyBorder(5, 20, 5, 20));        
 		        
+		        add(incrementButton);
 		        add(accLabel);
+		        add(decrementButton);
 		        add(speedLabel);
 		        add(warnLabel);
 		    }
@@ -626,6 +659,10 @@ class GuiGenerator {
 		    void setAccState(boolean state) {
 		        this.accInfo = state;
 		    }
+		        
+			boolean getState(){
+				return accInfo;
+			}
 		    
 		    void setCurrentSpeed(double inMperS) {
 		        this.currentSpeedInMproS = inMperS;
@@ -634,6 +671,10 @@ class GuiGenerator {
 		    void setACCSpeed(double inMperS) {
 		        this.accSpeedInMproS = inMperS;
 		    }
+		        
+			double getACCSpeed(){
+				return accSpeedInMproS;
+			}
 		 
 		    void setWarning(boolean state) {
 		        this.warning = state;
