@@ -59,6 +59,7 @@ graphModel Rule {
 		GamepadSteering
 		GamepadThrottle
 		SetSpeed
+		LeadingCarRelativeSpeed
 	}
 
 	enum CarOutputTypeBoolean {
