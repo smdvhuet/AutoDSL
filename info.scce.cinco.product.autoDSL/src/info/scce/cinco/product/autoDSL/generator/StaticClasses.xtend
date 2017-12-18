@@ -238,6 +238,7 @@ class StaticClasses {
 		static public double in_GamepadSteering;
 		static public double in_GamepadThrottle;
 		static public double in_SetSpeed;
+		static public double in_LeadingCarRelativeSpeed;
 		
 		//Boolean Inputs
 		static public boolean in_GamepadA;

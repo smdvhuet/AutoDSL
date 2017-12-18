@@ -39,8 +39,14 @@ class EgoCarGenerator {
 			IO.out_Acceleration = 0.0;
 			IO.in_CurrentSpeed = this.velocityMPerSec;
 			
-			autoDSL.Run();
-			double accel = IO.out_Acceleration;
+			double accel = 0.0;
+			if(autoDSL.isInEntryState()){
+				accel = IO.in_GamepadThrottle;
+				autoDSL.Run();
+			}else{
+				autoDSL.Run();
+				accel = IO.out_Acceleration;
+			}
 		    
 			if (velocityMPerSec == 0 && accel == 0) {
 				return;
