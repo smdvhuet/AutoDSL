@@ -1,14 +1,14 @@
 package info.scce.cinco.product.autoDSL.hooks
 
-import de.jabc.cinco.meta.runtime.action.CincoCustomAction
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanInput
 import info.scce.cinco.product.autoDSL.rule.rule.IO
 import info.scce.cinco.product.autoDSL.rule.rule.NumberInput
 
-class ToStatic extends CincoCustomAction<IO> {
+class ToStatic extends IOConversion {
 	
-//TODO find generic but precise name (will be displayed in ContextMenu) 	
-//	override getName() {}
+	override getName() {
+		getName("static")
+	}
 	
 	override execute(IO io) {
 		val x = io.x as int

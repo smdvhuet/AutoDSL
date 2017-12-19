@@ -38,7 +38,8 @@ class GuiGenerator {
 		        boolean hasCar = false;
 		        boolean crash = false;
 		    	long last = System.currentTimeMillis();
-		    	boolean xPressed = false;
+		    	boolean accOn = false;
+		    	boolean accActive = false;
 		          
 		        while (true) {
 		
@@ -61,7 +62,7 @@ class GuiGenerator {
 		            // simulate world
 		            long time = System.currentTimeMillis();                
 		            double dt = ((double) (time-last)) / 1000.0;
-					if(xPressed&&simPanel.getAccSpeed()!=IO.in_SetSpeed){
+					if(accActive&&simPanel.getAccSpeed()!=IO.in_SetSpeed){
 						IO.in_SetSpeed = simPanel.getAccSpeed();
 					}
 		            
@@ -84,7 +85,8 @@ class GuiGenerator {
 		              
 		            // read gui
 		            if (simPanel.hasCar()) {                    
-		                  carVelocityInMS = simPanel.getCarVelocityInMS();                   
+		                  carVelocityInMS = simPanel.getCarVelocityInMS();
+		                  IO.in_LeadingCarRelativeSpeed = carVelocityInMS-egoCar.getVelocity();
 		                  if (!hasCar) {
 		                      hasCar = true;
 		                      carPosInM = egoCar.getPositionM() + simPanel.getDistanceInM();
@@ -101,14 +103,19 @@ class GuiGenerator {
 		            else
 		                acceleration = simPanel.getAcceleration() * MAX_ACCEL;
 		
-		              //Feeding ACC
-		              IO.in_GamepadThrottle = acceleration;
-		              if(xPressed != simPanel.getAccActive()){
-		            	  IO.in_GamepadX = simPanel.getAccActive();
-		            	  IO.in_SetSpeed = egoCar.getVelocity();
-		            	  xPressed = simPanel.getAccActive();
-		            	  simPanel.setAccActive(xPressed);
-		              }
+					//Feeding ACC
+					IO.in_GamepadThrottle = acceleration;
+					if(accActive != simPanel.getAccActive()){
+						IO.in_GamepadX = simPanel.getAccActive();
+						IO.in_SetSpeed = egoCar.getVelocity();
+						accActive = simPanel.getAccActive();
+						simPanel.setAccActive(accActive);
+					}
+					
+					if(accOn != simPanel.getAccOn()){
+						IO.in_GamepadX = simPanel.getAccOn();
+						accOn = simPanel.getAccOn();
+					}
 		              
 		              
 		              IO.in_GamepadB = acceleration < -0.1;
@@ -202,13 +209,21 @@ class GuiGenerator {
 		        return simControls.getMode();
 		    }
 		
-		    public boolean getAccActive() {
-		        return carControls.getAccStatus();
+		    public boolean getAccOn() {
+		        return carControls.getAccOn();
 		    }
 		
-		    public void setAccActive(boolean outActive) {
-		        carControls.setAccStatus(outActive);
-		        info.setAccState(outActive);
+		    public void setAccOn(boolean outActive) {
+		        carControls.setAccOn(outActive);
+		    }
+		    
+		    public boolean getAccActive(){
+		    	return carControls.getAccActive();
+		    }
+		    
+		    public void setAccActive(boolean outActive){
+				carControls.setAccActive(outActive);
+				info.setAccState(outActive);
 		    }
 		
 		    public void setAccSpeed(double ccVelocity) {
@@ -686,6 +701,8 @@ class GuiGenerator {
 	static def generateCarControlsPanel()'''
 		package info.scce.cinco.gui;
 		import java.awt.FlowLayout;
+		import java.awt.event.ActionEvent;
+		import java.awt.event.ActionListener;
 		import javax.swing.JCheckBox;
 		import javax.swing.JLabel;
 		import javax.swing.JPanel;
@@ -701,6 +718,8 @@ class GuiGenerator {
 		    private JSlider distance;
 		    
 		    private JCheckBox accOn;
+			
+			private JCheckBox accActive;
 		    
 		    public CarControlsPanel() {
 		        initialize();
@@ -721,8 +740,18 @@ class GuiGenerator {
 		        add(distance);
 		        add(new JLabel("Dist."));
 		        
-		        accOn = new JCheckBox("ACC");        
-		        add(accOn);
+				accOn = new JCheckBox("ACC_On");        
+				accOn.addActionListener(new ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						accActive.setSelected(false);
+						accActive.setEnabled(accOn.isSelected());
+					}
+				});
+				add(accOn);
+			 	accActive = new JCheckBox("ACC_Active");  
+				accActive.setEnabled(false);
+				add(accActive);
 		    }
 		        
 		    void update() {
@@ -733,13 +762,21 @@ class GuiGenerator {
 		    	accOn.setEnabled(!(velocity > 200 || velocity < 30));
 		    }
 		
-		    void setAccStatus(boolean state) {
-		        this.accOn.setSelected(state);
-		    }
-		    
-		    boolean getAccStatus() {
-		        return this.accOn.isSelected();
-		    }
+			void setAccOn(boolean state) {
+				this.accOn.setSelected(state);
+			}
+			
+			boolean getAccOn() {
+				return this.accOn.isSelected();
+			}
+			
+			void setAccActive(boolean state) {
+				this.accActive.setSelected(state);
+			}
+			
+			boolean getAccActive() {
+				return this.accActive.isSelected();
+			}
 		    
 		    double getDistance() {
 		    	return ((double) this.distance.getValue()) / 10.0;
