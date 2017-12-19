@@ -3,6 +3,7 @@ package info.scce.cinco.product.autoDSL.hooks
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanInput
 import info.scce.cinco.product.autoDSL.rule.rule.IO
 import info.scce.cinco.product.autoDSL.rule.rule.NumberInput
+import static extension info.scce.cinco.product.autoDSL.extensions.IOExtension.*
 
 class ToStatic extends IOConversion {
 	
@@ -13,18 +14,17 @@ class ToStatic extends IOConversion {
 	override execute(IO io) {
 		val x = io.x as int
 		val y = io.y as int
-		val cont = LayoutManager.prepareConversion(io)
+		LayoutManager.prepareConversion(io)
 		switch io {
-			BooleanInput : cont.newBooleanStaticInput(x, y)
-			NumberInput : cont.newNumberStaticInput(x, y)
+			BooleanInput : io.operation.newBooleanStaticInput(x, y)
+			NumberInput : io.operation.newNumberStaticInput(x, y)
 		}
 	}
 	
 	override canExecute(IO io){
-		val cont = LayoutManager.getOperation(io)
 		switch io {
-			BooleanInput : cont.canNewBooleanStaticInput
-			NumberInput : cont.canNewNumberStaticInput
+			BooleanInput : io.operation.canNewBooleanStaticInput
+			NumberInput : io.operation.canNewNumberStaticInput
 			default : super.canExecute(io)
 		}
 	}

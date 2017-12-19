@@ -6,9 +6,9 @@ import info.scce.cinco.product.autoDSL.rule.rule.NonCommutableOperation
 import info.scce.cinco.product.autoDSL.rule.rule.Operation
 import info.scce.cinco.product.autoDSL.rule.rule.Output
 import info.scce.cinco.product.autoDSL.rule.rule.PIDController
-import org.eclipse.graphiti.mm.pictograms.ContainerShape
 import org.eclipse.emf.common.util.EList
-import org.eclipse.emf.common.util.BasicEList
+import org.eclipse.graphiti.mm.pictograms.ContainerShape
+import static extension info.scce.cinco.product.autoDSL.extensions.IOExtension.*
 
 class LayoutManager {
 	/**
@@ -39,10 +39,6 @@ class LayoutManager {
 				NonCommutableOperation case ( io.operation.inputs.findFirst[!it.equals(io)]?.y != io.y + 2 * NODE_HEIGHT ) : io.placeVertically
 			}
 		}
-	}
-	
-	static def getOperation (IO io) {
-		io.container as Operation
 	}
 	
 	private static def placeHorizontally (IO io) {
@@ -86,7 +82,8 @@ class LayoutManager {
 		io.forEach[it.y = it.y + amount]
 	}
 	
-	private static def rearrangePreDelete(Operation op, IO io, int amount) {
+	private static def rearrangePreDelete(IO io, int amount) {
+		val op = io.operation
 		op.inputs.filter[it.y > io.y].shift(amount)
 		switch op {
 			// In a NonCommutableOperation the first input is placed above the text. 
@@ -99,18 +96,15 @@ class LayoutManager {
 	}
 	
 	static def rearrangePreDelete(IO io) {
-		rearrangePreDelete(io.operation, io, -NODE_HEIGHT)
+		rearrangePreDelete(io, -NODE_HEIGHT)
 	}
 	
 	/**
 	 * @param io The IO node which is to be converted 
-	 * @return Operation within which the conversion is slated to occur
 	 */
 	static def prepareConversion(IO io) {
-		val op = io.operation
-		rearrangePreDelete(op, io, NODE_HEIGHT)
+		rearrangePreDelete(io, NODE_HEIGHT)
 		io.delete
-		op
 	}
 	
 	static def resizeOperation(Operation op, int newWidth) {
