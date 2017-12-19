@@ -47,6 +47,7 @@ graphModel AutoDSL {
 	
 
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.DropRuleHook")
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.openRuleModel")
 	@style(syscomponent, "${label}")
 	node ComponentNode {
 		@pvFileExtension("rule")
