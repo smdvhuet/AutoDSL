@@ -20,4 +20,13 @@ class ToStatic extends IOConversion {
 		}
 	}
 	
+	override canExecute(IO io){
+		val cont = LayoutManager.getOperation(io)
+		switch io {
+			BooleanInput : cont.canNewBooleanStaticInput
+			NumberInput : cont.canNewNumberStaticInput
+			default : super.canExecute(io)
+		}
+	}
+	
 }

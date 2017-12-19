@@ -24,4 +24,15 @@ class ToPort extends IOConversion {
 		}
 	}
 	
+	override canExecute(IO io){
+		val cont = LayoutManager.getOperation(io)
+		switch io {
+			BooleanInput : cont.canNewBooleanInputPort
+			BooleanOutput : cont.canNewBooleanOutputPort
+			NumberInput : cont.canNewNumberInputPort
+			NumberOutput : cont.canNewNumberOutputPort
+			default : super.canExecute(io)
+		}
+	}
+	
 }

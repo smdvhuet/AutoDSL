@@ -25,4 +25,15 @@ class ToCar extends IOConversion {
 		}
 	}
 	
+	override canExecute(IO io){
+		val cont = LayoutManager.getOperation(io)
+		switch io {
+			BooleanInput : cont.canNewBooleanCarInput
+			BooleanOutput : cont.canNewBooleanCarOutput
+			NumberInput : cont.canNewNumberCarInput
+			NumberOutput : cont.canNewNumberCarOutput
+			default : super.canExecute(io)
+		}
+	}
+	
 }

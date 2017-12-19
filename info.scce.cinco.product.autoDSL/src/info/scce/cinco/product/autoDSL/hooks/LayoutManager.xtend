@@ -41,7 +41,7 @@ class LayoutManager {
 		}
 	}
 	
-	private static def getOperation (IO io) {
+	static def getOperation (IO io) {
 		io.container as Operation
 	}
 	
