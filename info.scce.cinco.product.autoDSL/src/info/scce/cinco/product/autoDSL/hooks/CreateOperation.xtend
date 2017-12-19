@@ -10,6 +10,7 @@ class CreateOperation extends CincoPostCreateHook<Operation> {
 			switch op {
 				case op.canNewBooleanInputPort : op.newBooleanInputPort(0,0)
 				case op.canNewNumberInputPort : op.newNumberInputPort(0,0) 
+				case op.canNewNumberStaticInput : op.newNumberStaticInput(0,0)
 			}
 		}
 		switch op {

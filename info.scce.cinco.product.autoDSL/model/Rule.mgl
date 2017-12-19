@@ -356,4 +356,15 @@ graphModel Rule {
 		attr EDouble as d
 		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[0,0], NumberOutput[1,1])
 	}
+	
+	@style(commutableOperation, "${name}")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	container StaticNumberValue extends Operation {
+		attr EString as name := ""
+		containableElements(
+			BooleanInput[0,0], NumberCarInput[0,0], NumberInputPort[0,0], NumberStaticInput[1,1],
+			BooleanOutput[0,0], NumberCarOutput[0,0], NumberOutputPort[1,1]
+		)
+	}
 }
