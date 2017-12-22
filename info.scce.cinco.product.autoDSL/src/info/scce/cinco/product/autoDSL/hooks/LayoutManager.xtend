@@ -1,13 +1,13 @@
 package info.scce.cinco.product.autoDSL.hooks
 
+import de.jabc.cinco.meta.runtime.xapi.WorkbenchExtension
 import info.scce.cinco.product.autoDSL.rule.rule.IO
 import info.scce.cinco.product.autoDSL.rule.rule.Input
 import info.scce.cinco.product.autoDSL.rule.rule.NonCommutableOperation
 import info.scce.cinco.product.autoDSL.rule.rule.Operation
 import info.scce.cinco.product.autoDSL.rule.rule.Output
 import info.scce.cinco.product.autoDSL.rule.rule.PIDController
-import org.eclipse.emf.common.util.EList
-import org.eclipse.graphiti.mm.pictograms.ContainerShape
+
 import static extension info.scce.cinco.product.autoDSL.extensions.IOExtension.*
 
 class LayoutManager {
@@ -25,18 +25,19 @@ class LayoutManager {
 	 * Places newly created IO node within Operation container, adjusting the latter's height if necessary.
 	 */
 	static def rearrangePostCreate(IO io) {
+		val op = io.operation
 		io.placeHorizontally
-		if( io.operation.height < io.operation.adjustedHeight ) {
-			io.operation.adjustHeight
+		if( op.height < op.adjustedHeight ) {
+			op.adjustHeight
 			io.placeVertically
 			switch io {
-				Input : io.operation.outputs.shift(NODE_HEIGHT)
+				Input : op.outputs.shift(NODE_HEIGHT)
 			}
 		} else {
 			// Either a conversion occurred (Node not really new, no actions necessary.)
 			// Or a node has been created within a NonCommutableOperation after its deletion.
-			switch io.operation {
-				NonCommutableOperation case ( io.operation.inputs.findFirst[!it.equals(io)]?.y != io.y + 2 * NODE_HEIGHT ) : io.placeVertically
+			switch op {
+				NonCommutableOperation case ( op.inputs.findFirst[!it.equals(io)]?.y != io.y + 2 * NODE_HEIGHT ) : io.placeVertically
 			}
 		}
 	}
@@ -113,17 +114,16 @@ class LayoutManager {
 		 * Interior components are distributed more or less randomly otherwise. (bug?)
 		 */
 		for(var i = 0; i < 2; i++) {
-			op.inputs.uglyResize(newWidth)
-			op.outputs.uglyResize(newWidth)
+			op.inputs.resizeIO(newWidth)
+			op.outputs.resizeIO(newWidth)
 		}
 	}
 	
-	private static def <T extends IO> uglyResize(EList<T> ios, int newWidth) {
+	private static def <T extends IO> resizeIO(Iterable<T> ios, int newWidth) {
 		for(io : ios){
-			//Checking whether a pictogrammElement is already present
-			//TODO: please find a better way.
-			val pe = io.class.methods.findFirst[it.returnType.equals(ContainerShape)].invoke(io) as ContainerShape
-			if(pe != null){
+			//Checking whether a pictogramElement is already present
+			extension val WorkbenchExtension = new WorkbenchExtension
+			if(io.pictogramElement != null){
 				io.width = newWidth - 2 * CONTAINER_PADDING
 			}
 		}
