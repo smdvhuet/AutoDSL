@@ -17,12 +17,13 @@ class ToCar extends IOConversion {
 	override execute(IO io) {
 		val x = io.x as int
 		val y = io.y as int
+		val op = io.operation
 		LayoutManager.prepareConversion(io)
 		switch io {
-			BooleanInput : io.operation.newBooleanCarInput(x, y)
-			BooleanOutput : io.operation.newBooleanCarOutput(x, y)
-			NumberInput : io.operation.newNumberCarInput(x, y)
-			NumberOutput : io.operation.newNumberCarOutput(x, y)
+			BooleanInput : op.newBooleanCarInput(x, y)
+			BooleanOutput : op.newBooleanCarOutput(x, y)
+			NumberInput : op.newNumberCarInput(x, y)
+			NumberOutput : op.newNumberCarOutput(x, y)
 		}
 	}
 	

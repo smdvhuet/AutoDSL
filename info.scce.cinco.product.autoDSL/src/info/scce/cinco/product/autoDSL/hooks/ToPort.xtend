@@ -16,12 +16,13 @@ class ToPort extends IOConversion {
 	override execute(IO io) {
 		val x = io.x as int
 		val y = io.y as int
+		val op = io.operation
 		LayoutManager.prepareConversion(io)
 		switch io {
-			BooleanInput : io.operation.newBooleanInputPort(x, y)
-			BooleanOutput : io.operation.newBooleanOutputPort(x, y)
-			NumberInput : io.operation.newNumberInputPort(x, y)
-			NumberOutput : io.operation.newNumberOutputPort(x, y)
+			BooleanInput : op.newBooleanInputPort(x, y)
+			BooleanOutput : op.newBooleanOutputPort(x, y)
+			NumberInput : op.newNumberInputPort(x, y)
+			NumberOutput : op.newNumberOutputPort(x, y)
 		}
 	}
 	

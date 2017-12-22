@@ -14,10 +14,11 @@ class ToStatic extends IOConversion {
 	override execute(IO io) {
 		val x = io.x as int
 		val y = io.y as int
+		val op = io.operation
 		LayoutManager.prepareConversion(io)
 		switch io {
-			BooleanInput : io.operation.newBooleanStaticInput(x, y)
-			NumberInput : io.operation.newNumberStaticInput(x, y)
+			BooleanInput : op.newBooleanStaticInput(x, y)
+			NumberInput : op.newNumberStaticInput(x, y)
 		}
 	}
 	
