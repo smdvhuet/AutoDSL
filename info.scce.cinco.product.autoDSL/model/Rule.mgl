@@ -48,6 +48,13 @@ graphModel Rule {
 		GamepadDpadRight
 		GamepadDpadUp
 		GamepadDpadDown
+		
+		SystemOnButton
+		SystemActiveButton
+		HasLeadingCar
+		HasEngineError
+		HasSteeringError
+		HasGearboxError
 	}
 
 	enum CarInputTypeNumber{
@@ -57,13 +64,18 @@ graphModel Rule {
 		CurrentSpeed
 
 		GamepadSteering
-		GamepadThrottle
 		SetSpeed
 		LeadingCarRelativeSpeed
+		Acceleration // GamepadThrottle
+		SetDistance
 	}
 
 	enum CarOutputTypeBoolean {
 		Scheinwerfer_An
+		ObstacleDetectedWarning
+		ErrorWarning
+		SystemOn
+		SystemActive
 	}
 
 	enum CarOutputTypeNumber {
@@ -72,6 +84,9 @@ graphModel Rule {
 
 		GamepadFeedbackX
 		GamepadFeedbackY
+
+		SetSpeed
+		SetDistance
 	}
 	
 
