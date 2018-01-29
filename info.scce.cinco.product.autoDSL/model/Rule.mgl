@@ -1,8 +1,10 @@
 @primeviewer
 @style("model/Rule.style")
 @mcam("check")
-//@mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckRuleForCycles")
-//@mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckForUnreachableOperations")
+@mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckRuleForCycles")
+@mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckForUnreachableOperations")
+@mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckStart")
+
 graphModel Rule {
 	package info.scce.cinco.product.autoDSL.rule
 	nsURI "http://cinco.scce.info/product/rule"
