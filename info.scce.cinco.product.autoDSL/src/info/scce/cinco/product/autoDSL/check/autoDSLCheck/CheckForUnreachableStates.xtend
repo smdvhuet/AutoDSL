@@ -8,7 +8,6 @@ import info.scce.cinco.product.autoDSL.rule.rule.Operation
 class CheckForUnreachableStates extends AutoDSLCheck{
 	
 	override check(AutoDSL model) {
-		for (state : model.states)
-			state.addWarning("Check not implemented yet, model may contain unreachable states")
+		model.addWarning("Check not implemented yet, model may contain unreachable states")
 	}
 }

@@ -8,10 +8,6 @@ import info.scce.cinco.product.autoDSL.rule.rule.Operation
 class CheckForInvalidEdgesBetweenRules extends AutoDSLCheck{
 	
 	override check(AutoDSL model) {
-		for (state : model.states) {
-			for (cNode : state.componentNodes) {
-				cNode.addWarning("Check not implemented yet, model may contain invalid edges between rules")
-			}
-		}
+		model.addWarning("Check not implemented yet, model may contain invalid edges between rules")
 	}
 }
