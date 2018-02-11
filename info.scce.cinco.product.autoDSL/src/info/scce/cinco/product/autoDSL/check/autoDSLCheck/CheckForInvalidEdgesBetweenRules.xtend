@@ -9,5 +9,7 @@ class CheckForInvalidEdgesBetweenRules extends AutoDSLCheck{
 	
 	override check(AutoDSL model) {
 		model.addWarning("Check not implemented yet, model may contain invalid edges between rules")
+		//Check for edges between different states
+		//Check for cycles
 	}
 }

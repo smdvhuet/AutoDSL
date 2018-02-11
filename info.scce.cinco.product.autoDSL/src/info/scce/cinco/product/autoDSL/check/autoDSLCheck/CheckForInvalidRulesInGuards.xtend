@@ -5,7 +5,7 @@ import info.scce.cinco.product.autoDSL.autodsl.mcam.modules.checks.AutoDSLCheck
 import info.scce.cinco.product.autoDSL.rule.rule.Rule
 import info.scce.cinco.product.autoDSL.rule.rule.Operation
 
-class CheckForInvalidOutputsInGuards extends AutoDSLCheck{
+class CheckForInvalidRulesInGuards extends AutoDSLCheck{
 	
 	override check(AutoDSL model) {
 		for (guard : model.guards) {
@@ -13,6 +13,10 @@ class CheckForInvalidOutputsInGuards extends AutoDSLCheck{
 				if(hasCarOutputs(cNode.rule)){
 					guard.addError("Rule models contained in guards may not contain any car outputs.")				
 				}
+				if(!hasGuardOutputs(cNode.rule)){
+					guard.addError("Rule models contained in guards must contain at least one BooleanGuardOutput")
+				}
+				
 			}
 		}
 	}
@@ -28,5 +32,11 @@ class CheckForInvalidOutputsInGuards extends AutoDSLCheck{
 			return true
 		else
 			return false
+	}
+	
+	def hasGuardOutputs(Rule rule){
+		if(!rule.booleanGuardOutputs.empty)
+			return true
+		return false
 	}
 }
