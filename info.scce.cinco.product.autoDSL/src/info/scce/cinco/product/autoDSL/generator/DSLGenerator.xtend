@@ -92,7 +92,11 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	def generateAllStates(AutoDSL dsl)'''
 	//Add all states	
 	«FOR state : dsl.states SEPARATOR '\n'»
+	«IF IDHasher.Contains(state.id)»
 	«generateState(state, IDHasher.GetIntHash(state.id))»
+	«ELSE»
+	MultiState«IDHasher.GetIntHash(state.id)» = *Globals::gStateRegister[«IDHasher.GetIntHash(state.id)»];
+	«ENDIF»
 	«ENDFOR»
 	'''
 	
@@ -117,6 +121,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	
 	def generateState(State state, int index)'''
 	MultiState state«index» = new MultiState();
+	Globals::gStateRegister.insert(std::pair<Utility::IDType, State*>(«index», &state«index»));
 	«FOR container : state.componentNodes SEPARATOR '\n'»
 	«IF container.rule != null»
 	state«index».AddState(new «generateRuleType(container.rule)»());
