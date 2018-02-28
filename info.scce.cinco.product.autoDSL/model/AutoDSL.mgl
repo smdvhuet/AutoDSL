@@ -3,9 +3,10 @@ import "platform:/resource/info.scce.cinco.product.autoDSL/model/Rule.mgl" as ru
 @primeviewer
 @style("model/AutoDSL.style")
 @mcam("check")
-//@mcam_checkmodule("info.scce.cinco.product.autoDSL.check.autoDSLCheck.CheckForInvalidOutputsInGuards")
-//@mcam_checkmodule("info.scce.cinco.product.autoDSL.check.autoDSLCheck.CheckForUnreachableStates")
-//@mcam_checkmodule("info.scce.cinco.product.autoDSL.check.autoDSLCheck.CheckForInvalidEdgesBetweenRules")
+@mcam_checkmodule("info.scce.cinco.product.autoDSL.check.autoDSLCheck.CheckForInvalidRulesInGuards")
+@mcam_checkmodule("info.scce.cinco.product.autoDSL.check.autoDSLCheck.CheckForUnreachableStates")
+@mcam_checkmodule("info.scce.cinco.product.autoDSL.check.autoDSLCheck.CheckForInvalidRulesInStates")
+@mcam_checkmodule("info.scce.cinco.product.autoDSL.check.autoDSLCheck.CheckForInvalidEdgesBetweenRules")
 @generatable("info.scce.cinco.product.autoDSL.generator.DSLGenerator","/src-gen/")
 graphModel AutoDSL {
 	package info.scce.cinco.product.autoDSL.autodsl
@@ -47,6 +48,7 @@ graphModel AutoDSL {
 	
 
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.DropRuleHook")
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.openRuleModel")
 	@style(syscomponent, "${label}")
 	node ComponentNode {
 		@pvFileExtension("rule")

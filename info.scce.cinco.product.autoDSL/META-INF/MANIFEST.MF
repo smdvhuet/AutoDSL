@@ -15,7 +15,13 @@ Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,org.eclipse
  time,de.jabc.cinco.meta.plugin.generator.runtime,de.jabc.cinco.meta.p
  lugin.generator.runtime,de.jabc.cinco.meta.plugin.generator.runtime,d
  e.jabc.cinco.meta.plugin.generator.runtime,de.jabc.cinco.meta.plugin.
- generator.runtime,de.jabc.cinco.meta.plugin.mcam.runtime
+ generator.runtime,de.jabc.cinco.meta.plugin.generator.runtime,de.jabc
+ .cinco.meta.plugin.generator.runtime,de.jabc.cinco.meta.plugin.genera
+ tor.runtime,de.jabc.cinco.meta.plugin.generator.runtime,de.jabc.cinco
+ .meta.plugin.generator.runtime,de.jabc.cinco.meta.plugin.generator.ru
+ ntime,de.jabc.cinco.meta.plugin.generator.runtime,de.jabc.cinco.meta.
+ plugin.generator.runtime,de.jabc.cinco.meta.plugin.mcam.runtime,de.ja
+ bc.cinco.meta.plugin.generator.runtime
 Bundle-ActivationPolicy: lazy
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
@@ -39,9 +45,9 @@ Export-Package: info.scce.cinco.product.autoDSL.autodsl.adapter,info.s
  util,info.scce.cinco.product.autoDSL.rule.rule.util,info.scce.cinco.p
  roduct.autoDSL.rule.rule.views,info.scce.cinco.product.autoDSL.rule.r
  ule.views.impl,info.scce.cinco.product.autoDSL.rule.rule.views.util,i
- nfo.scce.cinco.product.autoDSL.autodsl.mcam.adapter,info.scce.cinco.p
- roduct.autoDSL.autodsl.mcam.cli,info.scce.cinco.product.autoDSL.rule.
- mcam.adapter,info.scce.cinco.product.autoDSL.rule.mcam.cli
+ nfo.scce.cinco.product.autoDSL.rule.mcam.adapter,info.scce.cinco.prod
+ uct.autoDSL.rule.mcam.cli,info.scce.cinco.product.autoDSL.autodsl.mca
+ m.adapter,info.scce.cinco.product.autoDSL.autodsl.mcam.cli
 Bundle-Name: %pluginName
 Bundle-Version: 1.0.0
 Bundle-ClassPath: .

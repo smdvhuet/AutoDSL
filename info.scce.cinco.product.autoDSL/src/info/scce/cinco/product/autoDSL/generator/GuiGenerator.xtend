@@ -86,7 +86,7 @@ class GuiGenerator {
 		            // read gui
 		            if (simPanel.hasCar()) {                    
 		                  carVelocityInMS = simPanel.getCarVelocityInMS();
-		                  IO.in_LeadingCarRelativeSpeed = egoCar.getVelocity()-carVelocityInMS;
+		                  IO.in_LeadingCarRelativeSpeed = carVelocityInMS-egoCar.getVelocity();
 		                  if (!hasCar) {
 		                      hasCar = true;
 		                      carPosInM = egoCar.getPositionM() + simPanel.getDistanceInM();
@@ -740,7 +740,7 @@ class GuiGenerator {
 		        add(distance);
 		        add(new JLabel("Dist."));
 		        
-				accOn = new JCheckBox("ACC");        
+				accOn = new JCheckBox("ACC_On");        
 				accOn.addActionListener(new ActionListener(){
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -749,7 +749,7 @@ class GuiGenerator {
 					}
 				});
 				add(accOn);
-			 	accActive = new JCheckBox("Active");  
+			 	accActive = new JCheckBox("ACC_Active");  
 				accActive.setEnabled(false);
 				add(accActive);
 		    }

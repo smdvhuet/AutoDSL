@@ -165,7 +165,11 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	def generateRuleType(Rule rule){
 	  var String ruleName = knownRuleTypes.get(IDHasher.GetIntHash(rule.id))
 	  if(ruleName == null){
-	  	rule.name = "Rule" + IDHasher.GetStringHash(rule.id)
+	  	var String[] names = rule.eResource().getURI().lastSegment().split(".rule").get(0).split("_")
+	  	rule.name = ""
+	  	for(String name: names) {
+	  		rule.name = rule.name + name.toFirstUpper
+	  	}
 	  	EclipseFileUtils.writeToFile(mainPackage.getFile(rule.name + ".java"), new NodeGenerator().generate(rule))
 	  	knownRuleTypes.put(IDHasher.GetIntHash(rule.id), rule.name)
 	  	ruleName = rule.name	
