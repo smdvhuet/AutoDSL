@@ -4,8 +4,8 @@
 
 using namespace ACCPlusPlus;
 
-void StateMachine::Run() {
-  current_state_->Execute();
+void StateMachine::Run(const IO::CarInputs& input, IO::CarOutputs& output) {
+  current_state_->Execute(input, output);
 
   for (std::vector<Transition>::iterator it =
            transitions_[current_state_->ID()].begin();
@@ -19,8 +19,8 @@ void StateMachine::Run() {
   }
 }
 
-void StateMachine::AddTransition(IState *const &from, IState *const &to,
-                                 bool (*condition)(IState *const &)) {
+void StateMachine::AddTransition(State *const &from, State *const &to,
+                                 GuardRule *const &guardRule) {
   std::vector<Transition> *state_transitions = &transitions_[from->ID()];
   Transition new_transition(to, condition);
 
@@ -32,10 +32,6 @@ void StateMachine::AddTransition(IState *const &from, IState *const &to,
   }
 }
 
-void StateMachine::SetEntryState(IState *const &entry_state) {
+void StateMachine::SetEntryState(State *const &entry_state) {
   entry_state_ = entry_state;
 }
-
-bool StateMachine::isInEntryState() { return current_state_ == entry_state_; }
-
-IState *StateMachine::getCurrentState() { return current_state_; }

@@ -23,7 +23,6 @@ class RuleGenerator implements IGenerator<Rule> {
 		mainFolder = project.getFolder("src-gen")
 		mainPackage = mainFolder.getFolder("info/scce/cinco/product")
 		EclipseFileUtils.mkdirs(mainPackage,monitor)
-		generateStatic()
 		
 		val CharSequence nodes = new NodeGenerator().generate(rule);
 		EclipseFileUtils.writeToFile(mainPackage.getFile(rule.name + ".java"),nodes)
@@ -31,7 +30,7 @@ class RuleGenerator implements IGenerator<Rule> {
 	
 	//TODO implement Car,Simulator,etc
 	def generateStatic(){
-		EclipseFileUtils.writeToFile(mainPackage.getFile("PID.java"), StaticClasses::PIDClass())
+		//EclipseFileUtils.writeToFile(mainPackage.getFile("PID.java"), StaticClasses::PIDClass())
 //		EclipseFileUtils.writeToFile(mainPackage.getFile("EgoCar.java"), new EgoCarGenerator().generateEgoCar())		
 	}
 }

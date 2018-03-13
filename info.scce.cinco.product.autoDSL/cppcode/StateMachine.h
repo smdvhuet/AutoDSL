@@ -1,7 +1,8 @@
 #ifndef ACCPLUSPLUS_STATEMACHINE_H_
 #define ACCPLUSPLUS_STATEMACHINE_H_
 
-#include "IState.h"
+#include "State.h"
+#include "Guard.h"
 
 #include <map>
 #include <vector>
@@ -10,12 +11,12 @@ namespace ACCPlusPlus {
 class StateMachine {
 private:
   struct Transition {
-    IState *target_state;
-    bool (*condition)(IState *const &);
+    State *target_state;
+    Guard* guard;
 
-    Transition(IState *target_state, bool (*condition)(IState *const &)) {
+    Transition(const State& target_state, const Guard& guard) {
       this->target_state = target_state;
-      this->condition = condition;
+      this->guard = guard;
     }
 
     bool operator==(const Transition &rhs) const {
@@ -25,18 +26,18 @@ private:
   };
 
 public:
-  void Run();
+  void Run(const IO::CarInputs& input, IO::CarOutputs& output);
 
-  void AddTransition(IState *const &from, IState *const &to,
-                     bool (*condition)(IState *const &));
-  void SetEntryState(IState *const &entry_state);
+protected:
+  void AddTransition(State *const &from, State *const &to,
+                     GuardRule *const &guardRule);
 
-  bool isInEntryState();
-  IState *getCurrentState();
+  void SetEntryState(State *const &entry_state);
 
 private:
-  IState *entry_state_;
-  IState *current_state_;
+  State *entry_state_;
+  State *current_state_;
+
   using TransitionRegister = std::map<Utility::IDType, std::vector<Transition>>;
   TransitionRegister transitions_;
 };

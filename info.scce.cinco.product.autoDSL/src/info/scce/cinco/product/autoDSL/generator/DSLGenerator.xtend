@@ -20,6 +20,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	var IFolder mainPackage
 	var IFolder corePackage
 	var IFolder guiPackage
+	var IFolder staticFolder
 	var HashMap<Integer, String> knownRuleTypes =  new HashMap<Integer, String>()
 	var HashMap<Integer, String> knownGuardFunctions = new HashMap<Integer, String>()
 	
@@ -38,28 +39,35 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		guiPackage = mainFolder.getFolder("info/scce/cinco/gui")
 		EclipseFileUtils.mkdirs(guiPackage,monitor)
 		
-		generateStatic(dsl)
+		staticFolder = corePackage
+		//staticFolder = mainFolder.getFolder("info/scce/cinco/cppcode")
+		//EclipseFileUtils.mkdirs(staticFolder, monitor)
+		
+		generateStatic()
 		
 		EclipseFileUtils.writeToFile(mainPackage.getFile("AutoDSL" + IDHasher.GetStringHash(dsl.id) + ".java"), generateStateMachine(dsl))
 	}
 	
-	def generateStatic(AutoDSL dsl){
-		EclipseFileUtils.writeToFile(corePackage.getFile("State.java"), StaticClasses::StateClass())
-		EclipseFileUtils.writeToFile(corePackage.getFile("MultiState.java"), StaticClasses::MultiStateClass())
-		EclipseFileUtils.writeToFile(corePackage.getFile("StateMachine.java"), StaticClasses::StateMachineClass())
-		EclipseFileUtils.writeToFile(corePackage.getFile("Utility.java"), StaticClasses::UtilityClass())
-		EclipseFileUtils.writeToFile(corePackage.getFile("PID.java"), StaticClasses::PIDClass())
-		EclipseFileUtils.writeToFile(corePackage.getFile("IO.java"), StaticClasses::IOClass())
-		EclipseFileUtils.writeToFile(mainPackage.getFile("EgoCar.java"), new EgoCarGenerator().generateEgoCar(dsl))
-
+	def generateStatic(){
+		val thisBundle = "info.scce.cinco.product.autoDSL"
+			
+		copyStaticHeaderAndCpp(staticFolder, thisBundle, "cppcode/StateMachine")
+		copyStaticHeaderAndCpp(staticFolder, thisBundle, "cppcode/State")
+		copyStaticHeaderAndCpp(staticFolder, thisBundle, "cppcode/Guard")
+		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/Rule.h", staticFolder)
+		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/GuardRule.h", staticFolder)
+			
+		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/IO.h", staticFolder)
+		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/IDGenerator.h", staticFolder)
+		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/Type.h", staticFolder)
+		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/Utility.h", staticFolder)
 		
-		EclipseFileUtils.writeToFile(guiPackage.getFile("SimulatorPanel.java"), GuiGenerator::generateSimulatorPanel())
-		EclipseFileUtils.writeToFile(guiPackage.getFile("SimControlPanel.java"), GuiGenerator::generateSimControlPanel())
-		EclipseFileUtils.writeToFile(guiPackage.getFile("RoadVisualizationPanel.java"), GuiGenerator::generateRoadVisualizationPanel())
-		EclipseFileUtils.writeToFile(guiPackage.getFile("Mode.java"), GuiGenerator::generateMode())
-		EclipseFileUtils.writeToFile(guiPackage.getFile("InfoPanel.java"), GuiGenerator::generateInfoPanel())
-		EclipseFileUtils.writeToFile(guiPackage.getFile("CarControlsPanel.java"), GuiGenerator::generateCarControlsPanel())
-		EclipseFileUtils.writeToFile(guiPackage.getFile("InteractiveSimulator.java"), GuiGenerator::generateInteractiveSimulator())
+		copyStaticHeaderAndCpp(staticFolder, thisBundle, "cppcode/PID")
+	}
+	
+	def copyStaticHeaderAndCpp(IFolder folder, String bundle, String file){
+		EclipseFileUtils.copyFromBundleToDirectory(bundle, file + ".h", folder)	
+		EclipseFileUtils.copyFromBundleToDirectory(bundle, file + ".cpp", folder)
 	}
 	
 	def generateStateMachine(AutoDSL dsl)'''
