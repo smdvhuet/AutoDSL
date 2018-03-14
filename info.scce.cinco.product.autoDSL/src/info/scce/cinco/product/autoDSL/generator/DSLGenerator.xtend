@@ -74,9 +74,11 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	
 	#include "StateMachine.h"
 	
+	using namespace ACCPlusPlus;
+	
 	namespace AutoDSL{
 	
-	class AutoDSL«IDHasher.GetStringHash(dsl.id)» : public ACCPlusPlus::StateMachine{
+	class AutoDSL«IDHasher.GetStringHash(dsl.id)» : public StateMachine{
 	public:
 	  AutoDSL«IDHasher.GetStringHash(dsl.id)»(){
 	  	«if(dsl.offStates.length() > 0) initAllOffStates(dsl)»
