@@ -20,9 +20,9 @@ void StateMachine::Run(const IO::CarInputs& input, IO::CarOutputs& output) {
 }
 
 void StateMachine::AddTransition(State *const &from, State *const &to,
-                                 GuardRule *const &guardRule) {
+                                 Guard *const &guard) {
   std::vector<Transition> *state_transitions = &transitions_[from->ID()];
-  Transition new_transition(to, condition);
+  Transition new_transition(to, guard);
 
   if (state_transitions == NULL) {
     transitions_.insert(std::pair<Utility::IDType, std::vector<Transition>>(from->ID(), { new_transition });

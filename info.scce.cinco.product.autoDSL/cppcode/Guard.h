@@ -8,7 +8,7 @@
 namespace ACCPlusPlus {
 class Guard {
 public:
-  Guard();
+  Guard(const std::vector<GuardRule> &);
   ~Guard();
 
   void onEntry();
@@ -17,10 +17,8 @@ public:
 
   std::string Name();
 
-  void AddGuardRule(GuardRule *const &state);
-
 private:
-  std::vector<GuardRule *> guards_;
+  const std::vector<GuardRule> guards_;
 };
 } // namespace ACCPlusPlus
 #endif // ACCPLUSPLUS_GUARD_H_

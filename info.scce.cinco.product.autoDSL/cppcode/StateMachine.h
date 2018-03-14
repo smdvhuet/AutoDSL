@@ -30,7 +30,7 @@ public:
 
 protected:
   void AddTransition(State *const &from, State *const &to,
-                     GuardRule *const &guardRule);
+                     Guard *const &guard);
 
   void SetEntryState(State *const &entry_state);
 

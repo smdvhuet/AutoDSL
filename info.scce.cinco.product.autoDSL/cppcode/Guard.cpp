@@ -2,38 +2,36 @@
 
 using namespace ACCPlusPlus;
 
-Guard::Guard() {}
+Guard::Guard(const std::vector<GuardRule> &guards) { guards_ = guards; }
 
 Guard::~Guard() {}
 
 void Guard::onEntry() {
-  for (std::vector<GuardRule *>::iterator it = guards_.begin();
+  for (std::vector<GuardRule>::iterator it = guards_.begin();
        it != guards_.end(); ++it)
-    (*it)->onEntry();
+    (*it).onEntry();
 }
 
 bool Guard::Execute(const IO::CarInputs &input) {
   bool result = true;
-  for (std::vector<GuardRule *>::iterator it = guards_.begin();
+  for (std::vector<GuardRule>::iterator it = guards_.begin();
        it != guards_.end(); ++it)
-    result &= (*it)->Execute(input);
+    result &= (*it).Execute(input);
 
   return result;
 }
 
 void Guard::onExit() {
-  for (std::vector<GuardRule *>::iterator it = guards_.begin();
+  for (std::vector<GuardRule>::iterator it = guards_.begin();
        it != guards_.end(); ++it)
-    (*it)->onExit();
+    (*it).onExit();
 }
 
 std::string Guard::Name() {
   std::string name = "Guard";
-  for (std::vector<GuardRule *>::iterator it = guards_.begin();
+  for (std::vector<GuardRule>::iterator it = guards_.begin();
        it != guards_.end(); ++it)
-    name += "_" + (*it)->Name();
+    name += "_" + (*it).Name();
 
   return name;
 }
-
-void Guard::AddGuardRule(GuardRule *const &rule) { guards_.push_back(rule); }
