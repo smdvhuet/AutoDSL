@@ -35,22 +35,6 @@ graphModel Rule {
 	edge NumberDataFlow {}
 
 	enum CarInputTypeBoolean {
-		GamepadA
-		GamepadB
-		GamepadX
-		GamepadY
-		GamepadLB
-		GamepadRB
-		GamepadBACK
-		GamepadSTART
-		GamepadXBOX
-		GamepadLStickPressed
-		GamepadRStickPressed
-		GamepadDpadLeft
-		GamepadDpadRight
-		GamepadDpadUp
-		GamepadDpadDown
-		
 		SystemOnButton
 		SystemActiveButton
 		HasLeadingCar
@@ -65,7 +49,7 @@ graphModel Rule {
 		TimeDistanceFront
 		CurrentSpeed
 
-		GamepadSteering
+		Steering
 		SetSpeed
 		LeadingCarRelativeSpeed
 		Acceleration // GamepadThrottle
@@ -83,9 +67,6 @@ graphModel Rule {
 	enum CarOutputTypeNumber {
 		Acceleration
 		Steering
-
-		GamepadFeedbackX
-		GamepadFeedbackY
 
 		SetSpeed
 		SetDistance
