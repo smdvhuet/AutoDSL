@@ -126,6 +126,22 @@ nodeStyle carOutput (2) {
 	}
 }
 
+nodeStyle subOutput (2) {
+	rectangle {
+		appearance io
+		size (110,20)
+		image {
+			position (RIGHT, MIDDLE)
+			size (fix 16,fix 16)
+			path ( "icons/StaticInput.png" )
+		}
+		text {
+			position ( LEFT, MIDDLE)
+			value "%s : %s"			
+		}
+	}
+}
+
 /* Node styles for Operations*/
 nodeStyle commutableOperation (1) {
 	roundedRectangle {
