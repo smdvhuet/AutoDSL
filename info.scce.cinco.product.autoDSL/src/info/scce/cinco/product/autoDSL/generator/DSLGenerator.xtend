@@ -19,7 +19,6 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	var IFolder mainFolder
 	var IFolder mainPackage
 	var IFolder corePackage
-	var IFolder guiPackage
 	var IFolder staticFolder
 	
 	var HashMap<Integer, String> knownRuleTypes =  new HashMap<Integer, String>()
@@ -36,8 +35,6 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		EclipseFileUtils.mkdirs(mainPackage,monitor)
 		corePackage = mainFolder.getFolder("info/scce/cinco/core")
 		EclipseFileUtils.mkdirs(corePackage,monitor)
-		guiPackage = mainFolder.getFolder("info/scce/cinco/gui")
-		EclipseFileUtils.mkdirs(guiPackage,monitor)
 		
 		staticFolder = corePackage
 		
