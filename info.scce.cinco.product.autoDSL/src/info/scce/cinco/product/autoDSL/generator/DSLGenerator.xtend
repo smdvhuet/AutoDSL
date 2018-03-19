@@ -43,7 +43,8 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		
 		generateStatic()
 		
-		EclipseFileUtils.writeToFile(mainPackage.getFile("AutoDSL" + IDHasher.GetStringHash(dsl.id) + ".java"), generateStateMachine(dsl))
+		EclipseFileUtils.writeToFile(mainPackage.getFile("AutoDSL" + IDHasher.GetStringHash(dsl.id) + ".h"), generateStateMachineHeader(dsl))
+		EclipseFileUtils.writeToFile(mainPackage.getFile("AutoDSL" + IDHasher.GetStringHash(dsl.id) + ".cpp"), generateStateMachineBody(dsl))
 	}
 	
 	def generateStatic(){
@@ -67,8 +68,10 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		EclipseFileUtils.copyFromBundleToDirectory(bundle, file + ".h", folder)	
 		EclipseFileUtils.copyFromBundleToDirectory(bundle, file + ".cpp", folder)
 	}
-	
-	def generateStateMachine(AutoDSL dsl)'''
+//*********************************************************************************
+//							GENERATE DSL HEADER AND BODY	
+//*********************************************************************************		
+	def generateStateMachineHeader(AutoDSL dsl)'''
 	#ifndef AUTODSL_AUTODSL«IDHasher.GetStringHash(dsl.id)»_H_
 	#define AUTODSL_AUTODSL«IDHasher.GetStringHash(dsl.id)»_H_
 	
@@ -80,25 +83,9 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	
 	class AutoDSL«IDHasher.GetStringHash(dsl.id)» : public StateMachine{
 	public:
-	  AutoDSL«IDHasher.GetStringHash(dsl.id)»(){
-	  	«if(dsl.offStates.length() > 0) initAllOffStates(dsl)»
-	  	
-	  	«if(dsl.states.length() > 0) initAllStates(dsl)»
-	  	
-	  	«if(dsl.guards.length() > 0) initAllGuards(dsl)»
-	  	
-	  	«if(dsl.allEdges.length > 0) initConnections(dsl)»
-	  	
-	  	«if(dsl.offStates.length > 0) chooseEntryState(dsl)»
-	  }
+	  AutoDSL«IDHasher.GetStringHash(dsl.id)»();
 	  
-	  ~AutoDSL«IDHasher.GetStringHash(dsl.id)»(){
-	    «if(dsl.offStates.length() > 0) deleteOffStateVars(dsl)»
-	  	  	
-	    «if(dsl.states.length() > 0) deleteStateVars(dsl)»
-	    
-	    «if(dsl.guards.length() > 0) deleteGuardVars(dsl)»
-	  }
+	  ~AutoDSL«IDHasher.GetStringHash(dsl.id)»();
 		
 	private:
 	  «if(dsl.offStates.length() > 0) generateOffStateVars(dsl)»
@@ -111,6 +98,31 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	#endif // AUTODSL_AUTODSL«IDHasher.GetStringHash(dsl.id)»_H_
 	'''
 	
+	def generateStateMachineBody(AutoDSL dsl)'''
+	#include AutoDSL«IDHasher.GetStringHash(dsl.id)».h"
+	
+	using namespace AutoDSL;
+	
+	AutoDSL«IDHasher.GetStringHash(dsl.id)»::AutoDSL«IDHasher.GetStringHash(dsl.id)»(){
+	  «if(dsl.offStates.length() > 0) initAllOffStates(dsl)»
+	  
+	  «if(dsl.states.length() > 0) initAllStates(dsl)»
+	  
+	  «if(dsl.guards.length() > 0) initAllGuards(dsl)»
+	  
+	  «if(dsl.allEdges.length > 0) initConnections(dsl)»
+	  
+	  «if(dsl.offStates.length > 0) chooseEntryState(dsl)»
+	}
+	
+	AutoDSL«IDHasher.GetStringHash(dsl.id)»::~AutoDSL«IDHasher.GetStringHash(dsl.id)»(){
+	  «if(dsl.offStates.length() > 0) deleteOffStateVars(dsl)»
+	 
+	  «if(dsl.states.length() > 0) deleteStateVars(dsl)»
+	  
+	  «if(dsl.guards.length() > 0) deleteGuardVars(dsl)»
+	}
+	'''	
 //*********************************************************************************
 //								GENERATE VARIABLES	
 //*********************************************************************************	
