@@ -33,7 +33,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		mainFolder = project.getFolder("src-gen")
 		mainPackage = mainFolder.getFolder("info/scce/cinco/product")
 		EclipseFileUtils.mkdirs(mainPackage,monitor)
-		corePackage = mainFolder.getFolder("info/scce/cinco/core")
+		corePackage = mainFolder.getFolder("info/scce/cinco/product/core")
 		EclipseFileUtils.mkdirs(corePackage,monitor)
 		
 		staticFolder = corePackage
@@ -72,7 +72,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	#ifndef AUTODSL_AUTODSL«IDHasher.GetStringHash(dsl.id)»_H_
 	#define AUTODSL_AUTODSL«IDHasher.GetStringHash(dsl.id)»_H_
 	
-	#include "StateMachine.h"
+	#include "core/StateMachine.h"
 	
 	using namespace ACCPlusPlus;
 	
@@ -126,27 +126,21 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	def generateOffStateVars(AutoDSL dsl)'''
 	//OffStates
 	«FOR state : dsl.offStates»
-	«IF IDHasher.Contains(state.id)»
 	State* state«IDHasher.GetIntHash(state.id)»_;
-	«ENDIF»
 	«ENDFOR»
 	'''
 	
 	def generateStateVars(AutoDSL dsl)'''
 	//States
 	«FOR state : dsl.states»
-	«IF IDHasher.Contains(state.id)»
 	State* state«IDHasher.GetIntHash(state.id)»_;
-	«ENDIF»
 	«ENDFOR»		
 	'''	
 	
 	def generateGuardVars(AutoDSL dsl)'''
 	//Guards
 	«FOR guard : dsl.guards»
-	«IF IDHasher.Contains(guard.id)»
 	Guard* guard«IDHasher.GetIntHash(guard.id)»_;
-	«ENDIF»
 	«ENDFOR»		
 	'''	
 
