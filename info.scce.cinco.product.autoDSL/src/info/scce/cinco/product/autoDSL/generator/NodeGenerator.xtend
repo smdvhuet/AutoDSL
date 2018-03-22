@@ -35,46 +35,47 @@ import info.scce.cinco.product.autoDSL.rule.rule.Division
 
 class NodeGenerator extends RuleSwitch<CharSequence> {
 	
-	def generate(Rule rule){
-		rule.caseRule
-	}
-	
-	override caseRule(Rule rule){
+	override caseRuleHeader(Rule rule){
 		for(Node node : rule.operations){
 			if(node.incoming.nullOrEmpty&&!(node instanceof Comment)){
 				return
 				'''	
-				package info.scce.cinco.product;
+				#ifndef AUTODSL_RULE«IDHasher.GetStringHash(dsl.id)»_H_
+				#define AUTODSL_RULE«IDHasher.GetStringHash(dsl.id)»_H_
 				
-				import info.scce.cinco.core.State;
+				#include State;
 				
-				«IF importUtilityClass(rule)»import info.scce.cinco.core.Utility;«ENDIF»
-				«IF importPIDClass(rule)»import info.scce.cinco.core.PID;«ENDIF»
-				«IF importIOClass(rule)»import info.scce.cinco.core.IO;«ENDIF»
+				«IF importUtilityClass(rule)»#include Utility.h;«ENDIF»
+				«IF importPIDClass(rule)»#include PID;«ENDIF»
+				«IF importIOClass(rule)»#include IO;«ENDIF»
+			
+				namespace AutoDSL{
 				
-				public class «rule.name» implements State{
-					
-					public boolean guard;
-					
-					//PID Controllers
-					«FOR pid : rule.PIDControllers»
-					private PID pid«IDHasher.GetStringHash(pid.id)» = new PID(«pid.p», «pid.i», «pid.d»);
-					«ENDFOR»
-					
-					public void Execute(){
-						«node.doSwitch»
-					}
-					
-					public void onEntry(){
+					class «rule.name» implements State{
 						
-					}
-					
-					public void onExit(){
+						public: 
+						«rule.name»();
 						
-					}
-					
-					public String getName(){
-						return "«rule.name»";
+						~«rule.name»();
+						
+						bool guard;
+						void Execute();
+						
+						void onEntry();
+						
+						void onExit();
+						
+						inline String getName(){
+							return "«rule.name»";
+						}
+						
+						//PID Controllers
+						
+						private:
+						«FOR pid : rule.PIDControllers»
+						PID *pid«IDHasher.GetStringHash(pid.id)»;
+						«ENDFOR»
+						
 					}
 				}
 				'''
@@ -82,17 +83,60 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 		}
 	}
 	
+	override caseRuleBody(Rule rule){
+		for(Node node : rule.operations){
+			if(node.incoming.nullOrEmpty&&!(node instanceof Comment)){
+				return
+				'''	
+				#include "«rule.name».h"
+				
+				using namespace AutoDSL;
+				
+				«rule.name»::«rule.name»() {
+					//PID Controllers
+					«FOR pid : rule.PIDControllers»
+					*pid«IDHasher.GetStringHash(pid.id)» = new PID(«pid.p», «pid.i», «pid.d»);
+					«ENDFOR»
+				}
+				
+				«rule.name»::~«rule.name»() {
+					//PID Controllers
+					«FOR pid : rule.PIDControllers»
+					delete pid«IDHasher.GetStringHash(pid.id)» = new PID(«pid.p», «pid.i», «pid.d»);
+					«ENDFOR»
+				}
+					
+					
+					void Execute(){
+						«node.doSwitch»
+					}
+					
+					void onEntry(){
+						
+					}
+					
+					void onExit(){
+						
+					}
+				}
+				'''
+			}
+		}
+	}
+	
+	
+	
 	//TODO get dT for PID
 	override casePIDController(PIDController op)'''
 		//PID Controller
-		double «op.outputs.head.referenceOutput» = pid«IDHasher.GetStringHash(op.id)».calc(«op.inputs.head.referenceInput», «op.inputs.last.referenceInput», 0.1);
+		double «op.outputs.head.referenceOutput» = pid«IDHasher.GetStringHash(op.id)»->calc(«op.inputs.head.referenceInput», «op.inputs.last.referenceInput», 0.1);
 		
 		«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseNegation(Negation op)'''
 	//Negation Operator
-	boolean «IDHasher.GetStringHash(op.booleanOutputs.head.id)» = !«op.booleanInputs.head.referenceInput»;
+	bool «IDHasher.GetStringHash(op.booleanOutputs.head.id)» = !«op.booleanInputs.head.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
@@ -132,7 +176,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseLogicalAnd(LogicalAnd op)'''
 	//And Operator
-	boolean «op.outputs.head.referenceOutput» = «FOR in : op.inputs SEPARATOR '&&'»«
+	bool «op.outputs.head.referenceOutput» = «FOR in : op.inputs SEPARATOR '&&'»«
 										in.referenceInput»«
 									ENDFOR»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
@@ -140,7 +184,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseLogicalOr(LogicalOr op)'''
 	//Or Operator
-	boolean «op.outputs.head.referenceOutput» = «FOR in : op.inputs SEPARATOR '||'»«
+	bool «op.outputs.head.referenceOutput» = «FOR in : op.inputs SEPARATOR '||'»«
 											in.referenceInput»«
 										ENDFOR»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
@@ -160,25 +204,25 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseLess(Less op)'''
 	//Less Operator
-	boolean «op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» < «op.inputs.last.referenceInput»;
+	bool «op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» < «op.inputs.last.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseLessOrEqual(LessOrEqual op)'''
 	//LessOrEqual Operator
-	boolean «op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» <= «op.inputs.last.referenceInput»;
+	bool «op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» <= «op.inputs.last.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseGreater(Greater op)'''
 	//Greater Operator
-	boolean «op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» > «op.inputs.last.referenceInput»;
+	bool «op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» > «op.inputs.last.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseGreaterOrEqual(GreaterOrEqual op)'''
 	//GreaterOrEqual Operator
-	boolean «op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» >= «op.inputs.last.referenceInput»;
+	bool «op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» >= «op.inputs.last.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	

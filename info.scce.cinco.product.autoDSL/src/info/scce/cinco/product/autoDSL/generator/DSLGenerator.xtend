@@ -252,7 +252,9 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	  	for(String name: names) {
 	  		rule.name = rule.name + name.toFirstUpper
 	  	}
-	  	EclipseFileUtils.writeToFile(mainPackage.getFile(rule.name + ".java"), new NodeGenerator().generate(rule))
+	  	EclipseFileUtils.writeToFile(mainPackage.getFile(rule.name + ".h"), new NodeGenerator().generateHeader(rule))
+	  	EclipseFileUtils.writeToFile(mainPackage.getFile(rule.name + ".cpp"), new NodeGenerator().generateBody(rule))
+	  	
 	  	knownRuleTypes.put(IDHasher.GetIntHash(rule.id), rule.name)
 	  	ruleName = rule.name	
 	  }
