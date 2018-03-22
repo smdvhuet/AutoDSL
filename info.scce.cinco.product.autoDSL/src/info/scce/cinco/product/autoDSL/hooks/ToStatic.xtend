@@ -6,17 +6,22 @@ import info.scce.cinco.product.autoDSL.rule.rule.NumberInput
 
 class ToStatic extends IOConversion {
 	
-	override getName() {
-		getName("static")
+	override targetType() {
+		"static"
 	}
 	
-	override execute(IO io) {
-		val x = io.x as int
-		val y = io.y as int
-		val cont = LayoutManager.prepareConversion(io)
+	override createConversionTarget(IO io) {
 		switch io {
-			BooleanInput : cont.newBooleanStaticInput(x, y)
-			NumberInput : cont.newNumberStaticInput(x, y)
+			BooleanInput case op.canNewBooleanStaticInput : op.newBooleanStaticInput(x, y)
+			NumberInput case op.canNewNumberStaticInput : op.newNumberStaticInput(x, y)
+		}
+	}
+	
+	override canCreateConversionTarget(IO io) {
+		switch io {
+			BooleanInput : op.canNewBooleanStaticInput
+			NumberInput : op.canNewNumberStaticInput
+			default : true
 		}
 	}
 	

@@ -1,0 +1,47 @@
+Rule _b1OMItwgEeeay9wdlSZ-4Q {
+  Addition _mOnB0NwgEeeay9wdlSZ-4Q at 260,240 size 120,92 {
+  	NumberOutputPort _mO0dMNwgEeeay9wdlSZ-4Q at 5,66 size 110,18 {
+  		-NumberDataFlow-> _mqcCMtwgEeeay9wdlSZ-4Q  decorate "" at (0,0) {
+  			id _scgugNwgEeeay9wdlSZ-4Q
+  		}
+  	}
+  	
+  	NumberStaticInput _qwBXgNwgEeeay9wdlSZ-4Q at 5,26 size 110,18 {
+  		staticValue 0.0
+  	}
+  	
+  	NumberStaticInput _rLP68twgEeeay9wdlSZ-4Q at 5,46 size 110,18 {
+  		staticValue 1.0
+  	}
+  	-ControlFlowBasic-> _mqYX0twgEeeay9wdlSZ-4Q  decorate "" at (0,0) {
+  		id _ulOugNwgEeeay9wdlSZ-4Q
+  	}
+  }
+  
+  Addition _mqYX0twgEeeay9wdlSZ-4Q at 490,240 size 120,92 {
+  	NumberInputPort _mqcCMtwgEeeay9wdlSZ-4Q at 5,46 size 110,18 {
+  	}
+  	
+  	NumberOutputPort _mqdQUtwgEeeay9wdlSZ-4Q at 5,66 size 110,18 {
+  		-NumberDataFlow-> _ovZjktwgEeeay9wdlSZ-4Q  decorate "" at (0,0) {
+  			id _tivWwtwgEeeay9wdlSZ-4Q
+  		}
+  	}
+  	
+  	NumberStaticInput _soFsYtwgEeeay9wdlSZ-4Q at 5,26 size 110,18 {
+  		staticValue 1.0
+  	}
+  	-ControlFlowBasic-> _ovWgQNwgEeeay9wdlSZ-4Q  decorate "" at (0,0) {
+  		id _u_RmMtwgEeeay9wdlSZ-4Q
+  	}
+  }
+  
+  DirectNumberOutput _ovWgQNwgEeeay9wdlSZ-4Q at 780,240 size 120,72 {
+  	NumberInputPort _ovZjktwgEeeay9wdlSZ-4Q at 5,26 size 110,18 {
+  	}
+  	
+  	NumberCarOutput _ovd1ANwgEeeay9wdlSZ-4Q at 5,46 size 110,18 {
+  		outputtype Acceleration
+  	}
+  }
+}

@@ -8,19 +8,26 @@ import info.scce.cinco.product.autoDSL.rule.rule.NumberOutput
 
 class ToPort extends IOConversion {
 	
-	override getName() {
-		getName("port")
+	override targetType() {
+		"port"
 	}
 	
-	override execute(IO io) {
-		val x = io.x as int
-		val y = io.y as int
-		val cont = LayoutManager.prepareConversion(io)
+	override createConversionTarget(IO io) {
 		switch io {
-			BooleanInput : cont.newBooleanInputPort(x, y)
-			BooleanOutput : cont.newBooleanOutputPort(x, y)
-			NumberInput : cont.newNumberInputPort(x, y)
-			NumberOutput : cont.newNumberOutputPort(x, y)
+			BooleanInput case op.canNewBooleanInputPort : op.newBooleanInputPort(x, y)
+			BooleanOutput case op.canNewBooleanOutputPort : op.newBooleanOutputPort(x, y)
+			NumberInput case op.canNewNumberInputPort : op.newNumberInputPort(x, y)
+			NumberOutput case op.canNewNumberOutputPort : op.newNumberOutputPort(x, y)
+		}
+	}
+	
+	override canCreateConversionTarget(IO io) {
+		switch io {
+			BooleanInput : op.canNewBooleanInputPort
+			BooleanOutput : op.canNewBooleanOutputPort
+			NumberInput : op.canNewNumberInputPort
+			NumberOutput : op.canNewNumberOutputPort
+			default : true
 		}
 	}
 	

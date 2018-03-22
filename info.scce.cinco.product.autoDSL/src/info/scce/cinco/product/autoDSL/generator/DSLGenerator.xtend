@@ -19,9 +19,9 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	var IFolder mainFolder
 	var IFolder mainPackage
 	var IFolder corePackage
-	var IFolder guiPackage
+	var IFolder staticFolder
+	
 	var HashMap<Integer, String> knownRuleTypes =  new HashMap<Integer, String>()
-	var HashMap<Integer, String> knownGuardFunctions = new HashMap<Integer, String>()
 	
 	override generate(AutoDSL dsl, IPath targetDir, IProgressMonitor monitor) {
 		knownRuleTypes.clear();
@@ -33,130 +33,208 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		mainFolder = project.getFolder("src-gen")
 		mainPackage = mainFolder.getFolder("info/scce/cinco/product")
 		EclipseFileUtils.mkdirs(mainPackage,monitor)
-		corePackage = mainFolder.getFolder("info/scce/cinco/core")
+		corePackage = mainFolder.getFolder("info/scce/cinco/product/core")
 		EclipseFileUtils.mkdirs(corePackage,monitor)
-		guiPackage = mainFolder.getFolder("info/scce/cinco/gui")
-		EclipseFileUtils.mkdirs(guiPackage,monitor)
 		
-		generateStatic(dsl)
+		staticFolder = corePackage
 		
-		EclipseFileUtils.writeToFile(mainPackage.getFile("AutoDSL" + IDHasher.GetStringHash(dsl.id) + ".java"), generateStateMachine(dsl))
+		generateStatic()
+		
+		EclipseFileUtils.writeToFile(mainPackage.getFile("AutoDSL" + IDHasher.GetStringHash(dsl.id) + ".h"), generateStateMachineHeader(dsl))
+		EclipseFileUtils.writeToFile(mainPackage.getFile("AutoDSL" + IDHasher.GetStringHash(dsl.id) + ".cpp"), generateStateMachineBody(dsl))
 	}
 	
-	def generateStatic(AutoDSL dsl){
-		EclipseFileUtils.writeToFile(corePackage.getFile("State.java"), StaticClasses::StateClass())
-		EclipseFileUtils.writeToFile(corePackage.getFile("MultiState.java"), StaticClasses::MultiStateClass())
-		EclipseFileUtils.writeToFile(corePackage.getFile("StateMachine.java"), StaticClasses::StateMachineClass())
-		EclipseFileUtils.writeToFile(corePackage.getFile("Utility.java"), StaticClasses::UtilityClass())
-		EclipseFileUtils.writeToFile(corePackage.getFile("PID.java"), StaticClasses::PIDClass())
-		EclipseFileUtils.writeToFile(corePackage.getFile("IO.java"), StaticClasses::IOClass())
-		EclipseFileUtils.writeToFile(mainPackage.getFile("EgoCar.java"), new EgoCarGenerator().generateEgoCar(dsl))
-
-		
-		EclipseFileUtils.writeToFile(guiPackage.getFile("SimulatorPanel.java"), GuiGenerator::generateSimulatorPanel())
-		EclipseFileUtils.writeToFile(guiPackage.getFile("SimControlPanel.java"), GuiGenerator::generateSimControlPanel())
-		EclipseFileUtils.writeToFile(guiPackage.getFile("RoadVisualizationPanel.java"), GuiGenerator::generateRoadVisualizationPanel())
-		EclipseFileUtils.writeToFile(guiPackage.getFile("Mode.java"), GuiGenerator::generateMode())
-		EclipseFileUtils.writeToFile(guiPackage.getFile("InfoPanel.java"), GuiGenerator::generateInfoPanel())
-		EclipseFileUtils.writeToFile(guiPackage.getFile("CarControlsPanel.java"), GuiGenerator::generateCarControlsPanel())
-		EclipseFileUtils.writeToFile(guiPackage.getFile("InteractiveSimulator.java"), GuiGenerator::generateInteractiveSimulator())
-	}
-	
-	def generateStateMachine(AutoDSL dsl)'''
-	package info.scce.cinco.product;
-	
-	import java.util.function.Predicate;
-	import java.util.HashMap;
-	import info.scce.cinco.core.MultiState;
-	import info.scce.cinco.core.State;
-	import info.scce.cinco.core.StateMachine;
-	
-	public class AutoDSL«IDHasher.GetStringHash(dsl.id)» extends StateMachine{
-		HashMap<Integer, MultiState> states = new HashMap<>();
-		«registerAllGuardValidationFunctions(dsl)»
-		
-		public AutoDSL«IDHasher.GetStringHash(dsl.id)»(){
-			«if(dsl.offStates.length() > 0) generateAllStates(dsl)»
+	def generateStatic(){
+		val thisBundle = "info.scce.cinco.product.autoDSL"
 			
-			«if(dsl.offStates.length() > 0) generateAllOffStates(dsl)»
+		copyStaticHeaderAndCpp(staticFolder, thisBundle, "cppcode/StateMachine")
+		copyStaticHeaderAndCpp(staticFolder, thisBundle, "cppcode/State")
+		copyStaticHeaderAndCpp(staticFolder, thisBundle, "cppcode/Guard")
+		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/Rule.h", staticFolder)
+		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/GuardRule.h", staticFolder)
 			
-			«if(dsl.offStates.length() > 0) generateAllGuards(dsl)»
-			
-			«if(dsl.offStates.length() > 0) chooseEntryState(dsl)»
-		}
+		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/IO.h", staticFolder)
+		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/IDGenerator.h", staticFolder)
+		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/Type.h", staticFolder)
+		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/Utility.h", staticFolder)
 		
-		«generateAllGuardValidationsFunctions(dsl)»
+		copyStaticHeaderAndCpp(staticFolder, thisBundle, "cppcode/PID")
 	}
-	'''
 	
-	def generateAllStates(AutoDSL dsl)'''
-	//Add all states	
-	«FOR state : dsl.states SEPARATOR '\n'»
-	«generateState(state, IDHasher.GetIntHash(state.id))»
-	«ENDFOR»
-	'''
-	
-	def generateAllOffStates(AutoDSL dsl)'''
-	//Add all offstates
-	«FOR state : dsl.offStates SEPARATOR '\n'»
-	«generateOffState(state, IDHasher.GetIntHash(state.id))»
-	«ENDFOR»
-	'''
-	
-	def generateAllGuards(AutoDSL dsl)'''
-	//Connect all states
-	«FOR guard : dsl.guards SEPARATOR ''»
-	«connectStates(guard)»
-	«ENDFOR»
-	'''
-	
-	def chooseEntryState(AutoDSL dsl)'''
-	//Select entry state
-	SetEntryState(states.get(«IDHasher.GetIntHash(dsl.offStates.get(0).id)»));
-	'''
-	
-	def generateState(State state, int index)'''
-	MultiState state«index» = new MultiState();
-	«FOR container : state.componentNodes SEPARATOR '\n'»
-	«IF container.rule != null»
-	state«index».AddState(new «generateRuleType(container.rule)»());
-	«ENDIF»
-	«ENDFOR»
-	states.put(«IDHasher.GetIntHash(state.id)», state«index»);
-	'''
-	
-	static def generateOffState(OffState state, int index)'''
-	MultiState state«index» = new MultiState();
-	states.put(«IDHasher.GetIntHash(state.id)», state«index»);
-	'''
-	
-	def connectStates(Guard guard){
-	var incomingEdges = getIncomingEdges(guard)
-	var outgoingEdges = getOutgoingEdges(guard)
-	
-	for(container : guard.componentNodes)
-		if(container.rule != null){
-		  generateRuleType(container.rule)
+	def copyStaticHeaderAndCpp(IFolder folder, String bundle, String file){
+		EclipseFileUtils.copyFromBundleToDirectory(bundle, file + ".h", folder)	
+		EclipseFileUtils.copyFromBundleToDirectory(bundle, file + ".cpp", folder)
 	}
-		 								
+//*********************************************************************************
+//							GENERATE DSL HEADER AND BODY	
+//*********************************************************************************		
+	def generateStateMachineHeader(AutoDSL dsl)'''
+	#ifndef AUTODSL_AUTODSL«IDHasher.GetStringHash(dsl.id)»_H_
+	#define AUTODSL_AUTODSL«IDHasher.GetStringHash(dsl.id)»_H_
 	
+	#include "core/StateMachine.h"
+	
+	using namespace ACCPlusPlus;
+	
+	namespace AutoDSL{
+	
+	class AutoDSL«IDHasher.GetStringHash(dsl.id)» : public StateMachine{
+	public:
+	  AutoDSL«IDHasher.GetStringHash(dsl.id)»();
+	  
+	  ~AutoDSL«IDHasher.GetStringHash(dsl.id)»();
+		
+	private:
+	  «if(dsl.offStates.length() > 0) generateOffStateVars(dsl)»
+	  
+	  «if(dsl.states.length() > 0) generateStateVars(dsl)»
+	  
+	  «if(dsl.guards.length() > 0) generateGuardVars(dsl)»
+	};
+	} // namespace AutoDSL
+	#endif // AUTODSL_AUTODSL«IDHasher.GetStringHash(dsl.id)»_H_
+	'''
+	
+	def generateStateMachineBody(AutoDSL dsl)'''
+	#include AutoDSL«IDHasher.GetStringHash(dsl.id)».h"
+	
+	using namespace AutoDSL;
+	
+	AutoDSL«IDHasher.GetStringHash(dsl.id)»::AutoDSL«IDHasher.GetStringHash(dsl.id)»(){
+	  «if(dsl.offStates.length() > 0) initAllOffStates(dsl)»
+	  
+	  «if(dsl.states.length() > 0) initAllStates(dsl)»
+	  
+	  «if(dsl.guards.length() > 0) initAllGuards(dsl)»
+	  
+	  «if(dsl.allEdges.length > 0) initConnections(dsl)»
+	  
+	  «if(dsl.offStates.length > 0) chooseEntryState(dsl)»
+	}
+	
+	AutoDSL«IDHasher.GetStringHash(dsl.id)»::~AutoDSL«IDHasher.GetStringHash(dsl.id)»(){
+	  «if(dsl.offStates.length() > 0) deleteOffStateVars(dsl)»
+	 
+	  «if(dsl.states.length() > 0) deleteStateVars(dsl)»
+	  
+	  «if(dsl.guards.length() > 0) deleteGuardVars(dsl)»
+	}
 	'''	
-	«FOR inEdge : incomingEdges SEPARATOR '\n'»
-	«FOR outEdge : outgoingEdges SEPARATOR '\n'»
-	«generateGuardPredicate(guard)»
-	AddTransition(states.get(«IDHasher.GetIntHash(inEdge.sourceElement.id)»), states.get(«IDHasher.GetIntHash(outEdge.targetElement.id)»), guard«IDHasher.GetStringHash(guard.id)»);
-	«ENDFOR»
+//*********************************************************************************
+//								GENERATE VARIABLES	
+//*********************************************************************************	
+	def generateOffStateVars(AutoDSL dsl)'''
+	//OffStates
+	«FOR state : dsl.offStates»
+	State* state«IDHasher.GetIntHash(state.id)»_;
 	«ENDFOR»
 	'''
+	
+	def generateStateVars(AutoDSL dsl)'''
+	//States
+	«FOR state : dsl.states»
+	State* state«IDHasher.GetIntHash(state.id)»_;
+	«ENDFOR»		
+	'''	
+	
+	def generateGuardVars(AutoDSL dsl)'''
+	//Guards
+	«FOR guard : dsl.guards»
+	Guard* guard«IDHasher.GetIntHash(guard.id)»_;
+	«ENDFOR»		
+	'''	
+
+//*********************************************************************************
+//								DELETE VARIABLES	
+//*********************************************************************************		
+	def deleteOffStateVars(AutoDSL dsl)'''
+	//Delete OffStates
+	«FOR state : dsl.offStates»
+	«IF IDHasher.Contains(state.id)»
+	delete state«IDHasher.GetIntHash(state.id)»_;
+	«ENDIF»
+	«ENDFOR»	
+	'''
+	
+	def deleteStateVars(AutoDSL dsl)'''
+	//Delete states
+	«FOR state : dsl.states»
+	«IF IDHasher.Contains(state.id)»
+	delete state«IDHasher.GetIntHash(state.id)»_;
+	«ENDIF»
+	«ENDFOR»	
+	'''
+	
+	def deleteGuardVars(AutoDSL dsl)'''
+	//Delete guards
+	«FOR guard : dsl.guards»
+	«IF IDHasher.Contains(guard.id)»
+	delete guard«IDHasher.GetIntHash(guard.id)»_;
+	«ENDIF»
+	«ENDFOR»	
+	'''
+
+//*********************************************************************************
+//								INITIALIZE VARIABLES	
+//*********************************************************************************		
+	def initAllOffStates(AutoDSL dsl)'''
+	//Initialize OffStates
+	«FOR state : dsl.offStates»
+	state«IDHasher.GetIntHash(state.id)»_ = new State({});
+	«ENDFOR»	
+	'''
+	
+	def initAllStates(AutoDSL dsl)'''
+	//Initialize states
+	«FOR state : dsl.states»
+	state«IDHasher.GetIntHash(state.id)»_ = new State({
+		«FOR container : state.componentNodes SEPARATOR ','»
+		«IF container.rule != null»
+		«generateRuleType(container.rule)»()
+		«ENDIF»
+		«ENDFOR»
+	});
+	«ENDFOR»	
+	'''
+	
+	def initAllGuards(AutoDSL dsl)'''
+	//Initialize guards
+	«FOR guard : dsl.guards»
+	guard«IDHasher.GetIntHash(guard.id)»_ = new Guard({
+		«FOR container : guard.componentNodes SEPARATOR ','»
+		«IF container.rule != null»
+		«generateRuleType(container.rule)»()
+		«ENDIF»
+		«ENDFOR»
+	});
+	«ENDFOR»	
+	'''
+	
+//*********************************************************************************
+//						 SETUP STATE->GUARD->STATE CONNECTIONS	
+//*********************************************************************************
+	def initConnections(AutoDSL dsl)'''
+	//Setup connections (State -> Guard -> State)
+	«FOR guard : dsl.guards»
+	«FOR incoming : getIncomingEdges(guard)»
+	«FOR outgoing : getOutgoingEdges(guard)»
+	AddTransition(state«IDHasher.GetIntHash(incoming.id)»_, state«IDHasher.GetIntHash(outgoing.id)»_, guard«IDHasher.GetIntHash(guard.id)»_)
+	«ENDFOR»
+	«ENDFOR»
+	«ENDFOR»	
+	'''
+	
+	def getIncomingEdges(Guard guard){
+		return guard.incoming.filter[it.sourceElement instanceof State] + guard.incoming.filter[it.sourceElement instanceof OffState];
 	}
 	
-	def generateGuardPredicate(Guard guard){
-		if(IDHasher.Contains(guard.id)) 
-			return ''''''
-		else
-			return '''Predicate<State> guard«IDHasher.GetStringHash(guard.id)» = (State state) -> «FOR container : guard.componentNodes SEPARATOR '&&'»«IF container.rule != null»«knownGuardFunctions.get(IDHasher.GetIntHash(container.rule.id))»()«ELSE»true«ENDIF»  «ENDFOR»;'''
-	}
+	def getOutgoingEdges(Guard guard){
+		return guard.outgoing.filter[it.targetElement instanceof State] + guard.outgoing.filter[it.targetElement instanceof OffState];
+	}	
 	
+//*********************************************************************************
+//								GENERATE RULE CLASS
+//*********************************************************************************
 	def generateRuleType(Rule rule){
 	  var String ruleName = knownRuleTypes.get(IDHasher.GetIntHash(rule.id))
 	  if(ruleName == null){
@@ -173,54 +251,11 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	  return '''«ruleName»'''
 	}
 	
-	def registerAllGuardValidationFunctions(AutoDSL dsl){
-		for(guard : dsl.guards)
-			for(container : guard.componentNodes)
-				if(container != null && container.rule != null)
-					generateGuardValidationFunction(container.rule)
-		return ''
-	}
-	
-	def generateAllGuardValidationsFunctions(AutoDSL dsl){
-		knownGuardFunctions.clear();
-		'''
-		«FOR guard : dsl.guards SEPARATOR '\n'»
-		«FOR container : guard.componentNodes SEPARATOR ' '»
-		«IF container != null && container.rule != null»
-		«generateGuardValidationFunction(container.rule)»
-		«ENDIF»
-		«ENDFOR»
-		«ENDFOR»
-		'''
-	}
-	
-	def generateGuardValidationFunction(Rule guardingRule){
-		if(knownGuardFunctions.containsKey(IDHasher.GetIntHash(guardingRule.id))){
-			return ''
-		}else{
-			val guardName = "isGuardValid" + IDHasher.GetStringHash(guardingRule.id)
-			knownGuardFunctions.put(IDHasher.GetIntHash(guardingRule.id), guardName)
-			return '''
-			«generateRuleType(guardingRule)» guardRule«IDHasher.GetStringHash(guardingRule.id)» = new «generateRuleType(guardingRule)»(); 
-			private boolean «guardName»(){
-				boolean result = false;
-				
-				guardRule«IDHasher.GetStringHash(guardingRule.id)».onEntry();
-				guardRule«IDHasher.GetStringHash(guardingRule.id)».Execute();
-				result = guardRule«IDHasher.GetStringHash(guardingRule.id)».guard;
-				guardRule«IDHasher.GetStringHash(guardingRule.id)».onExit();
-				
-				return result;
-			}
-			'''
-		}
-	}
-	
-	def getIncomingEdges(Guard guard){
-		return guard.incoming.filter[it.sourceElement instanceof State] + guard.incoming.filter[it.sourceElement instanceof OffState];
-	}
-	
-	def getOutgoingEdges(Guard guard){
-		return guard.outgoing.filter[it.targetElement instanceof State] + guard.outgoing.filter[it.targetElement instanceof OffState];
-	}
+//*********************************************************************************
+//								UTILITY FUNCTIONS
+//*********************************************************************************	
+	def chooseEntryState(AutoDSL dsl)'''
+	//Select entry state
+	SetEntryState(states«IDHasher.GetIntHash(dsl.offStates.get(0).id)»_);
+	'''
 }

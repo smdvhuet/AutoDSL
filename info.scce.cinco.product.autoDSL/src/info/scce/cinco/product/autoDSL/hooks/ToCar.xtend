@@ -9,19 +9,26 @@ import info.scce.cinco.product.autoDSL.rule.rule.NumberOutput
 class ToCar extends IOConversion {
 
 //TODO find generic but precise name (will be displayed in ContextMenu) and adjust counterparts for static and port to match.
-	override getName() {
-		getName("car")
+	override targetType() {
+		"car"
 	}
 	
-	override execute(IO io) {
-		val x = io.x as int
-		val y = io.y as int
-		val cont = LayoutManager.prepareConversion(io)
+	override createConversionTarget(IO io) {
 		switch io {
-			BooleanInput : cont.newBooleanCarInput(x, y)
-			BooleanOutput : cont.newBooleanCarOutput(x, y)
-			NumberInput : cont.newNumberCarInput(x, y)
-			NumberOutput : cont.newNumberCarOutput(x, y)
+			BooleanInput case op.canNewBooleanCarInput : op.newBooleanCarInput(x, y)
+			BooleanOutput case op.canNewBooleanCarOutput  : op.newBooleanCarOutput(x, y)
+			NumberInput case op.canNewNumberCarInput : op.newNumberCarInput(x, y)
+			NumberOutput case op.canNewNumberCarOutput : op.newNumberCarOutput(x, y)
+		}
+	}
+	
+	override canCreateConversionTarget(IO io) {
+		switch io {
+			BooleanInput : op.canNewBooleanCarInput
+			BooleanOutput : op.canNewBooleanCarOutput
+			NumberInput : op.canNewNumberCarInput
+			NumberOutput : op.canNewNumberCarOutput
+			default : true
 		}
 	}
 	

@@ -1,0 +1,80 @@
+Rule _LAxXwt3yEeeDk-jJVUehaw {
+  PIDController _i4jk4N31EeeDk-jJVUehaw at 130,190 size 120,156 {
+  	p 0.05
+  	d 0.0135
+  	i 0.054
+  	NumberOutputPort _i4y1ct31EeeDk-jJVUehaw at 5,126 size 110,18 index 2 {
+  		-NumberDataFlow-> _txdrUt35EeeDk-jJVUehaw  decorate "" at (0,0) {
+  			id _vH9kMt35EeeDk-jJVUehaw
+  		}
+  		
+  		-NumberDataFlow-> _l_fHUt36EeeDk-jJVUehaw via (288,325) (288,215) (725,215) (725,324) decorate "" at (0,0) {
+  			id _o-9wMt36EeeDk-jJVUehaw
+  		}
+  	}
+  	
+  	NumberCarInput _rmdo0t34EeeDk-jJVUehaw at 5,86 size 110,18 index 0 {
+  		inputtype CurrentSpeed
+  	}
+  	
+  	NumberCarInput _5QXOkt5cEeegf9hD5gD-QQ at 5,106 size 110,18 index 1 {
+  		inputtype SetSpeed
+  	}
+  	-ControlFlowBasic-> _txbPEt35EeeDk-jJVUehaw  decorate "" at (0,0) {
+  		id _wORz8N5lEee09KkS4zGLlw
+  	}
+  }
+  
+  Comment _OIDqEN34EeeDk-jJVUehaw at 320,170 size 211,32 {
+  	comment "Driver acceleration input smaller than PID "
+  }
+  
+  LessOrEqual _txbPEt35EeeDk-jJVUehaw at 330,260 size 120,93 {
+  	NumberInputPort _txdrUt35EeeDk-jJVUehaw at 5,46 size 110,18 index 1 {
+  	}
+  	
+  	BooleanOutputPort _txeSYt35EeeDk-jJVUehaw at 5,70 size 110,18 index 2 {
+  		-BooleanDataFlow-> _yBD4Qt35EeeDk-jJVUehaw  decorate "" at (0,0) {
+  			id _y5bDot35EeeDk-jJVUehaw
+  		}
+  	}
+  	
+  	NumberCarInput _uWMwEt35EeeDk-jJVUehaw at 5,10 size 110,18 index 0 {
+  		inputtype GamepadThrottle
+  	}
+  	-ControlFlowBasic-> _yBDRMt35EeeDk-jJVUehaw  decorate "" at (0,0) {
+  		id _wdoekt5lEee09KkS4zGLlw
+  	}
+  }
+  
+  Decision _yBDRMt35EeeDk-jJVUehaw at 540,300 size 120,51 {
+  	BooleanInputPort _yBD4Qt35EeeDk-jJVUehaw at 5,26 size 110,18 {
+  	}
+  	-ControlFlowDecisionTrue-> _l_egQt36EeeDk-jJVUehaw  decorate "" at (0,0) decorate "Text" at (0,0) {
+  		id _oIrBYt36EeeDk-jJVUehaw
+  	}
+  	
+  	-ControlFlowDecisionFalse-> _p0seUt36EeeDk-jJVUehaw via (599,407) decorate "" at (0,0) decorate "Text" at (0,0) {
+  		id _ateyIN37EeeDk-jJVUehaw
+  	}
+  }
+  
+  DirectNumberOutput _l_egQt36EeeDk-jJVUehaw at 760,290 size 120,72 {
+  	NumberInputPort _l_fHUt36EeeDk-jJVUehaw at 5,26 size 110,18 {
+  	}
+  	
+  	NumberCarOutput _l_fuYt36EeeDk-jJVUehaw at 5,46 size 110,18 {
+  		outputtype Acceleration
+  	}
+  }
+  
+  DirectNumberOutput _p0seUt36EeeDk-jJVUehaw at 760,371 size 120,72 {
+  	NumberCarOutput _p0tsct36EeeDk-jJVUehaw at 5,46 size 110,18 {
+  		outputtype Acceleration
+  	}
+  	
+  	NumberCarInput _cd0HUd37EeeDk-jJVUehaw at 5,26 size 110,18 {
+  		inputtype GamepadThrottle
+  	}
+  }
+}

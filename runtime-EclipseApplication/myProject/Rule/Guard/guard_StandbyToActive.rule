@@ -1,0 +1,91 @@
+Rule _qAftYt30EeeDk-jJVUehaw {
+  Less _LNZfEt5hEeegf9hD5gD-QQ at 289,252 size 120,92 {
+  	NumberStaticInput _LNaGJd5hEeegf9hD5gD-QQ at 5,0 size 110,18 {
+  		staticValue 7.0
+  	}
+  	
+  	NumberCarInput _LNaGKd5hEeegf9hD5gD-QQ at 5,46 size 110,18 {
+  		inputtype CurrentSpeed
+  	}
+  	
+  	BooleanOutputPort _LNaGLd5hEeegf9hD5gD-QQ at 5,66 size 110,18 {
+  		-BooleanDataFlow-> _LNmTdN5hEeegf9hD5gD-QQ  decorate "" at (0,0) {
+  			id _LNoImN5hEeegf9hD5gD-QQ
+  		}
+  	}
+  	-ControlFlowBasic-> _LNdwgt5hEeegf9hD5gD-QQ  decorate "" at (0,0) {
+  		id _LNipBt5hEeegf9hD5gD-QQ
+  	}
+  }
+  
+  LogicalAnd _LNdwgt5hEeegf9hD5gD-QQ at 289,373 size 120,92 {
+  	BooleanStaticInput _LNdwjt5hEeegf9hD5gD-QQ at 5,26 size 110,18 {
+  		staticValue true
+  	}
+  	
+  	BooleanCarInput _LNdwkt5hEeegf9hD5gD-QQ at 5,46 size 110,18 {
+  		inputtype GamepadB
+  	}
+  	
+  	BooleanOutputPort _LNeXk95hEeegf9hD5gD-QQ at 5,66 size 110,18 {
+  		-BooleanDataFlow-> _LNkeON5hEeegf9hD5gD-QQ  decorate "" at (0,0) {
+  			id _LNoIk95hEeegf9hD5gD-QQ
+  		}
+  	}
+  	-ControlFlowBasic-> _LNj3It5hEeegf9hD5gD-QQ  decorate "" at (0,0) {
+  		id _LNlsUN5hEeegf9hD5gD-QQ
+  	}
+  }
+  
+  Comment _LNgMwN5hEeegf9hD5gD-QQ at 278,202 size 141,41 {
+  	comment "current_speed > v_low"
+  }
+  
+  Comment _LNipAd5hEeegf9hD5gD-QQ at 359,464 size 151,41 {
+  	comment "Fahrer nicht am bremsen"
+  }
+  
+  Negation _LNj3It5hEeegf9hD5gD-QQ at 429,383 size 120,72 {
+  	BooleanInputPort _LNkeON5hEeegf9hD5gD-QQ at 5,26 size 110,18 {
+  	}
+  	
+  	BooleanOutputPort _LNgz0t5hEeegf9hD5gD-QQ at 5,46 size 110,18 {
+  		-BooleanDataFlow-> _LNgz1d5hEeegf9hD5gD-QQ  decorate "" at (0,0) {
+  			id _LNgMxd5hEeegf9hD5gD-QQ
+  		}
+  	}
+  	-ControlFlowBasic-> _LNmTZd5hEeegf9hD5gD-QQ  decorate "" at (0,0) {
+  		id _LNovot5hEeegf9hD5gD-QQ
+  	}
+  }
+  
+  BooleanGuardOutput _LNlsVd5hEeegf9hD5gD-QQ at 899,282 size 120,52 {
+  	BooleanInputPort _LNlFQt5hEeegf9hD5gD-QQ at 5,26 size 110,18 {
+  	}
+  }
+  
+  Comment _LNnhid5hEeegf9hD5gD-QQ at 649,221 size 120,32 {
+  	comment "Fahrer aktiviert &&"
+  }
+  
+  LogicalAnd _LNmTZd5hEeegf9hD5gD-QQ at 649,262 size 120,112 {
+  	BooleanInputPort _LNmTdN5hEeegf9hD5gD-QQ at 5,46 size 110,18 {
+  	}
+  	
+  	BooleanOutputPort _LNkeRt5hEeegf9hD5gD-QQ at 5,86 size 110,18 {
+  		-BooleanDataFlow-> _LNlFQt5hEeegf9hD5gD-QQ  decorate "" at (0,0) {
+  			id _LNkeQ95hEeegf9hD5gD-QQ
+  		}
+  	}
+  	
+  	BooleanCarInput _LNmTed5hEeegf9hD5gD-QQ at 5,26 size 110,18 {
+  		inputtype GamepadX
+  	}
+  	
+  	BooleanInputPort _LNgz1d5hEeegf9hD5gD-QQ at 5,66 size 110,18 {
+  	}
+  	-ControlFlowBasic-> _LNlsVd5hEeegf9hD5gD-QQ  decorate "" at (0,0) {
+  		id _LNmTYt5hEeegf9hD5gD-QQ
+  	}
+  }
+}
