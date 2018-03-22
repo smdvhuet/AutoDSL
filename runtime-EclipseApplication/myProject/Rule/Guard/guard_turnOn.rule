@@ -1,0 +1,12 @@
+Rule _tPkIMuPYEeeOH4zNo-jNgA {
+  name "Penis"
+  BooleanGuardOutput _uPLyIOPYEeeOH4zNo-jNgA at 780,340 size 120,51 {
+  	BooleanCarInput _vNcxMuPYEeeOH4zNo-jNgA at 5,26 size 110,20 {
+  		inputtype GamepadX
+  	}
+  }
+  
+  Comment _zczGguPYEeeOH4zNo-jNgA at 680,400 size 325,51 {
+  	comment "Fahrer wechselt den Modus (KeyMapping GamepadX)"
+  }
+}

@@ -1,0 +1,122 @@
+AutoDSL _Y_5k0NwgEeeay9wdlSZ-4Q {
+  OffState _wHYdwNwgEeeay9wdlSZ-4Q at 80,60 size 100,100 {
+  	-StateToGuard-> __iLn0d3hEeeDk-jJVUehaw  decorate "" at (0,0) {
+  		id _AFr9gt3iEeeDk-jJVUehaw
+  	}
+  }
+  
+  State _9v2Hgt3hEeeDk-jJVUehaw at 1150,1060 size 250,120 index 2 {
+  	label "Speed Control"
+  	ComponentNode _qDFGKt6eEee-n-48-OrlrQ at 50,20 size 140,80 {
+  		label "state_Active_SpeedControl.rule"
+  		libraryComponentUID "_LAxXwt3yEeeDk-jJVUehaw"
+  	}
+  	-StateToGuard-> _cq_7ot3jEeeDk-jJVUehaw  decorate "" at (0,0) {
+  		id _rZGu0t3jEeeDk-jJVUehaw
+  	}
+  	
+  	-StateToGuard-> _owCa0t3jEeeDk-jJVUehaw via (1754,1119) decorate "" at (0,0) {
+  		id _sZDv8t3jEeeDk-jJVUehaw
+  	}
+  	
+  	-StateToGuard-> _6n6bUt3jEeeDk-jJVUehaw via (1904,1172) decorate "" at (0,0) {
+  		id _8RbW0t3jEeeDk-jJVUehaw
+  	}
+  }
+  
+  State _xDeSkNwgEeeay9wdlSZ-4Q at 5,1060 size 250,130 index 1 {
+  	label "Idle"
+  	ComponentNode _pFvUEt6eEee-n-48-OrlrQ at 55,30 size 140,80 {
+  		label "state_Standby_Idle.rule"
+  		libraryComponentUID "_1o5Rst3lEeeDk-jJVUehaw"
+  	}
+  	-StateToGuard-> _BAzh8t3iEeeDk-jJVUehaw  decorate "" at (0,0) {
+  		id _B2lTYt3iEeeDk-jJVUehaw
+  	}
+  }
+  
+  State _-fPkIt3hEeeDk-jJVUehaw at 1130,200 size 250,130 {
+  	label "Following"
+  	ComponentNode _rnCMIt6eEee-n-48-OrlrQ at 60,20 size 140,80 {
+  		label "state_Active_Following.rule"
+  		libraryComponentUID "_cxdgQt30EeeDk-jJVUehaw"
+  	}
+  	-StateToGuard-> _owCa0t3jEeeDk-jJVUehaw  decorate "" at (0,0) {
+  		id _sySIQt3jEeeDk-jJVUehaw
+  	}
+  	
+  	-StateToGuard-> _BPHqwt3iEeeDk-jJVUehaw  decorate "" at (0,0) {
+  		id _tce70t3jEeeDk-jJVUehaw
+  	}
+  	
+  	-StateToGuard-> _6n6bUt3jEeeDk-jJVUehaw  decorate "" at (0,0) {
+  		id _8pM9ot3jEeeDk-jJVUehaw
+  	}
+  }
+  
+  Guard __iLn0d3hEeeDk-jJVUehaw at 5,420 size 250,160 {
+  	label "Unnamed"
+  	ComponentNode _3WmCkuPYEeeOH4zNo-jNgA at 55,50 size 140,80 {
+  		label "guard_turnOn.rule"
+  		libraryComponentUID "_tPkIMuPYEeeOH4zNo-jNgA"
+  	}
+  	-GuardToState-> _xDeSkNwgEeeay9wdlSZ-4Q  decorate "" at (0,0) {
+  		id _AWGYEt3iEeeDk-jJVUehaw
+  	}
+  }
+  
+  Guard _BAzh8t3iEeeDk-jJVUehaw at 410,1060 size 250,150 {
+  	label "Unnamed"
+  	ComponentNode _pgIKAt6eEee-n-48-OrlrQ at 60,50 size 140,80 {
+  		label "guard_StandbyToActive.rule"
+  		libraryComponentUID "_qAftYt30EeeDk-jJVUehaw"
+  	}
+  	-GuardToState-> _9v2Hgt3hEeeDk-jJVUehaw  decorate "" at (0,0) {
+  		id _CG8Dkt3iEeeDk-jJVUehaw
+  	}
+  }
+  
+  Guard _BPHqwt3iEeeDk-jJVUehaw at 800,640 size 250,160 {
+  	label "Unnamed"
+  	ComponentNode _u9Fh8t6eEee-n-48-OrlrQ at 60,50 size 140,80 {
+  		label "guard_noLeadingCar.rule"
+  		libraryComponentUID "_o9XIUt3nEeeDk-jJVUehaw"
+  	}
+  	-GuardToState-> _9v2Hgt3hEeeDk-jJVUehaw  decorate "" at (0,0) {
+  		id _t0krst3jEeeDk-jJVUehaw
+  	}
+  }
+  
+  Guard _cq_7ot3jEeeDk-jJVUehaw at 1480,650 size 250,160 {
+  	label "Unnamed"
+  	ComponentNode _qzxjPt6eEee-n-48-OrlrQ at 60,40 size 140,80 {
+  		label "guard_LeadingCarDetection.rule"
+  		libraryComponentUID "_yi100t3nEeeDk-jJVUehaw"
+  	}
+  	-GuardToState-> _-fPkIt3hEeeDk-jJVUehaw  decorate "" at (0,0) {
+  		id _YRtKst3kEeeDk-jJVUehaw
+  	}
+  }
+  
+  Guard _owCa0t3jEeeDk-jJVUehaw at 1630,280 size 250,170 {
+  	label "Unnamed"
+  	ComponentNode _3FqLkt6eEee-n-48-OrlrQ at 60,50 size 140,80 {
+  		label "guard_manuellTurnOff.rule"
+  		libraryComponentUID "_H_uMst5iEeegf9hD5gD-QQ"
+  	}
+  	-GuardToState-> _xDeSkNwgEeeay9wdlSZ-4Q via (1816,698) (1816,1256) (1212,1256) (130,1256) decorate "" at (0,0) {
+  		id _372dst3jEeeDk-jJVUehaw
+  	}
+  }
+  
+  Guard _6n6bUt3jEeeDk-jJVUehaw at 1780,35 size 250,150 {
+  	label "Unnamed"
+  	ComponentNode _3tzJod6eEee-n-48-OrlrQ at 50,35 size 140,80 {
+  		label "guard_turnOff.rule"
+  		libraryComponentUID "_jDoxUt3mEeeDk-jJVUehaw"
+  	}
+  	-GuardToState-> _wHYdwNwgEeeay9wdlSZ-4Q  decorate "" at (0,0) {
+  		id _N3lVMt3kEeeDk-jJVUehaw
+  	}
+  }
+}

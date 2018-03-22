@@ -1,0 +1,29 @@
+Rule _o9XIUt3nEeeDk-jJVUehaw {
+  LessOrEqual _PvGIot5hEeegf9hD5gD-QQ at 350,270 size 120,92 {
+  	BooleanOutputPort _PvIk4t5hEeegf9hD5gD-QQ at 5,66 size 110,18 index 2 {
+  		-BooleanDataFlow-> _R7aPMt5hEeegf9hD5gD-QQ  decorate "" at (0,0) {
+  			id _SRLD0t5hEeegf9hD5gD-QQ
+  		}
+  	}
+  	
+  	NumberStaticInput _Qq5pkt5hEeegf9hD5gD-QQ at 5,6 size 110,18 index 0 {
+  		staticValue 200.0
+  	}
+  	
+  	NumberCarInput _ZAKrYd5hEeegf9hD5gD-QQ at 5,46 size 110,18 index 1 {
+  		inputtype DistanceFront
+  	}
+  	-ControlFlowBasic-> _R7ZoIt5hEeegf9hD5gD-QQ  decorate "" at (0,0) {
+  		id _S02Yot5hEeegf9hD5gD-QQ
+  	}
+  }
+  
+  BooleanGuardOutput _R7ZoIt5hEeegf9hD5gD-QQ at 640,280 size 120,52 {
+  	BooleanInputPort _R7aPMt5hEeegf9hD5gD-QQ at 5,26 size 110,18 {
+  	}
+  }
+  
+  Comment _hV5AMd5hEeegf9hD5gD-QQ at 340,400 size 211,41 {
+  	comment "Kein vorrausfahrendes Fahrzeug erkannt"
+  }
+}
