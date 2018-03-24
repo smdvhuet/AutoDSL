@@ -1,7 +1,0 @@
-Rule _aWqjcNwgEeeay9wdlSZ-4Q {
-  BooleanGuardOutput _B0xi0d5hEeegf9hD5gD-QQ at 410,240 size 120,52 {
-  	BooleanStaticInput _B_mSwN5hEeegf9hD5gD-QQ at 5,26 size 110,18 {
-  		staticValue true
-  	}
-  }
-}
