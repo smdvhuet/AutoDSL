@@ -22,9 +22,17 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	var IFolder staticFolder
 	
 	var HashMap<Integer, String> knownRuleTypes =  new HashMap<Integer, String>()
+	var HashMap<Integer, String> knownGuardTypes =  new HashMap<Integer, String>()
+	
+	var HashMap<Integer, String> knownState = new HashMap<Integer, String>()
+	var HashMap<Integer, String> knownGuard = new HashMap<Integer, String>()
 	
 	override generate(AutoDSL dsl, IPath targetDir, IProgressMonitor monitor) {
 		knownRuleTypes.clear();
+		knownGuardTypes.clear();
+		
+		knownState.clear();
+		knownGuard.clear();
 		
 		val ArrayList<String> srcFolders = new ArrayList<String>();
 		srcFolders.add("src-gen")
@@ -81,7 +89,6 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	class AutoDSL«IDHasher.GetStringHash(dsl.id)» : public StateMachine{
 	public:
 	  AutoDSL«IDHasher.GetStringHash(dsl.id)»();
-	  
 	  ~AutoDSL«IDHasher.GetStringHash(dsl.id)»();
 		
 	private:
@@ -126,21 +133,21 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	def generateOffStateVars(AutoDSL dsl)'''
 	//OffStates
 	«FOR state : dsl.offStates»
-	State* state«IDHasher.GetIntHash(state.id)»_;
+	State* «getStateName(state)»;
 	«ENDFOR»
 	'''
 	
 	def generateStateVars(AutoDSL dsl)'''
 	//States
 	«FOR state : dsl.states»
-	State* state«IDHasher.GetIntHash(state.id)»_;
+	State* «getStateName(state)»;
 	«ENDFOR»		
 	'''	
 	
 	def generateGuardVars(AutoDSL dsl)'''
 	//Guards
 	«FOR guard : dsl.guards»
-	Guard* guard«IDHasher.GetIntHash(guard.id)»_;
+	Guard* «getGuardName(guard)»;
 	«ENDFOR»		
 	'''	
 
@@ -151,7 +158,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	//Delete OffStates
 	«FOR state : dsl.offStates»
 	«IF IDHasher.Contains(state.id)»
-	delete state«IDHasher.GetIntHash(state.id)»_;
+	delete «getStateName(state)»;
 	«ENDIF»
 	«ENDFOR»	
 	'''
@@ -160,7 +167,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	//Delete states
 	«FOR state : dsl.states»
 	«IF IDHasher.Contains(state.id)»
-	delete state«IDHasher.GetIntHash(state.id)»_;
+	delete «getStateName(state)»;
 	«ENDIF»
 	«ENDFOR»	
 	'''
@@ -169,7 +176,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	//Delete guards
 	«FOR guard : dsl.guards»
 	«IF IDHasher.Contains(guard.id)»
-	delete guard«IDHasher.GetIntHash(guard.id)»_;
+	delete «getGuardName(guard)»;
 	«ENDIF»
 	«ENDFOR»	
 	'''
@@ -180,17 +187,17 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	def initAllOffStates(AutoDSL dsl)'''
 	//Initialize OffStates
 	«FOR state : dsl.offStates»
-	state«IDHasher.GetIntHash(state.id)»_ = new State({});
+	«getStateName(state)» = new State({});
 	«ENDFOR»	
 	'''
 	
 	def initAllStates(AutoDSL dsl)'''
 	//Initialize states
 	«FOR state : dsl.states»
-	state«IDHasher.GetIntHash(state.id)»_ = new State({
+	«getStateName(state)» = new State({
 		«FOR container : state.componentNodes SEPARATOR ','»
 		«IF container.rule != null»
-		«generateRuleType(container.rule)»()
+		«getRuleClassName(container.rule)»()
 		«ENDIF»
 		«ENDFOR»
 	});
@@ -200,10 +207,10 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	def initAllGuards(AutoDSL dsl)'''
 	//Initialize guards
 	«FOR guard : dsl.guards»
-	guard«IDHasher.GetIntHash(guard.id)»_ = new Guard({
+	«getGuardName(guard)» = new Guard({
 		«FOR container : guard.componentNodes SEPARATOR ','»
 		«IF container.rule != null»
-		«generateRuleType(container.rule)»()
+		«getGuardRuleClassName(container.rule)»()
 		«ENDIF»
 		«ENDFOR»
 	});
@@ -218,7 +225,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	«FOR guard : dsl.guards»
 	«FOR incoming : getIncomingEdges(guard)»
 	«FOR outgoing : getOutgoingEdges(guard)»
-	AddTransition(state«IDHasher.GetIntHash(incoming.id)»_, state«IDHasher.GetIntHash(outgoing.id)»_, guard«IDHasher.GetIntHash(guard.id)»_)
+	AddTransition(«getStateName(incoming.sourceElement.id)», «getStateName(outgoing.targetElement.id)», «getGuardName(guard.id)»)
 	«ENDFOR»
 	«ENDFOR»
 	«ENDFOR»	
@@ -233,31 +240,152 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	}	
 	
 //*********************************************************************************
-//								GENERATE RULE CLASS
+//								GENERATE RULE AND GUARD CLASS
 //*********************************************************************************
-	def generateRuleType(Rule rule){
-	  var String ruleName = knownRuleTypes.get(IDHasher.GetIntHash(rule.id))
-	  if(ruleName == null){
-	  	var String[] names = rule.eResource().getURI().lastSegment().split(".rule").get(0).split("_")
-	  	rule.name = ""
-	  	for(String name: names) {
-	  		rule.name = rule.name + name.toFirstUpper
-	  	}
-	  	EclipseFileUtils.writeToFile(mainPackage.getFile(rule.name + ".h"), new NodeGenerator().generateHeader(rule))
-	  	EclipseFileUtils.writeToFile(mainPackage.getFile(rule.name + ".cpp"), new NodeGenerator().generateBody(rule))
-	  	
-	  	knownRuleTypes.put(IDHasher.GetIntHash(rule.id), rule.name)
-	  	ruleName = rule.name	
-	  }
+	def getRuleClassName(Rule rule){
+	  var id = 	IDHasher.GetIntHash(rule.id);
+	  var name = knownRuleTypes.get(id);
 	  
-	  return '''«ruleName»'''
+	  if(name == null){
+	  	var String[] names = rule.eResource().getURI().lastSegment().split(".rule").get(0).split("_")
+	  	
+	  	for(String n : names) {
+	  		name = name + n.toFirstUpper
+	  	}
+	  	
+	  	//generate to file
+	  	var generator = new RuleGenerator();
+	  	
+	  	//EclipseFileUtils.writeToFile(mainPackage.getFile(rule.name + ".h"), generator.generateRuleHeader(rule))
+	  	//EclipseFileUtils.writeToFile(mainPackage.getFile(rule.name + ".cpp"), generator.generateRuleBody(rule))
+	  	
+	  	//safe the ruletype name
+	  	knownRuleTypes.put(IDHasher.GetIntHash(rule.id), name)
+	  }
+		
+	  return name;
 	}
 	
+	def getGuardRuleClassName(Rule rule){
+	  var id = 	IDHasher.GetIntHash(rule.id);
+	  var name = knownGuardTypes.get(id);
+	  
+	  if(name == null){
+	  	var String[] names = rule.eResource().getURI().lastSegment().split(".rule").get(0).split("_")
+	  	
+	  	for(String n : names) {
+	  		name = name + n.toFirstUpper
+	  	}
+	  	
+	  	//generate to file
+	  	var generator = new RuleGenerator();
+	  	
+	  	//EclipseFileUtils.writeToFile(mainPackage.getFile(rule.name + ".h"), generator.generateGuardRuleHeader(rule))
+	  	//EclipseFileUtils.writeToFile(mainPackage.getFile(rule.name + ".cpp"), generator.generateGuardRuleBody(rule))
+	  	
+	  	//safe the ruletype name
+	  	knownGuardTypes.put(IDHasher.GetIntHash(rule.id), name)
+	  }
+		
+	  return name;
+	}	
 //*********************************************************************************
 //								UTILITY FUNCTIONS
 //*********************************************************************************	
 	def chooseEntryState(AutoDSL dsl)'''
 	//Select entry state
-	SetEntryState(states«IDHasher.GetIntHash(dsl.offStates.get(0).id)»_);
+	SetEntryState(«getStateName(dsl.offStates.get(0).id)»);
 	'''
+
+	def getStateName(OffState state){
+		var id = IDHasher.GetIntHash(state.id);
+		var name = knownState.get(id);
+		
+		if(name == null){
+			//construct new offstate name
+			val postfix = "_";
+			var label = "offstate";
+			name = label + postfix;
+			
+			//try to use the user defined name. if it is already used add a counter to the name.
+			var nameCount = 0;
+			while(knownState.containsValue(name)){
+				nameCount++;
+				name = label + nameCount + postfix;
+			}
+			
+			//safe the generated name 
+			knownState.put(id, name);
+		}
+		
+		return name;
+	}
+	
+	def getStateName(State state){
+		var id = IDHasher.GetIntHash(state.id);
+		var name = knownState.get(id);
+		
+		if(name == null){
+			//construct new state name
+			val prefix = "state_";
+			val postfix = "_";
+			
+			//replace all spaces in the name
+			var label = state.label;
+			label = label.replaceAll(" ", "_");
+			
+			name = prefix + label + postfix;
+			
+			//try to use the user defined name. if it is already used add a counter to the name.
+			var nameCount = 0;
+			while(knownState.containsValue(name)){
+				nameCount++;
+				name = prefix + label + nameCount + postfix;
+			}
+			
+			//safe the generated name 
+			knownState.put(id, name);
+		}
+		
+		return name;
+	}
+	
+	//!use only if the state has already been registered
+	def getStateName(String id){
+		return knownState.get(IDHasher.GetIntHash(id));
+	}
+	
+	def getGuardName(Guard guard){
+		var id = IDHasher.GetIntHash(guard.id);
+		var name = knownGuard.get(id);
+		
+		if(name == null){
+			//construct new guard name
+			val prefix = "guard_";
+			val postfix = "_";
+			
+			//replace all spaces in the name
+			var label = guard.label;
+			label = label.replaceAll(" ", "_");
+			
+			name = prefix + label + postfix;
+			
+			//try to use the user defined name. if it is already used add a counter to the name.
+			var nameCount = 0;
+			while(knownGuard.containsValue(name)){
+				nameCount++;
+				name = prefix + label + nameCount + postfix;
+			}
+			
+			//safe the generated name 
+			knownGuard.put(id, name);
+		}
+		
+		return name;
+	}
+	
+	//!use only if the guard has already been registered
+	def getGuardName(String id){
+		return knownGuard.get(IDHasher.GetIntHash(id));
+	}
 }
