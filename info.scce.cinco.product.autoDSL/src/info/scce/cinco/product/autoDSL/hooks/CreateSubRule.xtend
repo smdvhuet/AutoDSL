@@ -15,16 +15,16 @@ class CreateSubRule extends CincoPostCreateHook<SubRule> {
 		val subRule = op.rule
 		op.label = subRule.eResource.URI.lastSegment
 		val ios = new BasicEList<IO>
-		var toAdd = subRule.subRuleInputss.head?.inputs
+		var toAdd = subRule.subRuleInputss.head?.outputs
 		if( toAdd != null ) ios.addAll(toAdd)
-		var alsoToAdd = subRule.subRuleOutputss.head?.outputs
+		var alsoToAdd = subRule.subRuleOutputss.head?.inputs
 		if( alsoToAdd != null ) ios.addAll(alsoToAdd)
 		for( io : ios ){
 			switch io {
-				BooleanSubInput : op.newBooleanSubInput(0,0).identifier = io.identifier
-				NumberSubInput : op.newNumberSubInput(0,0).identifier = io.identifier
-				BooleanSubOutput : op.newBooleanSubOutput(0,0).identifier = io.identifier
-				NumberSubOutput : op.newNumberSubOutput(0,0).identifier = io.identifier
+				BooleanSubOutput : op.newBooleanSubInput(0,0).identifier = io.identifier
+				NumberSubOutput : op.newNumberSubInput(0,0).identifier = io.identifier
+				BooleanSubInput : op.newBooleanSubOutput(0,0).identifier = io.identifier
+				NumberSubInput : op.newNumberSubOutput(0,0).identifier = io.identifier
 			}
 		}
 	}

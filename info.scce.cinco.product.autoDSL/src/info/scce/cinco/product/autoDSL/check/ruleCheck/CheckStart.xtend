@@ -5,8 +5,11 @@ import info.scce.cinco.product.autoDSL.rule.rule.Rule
 
 class CheckStart extends RuleCheck{
 	
+	
+	//Checks if there is more than 1 operation without a predecessor
 	override check(Rule rule) {
-		//Checks if there is more than 1 operation without a predecessor
-		rule.addWarning("Check not implemented yet, model may be missing a start node")
+		if(rule.allNodes.filter[x | x.getIncoming().length < 1].length > 1){
+			rule.addError("Multiple start Nodes");
+		}
 	}
 }
