@@ -4,6 +4,7 @@
 @mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckRuleForCycles")
 @mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckForUnreachableOperations")
 @mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckStart")
+@mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckSubRuleUpdate")
 
 graphModel Rule {
 	package info.scce.cinco.product.autoDSL.rule
