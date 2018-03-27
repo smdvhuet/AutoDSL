@@ -9,6 +9,7 @@ import info.scce.cinco.product.autoDSL.rule.rule.NumberSubOutput
 import info.scce.cinco.product.autoDSL.rule.rule.Rule
 import info.scce.cinco.product.autoDSL.rule.rule.SubRule
 import org.eclipse.emf.common.util.EList
+import org.eclipse.emf.common.util.BasicEList
 
 class CheckSubRuleUpdate extends RuleCheck{
 	
@@ -20,21 +21,21 @@ class CheckSubRuleUpdate extends RuleCheck{
 			if (!in.isEmpty() || !out.isEmpty()) {
 				val wantedInputs = if (!in.isEmpty()) in.get(0) else null
 				val wantedOutputs = if (!out.isEmpty()) out.get(0) else null
-			    checkIO(sub, sub.inputs as EList<?> as EList<IO>, wantedInputs?.inputs as EList<?> as EList<IO>)
-			    checkIO(sub, sub.outputs as EList<?> as EList<IO>, wantedOutputs?.outputs as EList<?> as EList<IO>)
+			    checkIO(sub, sub.inputs as EList<?> as EList<IO>, wantedInputs?.outputs as EList<?> as EList<IO>)
+			    checkIO(sub, sub.outputs as EList<?> as EList<IO>, wantedOutputs?.inputs as EList<?> as EList<IO>)
 		    }
 		}
 	}
 
 	/**
-	 * Checks if find is in l based on identifier
+	 * Finds find in l based on identifier
 	 */
-	def containsSubIO(EList<IO> l, IO find) {
-		l.filter(find.class).exists[switch it {
-			NumberSubInput : streq((find as NumberSubInput).identifier, it.identifier)
-			BooleanSubInput : streq((find as BooleanSubInput).identifier, it.identifier)
-			NumberSubOutput : streq((find as NumberSubOutput).identifier, it.identifier)
-			BooleanSubOutput : streq((find as BooleanSubOutput).identifier, it.identifier)
+	def findSubIO(EList<IO> l, IO find) {
+		l.findFirst[switch it {
+			NumberSubInput  :  if (find instanceof NumberSubOutput)  streq((find as NumberSubOutput).identifier, it.identifier) else false
+			BooleanSubInput :  if (find instanceof BooleanSubOutput) streq((find as BooleanSubOutput).identifier, it.identifier) else false
+			NumberSubOutput :  if (find instanceof NumberSubInput)   streq((find as NumberSubInput).identifier, it.identifier) else false
+			BooleanSubOutput : if (find instanceof NumberSubInput)   streq((find as BooleanSubInput).identifier, it.identifier) else false
 			default: false
 		}]
 	}
@@ -44,15 +45,21 @@ class CheckSubRuleUpdate extends RuleCheck{
 	}
 
 	def checkIO(SubRule sub, EList<IO> current, EList<IO> wanted) {
+		val keep = new BasicEList<IO>();
 	    for (wantedIO : wanted) {
-	    	if (current == null || !current.containsSubIO(wantedIO)) {
-	    		switch (wantedIO) {
-	    			NumberSubInput : sub.newNumberSubInput(0,0).identifier = wantedIO.identifier
-	    			BooleanSubInput : sub.newBooleanSubInput(0,0).identifier = wantedIO.identifier
-	    			NumberSubOutput : sub.newNumberSubOutput(0,0).identifier = wantedIO.identifier
-	    			BooleanSubOutput : sub.newBooleanSubOutput(0,0).identifier = wantedIO.identifier
+	    	val found = current?.findSubIO(wantedIO)
+	    	if (found == null) {
+	    		switch wantedIO {
+	    			NumberSubInput : sub.newNumberSubOutput(0,0).identifier = wantedIO.identifier
+	    			BooleanSubInput : sub.newBooleanSubOutput(0,0).identifier = wantedIO.identifier
+	    			NumberSubOutput : sub.newNumberSubInput(0,0).identifier = wantedIO.identifier
+	    			BooleanSubOutput : sub.newBooleanSubInput(0,0).identifier = wantedIO.identifier
 	    		}
+	    	} else {
+	    		keep.add(found);
 	    	}
 	    }
+	    // Delete ones that are in current but not wanted
+	    current.filter[!keep.contains(it)].forEach[it.delete()]
 	}
 }
