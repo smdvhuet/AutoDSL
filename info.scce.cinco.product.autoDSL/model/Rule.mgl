@@ -291,7 +291,7 @@ graphModel Rule {
 	abstract container Operation {
 		incomingEdges(ControlFlow[0,*])
 		outgoingEdges(ControlFlowBasic[0,1])
-		containableElements(Input[1,*], Output[0,1]) 
+		containableElements(Input[1,*], Output[0,*]) 
 	}
    
 	abstract container CommutableOperation extends Operation {}
@@ -301,91 +301,143 @@ graphModel Rule {
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container Addition extends CommutableOperation {
-		containableElements(BooleanInput[0,0], NumberInput[1,*], BooleanOutput[0,0], NumberOutput[1,1])
+		containableElements(
+			BooleanInput[0,0], NumberInput[1,*],
+			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanOutput[0,0], NumberOutput[1,1]
+		)
 	}
 	
 	@style(commutableOperation, "×")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container Multiplication extends CommutableOperation {
-		containableElements(BooleanInput[0,0], NumberInput[1,*], BooleanOutput[0,0], NumberOutput[1,1])		
+		containableElements(
+			BooleanInput[0,0], NumberInput[1,*],
+			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanOutput[0,0], NumberOutput[1,1]
+		)		
 	}
 
 	@style(nonCommutableOperation, "-")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container Subtraction extends NonCommutableOperation {
-		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[0,0], NumberOutput[1,1])
+		containableElements(
+			BooleanInput[0,0], NumberInput[2,2],
+			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanOutput[0,0], NumberOutput[1,1]
+		)
 	}
 	
 	@style(nonCommutableOperation, "÷")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container Division extends NonCommutableOperation {
-		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[0,0], NumberOutput[1,1])
+		containableElements(
+			BooleanInput[0,0], NumberInput[2,2],
+			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanOutput[0,0], NumberOutput[1,1]
+		)
 	}
 	
 	@style(nonCommutableOperation, "<")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container Less extends NonCommutableOperation {
-		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[1,1], NumberOutput[0,0])
+		containableElements(
+			BooleanInput[0,0], NumberInput[2,2],
+			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanOutput[1,1], NumberOutput[0,0]
+		)
 	}
 	
 	@style(nonCommutableOperation, "≤")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container LessOrEqual extends NonCommutableOperation {
-		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[1,1], NumberOutput[0,0])
+		containableElements(
+			BooleanInput[0,0], NumberInput[2,2],
+			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanOutput[1,1], NumberOutput[0,0]
+		)
 	}
 	
 	@style(nonCommutableOperation, ">")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container Greater extends NonCommutableOperation {
-		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[1,1], NumberOutput[0,0])
+		containableElements(
+			BooleanInput[0,0], NumberInput[2,2],
+			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanOutput[1,1], NumberOutput[0,0]
+		)
 	}
 	
 	@style(nonCommutableOperation, "≥")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container GreaterOrEqual extends NonCommutableOperation {
-		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[1,1], NumberOutput[0,0])
+		containableElements(
+			BooleanInput[0,0], NumberInput[2,2],
+			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanOutput[1,1], NumberOutput[0,0]
+		)
 	}
 	
 	@style(commutableOperation, "max")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container Maximum extends CommutableOperation {
-		containableElements(BooleanInput[0,0], NumberInput[1,*], BooleanOutput[0,0], NumberOutput[1,1])
+		containableElements(
+			BooleanInput[0,0], NumberInput[1,*],
+			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanOutput[0,0], NumberOutput[1,1]
+		)
 	}
 	
 	@style(commutableOperation, "min")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container Minimum extends CommutableOperation {
-		containableElements(BooleanInput[0,0], NumberInput[1,*], BooleanOutput[0,0], NumberOutput[1,1])
+		containableElements(
+			BooleanInput[0,0], NumberInput[1,*],
+			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanOutput[0,0], NumberOutput[1,1]
+		)
 	}
 	
 	@style(commutableOperation, "∧")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container LogicalAnd extends CommutableOperation {
-		containableElements(BooleanInput[1,*], NumberInput[0,0], BooleanOutput[1,1], NumberOutput[0,0])
+		containableElements(
+			BooleanInput[1,*], NumberInput[0,0],
+			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanOutput[1,1], NumberOutput[0,0]
+		)
 	}
 	
 	@style(commutableOperation, "∨")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container LogicalOr extends CommutableOperation {
-		containableElements(BooleanInput[1,*], NumberInput[0,0], BooleanOutput[1,1], NumberOutput[0,0])
+		containableElements(
+			BooleanInput[1,*], NumberInput[0,0],
+			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanOutput[1,1], NumberOutput[0,0]
+		)
 	}
 	
 	@style(commutableOperation, "¬")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container Negation extends Operation {
-		containableElements(BooleanInput[1,1], NumberInput[0,0], BooleanOutput[1,1], NumberOutput[0,0])
+		containableElements(
+			BooleanInput[1,1], NumberInput[0,0],
+			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanOutput[1,1], NumberOutput[0,0]
+		)
 	}
 	
 	@style(commutableOperation, "?")
@@ -393,7 +445,11 @@ graphModel Rule {
 	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container Decision extends Operation {
 		outgoingEdges(ControlFlowDecisionFalse[1,1], ControlFlowDecisionTrue[1,1], ControlFlowBasic[0,0])
-		containableElements(BooleanInput[1,1], NumberInput[0,0], BooleanOutput[0,0], NumberOutput[0,0])
+		containableElements(
+			BooleanInput[1,1], NumberInput[0,0],
+			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanOutput[0,0], NumberOutput[0,0]
+		)
 	}
 	
 	@style(comment, "${comment}")
@@ -406,14 +462,22 @@ graphModel Rule {
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container DirectBooleanOutput extends Operation {
-		containableElements(BooleanInput[1,1], NumberInput[0,0], BooleanCarOutput[1,1], BooleanOutputPort[0,0], NumberOutput[0,0])
+		containableElements(
+			BooleanInput[1,1], NumberInput[0,0],
+			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanCarOutput[1,1], BooleanOutputPort[0,0], NumberOutput[0,0]
+		)
 	}
 	
 	@style(commutableOperation, "Output")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
 	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container DirectNumberOutput extends Operation {
-		containableElements(BooleanInput[0,0], NumberInput[1,1], BooleanOutput[0,0], NumberCarOutput[1,1], NumberOutputPort[0,0])
+		containableElements(
+			BooleanInput[0,0], NumberInput[1,1],
+			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanOutput[0,0], NumberCarOutput[1,1], NumberOutputPort[0,0]
+		)
 	}
 	
 	@style(commutableOperation, "Guard")
@@ -421,7 +485,11 @@ graphModel Rule {
 	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	container BooleanGuardOutput extends Operation {
 		outgoingEdges(*[0,0])
-		containableElements(BooleanInput[1,1], NumberInput[0,0], BooleanOutput[0,0], NumberOutput[0,0])
+		containableElements(
+			BooleanInput[1,1], NumberInput[0,0],
+			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanOutput[0,0], NumberOutput[0,0]
+		)
 	}
 	
 	@style(pid, "${p}", "${i}","${d}")
@@ -431,7 +499,11 @@ graphModel Rule {
 		attr EDouble as p
 		attr EDouble as i
 		attr EDouble as d
-		containableElements(BooleanInput[0,0], NumberInput[2,2], BooleanOutput[0,0], NumberOutput[1,1])
+		containableElements(
+			BooleanInput[0,0], NumberInput[2,2],
+			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanOutput[0,0], NumberOutput[1,1]
+		)
 	}
 	
 	@style(commutableOperation, "${name}")
@@ -441,6 +513,7 @@ graphModel Rule {
 		attr EString as name := ""
 		containableElements(
 			BooleanInput[0,0], NumberCarInput[0,0], NumberInputPort[0,0], NumberStaticInput[1,1],
+			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0], 
 			BooleanOutput[0,0], NumberCarOutput[0,0], NumberOutputPort[1,1]
 		)
 	}
