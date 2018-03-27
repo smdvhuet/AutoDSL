@@ -256,6 +256,7 @@ graphModel Rule {
 	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	node NumberSubInput extends NumberInput {
 		attr EString as identifier
+		incomingEdges(NumberDataFlow[1,1])
 	}
 	
 	@style(staticInput, "${identifier}", "Boolean")
@@ -266,6 +267,7 @@ graphModel Rule {
 	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	node BooleanSubInput extends BooleanInput {
 		attr EString as identifier
+		incomingEdges(BooleanDataFlow[1,1])
 	}
 	
 	@style(subOutput, "${identifier}", "Number")
@@ -276,6 +278,7 @@ graphModel Rule {
 	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	node NumberSubOutput extends NumberOutput {
 		attr EString as identifier
+		outgoingEdges(NumberDataFlow[1,1])
 	}
 	
 	@style(subOutput, "${identifier}", "Boolean")
@@ -286,6 +289,7 @@ graphModel Rule {
 	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	node BooleanSubOutput extends BooleanOutput {
 		attr EString as identifier
+		outgoingEdges(BooleanDataFlow[1,1])
 	}
 	
 	abstract container Operation {
