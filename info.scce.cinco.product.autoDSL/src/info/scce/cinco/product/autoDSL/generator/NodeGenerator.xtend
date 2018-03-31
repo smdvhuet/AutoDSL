@@ -35,14 +35,12 @@ import info.scce.cinco.product.autoDSL.rule.rule.Division
 
 class NodeGenerator extends RuleSwitch<CharSequence> {
 	
-	override caseRuleHeader(Rule rule){
+	def caseRuleHeader(Rule rule){
 		for(Node node : rule.operations){
 			if(node.incoming.nullOrEmpty&&!(node instanceof Comment)){
 				return
 				'''	
-				#ifndef AUTODSL_RULE«IDHasher.GetStringHash(dsl.id)»_H_
-				#define AUTODSL_RULE«IDHasher.GetStringHash(dsl.id)»_H_
-				
+
 				#include State;
 				
 				«IF importUtilityClass(rule)»#include Utility.h;«ENDIF»
@@ -83,7 +81,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 		}
 	}
 	
-	override caseRuleBody(Rule rule){
+	def caseRuleBody(Rule rule){
 		for(Node node : rule.operations){
 			if(node.incoming.nullOrEmpty&&!(node instanceof Comment)){
 				return

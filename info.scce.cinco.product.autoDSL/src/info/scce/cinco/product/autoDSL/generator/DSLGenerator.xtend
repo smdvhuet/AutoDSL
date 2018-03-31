@@ -80,7 +80,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 //*********************************************************************************
 //							GENERATE DSL HEADER AND BODY	
 //*********************************************************************************		
-	def generateStateMachineHeader(AutoDSL dsl)'''
+	private def generateStateMachineHeader(AutoDSL dsl)'''
 	#ifndef AUTODSL_AUTODSL«IDHasher.GetStringHash(dsl.id)»_H_
 	#define AUTODSL_AUTODSL«IDHasher.GetStringHash(dsl.id)»_H_
 	
@@ -106,7 +106,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	#endif // AUTODSL_AUTODSL«IDHasher.GetStringHash(dsl.id)»_H_
 	'''
 	
-	def generateStateMachineBody(AutoDSL dsl)'''
+	private def generateStateMachineBody(AutoDSL dsl)'''
 	#include AutoDSL«IDHasher.GetStringHash(dsl.id)».h"
 	
 	using namespace AutoDSL;
@@ -134,21 +134,21 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 //*********************************************************************************
 //								GENERATE VARIABLES	
 //*********************************************************************************	
-	def generateOffStateVars(AutoDSL dsl)'''
+	private def generateOffStateVars(AutoDSL dsl)'''
 	//OffStates
 	«FOR state : dsl.offStates»
 	State* «getStateName(state)»;
 	«ENDFOR»
 	'''
 	
-	def generateStateVars(AutoDSL dsl)'''
+	private def generateStateVars(AutoDSL dsl)'''
 	//States
 	«FOR state : dsl.states»
 	State* «getStateName(state)»;
 	«ENDFOR»		
 	'''	
 	
-	def generateGuardVars(AutoDSL dsl)'''
+	private def generateGuardVars(AutoDSL dsl)'''
 	//Guards
 	«FOR guard : dsl.guards»
 	Guard* «getGuardName(guard)»;
@@ -158,7 +158,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 //*********************************************************************************
 //								DELETE VARIABLES	
 //*********************************************************************************		
-	def deleteOffStateVars(AutoDSL dsl)'''
+	private def deleteOffStateVars(AutoDSL dsl)'''
 	//Delete OffStates
 	«FOR state : dsl.offStates»
 	«IF IDHasher.Contains(state.id)»
@@ -167,7 +167,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	«ENDFOR»	
 	'''
 	
-	def deleteStateVars(AutoDSL dsl)'''
+	private def deleteStateVars(AutoDSL dsl)'''
 	//Delete states
 	«FOR state : dsl.states»
 	«IF IDHasher.Contains(state.id)»
@@ -176,7 +176,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	«ENDFOR»	
 	'''
 	
-	def deleteGuardVars(AutoDSL dsl)'''
+	private def deleteGuardVars(AutoDSL dsl)'''
 	//Delete guards
 	«FOR guard : dsl.guards»
 	«IF IDHasher.Contains(guard.id)»
@@ -188,14 +188,14 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 //*********************************************************************************
 //								INITIALIZE VARIABLES	
 //*********************************************************************************		
-	def initAllOffStates(AutoDSL dsl)'''
+	private def initAllOffStates(AutoDSL dsl)'''
 	//Initialize OffStates
 	«FOR state : dsl.offStates»
 	«getStateName(state)» = new State({});
 	«ENDFOR»	
 	'''
 	
-	def initAllStates(AutoDSL dsl)'''
+	private def initAllStates(AutoDSL dsl)'''
 	//Initialize states
 	«FOR state : dsl.states»
 	«getStateName(state)» = new State({
@@ -208,7 +208,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	«ENDFOR»	
 	'''
 	
-	def initAllGuards(AutoDSL dsl)'''
+	private def initAllGuards(AutoDSL dsl)'''
 	//Initialize guards
 	«FOR guard : dsl.guards»
 	«getGuardName(guard)» = new Guard({
@@ -224,7 +224,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 //*********************************************************************************
 //						 SETUP STATE->GUARD->STATE CONNECTIONS	
 //*********************************************************************************
-	def initConnections(AutoDSL dsl)'''
+	private def initConnections(AutoDSL dsl)'''
 	//Setup connections (State -> Guard -> State)
 	«FOR guard : dsl.guards»
 	«FOR incoming : getIncomingEdges(guard)»
@@ -235,18 +235,18 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	«ENDFOR»	
 	'''
 	
-	def getIncomingEdges(Guard guard){
+	private def getIncomingEdges(Guard guard){
 		return guard.incoming.filter[it.sourceElement instanceof State] + guard.incoming.filter[it.sourceElement instanceof OffState];
 	}
 	
-	def getOutgoingEdges(Guard guard){
+	private def getOutgoingEdges(Guard guard){
 		return guard.outgoing.filter[it.targetElement instanceof State] + guard.outgoing.filter[it.targetElement instanceof OffState];
 	}	
 	
 //*********************************************************************************
 //								GENERATE RULE AND GUARD CLASS
 //*********************************************************************************
-	def getRuleClassName(Rule rule){
+	private def getRuleClassName(Rule rule){
 	  var id = 	IDHasher.GetIntHash(rule.id);
 	  var name = knownRuleTypes.get(id);
 	  
@@ -272,12 +272,12 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 //*********************************************************************************
 //								UTILITY FUNCTIONS
 //*********************************************************************************	
-	def chooseEntryState(AutoDSL dsl)'''
+	private def chooseEntryState(AutoDSL dsl)'''
 	//Select entry state
 	SetEntryState(«getStateName(dsl.offStates.get(0).id)»);
 	'''
 
-	def getStateName(OffState state){
+	private def getStateName(OffState state){
 		var id = IDHasher.GetIntHash(state.id);
 		var name = knownState.get(id);
 		
@@ -301,7 +301,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		return name;
 	}
 	
-	def getStateName(State state){
+	private def getStateName(State state){
 		var id = IDHasher.GetIntHash(state.id);
 		var name = knownState.get(id);
 		
@@ -331,11 +331,11 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	}
 	
 	//!use only if the state has already been registered
-	def getStateName(String id){
+	private def getStateName(String id){
 		return knownState.get(IDHasher.GetIntHash(id));
 	}
 	
-	def getGuardName(Guard guard){
+	private def getGuardName(Guard guard){
 		var id = IDHasher.GetIntHash(guard.id);
 		var name = knownGuard.get(id);
 		
@@ -365,7 +365,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	}
 	
 	//!use only if the guard has already been registered
-	def getGuardName(String id){
+	private def getGuardName(String id){
 		return knownGuard.get(IDHasher.GetIntHash(id));
 	}
 }
