@@ -9,9 +9,9 @@ import org.eclipse.core.resources.IProject
 import org.eclipse.core.runtime.IPath
 import org.eclipse.core.runtime.IProgressMonitor
 import java.util.ArrayList
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanGuardOutput
 
 class RuleGenerator implements IGenerator<Rule> {
-	
 	var IFolder mainFolder
 	var IFolder mainPackage
 	
@@ -24,13 +24,43 @@ class RuleGenerator implements IGenerator<Rule> {
 		mainPackage = mainFolder.getFolder("info/scce/cinco/product")
 		EclipseFileUtils.mkdirs(mainPackage,monitor)
 		
-		val CharSequence nodes = new NodeGenerator().generate(rule);
-		EclipseFileUtils.writeToFile(mainPackage.getFile(rule.name + ".java"),nodes)
+		if(rule.allNodeTypes.contains(BooleanGuardOutput))
+			generateGuardRule(mainPackage, rule)
+		else
+			generateRule(mainPackage, rule)
 	}
 	
-	//TODO implement Car,Simulator,etc
-	def generateStatic(){
-		//EclipseFileUtils.writeToFile(mainPackage.getFile("PID.java"), StaticClasses::PIDClass())
-//		EclipseFileUtils.writeToFile(mainPackage.getFile("EgoCar.java"), new EgoCarGenerator().generateEgoCar())		
+//*********************************************************************************
+//								GENERATE STATERULES
+//*********************************************************************************
+	private def generateRule(IFolder folder, Rule rule){
+		var nodeGenerator = new NodeGenerator();
+		EclipseFileUtils.writeToFile(folder.getFile(rule.name + ".h"), generateRuleHeader(rule, nodeGenerator))
+	  	EclipseFileUtils.writeToFile(folder.getFile(rule.name + ".cpp"), generateRuleBody(rule, nodeGenerator))
+	}
+	
+	private def generateRuleHeader(Rule rule, NodeGenerator nodeGenerator){
+		return ''''''
+	}
+	
+	private def generateRuleBody(Rule rule, NodeGenerator nodeGenerator){
+		return ''''''
+	}
+	
+//*********************************************************************************
+//								GENERATE GUARDRULES
+//*********************************************************************************		
+	private def generateGuardRule(IFolder folder, Rule rule){
+		var nodeGenerator = new NodeGenerator();
+		EclipseFileUtils.writeToFile(folder.getFile(rule.name + ".h"), generateGuardRuleHeader(rule, nodeGenerator))
+	  	EclipseFileUtils.writeToFile(folder.getFile(rule.name + ".cpp"), generateGuardRuleBody(rule, nodeGenerator))
+	}
+		
+	private def generateGuardRuleHeader(Rule rule, NodeGenerator nodeGenerator){
+		return ''''''
+	}
+	
+	private def generateGuardRuleBody(Rule rule, NodeGenerator nodeGenerator){
+		return ''''''
 	}
 }

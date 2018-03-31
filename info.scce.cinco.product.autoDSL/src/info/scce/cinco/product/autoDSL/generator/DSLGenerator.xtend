@@ -16,23 +16,27 @@ import info.scce.cinco.product.autoDSL.rule.rule.Rule
 import java.util.HashMap
 
 class DSLGenerator implements IGenerator<AutoDSL> {
+	var IProgressMonitor monitor;
+	var IPath targetDir;
+	
 	var IFolder mainFolder
 	var IFolder mainPackage
 	var IFolder corePackage
 	var IFolder staticFolder
 	
 	var HashMap<Integer, String> knownRuleTypes =  new HashMap<Integer, String>()
-	var HashMap<Integer, String> knownGuardTypes =  new HashMap<Integer, String>()
 	
 	var HashMap<Integer, String> knownState = new HashMap<Integer, String>()
 	var HashMap<Integer, String> knownGuard = new HashMap<Integer, String>()
 	
 	override generate(AutoDSL dsl, IPath targetDir, IProgressMonitor monitor) {
 		knownRuleTypes.clear();
-		knownGuardTypes.clear();
 		
 		knownState.clear();
 		knownGuard.clear();
+		
+		this.targetDir = targetDir;
+		this.monitor = monitor; 
 		
 		val ArrayList<String> srcFolders = new ArrayList<String>();
 		srcFolders.add("src-gen")
@@ -210,7 +214,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	«getGuardName(guard)» = new Guard({
 		«FOR container : guard.componentNodes SEPARATOR ','»
 		«IF container.rule != null»
-		«getGuardRuleClassName(container.rule)»()
+		«getRuleClassName(container.rule)»()
 		«ENDIF»
 		«ENDFOR»
 	});
@@ -254,10 +258,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	  	}
 	  	
 	  	//generate to file
-	  	var generator = new RuleGenerator();
-	  	
-	  	//EclipseFileUtils.writeToFile(mainPackage.getFile(rule.name + ".h"), generator.generateRuleHeader(rule))
-	  	//EclipseFileUtils.writeToFile(mainPackage.getFile(rule.name + ".cpp"), generator.generateRuleBody(rule))
+	  	(new RuleGenerator()).generate(rule, targetDir, monitor);
 	  	
 	  	//safe the ruletype name
 	  	knownRuleTypes.put(IDHasher.GetIntHash(rule.id), name)
@@ -266,29 +267,6 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	  return name;
 	}
 	
-	def getGuardRuleClassName(Rule rule){
-	  var id = 	IDHasher.GetIntHash(rule.id);
-	  var name = knownGuardTypes.get(id);
-	  
-	  if(name == null){
-	  	var String[] names = rule.eResource().getURI().lastSegment().split(".rule").get(0).split("_")
-	  	
-	  	for(String n : names) {
-	  		name = name + n.toFirstUpper
-	  	}
-	  	
-	  	//generate to file
-	  	var generator = new RuleGenerator();
-	  	
-	  	//EclipseFileUtils.writeToFile(mainPackage.getFile(rule.name + ".h"), generator.generateGuardRuleHeader(rule))
-	  	//EclipseFileUtils.writeToFile(mainPackage.getFile(rule.name + ".cpp"), generator.generateGuardRuleBody(rule))
-	  	
-	  	//safe the ruletype name
-	  	knownGuardTypes.put(IDHasher.GetIntHash(rule.id), name)
-	  }
-		
-	  return name;
-	}	
 //*********************************************************************************
 //								UTILITY FUNCTIONS
 //*********************************************************************************	
