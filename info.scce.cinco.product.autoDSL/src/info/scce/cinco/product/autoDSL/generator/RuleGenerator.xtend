@@ -24,7 +24,7 @@ class RuleGenerator implements IGenerator<Rule> {
 		mainPackage = mainFolder.getFolder("info/scce/cinco/product")
 		EclipseFileUtils.mkdirs(mainPackage,monitor)
 		
-		if(rule.allNodeTypes.contains(BooleanGuardOutput))
+		if(rule.allNodes.filter[it instanceof BooleanGuardOutput].length > 0)
 			generateGuardRule(mainPackage, rule)
 		else
 			generateRule(mainPackage, rule)

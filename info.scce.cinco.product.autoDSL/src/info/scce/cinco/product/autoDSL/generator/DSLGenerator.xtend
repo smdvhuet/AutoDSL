@@ -257,6 +257,8 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	  		name = name + n.toFirstUpper
 	  	}
 	  	
+	  	rule.name = name;
+	  		  	
 	  	//generate to file
 	  	(new RuleGenerator()).generate(rule, targetDir, monitor);
 	  	
