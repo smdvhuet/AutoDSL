@@ -6,9 +6,9 @@
 #include <vector>
 
 namespace ACCPlusPlus {
-class State {
+class State : public Rule {
 public:
-  State(const std::vector<Rule> &);
+  State(const std::vector<Rule*> &);
   ~State();
 
   void onEntry();
@@ -18,7 +18,7 @@ public:
   std::string Name();
 
 private:
-  const std::vector<Rule> rules_;
+  std::vector<Rule*> rules_;
 };
 } // namespace ACCPlusPlus
 #endif // ACCPLUSPLUS_STATE_H_

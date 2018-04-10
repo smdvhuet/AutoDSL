@@ -14,14 +14,13 @@ private:
     State *target_state;
     Guard* guard;
 
-    Transition(const State& target_state, const Guard& guard) {
+    Transition(State* const target_state, Guard* const guard) {
       this->target_state = target_state;
       this->guard = guard;
     }
 
     bool operator==(const Transition &rhs) const {
-      return this->target_state->ID() == rhs.target_state->ID() &&
-             this->condition == rhs.condition;
+      return this->target_state == rhs.target_state && this->guard == rhs.guard;
     }
   };
 

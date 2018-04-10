@@ -2,33 +2,33 @@
 
 using namespace ACCPlusPlus;
 
-State::State(const std::vector<Rule> &rules) { this->rules_ = rules; }
+State::State(const std::vector<Rule*> &rules) : Rule() { this->rules_ = rules; }
 
 State::~State() {}
 
 void State::onEntry() {
-  for (std::vector<State>::iterator it = rules_.begin(); it != rules_.end();
-       ++it)
-    (*it).onEntry();
+  for (std::vector<Rule*>::iterator it = rules_.begin(); it != rules_.end();
+    ++it)
+    (*it)->onEntry();
 }
 
 void State::Execute(const IO::CarInputs &input, IO::CarOutputs &output) {
-  for (std::vector<Rule>::iterator it = rules_.begin(); it != rules_.end();
+  for (std::vector<Rule*>::iterator it = rules_.begin(); it != rules_.end();
        ++it)
-    (*it).Execute(input, output);
+    (*it)->Execute(input, output);
 }
 
 void State::onExit() {
-  for (std::vector<Rule>::iterator it = rules_.begin(); it != rules_.end();
+  for (std::vector<Rule*>::iterator it = rules_.begin(); it != rules_.end();
        ++it)
-    (*it).onExit();
+    (*it)->onExit();
 }
 
 std::string State::Name() {
   std::string name = "State";
-  for (std::vector<Rule>::iterator it = rules_.begin(); it != rules_.end();
+  for (std::vector<Rule*>::iterator it = rules_.begin(); it != rules_.end();
        ++it)
-    name += "_" + (*it).Name();
+    name += "_" + (*it)->Name();
 
   return name;
 }

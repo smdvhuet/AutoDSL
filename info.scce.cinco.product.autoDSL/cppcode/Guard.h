@@ -6,9 +6,9 @@
 #include <vector>
 
 namespace ACCPlusPlus {
-class Guard {
+class Guard : public GuardRule{
 public:
-  Guard(const std::vector<GuardRule> &);
+  Guard(const std::vector<GuardRule*> &);
   ~Guard();
 
   void onEntry();
@@ -18,7 +18,7 @@ public:
   std::string Name();
 
 private:
-  const std::vector<GuardRule> guards_;
+  std::vector<GuardRule*> guards_;
 };
 } // namespace ACCPlusPlus
 #endif // ACCPLUSPLUS_GUARD_H_

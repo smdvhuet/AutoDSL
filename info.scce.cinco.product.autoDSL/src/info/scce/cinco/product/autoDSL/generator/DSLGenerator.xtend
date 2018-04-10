@@ -107,7 +107,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	'''
 	
 	private def generateStateMachineBody(AutoDSL dsl)'''
-	#include AutoDSL«IDHasher.GetStringHash(dsl.id)».h"
+	#include "AutoDSL«IDHasher.GetStringHash(dsl.id)».h"
 	
 	using namespace AutoDSL;
 	
@@ -229,7 +229,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	«FOR guard : dsl.guards»
 	«FOR incoming : getIncomingEdges(guard)»
 	«FOR outgoing : getOutgoingEdges(guard)»
-	AddTransition(«getStateName(incoming.sourceElement.id)», «getStateName(outgoing.targetElement.id)», «getGuardName(guard.id)»)
+	AddTransition(«getStateName(incoming.sourceElement.id)», «getStateName(outgoing.targetElement.id)», «getGuardName(guard.id)»);
 	«ENDFOR»
 	«ENDFOR»
 	«ENDFOR»	
