@@ -18,7 +18,7 @@ public:
   std::string Name();
 
 private:
-  std::vector<Rule*> rules_;
+  const std::vector<Rule*> rules_;
 };
 } // namespace ACCPlusPlus
 #endif // ACCPLUSPLUS_STATE_H_

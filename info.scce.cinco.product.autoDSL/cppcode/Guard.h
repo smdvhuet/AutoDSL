@@ -18,7 +18,7 @@ public:
   std::string Name();
 
 private:
-  std::vector<GuardRule*> guards_;
+  const std::vector<GuardRule*> guards_;
 };
 } // namespace ACCPlusPlus
 #endif // ACCPLUSPLUS_GUARD_H_
