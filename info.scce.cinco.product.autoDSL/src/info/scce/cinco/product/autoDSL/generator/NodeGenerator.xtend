@@ -49,7 +49,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 			
 				namespace AutoDSL{
 				
-					class «rule.name» implements State{
+					class «rule.name» : State{
 						
 						public: 
 						«rule.name»();
