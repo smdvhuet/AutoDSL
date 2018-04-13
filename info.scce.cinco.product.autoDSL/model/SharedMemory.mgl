@@ -1,0 +1,31 @@
+@primeviewer
+@style("model/SharedMemory.style")
+@mcam("check")
+graphModel SharedMemory {
+	package info.scce.cinco.product.autoDSL.sharedMemory
+	nsURI "http://cinco.scce.info/product/sharedMemory"
+	diagramExtension "sharedMemory"
+
+	containableElements(
+		StoredData[0,*]
+	)
+
+	abstract node StoredData{
+		attr EString as label
+	}
+	
+	@style(storedData, "${label}")
+	node StoredBoolean extends StoredData{
+		attr EBoolean as defaultValue
+	}
+	
+	@style(storedData, "${label}")
+	node StoredNumber extends StoredData{
+		attr EFloat as defaultValue
+	}
+	
+	/*node StoredPIDController extends StoredData{
+		
+	}*/
+}
+

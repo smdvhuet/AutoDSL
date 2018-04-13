@@ -1,3 +1,5 @@
+import "platform:/resource/info.scce.cinco.product.autoDSL/model/SharedMemory.mgl" as mem
+
 @primeviewer
 @style("model/Rule.style")
 @mcam("check")
@@ -15,10 +17,45 @@ graphModel Rule {
 		Operation[1,*],
 		SubRuleInputs[0,1],
 		SubRuleOutputs[0,1],
-		Comment[0,*]
+		Comment[0,*],
+		Save[0,*],
+		Load[0,*]
 	)
 	
 	attr EString as name
+	
+	
+	abstract container Save{
+		incomingEdges(ControlFlow[0,*])
+		outgoingEdges(ControlFlowBasic[0,1])
+	}
+	@style(greenCircle)
+	container SaveBoolean{
+		prime mem::StoredBoolean as data
+		containableElements(BooleanInput[1,1])
+		
+	}
+	@style(greenCircle)
+	container SaveNumber{
+		prime mem::StoredNumber as data
+		containableElements(NumberInput[1,1])
+	}
+	
+	abstract container Load{
+		incomingEdges(ControlFlow[0,*])
+		outgoingEdges(ControlFlowBasic[0,1])
+	}
+	@style(redCircle)
+	container LoadBoolean{
+		prime mem::StoredBoolean as data
+		containableElements(BooleanOutputPort[1,1])
+	}
+	@style(redCircle)
+	container LoadNumber{
+		prime mem::StoredNumber as data 
+		containableElements(NumberOutputPort[1,1])
+	}
+	
 	
 	@style(commutableOperation, "${label}")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateSubRule")

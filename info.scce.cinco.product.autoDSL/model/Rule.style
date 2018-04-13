@@ -246,3 +246,34 @@ nodeStyle pid (3) {
 		}
 	}
 }
+
+
+nodeStyle greenCircle {
+	ellipse {
+		appearance extends default {
+			foreground (81,156,88)
+			background (255,255,255)
+		} 
+		size(36,36)
+	}
+}
+
+nodeStyle yellowCircle{
+	ellipse {
+		appearance extends default {
+			foreground (255,255,102)
+			background (255,255,255)
+		} 
+		size(36,36)
+	}
+}
+
+nodeStyle redCircle {
+	ellipse {
+		size(36,36)
+		ellipse { 
+			position ( CENTER, MIDDLE )
+			size (24,24)
+		}
+	}
+}

@@ -21,8 +21,9 @@ Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,org.eclipse
  .meta.plugin.generator.runtime,de.jabc.cinco.meta.plugin.generator.ru
  ntime,de.jabc.cinco.meta.plugin.generator.runtime,de.jabc.cinco.meta.
  plugin.generator.runtime,de.jabc.cinco.meta.plugin.generator.runtime,
- de.jabc.cinco.meta.plugin.mcam.runtime,de.jabc.cinco.meta.plugin.gene
- rator.runtime
+ de.jabc.cinco.meta.plugin.generator.runtime,de.jabc.cinco.meta.plugin
+ .generator.runtime,de.jabc.cinco.meta.plugin.generator.runtime,de.jab
+ c.cinco.meta.plugin.mcam.runtime
 Bundle-ActivationPolicy: lazy
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
@@ -46,9 +47,21 @@ Export-Package: info.scce.cinco.product.autoDSL.autodsl.adapter,info.s
  util,info.scce.cinco.product.autoDSL.rule.rule.util,info.scce.cinco.p
  roduct.autoDSL.rule.rule.views,info.scce.cinco.product.autoDSL.rule.r
  ule.views.impl,info.scce.cinco.product.autoDSL.rule.rule.views.util,i
- nfo.scce.cinco.product.autoDSL.rule.mcam.adapter,info.scce.cinco.prod
- uct.autoDSL.rule.mcam.cli,info.scce.cinco.product.autoDSL.autodsl.mca
- m.adapter,info.scce.cinco.product.autoDSL.autodsl.mcam.cli
+ nfo.scce.cinco.product.autoDSL.sharedMemory.factory,info.scce.cinco.p
+ roduct.autoDSL.sharedMemory.adapter,info.scce.cinco.product.autoDSL.s
+ haredMemory.sharedmemory,info.scce.cinco.product.autoDSL.sharedMemory
+ .sharedmemory.impl,info.scce.cinco.product.autoDSL.sharedMemory.share
+ dmemory.internal,info.scce.cinco.product.autoDSL.sharedMemory.sharedm
+ emory.internal.impl,info.scce.cinco.product.autoDSL.sharedMemory.shar
+ edmemory.internal.util,info.scce.cinco.product.autoDSL.sharedMemory.s
+ haredmemory.util,info.scce.cinco.product.autoDSL.sharedMemory.sharedm
+ emory.views,info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory
+ .views.impl,info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory
+ .views.util,info.scce.cinco.product.autoDSL.sharedMemory.mcam.adapter
+ ,info.scce.cinco.product.autoDSL.sharedMemory.mcam.cli,info.scce.cinc
+ o.product.autoDSL.autodsl.mcam.adapter,info.scce.cinco.product.autoDS
+ L.autodsl.mcam.cli,info.scce.cinco.product.autoDSL.rule.mcam.adapter,
+ info.scce.cinco.product.autoDSL.rule.mcam.cli
 Bundle-Name: %pluginName
 Bundle-Version: 1.0.0
 Bundle-ClassPath: .
