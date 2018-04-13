@@ -29,12 +29,16 @@ graphModel Rule {
 		incomingEdges(ControlFlow[0,*])
 		outgoingEdges(ControlFlowBasic[0,1])
 	}
+	
+	@palette("Storing / Loading")
 	@style(greenCircle)
 	container SaveBoolean{
 		prime mem::StoredBoolean as data
 		containableElements(BooleanInput[1,1])
 		
 	}
+	
+	@palette("Storing / Loading")
 	@style(greenCircle)
 	container SaveNumber{
 		prime mem::StoredNumber as data
@@ -45,11 +49,15 @@ graphModel Rule {
 		incomingEdges(ControlFlow[0,*])
 		outgoingEdges(ControlFlowBasic[0,1])
 	}
+	
+	@palette("Storing / Loading")
 	@style(redCircle)
 	container LoadBoolean{
 		prime mem::StoredBoolean as data
 		containableElements(BooleanOutputPort[1,1])
 	}
+	
+	@palette("Storing / Loading")
 	@style(redCircle)
 	container LoadNumber{
 		prime mem::StoredNumber as data 

@@ -23,7 +23,8 @@ Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,org.eclipse
  plugin.generator.runtime,de.jabc.cinco.meta.plugin.generator.runtime,
  de.jabc.cinco.meta.plugin.generator.runtime,de.jabc.cinco.meta.plugin
  .generator.runtime,de.jabc.cinco.meta.plugin.generator.runtime,de.jab
- c.cinco.meta.plugin.mcam.runtime
+ c.cinco.meta.plugin.generator.runtime,de.jabc.cinco.meta.plugin.mcam.
+ runtime
 Bundle-ActivationPolicy: lazy
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
