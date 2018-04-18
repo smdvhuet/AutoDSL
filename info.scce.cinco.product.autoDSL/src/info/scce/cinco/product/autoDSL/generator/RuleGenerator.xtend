@@ -10,7 +10,8 @@ import org.eclipse.core.runtime.IPath
 import org.eclipse.core.runtime.IProgressMonitor
 import java.util.ArrayList
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanGuardOutput
-
+import info.scce.cinco.product.autoDSL.rule.rule.Comment
+import graphmodel.Node
 class RuleGenerator implements IGenerator<Rule> {
 	var IFolder mainFolder
 	var IFolder mainPackage
@@ -19,7 +20,8 @@ class RuleGenerator implements IGenerator<Rule> {
 		val ArrayList<String> srcFolders = new ArrayList<String>();
 		srcFolders.add("src-gen")
 		
-		val IProject project = ProjectCreator.createProject("Generated Product",srcFolders,null,null,null,null,monitor)
+		//val IProject project = ProjectCreator.createProject("Generated Product",srcFolders,null,null,null,null,monitor)
+		val IProject project = ProjectCreator.getProject(rule.eResource)
 		mainFolder = project.getFolder("src-gen")
 		mainPackage = mainFolder.getFolder("info/scce/cinco/product")
 		EclipseFileUtils.mkdirs(mainPackage,monitor)
