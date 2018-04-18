@@ -10,6 +10,8 @@ import org.eclipse.core.runtime.IPath
 import org.eclipse.core.runtime.IProgressMonitor
 import java.util.ArrayList
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanGuardOutput
+import graphmodel.Node
+import info.scce.cinco.product.autoDSL.rule.rule.Comment
 
 class RuleGenerator implements IGenerator<Rule> {
 	var IFolder mainFolder
