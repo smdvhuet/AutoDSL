@@ -168,9 +168,9 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	def referenceInput(Input in){
 		switch in{
 			NumberStaticInput :	in.staticValue
-			NumberCarInput :	"CarInputs"
+			NumberCarInput :	"CarInputs."+in.inputtype.toString
 			BooleanStaticInput:	in.staticValue
-			BooleanCarInput:	"CarInputs"
+			BooleanCarInput:	"CarInputs."+in.inputtype.toString
 			default :	if(in.predecessors.nullOrEmpty){
 							"/*input not a reference*/"
 						}else{
@@ -181,8 +181,8 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	def referenceOutput(Output out){
 		switch out{
-			NumberCarOutput :	"CarOutputs"
-			BooleanCarOutput:	"CarOutputs"
+			NumberCarOutput :	"CarOutputs."+out.outputtype.toString
+			BooleanCarOutput:	"CarOutputs."+out.outputtype.toString
 			default :	IDHasher.GetStringHash(out.id)
 		}	
 	}
