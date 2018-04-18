@@ -80,7 +80,7 @@ class RuleGenerator implements IGenerator<Rule> {
 						PID pid«IDHasher.GetStringHash(pid.id)»;
 						«ENDFOR»
 						
-					}
+					};
 				}
 				'''
 			}
@@ -174,7 +174,7 @@ class RuleGenerator implements IGenerator<Rule> {
 						PID pid«IDHasher.GetStringHash(pid.id)»;
 						«ENDFOR»
 						
-					}
+					};
 				}
 				'''
 			}
