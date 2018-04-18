@@ -69,7 +69,7 @@ class RuleGenerator implements IGenerator<Rule> {
 						
 						void onExit();
 						
-						inline String getName(){
+						inline string getName(){
 							return "«rule.name»";
 						}
 						
@@ -163,7 +163,7 @@ class RuleGenerator implements IGenerator<Rule> {
 						
 						void onExit();
 						
-						inline String getName(){
+						inline string getName(){
 							return "«rule.name»";
 						}
 						
