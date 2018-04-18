@@ -38,10 +38,11 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		this.targetDir = targetDir;
 		this.monitor = monitor; 
 		
-		val ArrayList<String> srcFolders = new ArrayList<String>();
-		srcFolders.add("src-gen")
+		//val ArrayList<String> srcFolders = new ArrayList<String>();
+		//srcFolders.add("src-gen")
 		
-		val IProject project = ProjectCreator.createProject("Generated Product",srcFolders,null,null,null,null,monitor)
+		//val IProject project = ProjectCreator.createProject("Generated Product",srcFolders,null,null,null,null,monitor)
+		val IProject project = ProjectCreator.getProject(dsl.eResource)
 		mainFolder = project.getFolder("src-gen")
 		mainPackage = mainFolder.getFolder("info/scce/cinco/product")
 		EclipseFileUtils.mkdirs(mainPackage,monitor)
