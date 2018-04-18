@@ -10,7 +10,8 @@ import org.eclipse.core.runtime.IPath
 import org.eclipse.core.runtime.IProgressMonitor
 import java.util.ArrayList
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanGuardOutput
-
+import info.scce.cinco.product.autoDSL.rule.rule.Comment
+import graphmodel.Node
 class RuleGenerator implements IGenerator<Rule> {
 	var IFolder mainFolder
 	var IFolder mainPackage
@@ -41,11 +42,90 @@ class RuleGenerator implements IGenerator<Rule> {
 	}
 	
 	private def generateRuleHeader(Rule rule, NodeGenerator nodeGenerator){
-		return ''''''
+		for(Node node : rule.operations){
+			if(node.incoming.nullOrEmpty&&!(node instanceof Comment)){
+				return
+				'''	
+
+				#include State;
+				
+				«IF nodeGenerator.importUtilityClass(rule)»#include Utility.h;«ENDIF»
+				«IF nodeGenerator.importPIDClass(rule)»#include PID;«ENDIF»
+				«IF nodeGenerator.importIOClass(rule)»#include IO;«ENDIF»
+			
+				namespace AutoDSL{
+				
+					class «rule.name» : public State{
+						
+						public: 
+						«rule.name»();
+						
+						~«rule.name»();
+						
+						bool guard;
+						void Execute(const IO::CarInputs &, IO::CarOutputs &);
+						
+						void onEntry();
+						
+						void onExit();
+						
+						inline String getName(){
+							return "«rule.name»";
+						}
+						
+						//PID Controllers
+						
+						private:
+						«FOR pid : rule.PIDControllers»
+						PID *pid«IDHasher.GetStringHash(pid.id)»;
+						«ENDFOR»
+						
+					}
+				}
+				'''
+			}
+		}
 	}
 	
 	private def generateRuleBody(Rule rule, NodeGenerator nodeGenerator){
-		return ''''''
+		for(Node node : rule.operations){
+			if(node.incoming.nullOrEmpty&&!(node instanceof Comment)){
+				return
+				'''	
+				#include "«rule.name».h"
+				
+				using namespace AutoDSL;
+				
+				«rule.name»::«rule.name»() {
+					//PID Controllers
+					«FOR pid : rule.PIDControllers»
+					*pid«IDHasher.GetStringHash(pid.id)» = new PID(«pid.p», «pid.i», «pid.d»);
+					«ENDFOR»
+				}
+				
+				«rule.name»::~«rule.name»() {
+					//PID Controllers
+					«FOR pid : rule.PIDControllers»
+					delete pid«IDHasher.GetStringHash(pid.id)» = new PID(«pid.p», «pid.i», «pid.d»);
+					«ENDFOR»
+				}
+					
+					
+					void Execute(const IO::CarInputs &, IO::CarOutputs &){
+						«node.doSwitch»
+					}
+					
+					void onEntry(){
+						
+					}
+					
+					void onExit(){
+						
+					}
+				}
+				'''
+			}
+		}
 	}
 	
 //*********************************************************************************
@@ -58,10 +138,90 @@ class RuleGenerator implements IGenerator<Rule> {
 	}
 		
 	private def generateGuardRuleHeader(Rule rule, NodeGenerator nodeGenerator){
-		return ''''''
+		for(Node node : rule.operations){
+			//TODO: Muss hier ein anderer Klassenname verwendet werden?
+			if(node.incoming.nullOrEmpty&&!(node instanceof Comment)){
+				return
+				'''	
+
+				#include State;
+				
+				«IF nodeGenerator.importUtilityClass(rule)»#include Utility.h;«ENDIF»
+				«IF nodeGenerator.importPIDClass(rule)»#include PID;«ENDIF»
+				«IF nodeGenerator.importIOClass(rule)»#include IO;«ENDIF»
+			
+				namespace AutoDSL{
+				
+					class «rule.name» : public State{
+						
+						public: 
+						«rule.name»();
+						
+						~«rule.name»();
+						
+						bool guard;
+						bool Execute(const IO::CarInputs &);
+						
+						void onEntry();
+						
+						void onExit();
+						
+						inline String getName(){
+							return "«rule.name»";
+						}
+						
+						//PID Controllers
+						
+						private:
+						«FOR pid : rule.PIDControllers»
+						PID *pid«IDHasher.GetStringHash(pid.id)»;
+						«ENDFOR»
+						
+					}
+				}
+				'''
+			}
+		}
 	}
 	
 	private def generateGuardRuleBody(Rule rule, NodeGenerator nodeGenerator){
-		return ''''''
+		for(Node node : rule.operations){
+			if(node.incoming.nullOrEmpty&&!(node instanceof Comment)){
+				return
+				'''	
+				#include "«rule.name».h"
+				
+				using namespace AutoDSL;
+				
+				«rule.name»::«rule.name»() {
+					//PID Controllers
+					«FOR pid : rule.PIDControllers»
+					*pid«IDHasher.GetStringHash(pid.id)» = new PID(«pid.p», «pid.i», «pid.d»);
+					«ENDFOR»
+				}
+				
+				«rule.name»::~«rule.name»() {
+					//PID Controllers
+					«FOR pid : rule.PIDControllers»
+					delete pid«IDHasher.GetStringHash(pid.id)» = new PID(«pid.p», «pid.i», «pid.d»);
+					«ENDFOR»
+				}
+					
+					
+					void bool Execute(const IO::CarInputs &){
+						«node.doSwitch»
+					}
+					
+					void onEntry(){
+						
+					}
+					
+					void onExit(){
+						
+					}
+				}
+				'''
+			}
+		}
 	}
 }
