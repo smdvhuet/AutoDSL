@@ -35,95 +35,8 @@ import info.scce.cinco.product.autoDSL.rule.rule.Division
 
 class NodeGenerator extends RuleSwitch<CharSequence> {
 	
-	def caseRuleHeader(Rule rule){
-		for(Node node : rule.operations){
-			if(node.incoming.nullOrEmpty&&!(node instanceof Comment)){
-				return
-				'''	
-
-				#include State;
-				
-				«IF importUtilityClass(rule)»#include Utility.h;«ENDIF»
-				«IF importPIDClass(rule)»#include PID;«ENDIF»
-				«IF importIOClass(rule)»#include IO;«ENDIF»
-			
-				namespace AutoDSL{
-				
-					class «rule.name» implements State{
-						
-						public: 
-						«rule.name»();
-						
-						~«rule.name»();
-						
-						bool guard;
-						void Execute();
-						
-						void onEntry();
-						
-						void onExit();
-						
-						inline String getName(){
-							return "«rule.name»";
-						}
-						
-						//PID Controllers
-						
-						private:
-						«FOR pid : rule.PIDControllers»
-						PID *pid«IDHasher.GetStringHash(pid.id)»;
-						«ENDFOR»
-						
-					}
-				}
-				'''
-			}
-		}
-	}
 	
-	def caseRuleBody(Rule rule){
-		for(Node node : rule.operations){
-			if(node.incoming.nullOrEmpty&&!(node instanceof Comment)){
-				return
-				'''	
-				#include "«rule.name».h"
-				
-				using namespace AutoDSL;
-				
-				«rule.name»::«rule.name»() {
-					//PID Controllers
-					«FOR pid : rule.PIDControllers»
-					*pid«IDHasher.GetStringHash(pid.id)» = new PID(«pid.p», «pid.i», «pid.d»);
-					«ENDFOR»
-				}
-				
-				«rule.name»::~«rule.name»() {
-					//PID Controllers
-					«FOR pid : rule.PIDControllers»
-					delete pid«IDHasher.GetStringHash(pid.id)» = new PID(«pid.p», «pid.i», «pid.d»);
-					«ENDFOR»
-				}
-					
-					
-					void Execute(){
-						«node.doSwitch»
-					}
-					
-					void onEntry(){
-						
-					}
-					
-					void onExit(){
-						
-					}
-				}
-				'''
-			}
-		}
-	}
-	
-	
-	
+	//TODO GuardRule
 	//TODO get dT for PID
 	override casePIDController(PIDController op)'''
 		//PID Controller
@@ -252,13 +165,12 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	«if(!n.getSuccessors.nullOrEmpty)n.getSuccessors.head.doSwitch»
 	'''
 
-	
 	def referenceInput(Input in){
 		switch in{
 			NumberStaticInput :	in.staticValue
-			NumberCarInput :	"IO.in_"+in.inputtype.toString
+			NumberCarInput :	"CarInputs."+in.inputtype.toString
 			BooleanStaticInput:	in.staticValue
-			BooleanCarInput:	"IO.in_"+in.inputtype.toString
+			BooleanCarInput:	"CarInputs."+in.inputtype.toString
 			default :	if(in.predecessors.nullOrEmpty){
 							"/*input not a reference*/"
 						}else{
@@ -269,8 +181,8 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	def referenceOutput(Output out){
 		switch out{
-			NumberCarOutput :	"IO.out_"+out.outputtype.toString
-			BooleanCarOutput:	"IO.out_"+out.outputtype.toString
+			NumberCarOutput :	"CarOutputs."+out.outputtype.toString
+			BooleanCarOutput:	"CarOutputs."+out.outputtype.toString
 			default :	IDHasher.GetStringHash(out.id)
 		}	
 	}
