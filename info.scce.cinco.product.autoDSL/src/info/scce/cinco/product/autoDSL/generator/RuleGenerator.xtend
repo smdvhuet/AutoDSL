@@ -77,7 +77,7 @@ class RuleGenerator implements IGenerator<Rule> {
 						
 						private:
 						«FOR pid : rule.PIDControllers»
-						PID *pid«IDHasher.GetStringHash(pid.id)»;
+						PID pid«IDHasher.GetStringHash(pid.id)»;
 						«ENDFOR»
 						
 					}
@@ -99,15 +99,12 @@ class RuleGenerator implements IGenerator<Rule> {
 				«rule.name»::«rule.name»() {
 					//PID Controllers
 					«FOR pid : rule.PIDControllers»
-					*pid«IDHasher.GetStringHash(pid.id)» = new PID(«pid.p», «pid.i», «pid.d»);
+					pid«IDHasher.GetStringHash(pid.id)» = PID(«pid.p», «pid.i», «pid.d»);
 					«ENDFOR»
 				}
 				
 				«rule.name»::~«rule.name»() {
-					//PID Controllers
-					«FOR pid : rule.PIDControllers»
-					delete pid«IDHasher.GetStringHash(pid.id)» = new PID(«pid.p», «pid.i», «pid.d»);
-					«ENDFOR»
+
 				}
 					
 					
@@ -174,7 +171,7 @@ class RuleGenerator implements IGenerator<Rule> {
 						
 						private:
 						«FOR pid : rule.PIDControllers»
-						PID *pid«IDHasher.GetStringHash(pid.id)»;
+						PID pid«IDHasher.GetStringHash(pid.id)»;
 						«ENDFOR»
 						
 					}
@@ -196,15 +193,12 @@ class RuleGenerator implements IGenerator<Rule> {
 				«rule.name»::«rule.name»() {
 					//PID Controllers
 					«FOR pid : rule.PIDControllers»
-					*pid«IDHasher.GetStringHash(pid.id)» = new PID(«pid.p», «pid.i», «pid.d»);
+					pid«IDHasher.GetStringHash(pid.id)» = PID(«pid.p», «pid.i», «pid.d»);
 					«ENDFOR»
 				}
 				
 				«rule.name»::~«rule.name»() {
-					//PID Controllers
-					«FOR pid : rule.PIDControllers»
-					delete pid«IDHasher.GetStringHash(pid.id)» = new PID(«pid.p», «pid.i», «pid.d»);
-					«ENDFOR»
+
 				}
 					
 					
