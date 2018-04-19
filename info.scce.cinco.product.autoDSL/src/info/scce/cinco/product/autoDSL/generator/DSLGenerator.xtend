@@ -247,6 +247,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	  if(name == null){
 	  	var String[] names = rule.eResource().getURI().lastSegment().split(".rule").get(0).split("_")
 	  	
+	  	name = "";
 	  	for(String n : names) {
 	  		name = name + n.toFirstUpper
 	  	}
