@@ -19,7 +19,6 @@ class RuleGenerator implements IGenerator<Rule> {
 		val ArrayList<String> srcFolders = new ArrayList<String>();
 		srcFolders.add("src-gen")
 		
-		//val IProject project = ProjectCreator.createProject("Generated Product",srcFolders,null,null,null,null,monitor)
 		val IProject project = ProjectCreator.getProject(rule.eResource)
 		mainFolder = project.getFolder("src-gen")
 		EclipseFileUtils.mkdirs(mainFolder,monitor)
