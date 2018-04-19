@@ -2,7 +2,6 @@ package info.scce.cinco.product.autoDSL.generator
 
 import graphmodel.Node
 import info.scce.cinco.product.autoDSL.rule.rule.Addition
-import info.scce.cinco.product.autoDSL.rule.rule.Comment
 import info.scce.cinco.product.autoDSL.rule.rule.Decision
 import info.scce.cinco.product.autoDSL.rule.rule.Input
 import info.scce.cinco.product.autoDSL.rule.rule.Less
