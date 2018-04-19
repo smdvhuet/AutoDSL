@@ -14,7 +14,6 @@ import info.scce.cinco.product.autoDSL.rule.rule.Comment
 import graphmodel.Node
 class RuleGenerator implements IGenerator<Rule> {
 	var IFolder mainFolder
-	var IFolder mainPackage
 	
 	override generate(Rule rule, IPath targetDir, IProgressMonitor monitor) {
 		val ArrayList<String> srcFolders = new ArrayList<String>();
@@ -23,13 +22,12 @@ class RuleGenerator implements IGenerator<Rule> {
 		//val IProject project = ProjectCreator.createProject("Generated Product",srcFolders,null,null,null,null,monitor)
 		val IProject project = ProjectCreator.getProject(rule.eResource)
 		mainFolder = project.getFolder("src-gen")
-		mainPackage = mainFolder.getFolder("info/scce/cinco/product")
-		EclipseFileUtils.mkdirs(mainPackage,monitor)
+		EclipseFileUtils.mkdirs(mainFolder,monitor)
 		
 		if(rule.allNodes.filter[it instanceof BooleanGuardOutput].length > 0)
-			generateGuardRule(mainPackage, rule)
+			generateGuardRule(mainFolder, rule)
 		else
-			generateRule(mainPackage, rule)
+			generateRule(mainFolder, rule)
 	}
 	
 //*********************************************************************************
@@ -109,7 +107,7 @@ class RuleGenerator implements IGenerator<Rule> {
 					
 					
 					void Execute(const IO::CarInputs &, IO::CarOutputs &){
-						«node.doSwitch»
+						«nodeGenerator.doSwitch(node)»
 					}
 					
 					void onEntry(){
@@ -203,7 +201,7 @@ class RuleGenerator implements IGenerator<Rule> {
 					
 					
 					void bool Execute(const IO::CarInputs &){
-						«node.doSwitch»
+						«nodeGenerator.doSwitch(node)»
 					}
 					
 					void onEntry(){

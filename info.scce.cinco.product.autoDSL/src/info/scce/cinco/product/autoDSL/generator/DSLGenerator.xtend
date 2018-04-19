@@ -20,7 +20,6 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	var IPath targetDir;
 	
 	var IFolder mainFolder
-	var IFolder mainPackage
 	var IFolder corePackage
 	var IFolder staticFolder
 	
@@ -44,17 +43,16 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		//val IProject project = ProjectCreator.createProject("Generated Product",srcFolders,null,null,null,null,monitor)
 		val IProject project = ProjectCreator.getProject(dsl.eResource)
 		mainFolder = project.getFolder("src-gen")
-		mainPackage = mainFolder.getFolder("info/scce/cinco/product")
-		EclipseFileUtils.mkdirs(mainPackage,monitor)
-		corePackage = mainFolder.getFolder("info/scce/cinco/product/core")
+		EclipseFileUtils.mkdirs(mainFolder,monitor)
+		corePackage = mainFolder.getFolder("core")
 		EclipseFileUtils.mkdirs(corePackage,monitor)
 		
 		staticFolder = corePackage
 		
 		generateStatic()
 		
-		EclipseFileUtils.writeToFile(mainPackage.getFile("AutoDSL" + IDHasher.GetStringHash(dsl.id) + ".h"), generateStateMachineHeader(dsl))
-		EclipseFileUtils.writeToFile(mainPackage.getFile("AutoDSL" + IDHasher.GetStringHash(dsl.id) + ".cpp"), generateStateMachineBody(dsl))
+		EclipseFileUtils.writeToFile(mainFolder.getFile("AutoDSL" + IDHasher.GetStringHash(dsl.id) + ".h"), generateStateMachineHeader(dsl))
+		EclipseFileUtils.writeToFile(mainFolder.getFile("AutoDSL" + IDHasher.GetStringHash(dsl.id) + ".cpp"), generateStateMachineBody(dsl))
 	}
 	
 	def generateStatic(){
