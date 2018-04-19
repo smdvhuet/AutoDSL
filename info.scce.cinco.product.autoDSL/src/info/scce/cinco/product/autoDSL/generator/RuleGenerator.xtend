@@ -67,7 +67,7 @@ class RuleGenerator implements IGenerator<Rule> {
 						
 						void onExit();
 						
-						inline String getName(){
+						inline string getName(){
 							return "«rule.name»";
 						}
 						
@@ -78,7 +78,7 @@ class RuleGenerator implements IGenerator<Rule> {
 						PID pid«IDHasher.GetStringHash(pid.id)»;
 						«ENDFOR»
 						
-					}
+					};
 				}
 				'''
 			}
@@ -161,7 +161,7 @@ class RuleGenerator implements IGenerator<Rule> {
 						
 						void onExit();
 						
-						inline String getName(){
+						inline string getName(){
 							return "«rule.name»";
 						}
 						
@@ -172,7 +172,7 @@ class RuleGenerator implements IGenerator<Rule> {
 						PID pid«IDHasher.GetStringHash(pid.id)»;
 						«ENDFOR»
 						
-					}
+					};
 				}
 				'''
 			}
