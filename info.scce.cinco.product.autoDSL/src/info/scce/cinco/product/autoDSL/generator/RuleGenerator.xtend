@@ -122,16 +122,17 @@ class RuleGenerator implements IGenerator<Rule> {
 			if(node.incoming.nullOrEmpty&&!(node instanceof Comment)){
 				return
 				'''	
-
-				#include State;
+				#ifndef «rule.name.toUpperCase»_H_
+				#define «rule.name.toUpperCase»_H_
+				#include "core/GuardRule.h"
 				
-				«IF nodeGenerator.importUtilityClass(rule)»#include Utility.h;«ENDIF»
-				«IF nodeGenerator.importPIDClass(rule)»#include PID;«ENDIF»
-				«IF nodeGenerator.importIOClass(rule)»#include IO;«ENDIF»
+				«IF nodeGenerator.importUtilityClass(rule)»#include "core/Utility.h"«ENDIF»
+				«IF nodeGenerator.importPIDClass(rule)»#include "core/PID.h"«ENDIF»
+				«IF nodeGenerator.importIOClass(rule)»#include "core/IO.h"«ENDIF»
 			
 				namespace AutoDSL{
 				
-					class «rule.name» : public State{
+					class «rule.name» : public ACCPlusPlus::GuardRule{
 						
 						public: 
 						«rule.name»();
@@ -149,7 +150,7 @@ class RuleGenerator implements IGenerator<Rule> {
 							return "«rule.name»";
 						}
 						
-						//PID Controllers
+						«IF nodeGenerator.importPIDClass(rule)»//PID Controllers«ENDIF»
 						
 						private:
 						«FOR pid : rule.PIDControllers»
@@ -158,6 +159,7 @@ class RuleGenerator implements IGenerator<Rule> {
 						
 					};
 				}
+				#endif «rule.name.toUpperCase»
 				'''
 			}
 		}
@@ -172,7 +174,7 @@ class RuleGenerator implements IGenerator<Rule> {
 				
 				using namespace AutoDSL;
 				
-				«rule.name»::«rule.name»() {
+				«rule.name»::«rule.name»() : ACCPlusPlus::GuardRule(){
 					//PID Controllers
 					«FOR pid : rule.PIDControllers»
 					pid«IDHasher.GetStringHash(pid.id)» = PID(«pid.p», «pid.i», «pid.d»);
