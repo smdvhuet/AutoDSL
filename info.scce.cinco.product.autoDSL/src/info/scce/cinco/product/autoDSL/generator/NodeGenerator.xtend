@@ -35,7 +35,6 @@ import info.scce.cinco.product.autoDSL.rule.rule.SubRuleInputs
 import info.scce.cinco.product.autoDSL.rule.rule.SubRuleOutputs
 import info.scce.cinco.product.autoDSL.rule.rule.SubRule
 import javax.xml.stream.events.Comment
-import org.eclipse.emf.common.util.EList
 import java.util.Iterator
 import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInput
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInput
@@ -45,8 +44,6 @@ import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubOutput
 class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	
-	//TODO GuardRule
-	//TODO get dT for PID
 	override casePIDController(PIDController op)'''
 		//PID Controller
 		double «op.outputs.head.referenceOutput» = pid«IDHasher.GetStringHash(op.id)».calculate(«op.inputs.head.referenceInput», «op.inputs.last.referenceInput», 0.1);
@@ -178,7 +175,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 		«IF in instanceof NumberSubInput»
 			double «IDHasher.GetStringHash(refIns.next.id)» = «in.referenceInput»;
 		«ELSE»
-			«IF in instanceof NumberSubInput»
+			«IF in instanceof BooleanSubInput»
 				bool «IDHasher.GetStringHash(refIns.next.id)» = «in.referenceInput»;
 			«ELSE»
 				//input is neither bool nor float
@@ -199,7 +196,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 		«IF out instanceof NumberSubOutput»
 			double «out.referenceOutput» = «refOuts.next.referenceInput»;
 		«ELSE»
-			«IF out instanceof NumberSubOutput»
+			«IF out instanceof BooleanSubOutput»
 			bool «out.referenceOutput» = «refOuts.next.referenceInput»;
 			«ELSE»
 				//output is neither bool nor float
