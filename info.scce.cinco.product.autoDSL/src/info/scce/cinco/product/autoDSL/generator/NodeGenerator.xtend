@@ -31,6 +31,16 @@ import info.scce.cinco.product.autoDSL.rule.rule.BooleanGuardOutput
 import info.scce.cinco.product.autoDSL.rule.rule.Greater
 import info.scce.cinco.product.autoDSL.rule.rule.GreaterOrEqual
 import info.scce.cinco.product.autoDSL.rule.rule.Division
+import info.scce.cinco.product.autoDSL.rule.rule.SubRuleInputs
+import info.scce.cinco.product.autoDSL.rule.rule.SubRuleOutputs
+import info.scce.cinco.product.autoDSL.rule.rule.SubRule
+import javax.xml.stream.events.Comment
+import org.eclipse.emf.common.util.EList
+import java.util.Iterator
+import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInput
+import info.scce.cinco.product.autoDSL.rule.rule.NumberSubOutput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubOutput
 
 class NodeGenerator extends RuleSwitch<CharSequence> {
 	
@@ -158,6 +168,54 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	override caseBooleanGuardOutput(BooleanGuardOutput out)'''
 	//Guard Output
 	guard = «out.booleanInputs.head.referenceInput»;
+	'''
+	
+	override caseSubRule(SubRule rule)'''
+	«val Iterator<Output> refIns = rule.rule.subRuleInputss.head.outputs.iterator»
+	«val Iterator<Input> refOuts = rule.rule.subRuleOutputss.head.inputs.iterator»
+	//SubRuleInputs
+	«FOR Input in:rule.inputs»
+		«IF in instanceof NumberSubInput»
+			float «IDHasher.GetStringHash(refIns.next.id)» = «in.referenceInput»;
+		«ELSE»
+			«IF in instanceof NumberSubInput»
+				bool «IDHasher.GetStringHash(refIns.next.id)» = «in.referenceInput»;
+			«ELSE»
+				//input is neither bool nor float
+			«ENDIF»
+		«ENDIF»
+	«ENDFOR»
+	
+	//SubRule start
+	«FOR Node node:rule.rule.operations»
+		«IF node.incoming.nullOrEmpty&&!(node instanceof Comment)»
+			«node.doSwitch»
+		«ENDIF»
+	«ENDFOR»
+	//SubRule end
+	
+	//SubRuleOutputs
+	«FOR Output out:rule.outputs»
+		«IF out instanceof NumberSubOutput»
+			float «out.referenceOutput» = «refOuts.next.referenceInput»;
+		«ELSE»
+			«IF out instanceof NumberSubOutput»
+			bool «out.referenceOutput» = «refOuts.next.referenceInput»;
+			«ELSE»
+				//output is neither bool nor float
+			«ENDIF»
+		«ENDIF»
+	«ENDFOR»
+
+	«if(!rule.getSuccessors.nullOrEmpty)rule.getSuccessors.head.doSwitch»
+	'''
+	
+	override caseSubRuleInputs(SubRuleInputs in)'''
+	«if(!in.getSuccessors.nullOrEmpty)in.getSuccessors.head.doSwitch»
+	'''
+	
+	override caseSubRuleOutputs(SubRuleOutputs out)'''
+	«if(!out.getSuccessors.nullOrEmpty)out.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseNode(Node n)'''/*Node «n.toString» not found*/
