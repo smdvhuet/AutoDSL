@@ -167,7 +167,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	'''	
 	override caseBooleanGuardOutput(BooleanGuardOutput out)'''
 	//Guard Output
-	guard = «out.booleanInputs.head.referenceInput»;
+	return «out.booleanInputs.head.referenceInput»;
 	'''
 	
 	override caseSubRule(SubRule rule)'''
@@ -225,9 +225,9 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	def referenceInput(Input in){
 		switch in{
 			NumberStaticInput :	in.staticValue
-			NumberCarInput :	"CarInputs."+in.inputtype.toString
+			NumberCarInput :	"input."+in.inputtype.toString
 			BooleanStaticInput:	in.staticValue
-			BooleanCarInput:	"CarInputs."+in.inputtype.toString
+			BooleanCarInput:	"input."+in.inputtype.toString
 			default :	if(in.predecessors.nullOrEmpty){
 							"/*input not a reference*/"
 						}else{
@@ -238,8 +238,8 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	def referenceOutput(Output out){
 		switch out{
-			NumberCarOutput :	"CarOutputs."+out.outputtype.toString
-			BooleanCarOutput:	"CarOutputs."+out.outputtype.toString
+			NumberCarOutput :	"output."+out.outputtype.toString
+			BooleanCarOutput:	"output."+out.outputtype.toString
 			default :	IDHasher.GetStringHash(out.id)
 		}	
 	}
@@ -250,12 +250,5 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	def boolean importPIDClass(Rule rule){
 		return rule.operations.filter(PIDController).length > 0
-	}
-	
-	def boolean importIOClass(Rule rule){
-		for(op : rule.operations)
-			if(op.booleanCarInputs.length + op.booleanCarOutputs.length + op.numberCarInputs.length + op.numberCarOutputs.length > 0)
-				return true;
-		return false;
 	}
 }
