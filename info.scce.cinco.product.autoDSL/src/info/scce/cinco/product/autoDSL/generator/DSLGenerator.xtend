@@ -19,7 +19,6 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	var IPath targetDir;
 	
 	var IFolder mainFolder
-	var IFolder corePackage
 	var IFolder staticFolder
 	
 	var HashMap<Integer, String> knownRuleTypes =  new HashMap<Integer, String>()
@@ -39,10 +38,8 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		val IProject project = ProjectCreator.getProject(dsl.eResource)
 		mainFolder = project.getFolder("src-gen")
 		EclipseFileUtils.mkdirs(mainFolder,monitor)
-		corePackage = mainFolder.getFolder("core")
-		EclipseFileUtils.mkdirs(corePackage,monitor)
-		
-		staticFolder = corePackage
+		staticFolder = mainFolder.getFolder("core")
+		EclipseFileUtils.mkdirs(staticFolder,monitor)
 		
 		generateStatic()
 		
