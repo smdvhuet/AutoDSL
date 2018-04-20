@@ -279,7 +279,7 @@ graphModel Rule {
 	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	node NumberSubOutput extends NumberOutput {
 		attr EString as identifier
-		outgoingEdges(NumberDataFlow[1,1])
+		outgoingEdges(NumberDataFlow[0,*])
 	}
 	
 	@style(subOutput, "${identifier}", "Boolean")
@@ -290,7 +290,7 @@ graphModel Rule {
 	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	node BooleanSubOutput extends BooleanOutput {
 		attr EString as identifier
-		outgoingEdges(BooleanDataFlow[1,1])
+		outgoingEdges(BooleanDataFlow[0,*])
 	}
 	
 	abstract container Operation {
