@@ -46,11 +46,11 @@ class RuleGenerator implements IGenerator<Rule> {
 			#ifndef AUTODSL_«rule.name.toUpperCase()»_H_
 			#define AUTODSL_«rule.name.toUpperCase()»_H_
 			
-			#include "core/State.h";
+			#include "core/State.h"
 			
-			«IF nodeGenerator.importUtilityClass(rule)»#include Utility.h;«ENDIF»
-			«IF nodeGenerator.importPIDClass(rule)»#include PID;«ENDIF»
-			«IF nodeGenerator.importIOClass(rule)»#include IO;«ENDIF»
+			«IF nodeGenerator.importUtilityClass(rule)»#include "Utility.h"«ENDIF»
+			«IF nodeGenerator.importPIDClass(rule)»#include "PID.h"«ENDIF»
+			«IF nodeGenerator.importIOClass(rule)»#include "IO.h"«ENDIF»
 			
 			namespace AutoDSL{
 			class «rule.name» : public ACCPlusPlus::State{
