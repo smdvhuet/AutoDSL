@@ -51,7 +51,6 @@ graphModel AutoDSL {
 	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.openRuleModel")
 	@style(syscomponent, "${label}")
 	node ComponentNode {
-		@pvFileExtension("rule")
 		prime rule::Rule as rule
 		attr EString as label
 		incomingEdges(SyscompToSyscomp[0,1])

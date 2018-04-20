@@ -14,6 +14,19 @@ edgeStyle controlFlow {
 		ARROW
 	}
 }
+nodeStyle syscomponent (1){
+	rectangle {
+		appearance {
+			lineWidth 3
+			background (255, 255, 255)
+		}
+		size(140,80)
+		text {
+			position ( CENTER, MIDDLE )
+			value "%s"
+		}
+	}
+}
 
 edgeStyle labeledControlFlow(1){
 	appearance {
@@ -243,6 +256,83 @@ nodeStyle pid (3) {
 		}
 		polyline {
 			points [ (7,88) (113,88) ]
+		}
+	}
+}
+
+nodeStyle storedPID (4) {
+	roundedRectangle {
+		size (120, fix 20)
+		corner (10,10)
+		rectangle {
+			appearance io
+			position (CENTER, TOP 5)
+			size (110, fix 20)
+			text {
+				position (CENTER, MIDDLE)
+				value "PID: %4$s"
+			}	
+		}
+		rectangle {
+			appearance io
+			position (CENTER, TOP 26)
+			size (110, fix 20)
+			text {
+				position (CENTER, MIDDLE)
+				value "p: %1$s"
+			}	
+		}
+		rectangle {
+			appearance io
+			position (CENTER, TOP 47)
+			size (110, fix 20)
+			text {
+				position (CENTER, MIDDLE)
+				value "i: %2$s"
+			}	
+		}
+		rectangle {
+			appearance io
+			position (CENTER, TOP 68)
+			size (110, fix 20)
+			text {
+				position (CENTER, MIDDLE)
+				value "d: %3$s"
+			}	
+		}
+		polyline {
+			points [ (7,88) (113,88) ]
+		}
+	}
+}
+
+
+nodeStyle greenCircle {
+	ellipse {
+		appearance extends default {
+			foreground (81,156,88)
+			background (255,255,255)
+		} 
+		size(36,36)
+	}
+}
+
+nodeStyle yellowCircle{
+	ellipse {
+		appearance extends default {
+			foreground (255,255,102)
+			background (255,255,255)
+		} 
+		size(36,36)
+	}
+}
+
+nodeStyle redCircle {
+	ellipse {
+		size(36,36)
+		ellipse { 
+			position ( CENTER, MIDDLE )
+			size (24,24)
 		}
 	}
 }

@@ -20,25 +20,28 @@ class CheckRuleForCycles extends RuleCheck{
 			finished.put(container, false);
 		}
 		val startContainer = containers.findFirst[x | x.getIncoming().size == 0];
-		if(!depthFirstSearchControlFlow(startContainer, visited, finished)){
-				rule.addError("Cycle in control flow found")
-		}
-		if(!checkForDataFlowCycle(startContainer, new ArrayList<Output>(), startContainer)){
-			rule.addError("Cycle in data flow found")
+		if(startContainer != null){
+			if(!depthFirstSearchControlFlow(startContainer, visited, finished)){
+					rule.addError("Cycle in control flow found")
+					return;
+			}
+			if(!checkForDataFlowDependencyError(startContainer, new ArrayList<Output>(), startContainer)){
+				
+			}
 		}
 	}
 	
-	def boolean checkForDataFlowCycle(Container container, List<Output> list, Container startContainer){ //Liste wird mit Outputs aufgebaut, durch die bereits der Kontrollfluss gewandert ist
+	def boolean checkForDataFlowDependencyError(Container container, List<Output> list, Container startContainer){ //Liste wird mit Outputs aufgebaut, durch die bereits der Kontrollfluss gewandert ist
 		val op = container as Operation;
-		if(!container.equals(startContainer)){
-			if(op.inputs.map[x | x.predecessors.map[y | y as Output]].flatten.findFirst[x | !list.contains(x)] != null){ //wenn die Eingaben für die Inputs noch nicht in der Liste sind, muss eine rekursive definition vorliegen
-				return false;
-			}
+		if(op.inputs.map[x | x.predecessors.map[y | y as Output]].flatten.findFirst[x | !list.contains(x)] != null){ //wenn die Eingaben für die Inputs noch nicht in der Liste sind, muss eine rekursive definition vorliegen
+		
+			op.addError("DependencyError in data flow found, a input uses data not yet calculated")
+			return false;
 		}
 		list.addAll(op.outputs);
 		val successors = container.getSuccessors().map[x | x as Container];
 		for(successor: successors){
-			if(!checkForDataFlowCycle(successor, list, startContainer)){
+			if(!checkForDataFlowDependencyError(successor, list, startContainer)){
 				return false;
 			}
 		}

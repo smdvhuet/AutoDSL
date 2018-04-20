@@ -11,5 +11,8 @@ class CheckStart extends RuleCheck{
 		if(rule.allContainers.filter[x | x.getIncoming().length < 1].length > 1){
 			rule.addError("Multiple start Nodes");
 		}
+		if(rule.allContainers.filter[x | x.getIncoming().length < 1].length == 0){
+			rule.addError("No possible start Node found")
+		}
 	}
 }

@@ -1,4 +1,5 @@
 cincoProduct AutoDSLTool {
 	mgl "model/Rule.mgl"
 	mgl "model/AutoDSL.mgl"
+	mgl "model/SharedMemory.mgl"
 }		
