@@ -43,43 +43,37 @@ class RuleGenerator implements IGenerator<Rule> {
 			if(node.incoming.nullOrEmpty&&!(node instanceof Comment)){
 				return
 				'''	
-
-				#include State;
-				
-				«IF nodeGenerator.importUtilityClass(rule)»#include Utility.h;«ENDIF»
-				«IF nodeGenerator.importPIDClass(rule)»#include PID;«ENDIF»
-				«IF nodeGenerator.importIOClass(rule)»#include IO;«ENDIF»
+			#ifndef AUTODSL_«rule.name.toUpperCase()»_H_
+			#define AUTODSL_«rule.name.toUpperCase()»_H_
 			
-				namespace AutoDSL{
-				
-					class «rule.name» : public State{
+			#include "core/State.h";
+			
+			«IF nodeGenerator.importUtilityClass(rule)»#include Utility.h;«ENDIF»
+			«IF nodeGenerator.importPIDClass(rule)»#include PID;«ENDIF»
+			«IF nodeGenerator.importIOClass(rule)»#include IO;«ENDIF»
+			
+			namespace AutoDSL{
+			class «rule.name» : public ACCPlusPlus::State{
+			 public: 
+			  «rule.name»();
+			  ~«rule.name»();
+			
+			  void Execute(const IO::CarInputs &, IO::CarOutputs &);	
+			  void onEntry();
+			  void onExit();
 						
-						public: 
-						«rule.name»();
+			  inline std::string getName(){
+			    return "«rule.name»";
+			  }
 						
-						~«rule.name»();
-						
-						bool guard;
-						void Execute(const IO::CarInputs &, IO::CarOutputs &);
-						
-						void onEntry();
-						
-						void onExit();
-						
-						inline string getName(){
-							return "«rule.name»";
-						}
-						
-						//PID Controllers
-						
-						private:
-						«FOR pid : rule.PIDControllers»
-						PID pid«IDHasher.GetStringHash(pid.id)»;
-						«ENDFOR»
-						
-					};
-				}
-				'''
+			 private:
+			  «IF nodeGenerator.importUtilityClass(rule)»//PID Controllers«ENDIF»
+			  «FOR pid : rule.PIDControllers»
+			  PID pid«IDHasher.GetStringHash(pid.id)»;
+			  «ENDFOR»	
+			};
+			} // namespace AutoDSL
+			#endif // AUTODSL_«rule.name.toUpperCase()»_H_'''
 			}
 		}
 	}
@@ -93,31 +87,22 @@ class RuleGenerator implements IGenerator<Rule> {
 				
 				using namespace AutoDSL;
 				
-				«rule.name»::«rule.name»() {
-					//PID Controllers
+				«rule.name»::«rule.name»() : ACCPlusPlus::State() {
+					«IF nodeGenerator.importUtilityClass(rule)»//PID Controllers«ENDIF»
 					«FOR pid : rule.PIDControllers»
 					pid«IDHasher.GetStringHash(pid.id)» = PID(«pid.p», «pid.i», «pid.d»);
 					«ENDFOR»
 				}
 				
-				«rule.name»::~«rule.name»() {
-
+				«rule.name»::~«rule.name»() {}
+				
+				void «rule.name»::Execute(const IO::CarInputs &, IO::CarOutputs &){
+					«nodeGenerator.doSwitch(node)»
 				}
 					
-					
-					void Execute(const IO::CarInputs &, IO::CarOutputs &){
-						«nodeGenerator.doSwitch(node)»
-					}
-					
-					void onEntry(){
-						
-					}
-					
-					void onExit(){
-						
-					}
-				}
-				'''
+				void «rule.name»::onEntry(){}
+				
+				void «rule.name»::onExit(){}'''
 			}
 		}
 	}

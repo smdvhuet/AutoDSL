@@ -72,8 +72,8 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 //							GENERATE DSL HEADER AND BODY	
 //*********************************************************************************		
 	private def generateStateMachineHeader(AutoDSL dsl)'''
-	#ifndef AUTODSL_AUTODSL«IDHasher.GetStringHash(dsl.id)»_H_
-	#define AUTODSL_AUTODSL«IDHasher.GetStringHash(dsl.id)»_H_
+	#ifndef AUTODSL_AUTODSL«IDHasher.GetStringHash(dsl.id).toUpperCase()»_H_
+	#define AUTODSL_AUTODSL«IDHasher.GetStringHash(dsl.id).toUpperCase()»_H_
 	
 	#include "core/StateMachine.h"
 	
