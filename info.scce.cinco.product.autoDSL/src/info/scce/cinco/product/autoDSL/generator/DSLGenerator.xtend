@@ -37,6 +37,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		
 		val IProject project = ProjectCreator.getProject(dsl.eResource)
 		mainFolder = project.getFolder("src-gen")
+		mainFolder.delete(true,monitor)
 		EclipseFileUtils.mkdirs(mainFolder,monitor)
 		staticFolder = mainFolder.getFolder("core")
 		EclipseFileUtils.mkdirs(staticFolder,monitor)
@@ -99,6 +100,8 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	
 	private def generateStateMachineBody(AutoDSL dsl)'''
 	#include "AutoDSL«IDHasher.GetStringHash(dsl.id)».h"
+	
+	«getIncludes(dsl)»
 	
 	using namespace AutoDSL;
 	
@@ -192,7 +195,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	«getStateName(state)» = new State({
 		«FOR container : state.componentNodes SEPARATOR ','»
 		«IF container.rule != null»
-		«getRuleClassName(container.rule)»()
+		new «getRuleClassName(container.rule)»()
 		«ENDIF»
 		«ENDFOR»
 	});
@@ -205,7 +208,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	«getGuardName(guard)» = new Guard({
 		«FOR container : guard.componentNodes SEPARATOR ','»
 		«IF container.rule != null»
-		«getRuleClassName(container.rule)»()
+		new «getRuleClassName(container.rule)»()
 		«ENDIF»
 		«ENDFOR»
 	});
@@ -359,5 +362,17 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	//!use only if the guard has already been registered
 	private def getGuardName(String id){
 		return knownGuard.get(IDHasher.GetIntHash(id));
+	}
+	
+	private def getIncludes(AutoDSL dsl){
+		initAllOffStates(dsl)
+		initAllStates(dsl)
+		initAllGuards(dsl)
+		
+		return '''
+		«FOR ruleName : knownRuleTypes.values»
+		#include "«ruleName».h"
+		«ENDFOR»
+		'''
 	}
 }

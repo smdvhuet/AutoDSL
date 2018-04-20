@@ -3,58 +3,37 @@
 
 namespace ACCPlusPlus {
 namespace IO {
-//struct ACCSettings {
-//  float set_speed;
-//};
-
-//struct DistanceInformation {
-//  float distance_front;
-//  float time_distance_front;
-//  float leading_car_relative_speed;
-//};
-
 struct CarInputs {
-//  float current_speed;
-//  float steering;
-//  float throttle;
+  bool SystemOnButton;
+  bool SystemActiveButton;
+  bool HasLeadingCar;
+  bool HasEngineError;
+  bool HasSteeringError;
+  bool HasGearboxError;
 
-//  ACCSettings acc;
-//  DistanceInformation distance_info;
-  
-	bool SystemOnButton;
-	bool SystemActiveButton;
-	bool HasLeadingCar;
-	bool HasEngineError;
-	bool HasSteeringError;
-	bool HasGearboxError;
-  
-	float DistanceFront;
-	float DistanceRear;
-	float TimeDistanceFront;
-	float LeadingCarRelativeSpeed;
-	
-	float CurrentSpeed;
-	float Acceleration;
-	float Steering;
-	float SetSpeed;
-	float SetDistance;
+  float DistanceFront;
+  float DistanceRear;
+  float TimeDistanceFront;
+  float LeadingCarRelativeSpeed;
+
+  float CurrentSpeed;
+  float Acceleration;
+  float Steering;
+  float SetSpeed;
+  float SetDistance;
 };
 
 struct CarOutputs {
-//  float acceleration;
-//  float steering;
-//  bool headlights;
+  bool ObstacleDetectedWarning;
+  bool ErrorWarning;
+  bool SystemOn;
+  bool SystemActive;
+  bool Scheinwerfer_An;
 
-	bool ObstacleDetectedWarning;
-	bool ErrorWarning;
-	bool SystemOn;
-	bool SystemActive;  
-	bool Scheinwerfer_An;
-	
-	float Acceleration;
-	float Steering;
-	float SetSpeed;
-	float SetDistance;
+  float Acceleration;
+  float Steering;
+  float SetSpeed;
+  float SetDistance;
 };
 } // namespace IO
 } // namespace ACCPlusPlus
