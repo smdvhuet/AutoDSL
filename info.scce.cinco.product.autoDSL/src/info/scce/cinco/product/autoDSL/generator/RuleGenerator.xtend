@@ -86,12 +86,11 @@ class RuleGenerator implements IGenerator<Rule> {
 				
 				using namespace AutoDSL;
 				
-				«rule.name»::«rule.name»() : ACCPlusPlus::Rule() {
+				«rule.name»::«rule.name»() : ACCPlusPlus::Rule()
 					«IF nodeGenerator.importUtilityClass(rule)»//PID Controllers«ENDIF»
 					«FOR pid : rule.PIDControllers»
-					pid«IDHasher.GetStringHash(pid.id)» = ACCPlusPlus::PID(«pid.p», «pid.i», «pid.d»);
-					«ENDFOR»
-				}
+					, pid«IDHasher.GetStringHash(pid.id)»(«pid.p», «pid.i», «pid.d»)
+					«ENDFOR»{}
 				
 				«rule.name»::~«rule.name»() {}
 				
@@ -164,12 +163,11 @@ class RuleGenerator implements IGenerator<Rule> {
 				
 				using namespace AutoDSL;
 				
-				«rule.name»::«rule.name»() : ACCPlusPlus::GuardRule(){
+				«rule.name»::«rule.name»() : ACCPlusPlus::GuardRule()
 					«IF nodeGenerator.importUtilityClass(rule)»//PID Controllers«ENDIF»
 					«FOR pid : rule.PIDControllers»
-					pid«IDHasher.GetStringHash(pid.id)» = ACCPlusPlus::PID(«pid.p», «pid.i», «pid.d»);
-					«ENDFOR»
-				}
+					, pid«IDHasher.GetStringHash(pid.id)»(«pid.p», «pid.i», «pid.d»)
+					«ENDFOR»{}
 				
 				«rule.name»::~«rule.name»() {}
 				

@@ -49,7 +49,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	//TODO get dT for PID
 	override casePIDController(PIDController op)'''
 		//PID Controller
-		double «op.outputs.head.referenceOutput» = pid«IDHasher.GetStringHash(op.id)»->calc(«op.inputs.head.referenceInput», «op.inputs.last.referenceInput», 0.1);
+		double «op.outputs.head.referenceOutput» = pid«IDHasher.GetStringHash(op.id)».calculate(«op.inputs.head.referenceInput», «op.inputs.last.referenceInput», 0.1);
 		
 		«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
@@ -176,7 +176,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	//SubRuleInputs
 	«FOR Input in:rule.inputs»
 		«IF in instanceof NumberSubInput»
-			float «IDHasher.GetStringHash(refIns.next.id)» = «in.referenceInput»;
+			double «IDHasher.GetStringHash(refIns.next.id)» = «in.referenceInput»;
 		«ELSE»
 			«IF in instanceof NumberSubInput»
 				bool «IDHasher.GetStringHash(refIns.next.id)» = «in.referenceInput»;
@@ -197,7 +197,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	//SubRuleOutputs
 	«FOR Output out:rule.outputs»
 		«IF out instanceof NumberSubOutput»
-			float «out.referenceOutput» = «refOuts.next.referenceInput»;
+			double «out.referenceOutput» = «refOuts.next.referenceInput»;
 		«ELSE»
 			«IF out instanceof NumberSubOutput»
 			bool «out.referenceOutput» = «refOuts.next.referenceInput»;
