@@ -12,20 +12,43 @@ appearance redBorder extends default {
 			background (255,255,255)
 } 
 
-nodeStyle storedData (1) {
-	rectangle {
-		appearance {
-			lineWidth 3
-			background (255, 255, 255)
-		}
-		size(140,80)
+
+nodeStyle storedData (3) {
+	roundedRectangle {
+		size(120, 80)
+		corner (10,10)
 		text {
 			position ( CENTER, MIDDLE )
-			value "%s"
+			value "Name: %1$s"
+		}
+		text {
+			position ( CENTER, BOTTOM -10 )
+			value "Default: %2$s"
+		}
+		text {
+			position ( CENTER, TOP 10 )
+			value "Type: %3$s"
 		}
 	}
 }
-
+nodeStyle PID (4) {
+	roundedRectangle {
+		size(150, 80)
+		corner (10,10)
+		text {
+			position ( CENTER, MIDDLE )
+			value "Name: %1$s"
+		}
+		text {
+			position ( CENTER, BOTTOM -10 )
+			value "Parameters: %2$s | %3$s | %4$s"
+		}
+		text {
+			position ( CENTER, TOP 10 )
+			value "PID Controller"
+		}
+	}
+}
 nodeStyle labeledCircle (1){
 	ellipse {
 		appearance default

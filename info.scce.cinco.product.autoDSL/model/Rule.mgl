@@ -25,43 +25,55 @@ graphModel Rule {
 	attr EString as name
 	
 	
-	abstract container Save{
+	abstract container Save extends Operation{
 		incomingEdges(ControlFlow[0,*])
 		outgoingEdges(ControlFlowBasic[0,1])
 	}
 	
-	@palette("Storing / Loading")
-	@style(greenCircle)
-	container SaveBoolean{
+	@style(commutableOperation, "Save: ${data.label}")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	container SaveBoolean extends Save{
+		@pvLabel(label)
+		@pvFileExtension("sharedMemory")
 		prime mem::StoredBoolean as data
-		containableElements(BooleanInput[1,1])
+		containableElements(BooleanInput[1,1],BooleanOutput[0,0], NumberInput[0,0], NumberOutput[0,0])
 		
 	}
 	
-	@palette("Storing / Loading")
-	@style(greenCircle)
-	container SaveNumber{
+	@style(commutableOperation, "Save: ${data.label}")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	container SaveNumber extends Save{
+		@pvLabel(label)
+		@pvFileExtension("sharedMemory")
 		prime mem::StoredNumber as data
-		containableElements(NumberInput[1,1])
+		containableElements(BooleanInput[0,0],BooleanOutput[0,0], NumberInput[1,1], NumberOutput[0,0])
 	}
 	
-	abstract container Load{
+	abstract container Load extends Operation{
 		incomingEdges(ControlFlow[0,*])
 		outgoingEdges(ControlFlowBasic[0,1])
 	}
 	
-	@palette("Storing / Loading")
-	@style(redCircle)
-	container LoadBoolean{
+	@style(commutableOperation, "Load: ${data.label}")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	container LoadBoolean extends Load{
+		@pvLabel(label)
+		@pvFileExtension("sharedMemory")
 		prime mem::StoredBoolean as data
-		containableElements(BooleanOutputPort[1,1])
+		containableElements(BooleanInput[0,0],BooleanOutput[1,1], NumberInput[0,0], NumberOutput[0,0])
 	}
 	
-	@palette("Storing / Loading")
-	@style(redCircle)
-	container LoadNumber{
+	@style(commutableOperation, "Load: ${data.label}")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	container LoadNumber extends Load{
+		@pvLabel(label)
+		@pvFileExtension("sharedMemory")
 		prime mem::StoredNumber as data 
-		containableElements(NumberOutputPort[1,1])
+		containableElements(BooleanInput[0,0],BooleanOutput[0,0], NumberInput[0,0], NumberOutput[1,1])
 	}
 	
 	
@@ -341,7 +353,7 @@ graphModel Rule {
 	abstract container Operation {
 		incomingEdges(ControlFlow[0,*])
 		outgoingEdges(ControlFlowBasic[0,1])
-		containableElements(Input[1,*], Output[0,*]) 
+		containableElements(Input[0,*], Output[0,*]) 
 	}
    
 	abstract container CommutableOperation extends Operation {}
@@ -549,6 +561,20 @@ graphModel Rule {
 		attr EDouble as p
 		attr EDouble as i
 		attr EDouble as d
+		containableElements(
+			BooleanInput[0,0], NumberInput[2,2],
+			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanOutput[0,0], NumberOutput[1,1]
+		)
+	}
+	
+	@style(storedPID, "${data.p}", "${data.i}","${data.d}", "${data.label}")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	container StoredPIDController extends Operation{
+		@pvLabel(label)
+		@pvFileExtension("sharedMemory")
+		prime mem::StoredPIDController as data
 		containableElements(
 			BooleanInput[0,0], NumberInput[2,2],
 			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],

@@ -14,18 +14,21 @@ graphModel SharedMemory {
 		attr EString as label
 	}
 	
-	@style(storedData, "${label}")
+	@style(storedData, "${label}", "${defaultValue}", "Boolean")
 	node StoredBoolean extends StoredData{
 		attr EBoolean as defaultValue
 	}
 	
-	@style(storedData, "${label}")
+	@style(storedData, "${label}", "${defaultValue}", "Number")
 	node StoredNumber extends StoredData{
 		attr EFloat as defaultValue
 	}
 	
-	/*node StoredPIDController extends StoredData{
-		
-	}*/
+	@style(PID, "${label}", "${p}", "${i}", "${d}")
+	node StoredPIDController extends StoredData{
+		attr EDouble as p
+		attr EDouble as i
+		attr EDouble as d
+	}
 }
 

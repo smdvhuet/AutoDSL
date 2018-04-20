@@ -7,6 +7,7 @@ import info.scce.cinco.product.autoDSL.rule.rule.NonCommutableOperation
 import info.scce.cinco.product.autoDSL.rule.rule.Operation
 import info.scce.cinco.product.autoDSL.rule.rule.Output
 import info.scce.cinco.product.autoDSL.rule.rule.PIDController
+import info.scce.cinco.product.autoDSL.rule.rule.StoredPIDController
 
 import static extension info.scce.cinco.product.autoDSL.extensions.IOExtension.*
 
@@ -61,6 +62,7 @@ class LayoutManager {
 		}
 		switch op {
 			PIDController : verticalPlacement += 3 * NODE_HEIGHT
+			StoredPIDController : verticalPlacement += 3 * NODE_HEIGHT
 			// In a NonCommutableOperation the first input is placed above the text. 
 			NonCommutableOperation case io.isFirstInput : verticalPlacement -= NODE_HEIGHT
 		}
@@ -75,6 +77,7 @@ class LayoutManager {
 		var adjusted = ( 1 + op.inputs.size + op.outputs.size ) * NODE_HEIGHT + 2 * CONTAINER_PADDING - 1 
 		switch op {
 			PIDController : adjusted += 3 * NODE_HEIGHT
+			StoredPIDController : adjusted += 3 * NODE_HEIGHT
 		}
 		adjusted
 	}
