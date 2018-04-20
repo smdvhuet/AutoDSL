@@ -37,9 +37,11 @@ class CheckForUnreachableOperations extends RuleCheck{
 		for(decision : rule.decisions){
 			val decisionInput = decision.inputs.head
 			var BooleanOrDynamic decisionTrue
-			switch decisionInput{
-				BooleanInputPort : decisionTrue = decisionInput.origin.staticBooleanValue
-				BooleanStaticInput : decisionTrue = decisionInput.staticValue.booleanValue.toBooleanOrDynamic
+			if(!decisionInput.incoming.isEmpty){
+				switch decisionInput{
+					BooleanInputPort : decisionTrue = decisionInput.origin.staticBooleanValue
+					BooleanStaticInput : decisionTrue = decisionInput.staticValue.booleanValue.toBooleanOrDynamic
+				}
 			}
 			for(outgoing : decision.outgoing){
 				switch outgoing {
