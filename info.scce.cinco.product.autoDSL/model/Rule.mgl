@@ -81,7 +81,7 @@ graphModel Rule {
 	@style(commutableOperation, "${label}")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateSubRule")
 	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
-//	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.openRuleModel")
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.OpenSubRuleModel")
 	container SubRule extends CommutableOperation {
 		@pvFileExtension("rule")
 		prime this::Rule as rule
