@@ -139,6 +139,22 @@ nodeStyle carOutput (2) {
 	}
 }
 
+nodeStyle subInput (2) {
+	rectangle {
+		appearance io
+		size (110,20)
+		image {
+			position (LEFT, MIDDLE)
+			size (fix 16,fix 16)
+			path ( "icons/subRule_In.png" )
+		}
+		text {
+			position ( LEFT 16, MIDDLE)
+			value "%s : %s"			
+		}
+	}
+}
+
 nodeStyle subOutput (2) {
 	rectangle {
 		appearance io
@@ -146,7 +162,7 @@ nodeStyle subOutput (2) {
 		image {
 			position (RIGHT, MIDDLE)
 			size (fix 16,fix 16)
-			path ( "icons/StaticInput.png" )
+			path ( "icons/subRule_out.png" )
 		}
 		text {
 			position ( LEFT, MIDDLE)

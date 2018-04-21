@@ -35,7 +35,7 @@ class CheckSubRuleUpdate extends RuleCheck{
 			NumberSubInput  :  if (find instanceof NumberSubOutput)  streq((find as NumberSubOutput).identifier, it.identifier) else false
 			BooleanSubInput :  if (find instanceof BooleanSubOutput) streq((find as BooleanSubOutput).identifier, it.identifier) else false
 			NumberSubOutput :  if (find instanceof NumberSubInput)   streq((find as NumberSubInput).identifier, it.identifier) else false
-			BooleanSubOutput : if (find instanceof NumberSubInput)   streq((find as BooleanSubInput).identifier, it.identifier) else false
+			BooleanSubOutput : if (find instanceof BooleanSubInput)  streq((find as BooleanSubInput).identifier, it.identifier) else false
 			default: false
 		}]
 	}
