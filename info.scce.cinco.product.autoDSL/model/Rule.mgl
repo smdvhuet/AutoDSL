@@ -108,6 +108,7 @@ graphModel Rule {
 	
 	@style(commutableOperation, "Outputs")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateSubRuleOutputs")
 	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.AddNumberSubInput")
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.AddBooleanSubInput")
