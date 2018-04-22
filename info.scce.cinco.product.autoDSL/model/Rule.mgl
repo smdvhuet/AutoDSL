@@ -17,7 +17,7 @@ graphModel Rule {
 	containableElements(
 		Operation[1,*],
 		SubRuleInputs[0,1],
-		SubRuleOutputs[0,1],
+		SubRuleOutputs[0,*],
 		Comment[0,*],
 		Save[0,*],
 		Load[0,*]
@@ -112,6 +112,7 @@ graphModel Rule {
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.AddNumberSubInput")
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.AddBooleanSubInput")
 	container SubRuleOutputs extends CommutableOperation {
+		outgoingEdges(ControlFlow[0,0])
 		containableElements(
 			BooleanCarInput[0,0], BooleanInputPort[0,0], BooleanStaticInput[0,0], NumberCarInput[0,0], NumberInputPort[0,0], NumberStaticInput[0,0],
 			BooleanSubInput[0,*], NumberSubInput[0,*], 
