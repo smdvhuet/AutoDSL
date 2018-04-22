@@ -40,6 +40,7 @@ import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInput
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInput
 import info.scce.cinco.product.autoDSL.rule.rule.NumberSubOutput
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubOutput
+import java.util.HashMap
 
 class NodeGenerator extends RuleSwitch<CharSequence> {
 	
@@ -168,19 +169,17 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	'''
 	
 	override caseSubRule(SubRule rule)'''
-	«val Iterator<Output> refIns = rule.rule.subRuleInputss.head.outputs.iterator»
-	«val Iterator<Input> refOuts = rule.rule.subRuleOutputss.head.inputs.iterator»
-	//SubRuleInputs
-	«FOR Input in:rule.inputs»
-		«IF in instanceof NumberSubInput»
-			double «IDHasher.GetStringHash(refIns.next.id)» = «in.referenceInput»;
-		«ELSE»
-			«IF in instanceof BooleanSubInput»
-				bool «IDHasher.GetStringHash(refIns.next.id)» = «in.referenceInput»;
-			«ELSE»
-				//input is neither bool nor float
-			«ENDIF»
-		«ENDIF»
+	
+	«val Iterator<BooleanSubOutput> refBoolIns = rule.rule.subRuleInputss.head.booleanSubOutputs.iterator»
+	«val Iterator<NumberSubOutput> refNumberIns = rule.rule.subRuleInputss.head.numberSubOutputs.iterator»
+	«IF !rule.booleanSubInputs.nullOrEmpty»//BooleanSubInputs«ENDIF»
+	«FOR BooleanSubInput in:rule.booleanSubInputs»
+		«refBoolIns.next.referenceOutput» = «in.referenceInput»;
+	«ENDFOR»
+	
+	«IF !rule.numberSubInputs.nullOrEmpty»//NumberSubInputs«ENDIF»
+	«FOR NumberSubInput in:rule.numberSubInputs»
+		«refNumberIns.next.referenceOutput» = «in.referenceInput»;
 	«ENDFOR»
 	
 	//SubRule start
@@ -190,19 +189,6 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 		«ENDIF»
 	«ENDFOR»
 	//SubRule end
-	
-	//SubRuleOutputs
-	«FOR Output out:rule.outputs»
-		«IF out instanceof NumberSubOutput»
-			double «out.referenceOutput» = «refOuts.next.referenceInput»;
-		«ELSE»
-			«IF out instanceof BooleanSubOutput»
-			bool «out.referenceOutput» = «refOuts.next.referenceInput»;
-			«ELSE»
-				//output is neither bool nor float
-			«ENDIF»
-		«ENDIF»
-	«ENDFOR»
 
 	«if(!rule.getSuccessors.nullOrEmpty)rule.getSuccessors.head.doSwitch»
 	'''
@@ -212,13 +198,20 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	'''
 	
 	override caseSubRuleOutputs(SubRuleOutputs out)'''
+	//SubRule Outputs
+	«FOR BooleanSubInput port:out.booleanSubInputs»
+		«IDHasher.GetStringHash(out.rootElement.id)+"_"+port.identifier» = «port.referenceInput»;
+	«ENDFOR»
+	«FOR NumberSubInput port:out.numberSubInputs»
+		«IDHasher.GetStringHash(out.rootElement.id)+"_"+port.identifier» = «port.referenceInput»;
+	«ENDFOR»
 	«if(!out.getSuccessors.nullOrEmpty)out.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseNode(Node n)'''/*Node «n.toString» not found*/
 	«if(!n.getSuccessors.nullOrEmpty)n.getSuccessors.head.doSwitch»
 	'''
-
+	
 	def referenceInput(Input in){
 		switch in{
 			NumberStaticInput :	in.staticValue
@@ -228,7 +221,12 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 			default :	if(in.predecessors.nullOrEmpty){
 							"/*input not a reference*/"
 						}else{
-							IDHasher.GetStringHash(in.predecessors.head.id)
+							val out = in.predecessors.head
+							if(out instanceof Output){
+								out.referenceOutput
+							}else{
+								"/*input is a reference for something thats not an output*/"
+							}
 						}
 		}	
 	}
@@ -237,9 +235,51 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 		switch out{
 			NumberCarOutput :	"output."+out.outputtype.toString
 			BooleanCarOutput:	"output."+out.outputtype.toString
+			NumberSubOutput:	if(out.container instanceof SubRule){
+									IDHasher.GetStringHash((out.container as SubRule).rule.id)+"_"+out.identifier
+								}else{
+									IDHasher.GetStringHash(out.rootElement.id)+"_"+out.identifier
+								}
+			BooleanSubOutput:	if(out.container instanceof SubRule){
+									IDHasher.GetStringHash((out.container as SubRule).rule.id)+"_"+out.identifier
+								}else{
+									IDHasher.GetStringHash(out.rootElement.id)+"_"+out.identifier
+								}
 			default :	IDHasher.GetStringHash(out.id)
 		}	
 	}
+	
+	public def generateSubRulePorts(Rule mainRule)'''
+	«var HashMap<Integer, Rule> knownSubRules = new HashMap<Integer, Rule>()»
+	«FOR rule:mainRule.subRules»
+		«IF !knownSubRules.containsValue(rule.rule)»
+			«knownSubRules.put(IDHasher.GetIntHash(rule.rule.id),rule.rule)»
+			//subRule «IDHasher.GetIntHash(rule.rule.id)»
+			«val Iterator<BooleanSubOutput> refBoolIns = rule.rule.subRuleInputss.head.booleanSubOutputs.iterator»
+			«val Iterator<NumberSubOutput> refNumberIns = rule.rule.subRuleInputss.head.numberSubOutputs.iterator»
+			«IF !rule.booleanSubInputs.nullOrEmpty»//BooleanSubInputs«ENDIF»
+			«FOR BooleanSubInput in:rule.booleanSubInputs»
+				bool «refBoolIns.next.referenceOutput»;
+			«ENDFOR»
+			
+			«IF !rule.numberSubInputs.nullOrEmpty»//NumberSubInputs«ENDIF»
+			«FOR NumberSubInput in:rule.numberSubInputs»
+				double «refNumberIns.next.referenceOutput»;
+			«ENDFOR»
+			
+			«IF !rule.rule.subRuleOutputss.head.booleanSubInputs.nullOrEmpty»//BooleanSubOutputs«ENDIF»
+			«FOR BooleanSubInput out:rule.rule.subRuleOutputss.head.booleanSubInputs»
+				bool «IDHasher.GetStringHash(rule.rule.id)+"_"+out.identifier»;
+			«ENDFOR»
+			
+			«IF !rule.rule.subRuleOutputss.head.numberSubInputs.nullOrEmpty»//NumberSubOutputs«ENDIF»
+			«FOR NumberSubInput out:rule.rule.subRuleOutputss.head.numberSubInputs»
+				double «IDHasher.GetStringHash(rule.rule.id)+"_"+out.identifier»;
+			«ENDFOR»
+			
+		«ENDIF»
+	«ENDFOR»
+	'''
 	
 	def boolean importUtilityClass(Rule rule){
 		return (rule.operations.filter(Minimum) + rule.operations.filter(Maximum)).length > 0

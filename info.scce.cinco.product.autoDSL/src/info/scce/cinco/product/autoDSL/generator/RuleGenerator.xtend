@@ -12,6 +12,12 @@ import java.util.ArrayList
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanGuardOutput
 import info.scce.cinco.product.autoDSL.rule.rule.Comment
 import graphmodel.Node
+import java.util.Iterator
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubOutput
+import info.scce.cinco.product.autoDSL.rule.rule.NumberSubOutput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInput
+import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInput
+
 class RuleGenerator implements IGenerator<Rule> {
 	var IFolder mainFolder
 	
@@ -95,6 +101,8 @@ class RuleGenerator implements IGenerator<Rule> {
 				«rule.name»::~«rule.name»() {}
 				
 				void «rule.name»::Execute(const ACCPlusPlus::IO::CarInputs & input, ACCPlusPlus::IO::CarOutputs & output){
+					«nodeGenerator.generateSubRulePorts(rule)»
+					
 					«nodeGenerator.doSwitch(node)»
 				}
 					
@@ -172,6 +180,8 @@ class RuleGenerator implements IGenerator<Rule> {
 				«rule.name»::~«rule.name»() {}
 				
 				bool «rule.name»::Execute(const ACCPlusPlus::IO::CarInputs & input){
+					«nodeGenerator.generateSubRulePorts(rule)»
+					
 					«nodeGenerator.doSwitch(node)»
 				}
 				
