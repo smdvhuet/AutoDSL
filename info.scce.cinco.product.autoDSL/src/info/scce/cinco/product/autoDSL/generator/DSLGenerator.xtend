@@ -22,12 +22,14 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	var IFolder staticFolder
 	
 	var HashMap<Integer, String> knownRuleTypes =  new HashMap<Integer, String>()
+	var HashMap<Integer, String> knownDSLTypes =  new HashMap<Integer, String>()
 	
 	var HashMap<Integer, String> knownState = new HashMap<Integer, String>()
 	var HashMap<Integer, String> knownGuard = new HashMap<Integer, String>()
 	
 	override generate(AutoDSL dsl, IPath targetDir, IProgressMonitor monitor) {
 		knownRuleTypes.clear();
+		knownDSLTypes.clear();
 		
 		knownState.clear();
 		knownGuard.clear();
@@ -44,8 +46,8 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		
 		generateStatic()
 		
-		EclipseFileUtils.writeToFile(mainFolder.getFile("AutoDSL" + IDHasher.GetStringHash(dsl.id) + ".h"), generateStateMachineHeader(dsl))
-		EclipseFileUtils.writeToFile(mainFolder.getFile("AutoDSL" + IDHasher.GetStringHash(dsl.id) + ".cpp"), generateStateMachineBody(dsl))
+		EclipseFileUtils.writeToFile(mainFolder.getFile(getDSLClassName(dsl) + ".h"), generateStateMachineHeader(dsl))
+		EclipseFileUtils.writeToFile(mainFolder.getFile(getDSLClassName(dsl) + ".cpp"), generateStateMachineBody(dsl))
 	}
 	
 	def generateStatic(){
@@ -73,8 +75,8 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 //							GENERATE DSL HEADER AND BODY	
 //*********************************************************************************		
 	private def generateStateMachineHeader(AutoDSL dsl)'''
-	#ifndef AUTODSL_AUTODSL«IDHasher.GetStringHash(dsl.id).toUpperCase()»_H_
-	#define AUTODSL_AUTODSL«IDHasher.GetStringHash(dsl.id).toUpperCase()»_H_
+	#ifndef AUTODSL_«getDSLClassName(dsl).toUpperCase()»_H_
+	#define AUTODSL_«getDSLClassName(dsl).toUpperCase()»_H_
 	
 	#include "core/StateMachine.h"
 	
@@ -82,10 +84,10 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	
 	namespace AutoDSL{
 	
-	class AutoDSL«IDHasher.GetStringHash(dsl.id)» : public StateMachine{
+	class «getDSLClassName(dsl)» : public StateMachine{
 	public:
-	  AutoDSL«IDHasher.GetStringHash(dsl.id)»();
-	  ~AutoDSL«IDHasher.GetStringHash(dsl.id)»();
+	  «getDSLClassName(dsl)»();
+	  ~«getDSLClassName(dsl)»();
 		
 	private:
 	  «if(dsl.offStates.length() > 0) generateOffStateVars(dsl)»
@@ -95,17 +97,17 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	  «if(dsl.guards.length() > 0) generateGuardVars(dsl)»
 	};
 	} // namespace AutoDSL
-	#endif // AUTODSL_AUTODSL«IDHasher.GetStringHash(dsl.id)»_H_
+	#endif // AUTODSL_«getDSLClassName(dsl).toUpperCase()»H_
 	'''
 	
 	private def generateStateMachineBody(AutoDSL dsl)'''
-	#include "AutoDSL«IDHasher.GetStringHash(dsl.id)».h"
+	#include "«getDSLClassName(dsl)».h"
 	
 	«getIncludes(dsl)»
 	
 	using namespace AutoDSL;
 	
-	AutoDSL«IDHasher.GetStringHash(dsl.id)»::AutoDSL«IDHasher.GetStringHash(dsl.id)»(){
+	«getDSLClassName(dsl)»::«getDSLClassName(dsl)»(){
 	  «if(dsl.offStates.length() > 0) initAllOffStates(dsl)»
 	  
 	  «if(dsl.states.length() > 0) initAllStates(dsl)»
@@ -117,7 +119,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	  «if(dsl.offStates.length > 0) chooseEntryState(dsl)»
 	}
 	
-	AutoDSL«IDHasher.GetStringHash(dsl.id)»::~AutoDSL«IDHasher.GetStringHash(dsl.id)»(){
+	«getDSLClassName(dsl)»::~«getDSLClassName(dsl)»(){
 	  «if(dsl.offStates.length() > 0) deleteOffStateVars(dsl)»
 	 
 	  «if(dsl.states.length() > 0) deleteStateVars(dsl)»
@@ -238,8 +240,28 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	}	
 	
 //*********************************************************************************
-//								GENERATE RULE AND GUARD CLASS
+//								GENERATE CLASS NAMES
 //*********************************************************************************
+	private def getDSLClassName(AutoDSL dsl){
+	  var id = 	IDHasher.GetIntHash(dsl.id);
+	  var name = knownDSLTypes.get(id);
+	  
+	  if(name == null){
+	  	var String[] names = dsl.eResource().getURI().lastSegment().split(".autodsl").get(0).split("_")
+	  	
+	  	name = "";
+	  	for(String n : names) {
+	  		name = name + n.toFirstUpper
+	  	}
+	  	
+	  	//safe the dsltype name
+	  	knownDSLTypes.put(IDHasher.GetIntHash(name), name)
+	  }
+		
+	  return name;
+	}
+
+
 	private def getRuleClassName(Rule rule){
 	  var id = 	IDHasher.GetIntHash(rule.id);
 	  var name = knownRuleTypes.get(id);

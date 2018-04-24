@@ -12,11 +12,6 @@ import java.util.ArrayList
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanGuardOutput
 import info.scce.cinco.product.autoDSL.rule.rule.Comment
 import graphmodel.Node
-import java.util.Iterator
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubOutput
-import info.scce.cinco.product.autoDSL.rule.rule.NumberSubOutput
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInput
-import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInput
 
 class RuleGenerator implements IGenerator<Rule> {
 	var IFolder mainFolder
@@ -53,7 +48,7 @@ class RuleGenerator implements IGenerator<Rule> {
 			#define AUTODSL_«rule.name.toUpperCase()»_H_
 			
 			#include "core/Rule.h"
-			#include "IO.h"
+			#include "core/IO.h"
 			«IF nodeGenerator.importPIDClass(rule)»#include "core/PID.h"«ENDIF»
 			«IF nodeGenerator.importUtilityClass(rule)»#include "core/Utility.h"«ENDIF»
 			
