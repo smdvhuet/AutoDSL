@@ -76,19 +76,21 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseMaximum(Maximum op)'''
 	//Max Operator
+	«var i = 0»
 	double[] «IDHasher.GetStringHash(op.id)» = {«FOR  input : op.inputs SEPARATOR ','»«
-						input.referenceInput»«
+						input.referenceInput»«i++»«
 						ENDFOR»};
-	double «op.outputs.head.referenceOutput» = Utility.max(«IDHasher.GetStringHash(op.id)»);
+	double «op.outputs.head.referenceOutput» = ACCPlusPlus::Utility::max(«IDHasher.GetStringHash(op.id)»,«i»);
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseMinimum(Minimum op)'''
 	//Min Operator
+		«var i = 0»
 	double[] «IDHasher.GetStringHash(op.id)» = {«FOR  input : op.inputs SEPARATOR ','»«
-							input.referenceInput»«
+							input.referenceInput»«i++»«
 						ENDFOR»};
-	double «op.outputs.head.referenceOutput» = Utility.min(«IDHasher.GetStringHash(op.id)»);
+	double «op.outputs.head.referenceOutput» = ACCPlusPlus::Utility::min(«IDHasher.GetStringHash(op.id)»,«i»);
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
