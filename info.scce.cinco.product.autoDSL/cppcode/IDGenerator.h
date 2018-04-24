@@ -1,6 +1,8 @@
 #ifndef ACCPLUSPLUS_IDGENERATOR_H_
 #define ACCPLUSPLUS_IDGENERATOR_H_
 
+#include <cstddef>
+
 namespace ACCPlusPlus {
 namespace Utility {
 

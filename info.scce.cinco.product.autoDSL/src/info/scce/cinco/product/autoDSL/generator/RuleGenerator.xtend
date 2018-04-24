@@ -53,7 +53,7 @@ class RuleGenerator implements IGenerator<Rule> {
 			#define AUTODSL_«rule.name.toUpperCase()»_H_
 			
 			#include "core/Rule.h"
-			#include "IO.h"
+			#include "core/IO.h"
 			«IF nodeGenerator.importPIDClass(rule)»#include "core/PID.h"«ENDIF»
 			«IF nodeGenerator.importUtilityClass(rule)»#include "core/Utility.h"«ENDIF»
 			
