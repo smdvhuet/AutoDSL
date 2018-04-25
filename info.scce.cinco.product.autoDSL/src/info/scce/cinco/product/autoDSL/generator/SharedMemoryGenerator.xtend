@@ -122,11 +122,13 @@ class SharedMemoryGenerator  implements IGenerator<AutoDSL> {
 	
 	def generateCPP(ArrayList<SharedMemory> memories)'''
 	#include "SharedMemory.h"
-	using namespace AutoDSL;
-	using namespace SharedMemory;
+	namespace AutoDSL{
+	namespace SharedMemory{
 	«FOR memory:memories»
 		«memory.memoryName» g«memory.memoryName»_var;
 	«ENDFOR»
+	}
+	}
 	'''
 	
 	def getMemoryName(SharedMemory memory){
