@@ -102,17 +102,17 @@ class SharedMemoryGenerator  implements IGenerator<AutoDSL> {
 		struct «memory.memoryName»{
 			//bools
 			«FOR bool:memory.storedBooleans»
-			bool «bool.label» = «bool.defaultValue»;
+			static bool «bool.label» = «bool.defaultValue»;
 			«ENDFOR»
 			
 			//numbers
 			«FOR number:memory.storedNumbers»
-			double «number.label» = «number.defaultValue»;
+			static double «number.label» = «number.defaultValue»;
 			«ENDFOR»
 			
 			//PIDs
 			«FOR pid:memory.storedPIDControllers»
-			bool «pid.label»(«pid.p»,«pid.i»,«pid.d»)
+			static PID «pid.label»(«pid.p»,«pid.i»,«pid.d»)
 			«ENDFOR»
 		};
 		«ENDFOR»

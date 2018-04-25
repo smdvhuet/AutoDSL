@@ -11,16 +11,16 @@ struct CarInputs {
   bool HasSteeringError;
   bool HasGearboxError;
 
-  float DistanceFront;
-  float DistanceRear;
-  float TimeDistanceFront;
-  float LeadingCarRelativeSpeed;
+  double DistanceFront;
+  double DistanceRear;
+  double TimeDistanceFront;
+  double LeadingCarRelativeSpeed;
 
-  float CurrentSpeed;
-  float Acceleration;
-  float Steering;
-  float SetSpeed;
-  float SetDistance;
+  double CurrentSpeed;
+  double Acceleration;
+  double Steering;
+  double SetSpeed;
+  double SetDistance;
 };
 
 struct CarOutputs {
@@ -30,10 +30,10 @@ struct CarOutputs {
   bool SystemActive;
   bool Scheinwerfer_An;
 
-  float Acceleration;
-  float Steering;
-  float SetSpeed;
-  float SetDistance;
+  double Acceleration;
+  double Steering;
+  double SetSpeed;
+  double SetDistance;
 };
 } // namespace IO
 } // namespace ACCPlusPlus

@@ -231,13 +231,13 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseSaveNumber(SaveNumber save)'''
 	//Saving Data
-	SharedMemory::«save.data.rootElement.memoryName».«save.data.label» = «save.inputs.head.referenceInput»
+	SharedMemory::«save.data.rootElement.memoryName».«save.data.label» = «save.inputs.head.referenceInput»;
 	«if(!save.getSuccessors.nullOrEmpty)save.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseSaveBoolean(SaveBoolean save)'''
 	//Saving Data
-	SharedMemory::«save.data.rootElement.memoryName».«save.data.label» = «save.inputs.head.referenceInput»
+	SharedMemory::«save.data.rootElement.memoryName».«save.data.label» = «save.inputs.head.referenceInput»;
 	«if(!save.getSuccessors.nullOrEmpty)save.getSuccessors.head.doSwitch»
 	'''
 	
@@ -291,9 +291,9 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 									IDHasher.GetStringHash(out.rootElement.id)+"_"+out.identifier
 								}
 			default :	if(out.container instanceof LoadBoolean){
-							"SharedMemory::"+(out.container as LoadBoolean).data.rootElement.memoryName+(out.container as LoadBoolean).data.label
+							"SharedMemory::"+(out.container as LoadBoolean).data.rootElement.memoryName+"."+(out.container as LoadBoolean).data.label
 						}else if(out.container instanceof LoadNumber){
-							"SharedMemory::"+(out.container as LoadNumber).data.rootElement.memoryName+(out.container as LoadNumber).data.label
+							"SharedMemory::"+(out.container as LoadNumber).data.rootElement.memoryName+"."+(out.container as LoadNumber).data.label
 						}else{
 							IDHasher.GetStringHash(out.id)
 						}
