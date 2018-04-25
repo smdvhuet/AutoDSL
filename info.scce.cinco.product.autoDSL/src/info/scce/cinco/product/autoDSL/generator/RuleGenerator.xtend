@@ -49,8 +49,7 @@ class RuleGenerator implements IGenerator<Rule> {
 			
 			#include "core/Rule.h"
 			#include "core/IO.h"
-			«IF nodeGenerator.importPIDClass(rule)»#include "core/PID.h"«ENDIF»
-			«IF nodeGenerator.importUtilityClass(rule)»#include "core/Utility.h"«ENDIF»
+			#include "core/PID.h"
 			
 			namespace AutoDSL{
 			class «rule.name» : public ACCPlusPlus::Rule{
@@ -84,6 +83,9 @@ class RuleGenerator implements IGenerator<Rule> {
 				return
 				'''	
 				#include "«rule.name».h"
+				
+				#include "core/Utility.h"
+				#include "SharedMemory.h"
 				
 				using namespace AutoDSL;
 				
@@ -128,9 +130,7 @@ class RuleGenerator implements IGenerator<Rule> {
 				
 				#include "core/GuardRule.h"
 				#include "core/IO.h"
-				«IF nodeGenerator.importPIDClass(rule)»#include "core/PID.h"«ENDIF»
-				«IF nodeGenerator.importUtilityClass(rule)»#include "core/Utility.h"«ENDIF»
-				«IF nodeGenerator.importSharedMemory(rule)»#include "SharedMemory.h"«ENDIF»
+				#include "core/PID.h"
 			
 				namespace AutoDSL{
 				class «rule.name» : public ACCPlusPlus::GuardRule{
@@ -164,6 +164,9 @@ class RuleGenerator implements IGenerator<Rule> {
 				return
 				'''	
 				#include "«rule.name».h"
+				
+				#include "core/Utility.h"
+				#include "SharedMemory.h"
 				
 				using namespace AutoDSL;
 				
