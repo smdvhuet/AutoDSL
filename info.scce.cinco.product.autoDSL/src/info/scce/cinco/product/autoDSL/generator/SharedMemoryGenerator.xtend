@@ -93,7 +93,7 @@ class SharedMemoryGenerator  implements IGenerator<AutoDSL> {
 	#ifndef AUTODSL_SHAREDMEMORY_H_
 	#define AUTODSL_SHAREDMEMORY_H_
 	
-	#include "PID.h"
+	#include "core/PID.h"
 	namespace AutoDSL{
 	namespace SharedMemory{
 		«FOR memory:memories»
@@ -110,10 +110,10 @@ class SharedMemoryGenerator  implements IGenerator<AutoDSL> {
 			
 			//PIDs
 			«FOR pid:memory.storedPIDControllers»
-			AcCCPlusPlus::PID «pid.label»(«pid.p»,«pid.i»,«pid.d»)
+			ACCPlusPlus::PID «pid.label»{«pid.p»,«pid.i»,«pid.d»};
 			«ENDFOR»
 		};
-		extern «memory.memoryName» «memory.memoryName»_var;
+		extern «memory.memoryName» g«memory.memoryName»_var;
 		«ENDFOR»
 	}
 	}
@@ -122,8 +122,10 @@ class SharedMemoryGenerator  implements IGenerator<AutoDSL> {
 	
 	def generateCPP(ArrayList<SharedMemory> memories)'''
 	#include "SharedMemory.h"
+	using namespace AutoDSL;
+	using namespace SharedMemory;
 	«FOR memory:memories»
-		«memory.memoryName» «memory.memoryName»_var;
+		«memory.memoryName» g«memory.memoryName»_var;
 	«ENDFOR»
 	'''
 	

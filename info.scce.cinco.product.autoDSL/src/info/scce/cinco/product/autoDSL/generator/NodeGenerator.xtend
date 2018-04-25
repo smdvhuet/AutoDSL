@@ -231,7 +231,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseSaveNumber(SaveNumber save)'''
 	//Saving Data
-	SharedMemory::«save.data.rootElement.memoryName»_var.«save.data.label» = «save.inputs.head.referenceInput»;
+	SharedMemory::«save.data.rootElement.memoryName».«save.data.label» = «save.inputs.head.referenceInput»;
 	«if(!save.getSuccessors.nullOrEmpty)save.getSuccessors.head.doSwitch»
 	'''
 	
@@ -308,25 +308,29 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 			//subRule «IDHasher.GetIntHash(rule.rule.id)»
 			«val Iterator<BooleanSubOutput> refBoolIns = rule.rule.subRuleInputss.head.booleanSubOutputs.iterator»
 			«val Iterator<NumberSubOutput> refNumberIns = rule.rule.subRuleInputss.head.numberSubOutputs.iterator»
-			«IF !rule.booleanSubInputs.nullOrEmpty»//BooleanSubInputs«ENDIF»
+			«IF !rule.booleanSubInputs.nullOrEmpty»//BooleanSubInputs
 			«FOR BooleanSubInput in:rule.booleanSubInputs»
 				bool «refBoolIns.next.referenceOutput»;
 			«ENDFOR»
+			«ENDIF»
 			
-			«IF !rule.numberSubInputs.nullOrEmpty»//NumberSubInputs«ENDIF»
+			«IF !rule.numberSubInputs.nullOrEmpty»//NumberSubInputs
 			«FOR NumberSubInput in:rule.numberSubInputs»
 				double «refNumberIns.next.referenceOutput»;
 			«ENDFOR»
+			«ENDIF»
 			
-			«IF !rule.rule.subRuleOutputss.head.booleanSubInputs.nullOrEmpty»//BooleanSubOutputs«ENDIF»
+			«IF !rule.rule.subRuleOutputss.head.booleanSubInputs.nullOrEmpty»//BooleanSubOutputs
 			«FOR BooleanSubInput out:rule.rule.subRuleOutputss.head.booleanSubInputs»
 				bool «IDHasher.GetStringHash(rule.rule.id)+"_"+out.identifier»;
 			«ENDFOR»
+			«ENDIF»
 			
-			«IF !rule.rule.subRuleOutputss.head.numberSubInputs.nullOrEmpty»//NumberSubOutputs«ENDIF»
+			«IF !rule.rule.subRuleOutputss.head.numberSubInputs.nullOrEmpty»//NumberSubOutputs
 			«FOR NumberSubInput out:rule.rule.subRuleOutputss.head.numberSubInputs»
 				double «IDHasher.GetStringHash(rule.rule.id)+"_"+out.identifier»;
 			«ENDFOR»
+			«ENDIF»
 			
 		«ENDIF»
 	«ENDFOR»
@@ -348,6 +352,6 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 		  	knownMemory.put(IDHasher.GetIntHash(name), name)
 		}
 			
-		return name+"_var";
+		return "g"+name+"_var";
 	}
 }
