@@ -131,7 +131,7 @@ class RuleGenerator implements IGenerator<Rule> {
 				#include "core/GuardRule.h"
 				#include "core/IO.h"
 				#include "core/PID.h"
-			
+
 				namespace AutoDSL{
 				class «rule.name» : public ACCPlusPlus::GuardRule{
 				 public: 
@@ -145,8 +145,8 @@ class RuleGenerator implements IGenerator<Rule> {
 				  inline std::string getName(){
 				    return "«rule.name»";
 				  }
-			
-			    private:
+				
+				private:
 				 «IF nodeGenerator.importUtilityClass(rule)»//PID Controllers«ENDIF»
 				 «FOR pid : rule.PIDControllers»
 				 ACCPlusPlus::PID pid«IDHasher.GetStringHash(pid.id)»;
