@@ -83,7 +83,7 @@ class SharedMemoryGenerator  implements IGenerator<AutoDSL> {
 		srcFolders.add("src-gen")
 		
 		val IProject project = ProjectCreator.getProject(dsl.eResource)
-		var IFolder mainFolder = project.getFolder("src-gen")
+		var IFolder mainFolder = project.getFolder("src-gen/core")
 		EclipseFileUtils.mkdirs(mainFolder,monitor)
 		EclipseFileUtils.writeToFile(mainFolder.getFile("SharedMemory.h"), generateStruct(sharedMemories))
 	}
@@ -92,11 +92,11 @@ class SharedMemoryGenerator  implements IGenerator<AutoDSL> {
 //							generating SharedMemory.h
 //*********************************************************************************
 	def generateStruct(ArrayList<SharedMemory> memories)'''
-	#ifndef SHARED_MEMORY_H_
-	#define SHARED_MEMORY_H_
+	#ifndef ACCPLUSPLUS_SHAREDMEMORY_H_
+	#define ACCPLUSPLUS_SHAREDMEMORY_H_
 	
-	#include "core/PID.h"
-	
+	#include "PID.h"
+	namespace ACCPlusPlus{
 	namespace SharedMemory{
 		«FOR memory:memories»
 		struct «memory.memoryName»{
@@ -116,6 +116,7 @@ class SharedMemoryGenerator  implements IGenerator<AutoDSL> {
 			«ENDFOR»
 		};
 		«ENDFOR»
+	}
 	}
 	#endif
 	'''
