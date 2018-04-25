@@ -48,9 +48,11 @@ import info.scce.cinco.product.autoDSL.rule.rule.SaveNumber
 import info.scce.cinco.product.autoDSL.rule.rule.SaveBoolean
 import info.scce.cinco.product.autoDSL.rule.rule.LoadBoolean
 import info.scce.cinco.product.autoDSL.rule.rule.LoadNumber
+import info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory.SharedMemory
 
 class NodeGenerator extends RuleSwitch<CharSequence> {
 	
+	var HashMap<Integer, String> knownMemory =  new HashMap<Integer, String>()
 	
 	override casePIDController(PIDController op)'''
 		//PID Controller
@@ -83,21 +85,19 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseMaximum(Maximum op)'''
 	//Max Operator
-	«var i = 0»
 	double «IDHasher.GetStringHash(op.id)»[] = {«FOR  input : op.inputs SEPARATOR ','»«
-						input.referenceInput»«i++»«
+						input.referenceInput»«
 						ENDFOR»};
-	double «op.outputs.head.referenceOutput» = ACCPlusPlus::Utility::max(«IDHasher.GetStringHash(op.id)»,«i»);
+	double «op.outputs.head.referenceOutput» = ACCPlusPlus::Utility::max(«IDHasher.GetStringHash(op.id)»,«op.inputs.length»);
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseMinimum(Minimum op)'''
 	//Min Operator
-		«var i = 0»
 	double «IDHasher.GetStringHash(op.id)»[] = {«FOR  input : op.inputs SEPARATOR ','»«
-							input.referenceInput»«i++»«
+							input.referenceInput»«
 						ENDFOR»};
-	double «op.outputs.head.referenceOutput» = ACCPlusPlus::Utility::min(«IDHasher.GetStringHash(op.id)»,«i»);
+	double «op.outputs.head.referenceOutput» = ACCPlusPlus::Utility::min(«IDHasher.GetStringHash(op.id)»,«op.inputs.length»);
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
@@ -182,12 +182,12 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	«val Iterator<BooleanSubOutput> refBoolIns = rule.rule.subRuleInputss.head.booleanSubOutputs.iterator»
 	«val Iterator<NumberSubOutput> refNumberIns = rule.rule.subRuleInputss.head.numberSubOutputs.iterator»
 	«IF !rule.booleanSubInputs.nullOrEmpty»//BooleanSubInputs«ENDIF»
-	«FOR BooleanSubInput in:rule.booleanSubInputs»
+	«FOR in:rule.booleanSubInputs»
 		«refBoolIns.next.referenceOutput» = «in.referenceInput»;
 	«ENDFOR»
 	
 	«IF !rule.numberSubInputs.nullOrEmpty»//NumberSubInputs«ENDIF»
-	«FOR NumberSubInput in:rule.numberSubInputs»
+	«FOR in:rule.numberSubInputs»
 		«refNumberIns.next.referenceOutput» = «in.referenceInput»;
 	«ENDFOR»
 	
@@ -198,6 +198,18 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 		«ENDIF»
 	«ENDFOR»
 	//SubRule end
+	
+	«val Iterator<BooleanSubInput> refBoolOuts = rule.rule.subRuleOutputss.head.booleanSubInputs.iterator»
+	«val Iterator<NumberSubInput> refNumberOuts = rule.rule.subRuleOutputss.head.numberSubInputs.iterator»
+	«IF !rule.booleanSubOutputs.nullOrEmpty»//BooleanSubOutputs«ENDIF»
+	«FOR out:rule.booleanSubOutputs»
+		bool «out.referenceOutput» = «refBoolOuts.next.referenceInput»;
+	«ENDFOR»
+	
+	«IF !rule.numberSubOutputs.nullOrEmpty»//NumberSubOutputs«ENDIF»
+	«FOR out:rule.numberSubOutputs»
+		double «out.referenceOutput» = «refNumberOuts.next.referenceInput»;
+	«ENDFOR»
 
 	«if(!rule.getSuccessors.nullOrEmpty)rule.getSuccessors.head.doSwitch»
 	'''
@@ -219,25 +231,13 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseSaveNumber(SaveNumber save)'''
 	//Saving Data
-	«var memory = save.data.rootElement»
-	«var String[] names = memory.eResource().getURI().lastSegment().split(".sharedMemory").get(0).split("_")»
-	«var name = ""»
-	«FOR String n : names»
-		«name = name + n.toFirstUpper»
-	«ENDFOR»
-	SharedMemory::«name».«save.data.label» = «save.inputs.head.referenceInput»
+	SharedMemory::«save.data.rootElement.memoryName».«save.data.label» = «save.inputs.head.referenceInput»
 	«if(!save.getSuccessors.nullOrEmpty)save.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseSaveBoolean(SaveBoolean save)'''
 	//Saving Data
-	«var memory = save.data.rootElement»
-	«var String[] names = memory.eResource().getURI().lastSegment().split(".sharedMemory").get(0).split("_")»
-	«var name = ""»
-	«FOR String n : names»
-		«name = name + n.toFirstUpper»
-	«ENDFOR»
-	SharedMemory::«name».«save.data.label» = «save.inputs.head.referenceInput»
+	SharedMemory::«save.data.rootElement.memoryName».«save.data.label» = «save.inputs.head.referenceInput»
 	«if(!save.getSuccessors.nullOrEmpty)save.getSuccessors.head.doSwitch»
 	'''
 	
@@ -248,13 +248,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseStoredPIDController(StoredPIDController pid)'''
 	//Stored PID
-		«var memory = pid.data.rootElement»
-		«var String[] names = memory.eResource().getURI().lastSegment().split(".sharedMemory").get(0).split("_")»
-		«var name = ""»
-		«FOR String n : names»
-			«name = name + n.toFirstUpper»
-		«ENDFOR»
-	double «pid.outputs.head.referenceOutput» = SharedMemory::«name».«pid.data.label».calculate(«pid.inputs.head.referenceInput», «pid.inputs.last.referenceInput», 0.1);
+	double «pid.outputs.head.referenceOutput» = SharedMemory::«pid.data.rootElement.memoryName».«pid.data.label».calculate(«pid.inputs.head.referenceInput», «pid.inputs.last.referenceInput», 0.1);
 	
 	«if(!pid.getSuccessors.nullOrEmpty)pid.getSuccessors.head.doSwitch»
 	'''
@@ -287,31 +281,19 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 			NumberCarOutput :	"output."+out.outputtype.toString
 			BooleanCarOutput:	"output."+out.outputtype.toString
 			NumberSubOutput:	if(out.container instanceof SubRule){
-									IDHasher.GetStringHash((out.container as SubRule).rule.id)+"_"+out.identifier
+									IDHasher.GetStringHash(out.id)
 								}else{
 									IDHasher.GetStringHash(out.rootElement.id)+"_"+out.identifier
 								}
 			BooleanSubOutput:	if(out.container instanceof SubRule){
-									IDHasher.GetStringHash((out.container as SubRule).rule.id)+"_"+out.identifier
+									IDHasher.GetStringHash(out.id)
 								}else{
 									IDHasher.GetStringHash(out.rootElement.id)+"_"+out.identifier
 								}
 			default :	if(out.container instanceof LoadBoolean){
-							var memory = (out.container as LoadBoolean).data.rootElement
-							var String[] names = memory.eResource().getURI().lastSegment().split(".sharedMemory").get(0).split("_")
-						  	var name = "";
-						  	for(String n : names) {
-						  		name = name + n.toFirstUpper
-						  	}
-							"SharedMemory::"+name+(out.container as LoadBoolean).data.label
+							"SharedMemory::"+(out.container as LoadBoolean).data.rootElement.memoryName+(out.container as LoadBoolean).data.label
 						}else if(out.container instanceof LoadNumber){
-							var memory = (out.container as LoadNumber).data.rootElement
-							var String[] names = memory.eResource().getURI().lastSegment().split(".sharedMemory").get(0).split("_")
-						  	var name = "";
-						  	for(String n : names) {
-						  		name = name + n.toFirstUpper
-						  	}
-							"SharedMemory::"+name+(out.container as LoadNumber).data.label
+							"SharedMemory::"+(out.container as LoadNumber).data.rootElement.memoryName+(out.container as LoadNumber).data.label
 						}else{
 							IDHasher.GetStringHash(out.id)
 						}
@@ -350,15 +332,22 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	«ENDFOR»
 	'''
 	
-	def boolean importUtilityClass(Rule rule){
-		return (rule.operations.filter(Minimum) + rule.operations.filter(Maximum)).length > 0
-	}
-	
-	def boolean importPIDClass(Rule rule){
-		return rule.operations.filter(PIDController).length > 0
-	}
-	
-	def boolean importSharedMemory(Rule rule){
-		return (rule.operations.filter(StoredPIDController) + rule.operations.filter(Load) + rule.operations.filter(Save)).length > 0
+	def getMemoryName(SharedMemory memory){
+		var id = 	IDHasher.GetIntHash(memory.id);
+		var name = knownMemory.get(id);
+		  
+		if(name == null){
+		var String[] names = memory.eResource().getURI().lastSegment().split(".sharedMemory").get(0).split("_")
+		
+		name = "";
+		for(String n : names) {
+			name = name + n.toFirstUpper
+		}
+		
+		//safe the memory name
+		  	knownMemory.put(IDHasher.GetIntHash(name), name)
+		}
+			
+		return name;
 	}
 }
