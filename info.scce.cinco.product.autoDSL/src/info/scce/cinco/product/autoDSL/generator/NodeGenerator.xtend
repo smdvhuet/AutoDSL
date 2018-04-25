@@ -41,6 +41,13 @@ import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInput
 import info.scce.cinco.product.autoDSL.rule.rule.NumberSubOutput
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubOutput
 import java.util.HashMap
+import info.scce.cinco.product.autoDSL.rule.rule.Save
+import info.scce.cinco.product.autoDSL.rule.rule.Load
+import info.scce.cinco.product.autoDSL.rule.rule.StoredPIDController
+import info.scce.cinco.product.autoDSL.rule.rule.SaveNumber
+import info.scce.cinco.product.autoDSL.rule.rule.SaveBoolean
+import info.scce.cinco.product.autoDSL.rule.rule.LoadBoolean
+import info.scce.cinco.product.autoDSL.rule.rule.LoadNumber
 
 class NodeGenerator extends RuleSwitch<CharSequence> {
 	
@@ -210,6 +217,48 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	«if(!out.getSuccessors.nullOrEmpty)out.getSuccessors.head.doSwitch»
 	'''
 	
+	override caseSaveNumber(SaveNumber save)'''
+	//Saving Data
+	«var memory = save.data.rootElement»
+	«var String[] names = memory.eResource().getURI().lastSegment().split(".sharedMemory").get(0).split("_")»
+	«var name = ""»
+	«FOR String n : names»
+		«name = name + n.toFirstUpper»
+	«ENDFOR»
+	SharedMemory::«name».«save.data.label» = «save.inputs.head.referenceInput»
+	«if(!save.getSuccessors.nullOrEmpty)save.getSuccessors.head.doSwitch»
+	'''
+	
+	override caseSaveBoolean(SaveBoolean save)'''
+	//Saving Data
+	«var memory = save.data.rootElement»
+	«var String[] names = memory.eResource().getURI().lastSegment().split(".sharedMemory").get(0).split("_")»
+	«var name = ""»
+	«FOR String n : names»
+		«name = name + n.toFirstUpper»
+	«ENDFOR»
+	SharedMemory::«name».«save.data.label» = «save.inputs.head.referenceInput»
+	«if(!save.getSuccessors.nullOrEmpty)save.getSuccessors.head.doSwitch»
+	'''
+	
+	override caseLoad(Load load)'''
+	«if(!load.getSuccessors.nullOrEmpty)load.getSuccessors.head.doSwitch»
+	'''
+	
+	
+	override caseStoredPIDController(StoredPIDController pid)'''
+	//Stored PID
+		«var memory = pid.data.rootElement»
+		«var String[] names = memory.eResource().getURI().lastSegment().split(".sharedMemory").get(0).split("_")»
+		«var name = ""»
+		«FOR String n : names»
+			«name = name + n.toFirstUpper»
+		«ENDFOR»
+	double «pid.outputs.head.referenceOutput» = SharedMemory::«name».«pid.data.label».calculate(«pid.inputs.head.referenceInput», «pid.inputs.last.referenceInput», 0.1);
+	
+	«if(!pid.getSuccessors.nullOrEmpty)pid.getSuccessors.head.doSwitch»
+	'''
+	
 	override caseNode(Node n)'''/*Node «n.toString» not found*/
 	«if(!n.getSuccessors.nullOrEmpty)n.getSuccessors.head.doSwitch»
 	'''
@@ -247,7 +296,25 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 								}else{
 									IDHasher.GetStringHash(out.rootElement.id)+"_"+out.identifier
 								}
-			default :	IDHasher.GetStringHash(out.id)
+			default :	if(out.container instanceof LoadBoolean){
+							var memory = (out.container as LoadBoolean).data.rootElement
+							var String[] names = memory.eResource().getURI().lastSegment().split(".sharedMemory").get(0).split("_")
+						  	var name = "";
+						  	for(String n : names) {
+						  		name = name + n.toFirstUpper
+						  	}
+							"SharedMemory::"+name+(out.container as LoadBoolean).data.label
+						}else if(out.container instanceof LoadNumber){
+							var memory = (out.container as LoadNumber).data.rootElement
+							var String[] names = memory.eResource().getURI().lastSegment().split(".sharedMemory").get(0).split("_")
+						  	var name = "";
+						  	for(String n : names) {
+						  		name = name + n.toFirstUpper
+						  	}
+							"SharedMemory::"+name+(out.container as LoadNumber).data.label
+						}else{
+							IDHasher.GetStringHash(out.id)
+						}
 		}	
 	}
 	
@@ -289,5 +356,9 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	def boolean importPIDClass(Rule rule){
 		return rule.operations.filter(PIDController).length > 0
+	}
+	
+	def boolean importSharedMemory(Rule rule){
+		return (rule.operations.filter(StoredPIDController) + rule.operations.filter(Load) + rule.operations.filter(Save)).length > 0
 	}
 }
