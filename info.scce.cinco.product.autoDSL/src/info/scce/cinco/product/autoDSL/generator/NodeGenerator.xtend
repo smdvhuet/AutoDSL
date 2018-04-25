@@ -231,7 +231,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseSaveNumber(SaveNumber save)'''
 	//Saving Data
-	SharedMemory::«save.data.rootElement.memoryName».«save.data.label» = «save.inputs.head.referenceInput»;
+	SharedMemory::«save.data.rootElement.memoryName»_var.«save.data.label» = «save.inputs.head.referenceInput»;
 	«if(!save.getSuccessors.nullOrEmpty)save.getSuccessors.head.doSwitch»
 	'''
 	
@@ -348,6 +348,6 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 		  	knownMemory.put(IDHasher.GetIntHash(name), name)
 		}
 			
-		return name;
+		return name+"_var";
 	}
 }

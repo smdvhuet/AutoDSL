@@ -76,49 +76,55 @@ class SharedMemoryGenerator  implements IGenerator<AutoDSL> {
 				}
 			}
 		}
-		if(sharedMemories.nullOrEmpty){
-			return
-		}
 		val ArrayList<String> srcFolders = new ArrayList<String>()
 		srcFolders.add("src-gen")
 		
 		val IProject project = ProjectCreator.getProject(dsl.eResource)
-		var IFolder mainFolder = project.getFolder("src-gen/core")
+		var IFolder mainFolder = project.getFolder("src-gen")
 		EclipseFileUtils.mkdirs(mainFolder,monitor)
 		EclipseFileUtils.writeToFile(mainFolder.getFile("SharedMemory.h"), generateStruct(sharedMemories))
+		EclipseFileUtils.writeToFile(mainFolder.getFile("SharedMemory.cpp"), generateCPP(sharedMemories))
 	}
 	
 //*********************************************************************************
 //							generating SharedMemory.h
 //*********************************************************************************
 	def generateStruct(ArrayList<SharedMemory> memories)'''
-	#ifndef ACCPLUSPLUS_SHAREDMEMORY_H_
-	#define ACCPLUSPLUS_SHAREDMEMORY_H_
+	#ifndef AUTODSL_SHAREDMEMORY_H_
+	#define AUTODSL_SHAREDMEMORY_H_
 	
 	#include "PID.h"
-	namespace ACCPlusPlus{
+	namespace AutoDSL{
 	namespace SharedMemory{
 		«FOR memory:memories»
 		struct «memory.memoryName»{
 			//bools
 			«FOR bool:memory.storedBooleans»
-			static bool «bool.label» = «bool.defaultValue»;
+			bool «bool.label» = «bool.defaultValue»;
 			«ENDFOR»
 			
 			//numbers
 			«FOR number:memory.storedNumbers»
-			static double «number.label» = «number.defaultValue»;
+			double «number.label» = «number.defaultValue»;
 			«ENDFOR»
 			
 			//PIDs
 			«FOR pid:memory.storedPIDControllers»
-			static PID «pid.label»(«pid.p»,«pid.i»,«pid.d»)
+			AcCCPlusPlus::PID «pid.label»(«pid.p»,«pid.i»,«pid.d»)
 			«ENDFOR»
 		};
+		extern «memory.memoryName» «memory.memoryName»_var;
 		«ENDFOR»
 	}
 	}
 	#endif
+	'''
+	
+	def generateCPP(ArrayList<SharedMemory> memories)'''
+	#include "SharedMemory.h"
+	«FOR memory:memories»
+		«memory.memoryName» «memory.memoryName»_var;
+	«ENDFOR»
 	'''
 	
 	def getMemoryName(SharedMemory memory){
