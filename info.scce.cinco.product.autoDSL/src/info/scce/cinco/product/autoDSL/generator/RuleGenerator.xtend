@@ -121,7 +121,6 @@ class RuleGenerator implements IGenerator<Rule> {
 		
 	private def generateGuardRuleHeader(Rule rule, NodeGenerator nodeGenerator){
 		for(Node node : rule.operations){
-			//TODO: Muss hier ein anderer Klassenname verwendet werden?
 			if(node.incoming.nullOrEmpty&&!(node instanceof Comment)){
 				return
 				'''	
