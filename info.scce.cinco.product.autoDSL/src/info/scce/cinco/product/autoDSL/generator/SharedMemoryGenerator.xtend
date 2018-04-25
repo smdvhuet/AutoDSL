@@ -47,7 +47,7 @@ class SharedMemoryGenerator  implements IGenerator<AutoDSL> {
 				}
 			}
 		}
-		for(guard:dsl.states){
+		for(guard:dsl.guards){
 			for(node:guard.componentNodes){
 				for(it:node.rule.loadBooleans){
 					if(!sharedMemories.contains(it.data.rootElement)){
