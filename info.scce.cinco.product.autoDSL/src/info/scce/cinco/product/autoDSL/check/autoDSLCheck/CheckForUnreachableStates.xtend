@@ -11,7 +11,6 @@ import java.util.ArrayList
 class CheckForUnreachableStates extends AutoDSLCheck{
 	
 	override check(AutoDSL model) {
-		model.addWarning("Check not implemented yet, model may contain unreachable states")
 		val start = model.offStates.head
 		var completed = new HashMap<State, Boolean>()
 		for(state : model.states)
@@ -25,8 +24,8 @@ class CheckForUnreachableStates extends AutoDSLCheck{
 		//Main Loop
 		while(!todo.empty){
 			val current = todo.get(0)
-			if(!completed.get(current)){
-				for(guard : start.guardSuccessors){
+			if(completed.get(current) == false){
+				for(guard : current.guardSuccessors){
 					for (state : guard.stateSuccessors){
 						if((!(completed.get(state))) && (!(todo.contains(state))))
 							todo.add(state)
