@@ -6,6 +6,7 @@ import "platform:/resource/info.scce.cinco.product.autoDSL/model/SharedMemory.mg
 @mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckRuleForCycles")
 @mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckForUnreachableOperations")
 @mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckStart")
+@mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckRuleType")
 @mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckSubRuleUpdate")
 @mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckSubRuleIOIdentifiers")
 @mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckEqualSubRulePorts")

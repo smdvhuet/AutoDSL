@@ -39,12 +39,6 @@ class CheckForInvalidRulesInGuards extends AutoDSLCheck{
 	def hasGuardOutputs(Rule rule){
 		if(!rule.booleanGuardOutputs.empty)
 			return true
-		for(subrule : rule.subRules){
-			if((subrule.rule).hasGuardOutputs == true) {
-				subrule.addError("Subrules may not contain GuardOutputs")
-				return true
-			}
-		}
 		return false
 	}
 }
