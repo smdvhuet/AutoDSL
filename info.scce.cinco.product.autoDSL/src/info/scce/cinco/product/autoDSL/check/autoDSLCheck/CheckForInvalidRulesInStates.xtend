@@ -17,9 +17,31 @@ class CheckForInvalidRulesInStates extends AutoDSLCheck{
 		}
 	}
 		
+	def hasCarOutputs(Rule rule){
+		if(!rule.directBooleanOutputs.empty)
+			return true
+		else if (!rule.directNumberOutputs.empty)
+			return true
+		else if (!rule.commutableOperations.filter[!it.booleanCarOutputs.empty || !it.numberCarOutputs.empty].empty)
+			return true
+		else if (!rule.nonCommutableOperations.filter[!it.booleanCarOutputs.empty || !it.numberCarOutputs.empty].empty)
+			return true
+		for(subrule : rule.subRules){
+			if((subrule.rule).hasCarOutputs == true)
+				return true
+		}
+		return false
+	}
+	
 	def hasGuardOutputs(Rule rule){
 		if(!rule.booleanGuardOutputs.empty)
 			return true
+		for(subrule : rule.subRules){
+			if((subrule.rule).hasGuardOutputs == true) {
+				subrule.addError("Subrules may not contain GuardOutputs")
+				return true
+			}
+		}
 		return false
 	}
 }

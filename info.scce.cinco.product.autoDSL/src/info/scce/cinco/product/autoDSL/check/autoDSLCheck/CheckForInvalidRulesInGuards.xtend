@@ -15,8 +15,7 @@ class CheckForInvalidRulesInGuards extends AutoDSLCheck{
 				}
 				if(!hasGuardOutputs(cNode.rule)){
 					guard.addError("Rule models contained in guards must contain at least one BooleanGuardOutput")
-				}
-				
+				}				
 			}
 		}
 	}
@@ -30,13 +29,22 @@ class CheckForInvalidRulesInGuards extends AutoDSLCheck{
 			return true
 		else if (!rule.nonCommutableOperations.filter[!it.booleanCarOutputs.empty || !it.numberCarOutputs.empty].empty)
 			return true
-		else
-			return false
+		for(subrule : rule.subRules){
+			if((subrule.rule).hasCarOutputs == true)
+				return true
+		}
+		return false
 	}
 	
 	def hasGuardOutputs(Rule rule){
 		if(!rule.booleanGuardOutputs.empty)
 			return true
+		for(subrule : rule.subRules){
+			if((subrule.rule).hasGuardOutputs == true) {
+				subrule.addError("Subrules may not contain GuardOutputs")
+				return true
+			}
+		}
 		return false
 	}
 }
