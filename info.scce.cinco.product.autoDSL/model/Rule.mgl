@@ -8,7 +8,7 @@ import "platform:/resource/info.scce.cinco.product.autoDSL/model/SharedMemory.mg
 @mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckStart")
 @mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckSubRuleUpdate")
 @mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckSubRuleIOIdentifiers")
-
+@mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckEqualSubRulePorts")
 graphModel Rule {
 	package info.scce.cinco.product.autoDSL.rule
 	nsURI "http://cinco.scce.info/product/rule"
@@ -319,6 +319,7 @@ graphModel Rule {
 	@icon("icons/subRule_In.png")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
 	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
+	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteSubOutput")
 	node NumberSubInput extends NumberInput {
 		attr EString as identifier
 		incomingEdges(NumberDataFlow[1,1])
@@ -330,6 +331,7 @@ graphModel Rule {
 	@icon("icons/subRule_In.png")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
 	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
+	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteSubOutput")
 	node BooleanSubInput extends BooleanInput {
 		attr EString as identifier
 		incomingEdges(BooleanDataFlow[1,1])
