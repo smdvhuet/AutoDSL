@@ -9,7 +9,8 @@ public class DropRuleHook extends CincoPostCreateHook<ComponentNode> {
 	@Override
 	public void postCreate(ComponentNode droppedNode) {
 		Rule rule = droppedNode.getRule();
-		droppedNode.setLabel(rule.eResource().getURI().lastSegment());
+		String lastSegment = rule.eResource().getURI().lastSegment();
+		droppedNode.setLabel(lastSegment.substring(0 ,lastSegment.lastIndexOf(".")));
 	}
 
 }
