@@ -331,6 +331,7 @@ graphModel Rule {
 	@icon("icons/subRule_In.png")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
 	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
+	@postAttributeValueChange("info.scce.cinco.product.autoDSL.hooks.UpdateSubRuleOutputs")
 	node BooleanSubInput extends BooleanInput {
 		attr EString as identifier
 		incomingEdges(BooleanDataFlow[1,1])
@@ -342,6 +343,7 @@ graphModel Rule {
 	@icon("icons/subRule_out.png")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
 	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
+	@postAttributeValueChange("info.scce.cinco.product.autoDSL.hooks.UpdateSubRuleOutputs")
 	node NumberSubOutput extends NumberOutput {
 		attr EString as identifier
 		outgoingEdges(NumberDataFlow[0,*])
