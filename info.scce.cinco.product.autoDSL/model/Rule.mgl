@@ -23,6 +23,7 @@ graphModel Rule {
 		Load[0,*]
 	)
 	
+	@readOnly
 	attr EString as name
 	
 	

@@ -52,6 +52,7 @@ graphModel AutoDSL {
 	@style(syscomponent, "${label}")
 	node ComponentNode {
 		prime rule::Rule as rule
+		@readOnly
 		attr EString as label
 		incomingEdges(SyscompToSyscomp[0,1])
 		outgoingEdges(SyscompToSyscomp[0,1])
