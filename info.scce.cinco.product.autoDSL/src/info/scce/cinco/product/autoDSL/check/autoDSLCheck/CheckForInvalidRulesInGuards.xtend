@@ -11,10 +11,10 @@ class CheckForInvalidRulesInGuards extends AutoDSLCheck{
 		for (guard : model.guards) {
 			for (cNode : guard.componentNodes) {
 				if(hasCarOutputs(cNode.rule)){
-					guard.addError("Rule models contained in guards may not contain any car outputs.")				
+					guard.addWarning("Rule models contained in guards may not contain any car outputs.")				
 				}
 				if(!hasGuardOutputs(cNode.rule)){
-					guard.addError("Rule models contained in guards must contain at least one BooleanGuardOutput")
+					guard.addWarning("Rule models contained in guards must contain at least one BooleanGuardOutput")
 				}				
 			}
 		}

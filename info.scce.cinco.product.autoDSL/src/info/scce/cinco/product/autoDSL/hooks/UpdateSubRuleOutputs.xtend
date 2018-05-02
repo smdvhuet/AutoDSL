@@ -14,17 +14,17 @@ class UpdateSubRuleOutputs extends CincoPostValueChangeListener<IO> {
 	}
 	
 	override handleChange(IO io) {
-		val container = io.container as SubRuleOutputs
-		val subRuleOutputs = io.rootElement.subRuleOutputss.filter[it != container]
-		for (subRuleOutput : subRuleOutputs) {
-			val booleanPorts = subRuleOutput.booleanSubInputs.filter[!container.booleanSubInputs.map[identifier].contains(it.identifier)]
-			val numberPorts = subRuleOutput.numberSubInputs.filter[!container.numberSubInputs.map[identifier].contains(it.identifier)]
-			for (port : booleanPorts) {
-				port.identifier = (io as BooleanSubInput).identifier
-			}
-			for (port : numberPorts) {
-				port.identifier = (io as NumberSubInput).identifier
-			}
-		}
+//		val container = io.container as SubRuleOutputs
+//		val subRuleOutputs = io.rootElement.subRuleOutputss.filter[it != container]
+//		for (subRuleOutput : subRuleOutputs) {
+//			val booleanPorts = subRuleOutput.booleanSubInputs.filter[!container.booleanSubInputs.map[identifier].contains(it.identifier)]
+//			val numberPorts = subRuleOutput.numberSubInputs.filter[!container.numberSubInputs.map[identifier].contains(it.identifier)]
+//			for (port : booleanPorts) {
+//				port.identifier = (io as BooleanSubInput).identifier
+//			}
+//			for (port : numberPorts) {
+//				port.identifier = (io as NumberSubInput).identifier
+//			}
+//		}
 	}
 }
