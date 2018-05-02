@@ -273,11 +273,38 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 						}else{
 							val out = in.predecessors.head
 							if(out instanceof Output){
-								out.referenceOutput
+								out.referenceOutputFromInput
 							}else{
 								"/*input is a reference for something thats not an output*/"
 							}
 						}
+		}	
+	}
+	
+	def referenceOutputFromInput(Output out){
+		switch out{
+			NumberCarOutput :	"output."+out.outputtype.toString
+			BooleanCarOutput:	"output."+out.outputtype.toString
+			NumberSubOutput:	if(out.container instanceof SubRule){
+									IDHasher.GetStringHash(out.id)
+								}else{
+									IDHasher.GetStringHash(out.rootElement.id)+"_"+out.identifier
+								}
+			BooleanSubOutput:	if(out.container instanceof SubRule){
+									IDHasher.GetStringHash(out.id)
+								}else{
+									IDHasher.GetStringHash(out.rootElement.id)+"_"+out.identifier
+								}
+			NumberOutput:		if(out.container instanceof LoadNumber){
+									"SharedMemory::"+(out.container as LoadNumber).data.rootElement.memoryName+"."+(out.container as LoadNumber).data.label
+								}else{
+									IDHasher.GetStringHash(out.id)
+								}
+			BooleanOutput:		if(out.container instanceof LoadBoolean){
+									"SharedMemory::"+(out.container as LoadBoolean).data.rootElement.memoryName+"."+(out.container as LoadBoolean).data.label
+								}else{
+									IDHasher.GetStringHash(out.id)
+								}
 		}	
 	}
 	
