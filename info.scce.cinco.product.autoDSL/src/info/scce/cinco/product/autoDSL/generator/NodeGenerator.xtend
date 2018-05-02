@@ -41,7 +41,6 @@ import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInput
 import info.scce.cinco.product.autoDSL.rule.rule.NumberSubOutput
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubOutput
 import java.util.HashMap
-import info.scce.cinco.product.autoDSL.rule.rule.Save
 import info.scce.cinco.product.autoDSL.rule.rule.Load
 import info.scce.cinco.product.autoDSL.rule.rule.StoredPIDController
 import info.scce.cinco.product.autoDSL.rule.rule.SaveNumber
@@ -179,17 +178,19 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseSubRule(SubRule rule)'''
 	
+	«IF !rule.booleanSubInputs.nullOrEmpty»//BooleanSubInputs
 	«val Iterator<BooleanSubOutput> refBoolIns = rule.rule.subRuleInputss.head.booleanSubOutputs.iterator»
-	«val Iterator<NumberSubOutput> refNumberIns = rule.rule.subRuleInputss.head.numberSubOutputs.iterator»
-	«IF !rule.booleanSubInputs.nullOrEmpty»//BooleanSubInputs«ENDIF»
 	«FOR in:rule.booleanSubInputs»
 		«refBoolIns.next.referenceOutput» = «in.referenceInput»;
 	«ENDFOR»
+	«ENDIF»
 	
-	«IF !rule.numberSubInputs.nullOrEmpty»//NumberSubInputs«ENDIF»
+	«IF !rule.numberSubInputs.nullOrEmpty»//NumberSubInputs
+	«val Iterator<NumberSubOutput> refNumberIns = rule.rule.subRuleInputss.head.numberSubOutputs.iterator»
 	«FOR in:rule.numberSubInputs»
 		«refNumberIns.next.referenceOutput» = «in.referenceInput»;
 	«ENDFOR»
+	«ENDIF»
 	
 	//SubRule start
 	«FOR Node node:rule.rule.operations»
@@ -199,18 +200,20 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	«ENDFOR»
 	//SubRule end
 	
+	«IF !rule.booleanSubOutputs.nullOrEmpty»//BooleanSubOutputs
 	«val Iterator<BooleanSubInput> refBoolOuts = rule.rule.subRuleOutputss.head.booleanSubInputs.iterator»
-	«val Iterator<NumberSubInput> refNumberOuts = rule.rule.subRuleOutputss.head.numberSubInputs.iterator»
-	«IF !rule.booleanSubOutputs.nullOrEmpty»//BooleanSubOutputs«ENDIF»
 	«FOR out:rule.booleanSubOutputs»
 		bool «out.referenceOutput» = «refBoolOuts.next.referenceInput»;
 	«ENDFOR»
+	«ENDIF»
 	
-	«IF !rule.numberSubOutputs.nullOrEmpty»//NumberSubOutputs«ENDIF»
+	«IF !rule.numberSubOutputs.nullOrEmpty»//NumberSubOutputs
+	«val Iterator<NumberSubInput> refNumberOuts = rule.rule.subRuleOutputss.head.numberSubInputs.iterator»
 	«FOR out:rule.numberSubOutputs»
 		double «out.referenceOutput» = «refNumberOuts.next.referenceInput»;
 	«ENDFOR»
-
+	«ENDIF»
+	
 	«if(!rule.getSuccessors.nullOrEmpty)rule.getSuccessors.head.doSwitch»
 	'''
 	
@@ -306,27 +309,27 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 		«IF !knownSubRules.containsValue(rule.rule)»
 			«knownSubRules.put(IDHasher.GetIntHash(rule.rule.id),rule.rule)»
 			//subRule «IDHasher.GetIntHash(rule.rule.id)»
-			«val Iterator<BooleanSubOutput> refBoolIns = rule.rule.subRuleInputss.head.booleanSubOutputs.iterator»
-			«val Iterator<NumberSubOutput> refNumberIns = rule.rule.subRuleInputss.head.numberSubOutputs.iterator»
 			«IF !rule.booleanSubInputs.nullOrEmpty»//BooleanSubInputs
+			«val Iterator<BooleanSubOutput> refBoolIns = rule.rule.subRuleInputss.head.booleanSubOutputs.iterator»
 			«FOR BooleanSubInput in:rule.booleanSubInputs»
 				bool «refBoolIns.next.referenceOutput»;
 			«ENDFOR»
 			«ENDIF»
 			
 			«IF !rule.numberSubInputs.nullOrEmpty»//NumberSubInputs
+			«val Iterator<NumberSubOutput> refNumberIns = rule.rule.subRuleInputss.head.numberSubOutputs.iterator»
 			«FOR NumberSubInput in:rule.numberSubInputs»
 				double «refNumberIns.next.referenceOutput»;
 			«ENDFOR»
 			«ENDIF»
 			
-			«IF !rule.rule.subRuleOutputss.head.booleanSubInputs.nullOrEmpty»//BooleanSubOutputs
+			«IF !rule.booleanSubOutputs.nullOrEmpty»//BooleanSubOutputs
 			«FOR BooleanSubInput out:rule.rule.subRuleOutputss.head.booleanSubInputs»
 				bool «IDHasher.GetStringHash(rule.rule.id)+"_"+out.identifier»;
 			«ENDFOR»
 			«ENDIF»
 			
-			«IF !rule.rule.subRuleOutputss.head.numberSubInputs.nullOrEmpty»//NumberSubOutputs
+			«IF !rule.numberSubOutputs.nullOrEmpty»//NumberSubOutputs
 			«FOR NumberSubInput out:rule.rule.subRuleOutputss.head.numberSubInputs»
 				double «IDHasher.GetStringHash(rule.rule.id)+"_"+out.identifier»;
 			«ENDFOR»
