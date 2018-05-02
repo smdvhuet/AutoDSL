@@ -48,6 +48,8 @@ import info.scce.cinco.product.autoDSL.rule.rule.SaveBoolean
 import info.scce.cinco.product.autoDSL.rule.rule.LoadBoolean
 import info.scce.cinco.product.autoDSL.rule.rule.LoadNumber
 import info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory.SharedMemory
+import info.scce.cinco.product.autoDSL.rule.rule.NumberOutput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanOutput
 
 class NodeGenerator extends RuleSwitch<CharSequence> {
 	
@@ -55,20 +57,20 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override casePIDController(PIDController op)'''
 		//PID Controller
-		double «op.outputs.head.referenceOutput» = pid«IDHasher.GetStringHash(op.id)».calculate(«op.inputs.head.referenceInput», «op.inputs.last.referenceInput», 0.1);
+		«op.outputs.head.referenceOutput» = pid«IDHasher.GetStringHash(op.id)».calculate(«op.inputs.head.referenceInput», «op.inputs.last.referenceInput», 0.1);
 		
 		«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseNegation(Negation op)'''
 	//Negation Operator
-	bool «IDHasher.GetStringHash(op.booleanOutputs.head.id)» = !«op.booleanInputs.head.referenceInput»;
+	«op.booleanOutputs.head.referenceOutput» = !«op.booleanInputs.head.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseAddition(Addition op)'''
 	//Addition Operator
-	double «op.outputs.head.referenceOutput» = «FOR input : op.inputs SEPARATOR '+'»«
+	«op.outputs.head.referenceOutput» = «FOR input : op.inputs SEPARATOR '+'»«
 									input.referenceInput»«
 								ENDFOR»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
@@ -76,7 +78,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseMultiplication(Multiplication op)'''
 	//Multiplication Operator
-	double «op.outputs.head.referenceOutput» = «FOR input : op.inputs SEPARATOR '*'»«
+	«op.outputs.head.referenceOutput» = «FOR input : op.inputs SEPARATOR '*'»«
 									input.referenceInput»«
 								ENDFOR»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
@@ -87,7 +89,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	double «IDHasher.GetStringHash(op.id)»[] = {«FOR  input : op.inputs SEPARATOR ','»«
 						input.referenceInput»«
 						ENDFOR»};
-	double «op.outputs.head.referenceOutput» = ACCPlusPlus::Utility::max(«IDHasher.GetStringHash(op.id)»,«op.inputs.length»);
+	«op.outputs.head.referenceOutput» = ACCPlusPlus::Utility::max(«IDHasher.GetStringHash(op.id)»,«op.inputs.length»);
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
@@ -96,13 +98,13 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	double «IDHasher.GetStringHash(op.id)»[] = {«FOR  input : op.inputs SEPARATOR ','»«
 							input.referenceInput»«
 						ENDFOR»};
-	double «op.outputs.head.referenceOutput» = ACCPlusPlus::Utility::min(«IDHasher.GetStringHash(op.id)»,«op.inputs.length»);
+	«op.outputs.head.referenceOutput» = ACCPlusPlus::Utility::min(«IDHasher.GetStringHash(op.id)»,«op.inputs.length»);
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseLogicalAnd(LogicalAnd op)'''
 	//And Operator
-	bool «op.outputs.head.referenceOutput» = «FOR in : op.inputs SEPARATOR '&&'»«
+	«op.outputs.head.referenceOutput» = «FOR in : op.inputs SEPARATOR '&&'»«
 										in.referenceInput»«
 									ENDFOR»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
@@ -110,7 +112,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseLogicalOr(LogicalOr op)'''
 	//Or Operator
-	bool «op.outputs.head.referenceOutput» = «FOR in : op.inputs SEPARATOR '||'»«
+	«op.outputs.head.referenceOutput» = «FOR in : op.inputs SEPARATOR '||'»«
 											in.referenceInput»«
 										ENDFOR»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
@@ -118,37 +120,37 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseSubtraction(Subtraction op)'''
 	//Substraction Operator
-	double «op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» - «op.inputs.last.referenceInput»;
+	«op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» - «op.inputs.last.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseDivision(Division op)'''
 	//Division Operator
-	double «op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» / «op.inputs.last.referenceInput»;
+	«op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» / «op.inputs.last.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseLess(Less op)'''
 	//Less Operator
-	bool «op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» < «op.inputs.last.referenceInput»;
+	«op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» < «op.inputs.last.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseLessOrEqual(LessOrEqual op)'''
 	//LessOrEqual Operator
-	bool «op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» <= «op.inputs.last.referenceInput»;
+	«op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» <= «op.inputs.last.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseGreater(Greater op)'''
 	//Greater Operator
-	bool «op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» > «op.inputs.last.referenceInput»;
+	«op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» > «op.inputs.last.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseGreaterOrEqual(GreaterOrEqual op)'''
 	//GreaterOrEqual Operator
-	bool «op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» >= «op.inputs.last.referenceInput»;
+	«op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» >= «op.inputs.last.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
@@ -251,7 +253,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseStoredPIDController(StoredPIDController pid)'''
 	//Stored PID
-	double «pid.outputs.head.referenceOutput» = SharedMemory::«pid.data.rootElement.memoryName».«pid.data.label».calculate(«pid.inputs.head.referenceInput», «pid.inputs.last.referenceInput», 0.1);
+	«pid.outputs.head.referenceOutput» = SharedMemory::«pid.data.rootElement.memoryName».«pid.data.label».calculate(«pid.inputs.head.referenceInput», «pid.inputs.last.referenceInput», 0.1);
 	
 	«if(!pid.getSuccessors.nullOrEmpty)pid.getSuccessors.head.doSwitch»
 	'''
@@ -293,13 +295,16 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 								}else{
 									IDHasher.GetStringHash(out.rootElement.id)+"_"+out.identifier
 								}
-			default :	if(out.container instanceof LoadBoolean){
-							"SharedMemory::"+(out.container as LoadBoolean).data.rootElement.memoryName+"."+(out.container as LoadBoolean).data.label
-						}else if(out.container instanceof LoadNumber){
-							"SharedMemory::"+(out.container as LoadNumber).data.rootElement.memoryName+"."+(out.container as LoadNumber).data.label
-						}else{
-							IDHasher.GetStringHash(out.id)
-						}
+			NumberOutput:		if(out.container instanceof LoadNumber){
+									"SharedMemory::"+(out.container as LoadNumber).data.rootElement.memoryName+"."+(out.container as LoadNumber).data.label
+								}else{
+									"double "+IDHasher.GetStringHash(out.id)
+								}
+			BooleanOutput:		if(out.container instanceof LoadBoolean){
+									"SharedMemory::"+(out.container as LoadBoolean).data.rootElement.memoryName+"."+(out.container as LoadBoolean).data.label
+								}else{
+									"bool "+IDHasher.GetStringHash(out.id)
+								}
 		}	
 	}
 	
