@@ -1,0 +1,9 @@
+grammar info.scce.testdsl.TestDSL with org.eclipse.xtext.common.Terminals
+
+generate testDSL "http://www.scce.info/testdsl/TestDSL"
+
+Model:
+	greetings+=Greeting*;
+	
+Greeting:
+	'Hello' name=ID '!';
