@@ -165,6 +165,8 @@ graphModel Rule {
 		InputThrottle // GamepadThrottle
 		InputBrake // GamepadBrake
 		dTime
+		InputThrottle // GamepadThrottle
+		InputBrake // GamepadBrake
 	}
 
 	enum CarOutputTypeBoolean {
