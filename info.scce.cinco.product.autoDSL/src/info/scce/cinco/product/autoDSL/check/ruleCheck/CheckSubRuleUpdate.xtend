@@ -15,17 +15,22 @@ class CheckSubRuleUpdate extends RuleCheck{
 	
 	override check(Rule rule) {
 		
-//		val subs = rule.subRules
-//		for (sub : subs) {
-//			val in = sub.rule.subRuleInputss
-//			val out = sub.rule.subRuleOutputss
-//			if (!in.isEmpty() || !out.isEmpty()) {
-//				val wantedInputs = if (!in.isEmpty()) in.get(0) else null
-//				val wantedOutputs = if (!out.isEmpty()) out.get(0) else null
-//			    checkIO(sub, sub.inputs as EList<?> as EList<IO>, wantedInputs?.outputs as EList<?> as EList<IO>)
-//			    checkIO(sub, sub.outputs as EList<?> as EList<IO>, wantedOutputs?.inputs as EList<?> as EList<IO>)
-//		    }
-//		}
+		val subs = rule.subRules
+		for (sub : subs) {
+			println(sub.label)
+			val in = sub.rule.subRuleInputss
+			val out = sub.rule.subRuleOutputss
+			if (!in.isEmpty() || !out.isEmpty()) {
+				if (!in.isEmpty()) {
+					val wantedInputs = in.get(0)
+					checkIO(sub, sub.inputs as EList<?> as EList<IO>, wantedInputs?.outputs as EList<?> as EList<IO>)
+				}
+				if (!out.isEmpty()) {
+					val wantedOutputs = out.get(0)
+			    	checkIO(sub, sub.outputs as EList<?> as EList<IO>, wantedOutputs?.inputs as EList<?> as EList<IO>) 
+				}
+		    }
+		}
 	}
 
 	/**
