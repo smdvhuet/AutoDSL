@@ -3,7 +3,7 @@
 using namespace ACCPlusPlus;
 
 Guard::Guard(const std::vector<GuardRule *> &guards)
-    : GuardRule(), guards_{guards} {}
+    : GuardRule(""), guards_{guards} {}
 
 Guard::~Guard() {
   for (std::vector<GuardRule *>::const_iterator it = guards_.begin();

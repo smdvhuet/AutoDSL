@@ -2,7 +2,7 @@
 
 using namespace ACCPlusPlus;
 
-State::State(const std::vector<Rule *> &rules) : Rule(), rules_{rules} {}
+State::State(const std::vector<Rule *> &rules) : Rule(""), rules_{rules} {}
 
 State::~State() {
   for (std::vector<Rule *>::const_iterator it = rules_.begin();
