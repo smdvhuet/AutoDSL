@@ -7,7 +7,7 @@
 namespace ACCPlusPlus{
 class Type{
 public:
-  Type(const std::string &name) { id_ = Globals::gIDGenerator.createID(); name_ = name; }
+  Type(const std::string &name) : name_(name) { id_ = Globals::gIDGenerator.createID(); }
   virtual ~Type(){};
 
   std::string Name() { return name_; }
