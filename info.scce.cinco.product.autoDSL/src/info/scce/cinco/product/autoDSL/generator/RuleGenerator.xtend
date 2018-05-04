@@ -61,10 +61,6 @@ class RuleGenerator implements IGenerator<Rule> {
 			  void onEntry();
 			  void onExit();
 						
-			  inline std::string getName(){
-			    return "«rule.name»";
-			  }
-						
 			 private:
 			  //PID Controllers
 			  «FOR pid : rule.PIDControllers»
@@ -89,7 +85,7 @@ class RuleGenerator implements IGenerator<Rule> {
 				
 				using namespace AutoDSL;
 				
-				«rule.name»::«rule.name»() : ACCPlusPlus::Rule()
+				«rule.name»::«rule.name»() : ACCPlusPlus::Rule("«rule.name»")
 					//PID Controllers
 					«FOR pid : rule.PIDControllers»
 					, pid«IDHasher.GetStringHash(pid.id)»(«pid.p», «pid.i», «pid.d»)
@@ -141,10 +137,6 @@ class RuleGenerator implements IGenerator<Rule> {
 				  void onEntry();
 				  void onExit();
 
-				  inline std::string getName(){
-				    return "«rule.name»";
-				  }
-				
 				private:
 				 //PID Controllers
 				 «FOR pid : rule.PIDControllers»
@@ -169,7 +161,7 @@ class RuleGenerator implements IGenerator<Rule> {
 				
 				using namespace AutoDSL;
 				
-				«rule.name»::«rule.name»() : ACCPlusPlus::GuardRule()
+				«rule.name»::«rule.name»() : ACCPlusPlus::GuardRule("«rule.name»")
 					//PID Controllers
 					«FOR pid : rule.PIDControllers»
 					, pid«IDHasher.GetStringHash(pid.id)»(«pid.p», «pid.i», «pid.d»)
