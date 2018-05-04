@@ -2,8 +2,73 @@ grammar info.scce.testdsl.TestDSL with org.eclipse.xtext.common.Terminals
 
 generate testDSL "http://www.scce.info/testdsl/TestDSL"
 
-Model:
-	greetings+=Greeting*;
-	
-Greeting:
-	'Hello' name=ID '!';
+prog: 
+	ops+=(EventHandler | Event | Situation)*
+;
+
+
+Situation:
+	"inSituation" sit=SITUATIONS "check" "{" (events+=[EventHandler] ",")* "}"
+;
+
+EventHandler:
+	{EventHandler} "check" name=ID ":" "when" event=[Event] eventtype=("isActive" | "ends" | "starts")
+	"(" ("errorMessage=" errmsg=STRING ",")?
+	("maximumReactionTime=" maxtime=INT)?")""{"
+		invariants=Invariants
+"}";
+
+Invariants: 
+    {Invariants} invs+=Expression ";" (invs+=Expression ";")*
+;
+Event: 
+	 "event" name=ID "{" 
+			"startCondition:" startCond=Expression
+			"endCondition:" endCond=Expression
+		"}"
+;
+
+Expression: 
+ 	OrExpr
+;
+
+
+OrExpr returns Expression:
+	AndExpr ({Or.left=current} op='or' right=AndExpr)*
+;
+
+AndExpr returns Expression:
+	RelExpr ({And.left=current} op='and' right=RelExpr)*
+;
+
+RelExpr returns Expression:
+	AddExpr ({Rel.left=current} op=('<'|'<='|'==') right=AddExpr)*
+;
+
+AddExpr returns Expression:
+	MultExpr ({Add.left=current} op=('+'|'-') right=MultExpr)*
+;
+
+MultExpr returns Expression:
+	UnExpr ({Mult.left=current} op=('*'|'/') right=UnExpr)*
+;
+
+UnExpr returns Expression: 
+	{Negation} op=('!'|"-") exprAtom=AtomExpr | AtomExpr
+;
+
+AtomExpr returns Expression: 
+	{Literal} value=INT | '(' expr=Expression ')' | intvar=INT_VAR | boolvar=BOOL_VAR
+;
+
+terminal SITUATIONS: 
+	"sita" | "sitb"
+;
+
+terminal INT_VAR: 
+	"inta" | "intb" | "intc"
+;
+
+terminal BOOL_VAR: 
+	"boolx" | "booly" | "boolz"
+;
