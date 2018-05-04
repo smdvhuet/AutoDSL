@@ -9,7 +9,7 @@
 namespace ACCPlusPlus {
 class Rule : public Type {
 public:
-  Rule() : Type() {}
+  Rule(const std::string &name) : Type(name) {}
   virtual ~Rule() {}
 
   virtual void onEntry() = 0;

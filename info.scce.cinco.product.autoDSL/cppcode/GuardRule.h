@@ -9,7 +9,7 @@
 namespace ACCPlusPlus {
   class GuardRule : public Type {
   public:
-    GuardRule() : Type() {}
+    GuardRule(const std::string& name) : Type(name) {}
     virtual ~GuardRule() {}
 
     virtual void onEntry() = 0;
