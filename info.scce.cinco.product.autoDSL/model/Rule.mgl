@@ -147,6 +147,10 @@ graphModel Rule {
 		HasEngineError
 		HasSteeringError
 		HasGearboxError
+		DecrementSetDistanceButton
+		IncrementSetDistanceButton
+		DecrementSetSpeedButton
+		IncrementSetSpeedButton
 	}
 
 	enum CarInputTypeNumber{
@@ -154,28 +158,28 @@ graphModel Rule {
 		DistanceRear
 		TimeDistanceFront
 		CurrentSpeed
-
+		PhysicalAcceleration
 		Steering
-		SetSpeed
 		LeadingCarRelativeSpeed
-		Acceleration // GamepadThrottle
-		SetDistance
+		InputThrottle // GamepadThrottle
+		InputBrake // GamepadBrake
 	}
 
 	enum CarOutputTypeBoolean {
-		Scheinwerfer_An
-		ObstacleDetectedWarning
-		ErrorWarning
-		SystemOn
-		SystemActive
+		HeadlightsOn // for display purpose only
+		ObstacleDetectedWarning // for display purpose only
+		ErrorWarning // for display purpose only
+		SystemOn // for display purpose only
+		SystemActive // for display purpose only
 	}
 
 	enum CarOutputTypeNumber {
-		Acceleration
+		Throttle
+		Brake
 		Steering
 
-		SetSpeed
-		SetDistance
+		SetSpeed // for display purpose only
+		SetDistance // for display purpose only
 	}
 	
 

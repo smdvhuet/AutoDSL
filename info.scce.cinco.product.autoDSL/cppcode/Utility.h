@@ -12,7 +12,7 @@ template <typename T> static inline T max(T *values, unsigned int num_values) {
   T max_value = max_value[0];
   for (int i = 1; i < num_values; ++i) {
     if (max_value < values[i])
-      max_value = value[i];
+      max_value = values[i];
   }
 
   return max_value;
@@ -21,10 +21,10 @@ template <typename T> static inline T max(T *values, unsigned int num_values) {
 template <typename T> static inline T min(T *values, unsigned int num_values) {
   assert(num_values > 1);
 
-  T min_value = max_value[0];
+  T min_value = min_value[0];
   for (int i = 1; i < num_values; ++i) {
     if (min_value > values[i])
-      min_value = value[i];
+      min_value = values[i];
   }
 
   return min_value;

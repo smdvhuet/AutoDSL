@@ -13,7 +13,7 @@ class DeleteIO extends CincoPreDeleteHook<IO> {
 	static val TEMPORARY_IDENTIFIER = "portDeletionInProgress"
 	
 	override preDelete(IO io) {
-//		LayoutManager.rearrangePreDelete(io)
+		LayoutManager.rearrangePreDelete(io)
 //		switch io {
 //			BooleanSubInput,
 //			NumberSubInput : io.deleteInAllSubRuleOutputs

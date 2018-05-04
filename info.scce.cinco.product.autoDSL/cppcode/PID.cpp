@@ -21,5 +21,13 @@ double PID::calculate(double current_value, double target_value,
   last_value_ = error;
   integral_ += (error * dtime_sec);
 
-  return ((error + i_ * integral_ + d_ * diff) * p_) / dtime_sec;
+  double result = ((error + i_ * integral_ + d_ * diff) * p_) / dtime_sec;
+  
+  if(result > 1){
+  	return 1;
+  }else if(result < -1){
+  	return -1;
+  }else{
+  	return result;
+  }
 }
