@@ -8,7 +8,7 @@ prog:
 
 
 Situation:
-	"inSituation" sit=SITUATIONS "check" "{" (events+=[EventHandler] ",")* "}"
+	"inSituation" sit=SITUATIONS "check" "{" events+=[EventHandler] (","events+=[EventHandler])* "}"
 ;
 
 EventHandler:
