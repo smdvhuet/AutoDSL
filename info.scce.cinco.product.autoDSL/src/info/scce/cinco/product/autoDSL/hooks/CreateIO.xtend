@@ -18,12 +18,52 @@ class CreateIO extends CincoPostCreateHook<IO> {
 		if (io.container instanceof SubRuleInputs || io.container instanceof SubRuleOutputs) {
 			val op = io.operation
 			switch (io) {
-				NumberSubInput : io.identifier = "num_out" + op.numberSubInputs.size
-				BooleanSubInput : io.identifier = "bool_out" + op.booleanSubInputs.size
+				NumberSubInput : {
+					io.identifier = "num_out" + op.numberSubInputs.size
+					
+					//TODO refactor
+					val outputs = io.operation as SubRuleOutputs
+					val model = outputs.rootElement
+					for (outputNode : model.subRuleOutputss) {
+						//Create Port with same name in all subRuleOutput-Nodes
+						if (!outputNode.hasPortWithID(io.identifier)){
+							val newSharedPort = outputNode.newNumberSubInput(0,0)
+							newSharedPort.identifier = io.identifier
+						}
+					}
+				}
+				BooleanSubInput : {
+					io.identifier = "bool_out" + op.booleanSubInputs.size
+					
+					//TODO refactor
+					val outputs = io.operation as SubRuleOutputs
+					val model = outputs.rootElement
+					for (outputNode : model.subRuleOutputss) {
+						//Create Port with same name in all subRuleOutput-Nodes
+						if (!outputNode.hasPortWithID(io.identifier)){
+							val newSharedPort = outputNode.newBooleanSubInput(0,0)
+							newSharedPort.identifier = io.identifier
+						}
+					}
+				}
 				NumberSubOutput : io.identifier = "num_in" + op.numberSubOutputs.size
 				BooleanSubOutput : io.identifier = "bool_in" + op.booleanSubOutputs.size
 			}
 		}
 	}
 	
+	//TODO refactor
+	def hasPortWithID(SubRuleOutputs op, String ID){
+		for (port : op.inputs) {
+			switch port{
+					BooleanSubInput : 
+						if(port.identifier == ID)
+							return true	
+					NumberSubInput :
+						if(port.identifier == ID)
+							return true	
+			}
+		}
+		return false
+	}
 }
