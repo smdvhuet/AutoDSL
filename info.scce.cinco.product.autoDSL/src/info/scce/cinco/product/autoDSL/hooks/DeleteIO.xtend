@@ -5,19 +5,16 @@ import info.scce.cinco.product.autoDSL.rule.rule.IO
 import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInput
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInput
 
+import static extension info.scce.cinco.product.autoDSL.extensions.IOExtension.*
+
 class DeleteIO extends CincoPreDeleteHook<IO> {
-	/**
-	 * String used as identifier during deletion to avert alternating method calls causing a StackOverflow
-	 * TODO: ensure this String won't/can't be chosen by the user
-	 */
-	static val TEMPORARY_IDENTIFIER = "portDeletionInProgress"
 	
 	override preDelete(IO io) {
-//		LayoutManager.rearrangePreDelete(io)
-//		switch io {
-//			BooleanSubInput,
-//			NumberSubInput : io.deleteInAllSubRuleOutputs
-//		}
+		LayoutManager.rearrangePreDelete(io)
+		switch io {
+			BooleanSubInput,
+			NumberSubInput : io.deleteInAllSubRuleOutputs
+		}
 	}
 	
 	def deleteInAllSubRuleOutputs(IO io){
