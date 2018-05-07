@@ -35,6 +35,7 @@ class UpdateSubRuleOutputs extends CincoPostValueChangeListener<IO> {
 			for (port : ports) {
 				switch port {
 					BooleanSubInput : {
+						println(port.identifier)
 						port.identifier = updatedIdentifier
 					}
 					NumberSubInput : port.identifier = updatedIdentifier
