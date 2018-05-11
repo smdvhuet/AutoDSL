@@ -3,12 +3,11 @@ grammar info.scce.testdsl.TestDSL with org.eclipse.xtext.common.Terminals
 generate testDSL "http://www.scce.info/testdsl/TestDSL"
 
 prog: 
-	ops+=(EventHandler | Event | Situation)*
+	ops+=(EventHandler | Event | Configuration | Always)*
 ;
 
-
-Situation:
-	"inSituation" sit=SITUATIONS "check" "{" events+=[EventHandler] (","events+=[EventHandler])* "}"
+Configuration:
+	"configuration" name=ID "{" events+=[EventHandler] (","events+=[EventHandler])* "}"
 ;
 
 EventHandler:
@@ -21,11 +20,18 @@ EventHandler:
 Invariants: 
     {Invariants} invs+=Expression ";" (invs+=Expression ";")*
 ;
+
 Event: 
 	 "event" name=ID "{" 
 			"startCondition:" startCond=Expression
 			"endCondition:" endCond=Expression
 		"}"
+;
+
+Always:
+	"always" "{"
+		invariants=Invariants
+	"}"
 ;
 
 Expression: 
@@ -59,10 +65,6 @@ UnExpr returns Expression:
 
 AtomExpr returns Expression: 
 	{Literal} value=INT | '(' expr=Expression ')' | intvar=INT_VAR | boolvar=BOOL_VAR
-;
-
-terminal SITUATIONS: 
-	"sita" | "sitb"
 ;
 
 terminal INT_VAR: 
