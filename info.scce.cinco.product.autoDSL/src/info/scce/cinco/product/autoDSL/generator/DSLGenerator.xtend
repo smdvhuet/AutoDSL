@@ -250,7 +250,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	  if(name == null){
 	  	var String[] names = dsl.eResource().getURI().lastSegment().split(".autodsl").get(0).split("_")
 	  	
-	  	name = "";
+	  	name = getPrefix(dsl);
 	  	for(String n : names) {
 	  		name = name + n.toFirstUpper
 	  	}
@@ -269,8 +269,8 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	  
 	  if(name == null){
 	  	var String[] names = rule.eResource().getURI().lastSegment().split(".rule").get(0).split("_")
-	  	
-	  	name = "";
+
+	  	name = getPrefix(rule);
 	  	for(String n : names) {
 	  		name = name + n.toFirstUpper
 	  	}
@@ -398,4 +398,26 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		«ENDFOR»
 		'''
 	}
+	
+	private def getPrefix(AutoDSL dsl){
+		getPrefix(dsl.eResource.URI.path)
+	}
+	
+	private def getPrefix(Rule rule){
+		getPrefix(rule.eResource.URI.path)
+	}
+	
+	private def getPrefix(String filePath){
+		var projectName = mainFolder.project.name;
+		var projectRelativeFilePath = filePath.substring(filePath.indexOf(projectName) + projectName.length + 1, filePath.length);
+		var folders = projectRelativeFilePath.split("/");
+		
+		var prefix = "";
+		for(var i = 0; i < folders.length - 1; i++){
+			prefix += folders.get(i).toFirstUpper();
+		}
+		
+		return prefix;
+	}
+	
 }
