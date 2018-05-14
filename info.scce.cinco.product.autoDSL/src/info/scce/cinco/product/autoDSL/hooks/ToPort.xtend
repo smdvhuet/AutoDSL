@@ -5,6 +5,7 @@ import info.scce.cinco.product.autoDSL.rule.rule.BooleanOutput
 import info.scce.cinco.product.autoDSL.rule.rule.IO
 import info.scce.cinco.product.autoDSL.rule.rule.NumberInput
 import info.scce.cinco.product.autoDSL.rule.rule.NumberOutput
+import info.scce.cinco.product.autoDSL.rule.rule.Operation
 
 class ToPort extends IOConversion {
 	
@@ -21,7 +22,7 @@ class ToPort extends IOConversion {
 		}
 	}
 	
-	override canCreateConversionTarget(IO io) {
+	override canCreateConversionTarget(IO io, Operation op) {
 		switch io {
 			BooleanInput : op.canNewBooleanInputPort
 			BooleanOutput : op.canNewBooleanOutputPort
