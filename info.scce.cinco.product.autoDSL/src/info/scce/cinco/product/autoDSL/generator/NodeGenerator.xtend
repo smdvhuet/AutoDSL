@@ -179,43 +179,43 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	'''
 	
 	override caseSubRule(SubRule rule)'''
-	
 	«IF !rule.booleanSubInputs.nullOrEmpty»//BooleanSubInputs
 	«val Iterator<BooleanSubOutput> refBoolIns = rule.rule.subRuleInputss.head.booleanSubOutputs.iterator»
 	«FOR in:rule.booleanSubInputs»
 		«refBoolIns.next.referenceOutput» = «in.referenceInput»;
 	«ENDFOR»
-	«ENDIF»
 	
+	«ENDIF»
 	«IF !rule.numberSubInputs.nullOrEmpty»//NumberSubInputs
 	«val Iterator<NumberSubOutput> refNumberIns = rule.rule.subRuleInputss.head.numberSubOutputs.iterator»
 	«FOR in:rule.numberSubInputs»
 		«refNumberIns.next.referenceOutput» = «in.referenceInput»;
 	«ENDFOR»
-	«ENDIF»
 	
-	//SubRule start
+	«ENDIF»
+	// SubRule start
+	{
 	«FOR Node node:rule.rule.operations»
 		«IF node.incoming.nullOrEmpty&&!(node instanceof Comment)»
 			«node.doSwitch»
 		«ENDIF»
 	«ENDFOR»
-	//SubRule end
+	} // SubRule end
 	
 	«IF !rule.booleanSubOutputs.nullOrEmpty»//BooleanSubOutputs
 	«val Iterator<BooleanSubInput> refBoolOuts = rule.rule.subRuleOutputss.head.booleanSubInputs.iterator»
 	«FOR out:rule.booleanSubOutputs»
 		bool «out.referenceOutput» = «refBoolOuts.next.referenceInput»;
 	«ENDFOR»
-	«ENDIF»
 	
+	«ENDIF»
 	«IF !rule.numberSubOutputs.nullOrEmpty»//NumberSubOutputs
 	«val Iterator<NumberSubInput> refNumberOuts = rule.rule.subRuleOutputss.head.numberSubInputs.iterator»
 	«FOR out:rule.numberSubOutputs»
 		double «out.referenceOutput» = «refNumberOuts.next.referenceInput»;
 	«ENDFOR»
-	«ENDIF»
 	
+	«ENDIF»
 	«if(!rule.getSuccessors.nullOrEmpty)rule.getSuccessors.head.doSwitch»
 	'''
 	
@@ -336,39 +336,41 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	}
 	
 	public def generateSubRulePorts(Rule mainRule)'''
+	«IF mainRule.subRules.length > 0»
 	«var HashMap<Integer, Rule> knownSubRules = new HashMap<Integer, Rule>()»
 	«FOR rule:mainRule.subRules»
 		«IF !knownSubRules.containsValue(rule.rule)»
 			«knownSubRules.put(IDHasher.GetIntHash(rule.rule.id),rule.rule)»
-			//subRule «IDHasher.GetIntHash(rule.rule.id)»
+			«IF !rule.booleanSubInputs.nullOrEmpty && !rule.numberSubInputs.nullOrEmpty && !rule.booleanSubOutputs.nullOrEmpty && !rule.numberSubOutputs.nullOrEmpty»//subRule «IDHasher.GetIntHash(rule.rule.id)»«ENDIF»
 			«IF !rule.booleanSubInputs.nullOrEmpty»//BooleanSubInputs
 			«val Iterator<BooleanSubOutput> refBoolIns = rule.rule.subRuleInputss.head.booleanSubOutputs.iterator»
 			«FOR BooleanSubInput in:rule.booleanSubInputs»
 				bool «refBoolIns.next.referenceOutput»;
 			«ENDFOR»
-			«ENDIF»
 			
+			«ENDIF»
 			«IF !rule.numberSubInputs.nullOrEmpty»//NumberSubInputs
 			«val Iterator<NumberSubOutput> refNumberIns = rule.rule.subRuleInputss.head.numberSubOutputs.iterator»
 			«FOR NumberSubInput in:rule.numberSubInputs»
 				double «refNumberIns.next.referenceOutput»;
 			«ENDFOR»
-			«ENDIF»
 			
+			«ENDIF»
 			«IF !rule.booleanSubOutputs.nullOrEmpty»//BooleanSubOutputs
 			«FOR BooleanSubInput out:rule.rule.subRuleOutputss.head.booleanSubInputs»
 				bool «IDHasher.GetStringHash(rule.rule.id)+"_"+out.identifier»;
 			«ENDFOR»
-			«ENDIF»
 			
+			«ENDIF»
 			«IF !rule.numberSubOutputs.nullOrEmpty»//NumberSubOutputs
 			«FOR NumberSubInput out:rule.rule.subRuleOutputss.head.numberSubInputs»
 				double «IDHasher.GetStringHash(rule.rule.id)+"_"+out.identifier»;
 			«ENDFOR»
-			«ENDIF»
 			
+			«ENDIF»
 		«ENDIF»
 	«ENDFOR»
+	«ENDIF»
 	'''
 	
 	def getMemoryName(SharedMemory memory){
