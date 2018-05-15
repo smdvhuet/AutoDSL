@@ -21,13 +21,11 @@ class CreateIO extends CincoPostCreateHook<IO> {
 			switch (io) {
 				NumberSubInput : {
 					io.identifier = "num_out" + op.numberSubInputs.size
-					
-					io.addRemainingSubInputs(io.operation as SubRuleOutputs)
+//					io.addRemainingSubInputs(io.operation as SubRuleOutputs)
 				}
 				BooleanSubInput : {
 					io.identifier = "bool_out" + op.booleanSubInputs.size
-					
-					io.addRemainingSubInputs(io.operation as SubRuleOutputs)
+//					io.addRemainingSubInputs(io.operation as SubRuleOutputs)
 				}
 				NumberSubOutput : io.identifier = "num_in" + op.numberSubOutputs.size
 				BooleanSubOutput : io.identifier = "bool_in" + op.booleanSubOutputs.size
