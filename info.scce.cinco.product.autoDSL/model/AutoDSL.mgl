@@ -48,7 +48,7 @@ graphModel AutoDSL {
 	
 
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.DropRuleHook")
-	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.openRuleModel")
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.OpenRuleModel")
 	@style(syscomponent, "${label}")
 	node ComponentNode {
 		prime rule::Rule as rule
