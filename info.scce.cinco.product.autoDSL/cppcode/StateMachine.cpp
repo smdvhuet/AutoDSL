@@ -1,12 +1,12 @@
 #include "StateMachine.h"
-
+#include <iostream>
 #include <algorithm>
 
 using namespace ACCPlusPlus;
 
 void StateMachine::Run(const IO::CarInputs& input, IO::CarOutputs& output) {
   current_state_->Execute(input, output);
-
+  std::cout << current_state_->Name() <<"\n";
   for (std::vector<Transition>::iterator it =
            transitions_[current_state_->ID()].begin();
        it != transitions_[current_state_->ID()].end(); ++it) {

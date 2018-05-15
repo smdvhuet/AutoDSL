@@ -57,7 +57,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override casePIDController(PIDController op)'''
 		//PID Controller
-		«op.outputs.head.referenceOutput» = pid«IDHasher.GetStringHash(op.id)».calculate(«op.inputs.head.referenceInput», «op.inputs.last.referenceInput», 0.1);
+		«op.outputs.head.referenceOutput» = pid«IDHasher.GetStringHash(op.id)».calculate(«op.inputs.sortBy[y].head.referenceInput», «op.inputs.sortBy[y].last.referenceInput», 0.1);
 		
 		«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
@@ -70,7 +70,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseAddition(Addition op)'''
 	//Addition Operator
-	«op.outputs.head.referenceOutput» = «FOR input : op.inputs SEPARATOR '+'»«
+	«op.outputs.head.referenceOutput» = «FOR input : op.inputs.sortBy[y] SEPARATOR '+'»«
 									input.referenceInput»«
 								ENDFOR»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
@@ -78,7 +78,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseMultiplication(Multiplication op)'''
 	//Multiplication Operator
-	«op.outputs.head.referenceOutput» = «FOR input : op.inputs SEPARATOR '*'»«
+	«op.outputs.head.referenceOutput» = «FOR input : op.inputs.sortBy[y] SEPARATOR '*'»«
 									input.referenceInput»«
 								ENDFOR»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
@@ -86,7 +86,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseMaximum(Maximum op)'''
 	//Max Operator
-	double «IDHasher.GetStringHash(op.id)»[] = {«FOR  input : op.inputs SEPARATOR ','»«
+	double «IDHasher.GetStringHash(op.id)»[] = {«FOR  input : op.inputs.sortBy[y] SEPARATOR ','»«
 						input.referenceInput»«
 						ENDFOR»};
 	«op.outputs.head.referenceOutput» = ACCPlusPlus::Utility::max(«IDHasher.GetStringHash(op.id)»,«op.inputs.length»);
@@ -95,7 +95,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseMinimum(Minimum op)'''
 	//Min Operator
-	double «IDHasher.GetStringHash(op.id)»[] = {«FOR  input : op.inputs SEPARATOR ','»«
+	double «IDHasher.GetStringHash(op.id)»[] = {«FOR  input : op.inputs.sortBy[y] SEPARATOR ','»«
 							input.referenceInput»«
 						ENDFOR»};
 	«op.outputs.head.referenceOutput» = ACCPlusPlus::Utility::min(«IDHasher.GetStringHash(op.id)»,«op.inputs.length»);
@@ -104,7 +104,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseLogicalAnd(LogicalAnd op)'''
 	//And Operator
-	«op.outputs.head.referenceOutput» = «FOR in : op.inputs SEPARATOR '&&'»«
+	«op.outputs.head.referenceOutput» = «FOR in : op.inputs.sortBy[y] SEPARATOR '&&'»«
 										in.referenceInput»«
 									ENDFOR»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
@@ -112,7 +112,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseLogicalOr(LogicalOr op)'''
 	//Or Operator
-	«op.outputs.head.referenceOutput» = «FOR in : op.inputs SEPARATOR '||'»«
+	«op.outputs.head.referenceOutput» = «FOR in : op.inputs.sortBy[y] SEPARATOR '||'»«
 											in.referenceInput»«
 										ENDFOR»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
@@ -120,37 +120,37 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseSubtraction(Subtraction op)'''
 	//Substraction Operator
-	«op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» - «op.inputs.last.referenceInput»;
+	«op.outputs.head.referenceOutput» = «op.inputs.sortBy[y].head.referenceInput» - «op.inputs.sortBy[y].last.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseDivision(Division op)'''
 	//Division Operator
-	«op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» / «op.inputs.last.referenceInput»;
+	«op.outputs.head.referenceOutput» = «op.inputs.sortBy[y].head.referenceInput» / «op.inputs.sortBy[y].last.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseLess(Less op)'''
 	//Less Operator
-	«op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» < «op.inputs.last.referenceInput»;
+	«op.outputs.head.referenceOutput» = «op.inputs.sortBy[y].head.referenceInput» < «op.inputs.sortBy[y].last.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseLessOrEqual(LessOrEqual op)'''
 	//LessOrEqual Operator
-	«op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» <= «op.inputs.last.referenceInput»;
+	«op.outputs.head.referenceOutput» = «op.inputs.sortBy[y].head.referenceInput» <= «op.inputs.sortBy[y].last.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseGreater(Greater op)'''
 	//Greater Operator
-	«op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» > «op.inputs.last.referenceInput»;
+	«op.outputs.head.referenceOutput» = «op.inputs.sortBy[y].head.referenceInput» > «op.inputs.sortBy[y].last.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseGreaterOrEqual(GreaterOrEqual op)'''
 	//GreaterOrEqual Operator
-	«op.outputs.head.referenceOutput» = «op.inputs.head.referenceInput» >= «op.inputs.last.referenceInput»;
+	«op.outputs.head.referenceOutput» = «op.inputs.sortBy[y].head.referenceInput» >= «op.inputs.sortBy[y].last.referenceInput»;
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
@@ -253,7 +253,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseStoredPIDController(StoredPIDController pid)'''
 	//Stored PID
-	«pid.outputs.head.referenceOutput» = SharedMemory::«pid.data.rootElement.memoryName».«pid.data.label».calculate(«pid.inputs.head.referenceInput», «pid.inputs.last.referenceInput», 0.1);
+	«pid.outputs.head.referenceOutput» = SharedMemory::«pid.data.rootElement.memoryName».«pid.data.label».calculate(«pid.inputs.sortBy[y].head.referenceInput», «pid.inputs.sortBy[y].last.referenceInput», 0.1);
 	
 	«if(!pid.getSuccessors.nullOrEmpty)pid.getSuccessors.head.doSwitch»
 	'''

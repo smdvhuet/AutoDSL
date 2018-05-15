@@ -10,6 +10,11 @@ struct CarInputs {
   bool HasEngineError;
   bool HasSteeringError;
   bool HasGearboxError;
+  
+  bool DecrementSetDistanceButton;
+  bool IncrementSetDistanceButton;
+  bool DecrementSetSpeedButton;
+  bool IncrementSetSpeedButton;
 
   double DistanceFront;
   double DistanceRear;
@@ -17,11 +22,10 @@ struct CarInputs {
   double LeadingCarRelativeSpeed;
 
   double CurrentSpeed;
-  double Acceleration;
+  double PhysicalAcceleration;
   double Steering;
-  double SetSpeed;
-  double SetDistance;
-
+  double InputThrottle;
+  double InputBrake;
   double dTime;
 };
 
@@ -30,9 +34,10 @@ struct CarOutputs {
   bool ErrorWarning;
   bool SystemOn;
   bool SystemActive;
-  bool Scheinwerfer_An;
+  bool HeadlightsOn;
 
-  double Acceleration;
+  double Throttle;
+  double Brake;
   double Steering;
   double SetSpeed;
   double SetDistance;
