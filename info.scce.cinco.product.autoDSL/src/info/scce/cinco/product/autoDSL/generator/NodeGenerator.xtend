@@ -194,13 +194,12 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	«ENDIF»
 	// SubRule start
-	{
 	«FOR Node node:rule.rule.operations»
 		«IF node.incoming.nullOrEmpty&&!(node instanceof Comment)»
 			«node.doSwitch»
 		«ENDIF»
 	«ENDFOR»
-	} // SubRule end
+	// SubRule end
 	
 	«IF !rule.booleanSubOutputs.nullOrEmpty»//BooleanSubOutputs
 	«val Iterator<BooleanSubInput> refBoolOuts = rule.rule.subRuleOutputss.head.booleanSubInputs.iterator»
@@ -336,7 +335,6 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	}
 	
 	public def generateSubRulePorts(Rule mainRule)'''
-	«IF mainRule.subRules.length > 0»
 	«var HashMap<Integer, Rule> knownSubRules = new HashMap<Integer, Rule>()»
 	«FOR rule:mainRule.subRules»
 		«IF !knownSubRules.containsValue(rule.rule)»
@@ -370,7 +368,6 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 			«ENDIF»
 		«ENDIF»
 	«ENDFOR»
-	«ENDIF»
 	'''
 	
 	def getMemoryName(SharedMemory memory){
