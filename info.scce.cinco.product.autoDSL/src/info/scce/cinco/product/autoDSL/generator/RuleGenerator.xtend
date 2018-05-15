@@ -304,7 +304,7 @@ class RuleGenerator implements IGenerator<Rule> {
 		return '''
 		«IF privateMemberVars.length > 0»
 		
-		«accessSpecifier»
+		«accessSpecifier»:
 		 «ArrayToCharSequence(privateMemberVars)»
 		 «ENDIF»
 		'''
