@@ -24,6 +24,7 @@ import java.util.List
 
 class RuleGenerator implements IGenerator<Rule> {
 	var IFolder mainFolder
+	var boolean isGuardMember
 	
 	override generate(Rule rule, IPath targetDir, IProgressMonitor monitor) {
 		val ArrayList<String> srcFolders = new ArrayList<String>();
@@ -31,9 +32,17 @@ class RuleGenerator implements IGenerator<Rule> {
 		
 		val IProject project = ProjectCreator.getProject(rule.eResource)
 		mainFolder = project.getFolder("src-gen")
-		EclipseFileUtils.mkdirs(mainFolder,monitor)
 		
-		if(rule.allNodes.filter[it instanceof BooleanGuardOutput].length > 0)
+		generateRule(rule, rule.allNodes.filter[it instanceof BooleanGuardOutput].length > 0);
+	}
+	
+	private def generateRule(Rule rule, boolean isGuardMember){
+		val IProject project = ProjectCreator.getProject(rule.eResource)
+		mainFolder = project.getFolder("src-gen")
+		
+		this.isGuardMember = isGuardMember
+		
+		if(isGuardMember)
 			generateGuardRule(mainFolder, rule)
 		else
 			generateRule(mainFolder, rule)
@@ -53,7 +62,7 @@ class RuleGenerator implements IGenerator<Rule> {
 		var ArrayList<String> privateMemberVars = new ArrayList();
 		var ArrayList<String> publicMemberVars = new ArrayList();
 
-		includes.add('"core/Rule.h"');
+		includes.add('"core/StateRule.h"');
 		
 		getGeneralDependencies(rule, includes, privateMemberVars, publicMemberVars)
 
@@ -63,7 +72,7 @@ class RuleGenerator implements IGenerator<Rule> {
 		«addIncludes(includes)»
 			
 		namespace AutoDSL{
-		class «rule.name» : public ACCPlusPlus::Rule{
+		class «rule.name» : public ACCPlusPlus::StateRule{
 		 public: 
 		  «rule.name»();
 		  ~«rule.name»();
@@ -90,7 +99,7 @@ class RuleGenerator implements IGenerator<Rule> {
 				
 				using namespace AutoDSL;
 				
-				«rule.name»::«rule.name»() : ACCPlusPlus::Rule("«rule.name»")«IF rule.PIDControllers.length > 0»«FOR pid : rule.PIDControllers», pid«IDHasher.GetStringHash(pid.id)»(«pid.p», «pid.i», «pid.d»)«ENDFOR»«ENDIF»{}
+				«rule.name»::«rule.name»() : ACCPlusPlus::StateRule("«rule.name»")«IF rule.PIDControllers.length > 0»«FOR pid : rule.PIDControllers», pid«IDHasher.GetStringHash(pid.id)»(«pid.p», «pid.i», «pid.d»)«ENDFOR»«ENDIF»{}
 				
 				«rule.name»::~«rule.name»() {}
 				
@@ -134,7 +143,7 @@ class RuleGenerator implements IGenerator<Rule> {
 		  «rule.name»();
 		  ~«rule.name»();
 		
-		  void Execute(const ACCPlusPlus::IO::CarInputs &, ACCPlusPlus::IO::CarOutputs &);	
+		  bool Execute(const ACCPlusPlus::IO::CarInputs &);	
 		  void onEntry();
 		  void onExit();
 		«addMemberVars("public", publicMemberVars)»
@@ -187,7 +196,7 @@ class RuleGenerator implements IGenerator<Rule> {
 		  	rule.name = name;
 		  		  	
 		  	//generate to file
-		  	(new RuleGenerator()).generate(rule, null, null);
+		  	(new RuleGenerator()).generateRule(rule, isGuardMember);
 	  	}else{
 	  		name = rule.name; 	
 	  	}
@@ -216,7 +225,7 @@ class RuleGenerator implements IGenerator<Rule> {
 //				FUNCTIONS FOR NODES WITH OTHER GENERATED DEPENDENCIES
 //*********************************************************************************		
 	private def getGeneralDependencies(Rule rule, List<String> includes, List<String> privateMemberVars, List<String> publicMemberVars){
-		includes.add('"core/IO.h');
+		includes.add('"core/IO.h"');
 
 		getPIDs(rule, includes, privateMemberVars)
 		getSubRules(rule, includes, privateMemberVars)
