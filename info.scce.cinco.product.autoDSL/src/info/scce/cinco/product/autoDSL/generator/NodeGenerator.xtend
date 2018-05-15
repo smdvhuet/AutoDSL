@@ -34,7 +34,6 @@ import info.scce.cinco.product.autoDSL.rule.rule.Division
 import info.scce.cinco.product.autoDSL.rule.rule.SubRuleInputs
 import info.scce.cinco.product.autoDSL.rule.rule.SubRuleOutputs
 import info.scce.cinco.product.autoDSL.rule.rule.SubRule
-import javax.xml.stream.events.Comment
 import java.util.Iterator
 import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInput
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInput

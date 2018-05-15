@@ -28,6 +28,8 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	var HashMap<Integer, String> knownGuard = new HashMap<Integer, String>()
 	
 	override generate(AutoDSL dsl, IPath targetDir, IProgressMonitor monitor) {
+		IDHasher.Clear();
+		
 		knownRuleTypes.clear();
 		knownDSLTypes.clear();
 		
