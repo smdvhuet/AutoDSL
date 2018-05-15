@@ -23,9 +23,9 @@ class DeleteIO extends CincoPreDeleteHook<IO> {
 			val ports = subRuleOutput.inputs.filter[it != io]
 			for (port : ports) {
 				if(io.hasSameIdentifier(port)) {
-					switch io {
-						BooleanSubInput : io.identifier = TEMPORARY_IDENTIFIER 
-						NumberSubInput : io.identifier = TEMPORARY_IDENTIFIER
+					switch port {
+						BooleanSubInput : port.identifier = TEMPORARY_IDENTIFIER 
+						NumberSubInput : port.identifier = TEMPORARY_IDENTIFIER
 					}
 					port.delete
 				}
@@ -35,15 +35,13 @@ class DeleteIO extends CincoPreDeleteHook<IO> {
 	}
 
 	def hasSameIdentifier(IO io, IO port){
-		var String ioIdentifier
-		var String portIdentifier
-		switch io {
-			BooleanSubInput : ioIdentifier = io.identifier
-			NumberSubInput : ioIdentifier = io.identifier
+		val ioIdentifier = switch io {
+			BooleanSubInput :  io.identifier
+			NumberSubInput : io.identifier
 		}
-		switch port {
-			BooleanSubInput : portIdentifier = port.identifier
-			NumberSubInput : portIdentifier = port.identifier
+		val portIdentifier = switch port {
+			BooleanSubInput : port.identifier
+			NumberSubInput : port.identifier
 		}
 		ioIdentifier == portIdentifier
 	}
