@@ -1,5 +1,5 @@
-#ifndef ACCPLUSPLUS_RULE_H_
-#define ACCPLUSPLUS_RULE_H_
+#ifndef ACCPLUSPLUS_STATERULE_H_
+#define ACCPLUSPLUS_STATERULE_H_
 
 #include "IO.h"
 #include "Type.h"
@@ -7,10 +7,10 @@
 #include <map>
 
 namespace ACCPlusPlus {
-class Rule : public Type {
+class StateRule : public Type {
 public:
-  Rule(const std::string &name) : Type(name) {}
-  virtual ~Rule() {}
+  StateRule(const std::string &name) : Type(name) {}
+  virtual ~StateRule() {}
 
   virtual void onEntry() = 0;
   virtual void Execute(const IO::CarInputs &, IO::CarOutputs &) = 0;
@@ -18,7 +18,7 @@ public:
 };
 
 namespace Globals {
-static std::map<Utility::IDType, Rule *> gRuleRegister;
+static std::map<Utility::IDType, StateRule *> gRuleRegister;
 }
 } // namespace ACCPlusPlus
-#endif // ACCPLUSPLUS_RULE_H_
+#endif // ACCPLUSPLUS_STATERULE_H_
