@@ -281,12 +281,12 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 			NumberSubOutput:	if(out.container instanceof SubRule){
 									IDHasher.GetStringHash(out.id)
 								}else{
-									IDHasher.GetStringHash(out.rootElement.id)+"_"+out.identifier
+									out.identifier
 								}
 			BooleanSubOutput:	if(out.container instanceof SubRule){
 									IDHasher.GetStringHash(out.id)
 								}else{
-									IDHasher.GetStringHash(out.rootElement.id)+"_"+out.identifier
+									out.identifier
 								}
 			NumberOutput:		if(out.container instanceof LoadNumber){
 									"SharedMemory::"+(out.container as LoadNumber).data.rootElement.memoryName+"."+(out.container as LoadNumber).data.label
