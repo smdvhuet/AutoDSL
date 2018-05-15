@@ -110,7 +110,7 @@ abstract class IOConversion extends CincoCustomAction<IO> {
 		for (output : op.outputs.filter[it != io]){
 			switch output {
 				BooleanCarOutput : tmpOp.newBooleanCarOutput(0,0)
-				BooleanOutputPort : tmpOp.newBooleanInputPort(0,0)
+				BooleanOutputPort : tmpOp.newBooleanOutputPort(0,0)
 				NumberCarOutput : tmpOp.newNumberCarOutput(0,0)
 				NumberOutputPort : tmpOp.newNumberOutputPort(0,0)
 			}
