@@ -57,7 +57,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override casePIDController(PIDController op)'''
 		//PID Controller
-		«op.outputs.head.referenceOutput» = pid«IDHasher.GetStringHash(op.id)».calculate(«op.inputs.sortBy[y].head.referenceInput», «op.inputs.sortBy[y].last.referenceInput», 0.1);
+		«op.outputs.head.referenceOutput» = pid«IDHasher.GetStringHash(op.id)».calculate(«op.inputs.sortBy[y].head.referenceInput», «op.inputs.sortBy[y].last.referenceInput», input.dTime);
 		
 		«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
@@ -260,7 +260,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseStoredPIDController(StoredPIDController pid)'''
 	//Stored PID
-	«pid.outputs.head.referenceOutput» = SharedMemory::«pid.data.rootElement.memoryName».«pid.data.label».calculate(«pid.inputs.sortBy[y].head.referenceInput», «pid.inputs.sortBy[y].last.referenceInput», 0.1);
+	«pid.outputs.head.referenceOutput» = SharedMemory::«pid.data.rootElement.memoryName».«pid.data.label».calculate(«pid.inputs.sortBy[y].head.referenceInput», «pid.inputs.sortBy[y].last.referenceInput», input.dTime);
 	
 	«if(!pid.getSuccessors.nullOrEmpty)pid.getSuccessors.head.doSwitch»
 	'''
