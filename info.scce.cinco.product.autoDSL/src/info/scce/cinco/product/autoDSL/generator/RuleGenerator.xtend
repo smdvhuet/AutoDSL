@@ -21,8 +21,6 @@ import info.scce.cinco.product.autoDSL.rule.rule.NumberSubOutput
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubOutput
 import info.scce.cinco.product.autoDSL.rule.rule.SubRuleOutputs
 import java.util.List
-import info.scce.cinco.product.autoDSL.rule.rule.NumberCarOutput
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanCarOutput
 
 class RuleGenerator implements IGenerator<Rule> {
 	var IFolder mainFolder
@@ -39,7 +37,7 @@ class RuleGenerator implements IGenerator<Rule> {
 		else if(isStateRule(rule))
 			generateRule(mainFolder, rule)
 		else if(isNeutralRule(rule))
-			generateGuardRule(mainFolder, rule)
+			generateNeutralRule(mainFolder, rule)
 		else
 			System.out.println("Not implemented");
 	}
@@ -177,6 +175,72 @@ class RuleGenerator implements IGenerator<Rule> {
 	}
 	
 //*********************************************************************************
+//								GENERATE NEUTRALRULES
+//*********************************************************************************		
+	private def generateNeutralRule(IFolder folder, Rule rule){
+		var nodeGenerator = new NodeGenerator();
+		EclipseFileUtils.writeToFile(folder.getFile(rule.name + ".h"), generateNeutralRuleHeader(rule, nodeGenerator))
+	  	EclipseFileUtils.writeToFile(folder.getFile(rule.name + ".cpp"), generateNeutralRuleBody(rule, nodeGenerator))
+	}
+		
+	private def generateNeutralRuleHeader(Rule rule, NodeGenerator nodeGenerator){
+		var ArrayList<String> includes = new ArrayList(); 
+		var ArrayList<String> privateMemberVars = new ArrayList();
+		var ArrayList<String> publicMemberVars = new ArrayList();
+
+		includes.add('"core/NeutralRule.h"');
+		
+		getGeneralDependencies(rule, includes, privateMemberVars, publicMemberVars)
+
+		return '''	
+		#ifndef AUTODSL_«rule.name.toUpperCase()»_H_
+		#define AUTODSL_«rule.name.toUpperCase()»_H_
+		«addIncludes(includes)»
+			
+		namespace AutoDSL{
+		class «rule.name» : public ACCPlusPlus::NeutralRule{
+		 public: 
+		  «rule.name»();
+		  ~«rule.name»();
+		
+		  void Execute(const ACCPlusPlus::IO::CarInputs &);	
+		  void onEntry();
+		  void onExit();
+		«addMemberVars("public", publicMemberVars)»
+		«addMemberVars("private", privateMemberVars)»
+		};
+		} // namespace AutoDSL
+		#endif // AUTODSL_«rule.name.toUpperCase()»_H_'''
+	}
+	
+	private def generateNeutralRuleBody(Rule rule, NodeGenerator nodeGenerator){
+		for(Node node : rule.operations){
+			if(node.incoming.nullOrEmpty&&!(node instanceof Comment)){
+				return
+				'''	
+				#include "«rule.name».h"
+				
+				#include "core/Utility.h"
+				#include "SharedMemory.h"
+				
+				using namespace AutoDSL;
+				
+				«rule.name»::«rule.name»() : ACCPlusPlus::NeutralRule("«rule.name»")«IF rule.PIDControllers.length > 0»«FOR pid : rule.PIDControllers», pid«IDHasher.GetStringHash(pid.id)»(«pid.p», «pid.i», «pid.d»)«ENDFOR»«ENDIF»{}
+				
+				«rule.name»::~«rule.name»() {}
+				
+				void «rule.name»::Execute(const ACCPlusPlus::IO::CarInputs &input){
+					«nodeGenerator.doSwitch(node)»
+				}
+				
+				void «rule.name»::onEntry(){}
+					
+				void «rule.name»::onExit(){}'''
+			}
+		}
+	}
+	
+//*********************************************************************************
 //				FUNCTIONS FOR GENERATING A CLASSNAME
 //*********************************************************************************		
 	private def getSubRuleClassName(Rule rule){
@@ -302,8 +366,8 @@ class RuleGenerator implements IGenerator<Rule> {
 	public static def boolean isPossibleStateRule(Rule rule){
 		var boolean isStateRule = false;
 		
-		isStateRule = isStateRule || rule.operations.map[it.numberCarOutputs].length > 0
-					|| rule.operations.map[it.booleanCarOutputs].length > 0
+		isStateRule = isStateRule || rule.operations.filter[it.numberCarOutputs.length > 0].length > 0
+					|| rule.operations.filter[it.booleanCarOutputs.length > 0].length > 0
 		
 		for(SubRule subRule : rule.subRules)
 			isStateRule = isStateRule || isPossibleStateRule(subRule.rule);

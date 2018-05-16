@@ -61,6 +61,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		copyStaticHeaderAndCpp(staticFolder, thisBundle, "cppcode/Guard")
 		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/StateRule.h", staticFolder)
 		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/GuardRule.h", staticFolder)
+		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/NeutralRule.h", staticFolder)
 			
 		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/IO.h", staticFolder)
 		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/IDGenerator.h", staticFolder)
