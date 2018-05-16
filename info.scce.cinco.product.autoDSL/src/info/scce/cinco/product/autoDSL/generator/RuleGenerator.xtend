@@ -302,8 +302,8 @@ class RuleGenerator implements IGenerator<Rule> {
 	public static def boolean isPossibleStateRule(Rule rule){
 		var boolean isStateRule = false;
 		
-		isStateRule = isStateRule || rule.allNodes.filter[it instanceof NumberCarOutput].length > 0
-					|| rule.allNodes.filter[it instanceof BooleanCarOutput].length > 0
+		isStateRule = isStateRule || rule.operations.map[it.numberCarOutputs].length > 0
+					|| rule.operations.map[it.booleanCarOutputs].length > 0
 		
 		for(SubRule subRule : rule.subRules)
 			isStateRule = isStateRule || isPossibleStateRule(subRule.rule);

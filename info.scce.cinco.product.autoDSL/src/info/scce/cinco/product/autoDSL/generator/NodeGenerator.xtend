@@ -49,6 +49,7 @@ import info.scce.cinco.product.autoDSL.rule.rule.LoadNumber
 import info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory.SharedMemory
 import info.scce.cinco.product.autoDSL.rule.rule.NumberOutput
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanOutput
+import info.scce.cinco.product.autoDSL.rule.rule.Equal
 
 class NodeGenerator extends RuleSwitch<CharSequence> {
 	
@@ -153,6 +154,12 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
+	override caseEqual(Equal op)'''
+	//Equal Operator
+	«op.outputs.head.referenceOutput» = «op.inputs.sortBy[y].head.referenceInput» == «op.inputs.sortBy[y].last.referenceInput»;
+	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
+	'''
+	
 	override caseDecision(Decision d)'''
 	if(«d.booleanInputs.head.referenceInput»){
 		«d.outgoing.filter(ControlFlowDecisionTrue).head.getTargetElement.doSwitch»
@@ -193,7 +200,14 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	«ENDIF»
 	// SubRule execution
-	«IDHasher.GetStringHash(rule.rule.id)».Execute(input, output);
+	«IF RuleGenerator.isStateRule(rule.rule)»
+		«IDHasher.GetStringHash(rule.rule.id)».Execute(input, output);
+	«ELSE»«IF RuleGenerator.isGuardRule(rule.rule) || RuleGenerator.isNeutralRule(rule.rule)»
+				«IDHasher.GetStringHash(rule.rule.id)».Execute(input);
+			«ELSE»
+				//SubRule is not StateRule, GuardRule or NeutralRule
+			«ENDIF»
+	«ENDIF»
 	
 	«IF !rule.booleanSubOutputs.nullOrEmpty»//BooleanSubOutputs
 	«val Iterator<BooleanSubInput> refBoolOuts = rule.rule.subRuleOutputss.head.booleanSubInputs.iterator»
