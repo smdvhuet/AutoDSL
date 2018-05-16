@@ -21,10 +21,11 @@ import info.scce.cinco.product.autoDSL.rule.rule.NumberSubOutput
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubOutput
 import info.scce.cinco.product.autoDSL.rule.rule.SubRuleOutputs
 import java.util.List
+import info.scce.cinco.product.autoDSL.rule.rule.NumberCarOutput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanCarOutput
 
 class RuleGenerator implements IGenerator<Rule> {
 	var IFolder mainFolder
-	var boolean isGuardMember
 	
 	override generate(Rule rule, IPath targetDir, IProgressMonitor monitor) {
 		val ArrayList<String> srcFolders = new ArrayList<String>();
@@ -33,19 +34,14 @@ class RuleGenerator implements IGenerator<Rule> {
 		val IProject project = ProjectCreator.getProject(rule.eResource)
 		mainFolder = project.getFolder("src-gen")
 		
-		generateRule(rule, rule.allNodes.filter[it instanceof BooleanGuardOutput].length > 0);
-	}
-	
-	private def generateRule(Rule rule, boolean isGuardMember){
-		val IProject project = ProjectCreator.getProject(rule.eResource)
-		mainFolder = project.getFolder("src-gen")
-		
-		this.isGuardMember = isGuardMember
-		
-		if(isGuardMember)
+		if(isGuardRule(rule))
+			generateGuardRule(mainFolder, rule)
+		else if(isStateRule(rule))
+			generateRule(mainFolder, rule)
+		else if(isNeutralRule(rule))
 			generateGuardRule(mainFolder, rule)
 		else
-			generateRule(mainFolder, rule)
+			System.out.println("Not implemented");
 	}
 	
 //*********************************************************************************
@@ -196,7 +192,7 @@ class RuleGenerator implements IGenerator<Rule> {
 		  	rule.name = name;
 		  		  	
 		  	//generate to file
-		  	(new RuleGenerator()).generateRule(rule, isGuardMember);
+		  	(new RuleGenerator()).generate(rule, null, null);
 	  	}else{
 	  		name = rule.name; 	
 	  	}
@@ -205,20 +201,7 @@ class RuleGenerator implements IGenerator<Rule> {
 	}
 	
 	private def getPrefix(Rule rule){
-		getPrefix(rule.eResource.URI.path)
-	}
-	
-	private def getPrefix(String filePath){
-		var projectName = mainFolder.project.name;
-		var projectRelativeFilePath = filePath.substring(filePath.indexOf(projectName) + projectName.length + 1, filePath.length);
-		var folders = projectRelativeFilePath.split("/");
-		
-		var prefix = "";
-		for(var i = 0; i < folders.length - 1; i++){
-			prefix += folders.get(i).toFirstUpper();
-		}
-		
-		return prefix;
+		DSLGenerator.getPrefix(rule.eResource.URI.path, mainFolder)
 	}
 	
 //*********************************************************************************
@@ -295,7 +278,42 @@ class RuleGenerator implements IGenerator<Rule> {
 				}
 			}
 		}
+	}
+	
+	public static def boolean isGuardRule(Rule rule){
+		return isPossibleGuardRule(rule) && !isPossibleStateRule(rule);
+	}
+	
+	public static def boolean isPossibleGuardRule(Rule rule){
+		var boolean isGuardRule = false;
+		
+		isGuardRule = isGuardRule || rule.allNodes.filter[it instanceof BooleanGuardOutput].length > 0;
+		
+		for(SubRule subRule : rule.subRules)
+			isGuardRule = isGuardRule || isPossibleGuardRule(subRule.rule)
+			
+		return isGuardRule;
 	}	
+	
+	public static def boolean isStateRule(Rule rule){
+		return !isPossibleGuardRule(rule) && isPossibleStateRule(rule);
+	}
+	
+	public static def boolean isPossibleStateRule(Rule rule){
+		var boolean isStateRule = false;
+		
+		isStateRule = isStateRule || rule.allNodes.filter[it instanceof NumberCarOutput].length > 0
+					|| rule.allNodes.filter[it instanceof BooleanCarOutput].length > 0
+		
+		for(SubRule subRule : rule.subRules)
+			isStateRule = isStateRule || isPossibleStateRule(subRule.rule);
+		
+		return isStateRule;
+	}
+	
+	public static def boolean isNeutralRule(Rule rule){
+		return !isPossibleGuardRule(rule) && !isPossibleStateRule(rule)
+	}
 	
 //*********************************************************************************
 //					FUNCTIONS FOR WRITING TO GENERATED .h and .cpp	

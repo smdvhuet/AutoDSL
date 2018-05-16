@@ -402,14 +402,14 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	}
 	
 	private def getPrefix(AutoDSL dsl){
-		getPrefix(dsl.eResource.URI.path)
+		getPrefix(dsl.eResource.URI.path, mainFolder)
 	}
 	
 	private def getPrefix(Rule rule){
-		getPrefix(rule.eResource.URI.path)
+		getPrefix(rule.eResource.URI.path, mainFolder)
 	}
 	
-	private def getPrefix(String filePath){
+	public static  def getPrefix(String filePath, IFolder mainFolder){
 		var projectName = mainFolder.project.name;
 		var projectRelativeFilePath = filePath.substring(filePath.indexOf(projectName) + projectName.length + 1, filePath.length);
 		var folders = projectRelativeFilePath.split("/");
