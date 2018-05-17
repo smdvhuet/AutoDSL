@@ -10,6 +10,8 @@ uint64_t rdtsc() {
   return __rdtsc();
 }
 #else
+#include <inttypes.h>
+#include <cstdio>
 uint64_t rdtsc() {
   unsigned int lo, hi;
   __asm__ __volatile__("rdtsc" : "=a" (lo), "=d" (hi));
@@ -54,8 +56,6 @@ extern debug_table gDebug_table;
 
 #define ACC_LOG(EventName, Value) STORE_EVENT(EventName, Value)
 
-
-#include <intrin.h>
 #include <iomanip>
 #include "Logger.h"
 
