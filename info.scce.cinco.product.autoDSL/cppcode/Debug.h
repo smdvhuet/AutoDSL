@@ -66,6 +66,6 @@ extern Logger gLogger;
             << std::setfill(' ') << std::setw(20) << __FILENAME__        \
             << std::setfill(' ') << std::setw(20) << __FUNCTION__        \
             << std::setfill(' ') << std::setw(7)  << __LINE__            \
-            << std::setfill(' ') << std::setw(10) <<  msg
+            << std::setfill(' ') << std::setw(10) <<  msg;
 
 #endif // ACCPLUSPLUS_DEBUG_H_
