@@ -3,7 +3,11 @@ grammar info.scce.testdsl.TestDSL with org.eclipse.xtext.common.Terminals
 generate testDSL "http://www.scce.info/testdsl/TestDSL"
 
 prog: 
-	ops+=(EventHandler | Event | Configuration | Always)*
+	ops+=(EventHandler | Event | Configuration | Always | Variable)*
+;
+
+Variable:
+	"var" name=ID "=" expr=Expression	
 ;
 
 Configuration:
@@ -64,7 +68,7 @@ UnExpr returns Expression:
 ;
 
 AtomExpr returns Expression: 
-	{Literal} value=INT | '(' expr=Expression ')' | intvar=INT_VAR | boolvar=BOOL_VAR
+	{Literal} value=INT | '(' expr=Expression ')' | intvar=INT_VAR | boolvar=BOOL_VAR | var=[Variable]
 ;
 
 terminal INT_VAR: 
