@@ -28,7 +28,7 @@ Invariants:
 Event: 
 	 "event" name=ID "{" 
 			"startCondition:" startCond=Expression
-			"endCondition:" endCond=Expression
+			"endCondition:" (endCond=Expression) | "timepassed" time=INT 
 		"}"
 ;
 
