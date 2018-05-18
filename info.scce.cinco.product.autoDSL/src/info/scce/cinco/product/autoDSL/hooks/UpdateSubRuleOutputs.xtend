@@ -7,11 +7,15 @@ import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInput
 import info.scce.cinco.product.autoDSL.rule.rule.SubRuleOutputs
 
 import static extension info.scce.cinco.product.autoDSL.extensions.IOExtension.*
+import static extension info.scce.cinco.product.autoDSL.extensions.SubRuleOutputsExtension.*
 
 class UpdateSubRuleOutputs extends CincoPostValueChangeListener<IO> {
 	
 	override canHandleChange(IO io) {
-		//TODO prevent duplicate identifiers
+		val op = io.operation
+		if(op.inputs.size != op.referenceSize){
+			return false
+		}
 		switch io {
 			BooleanSubInput : !io.identifier.equals(TEMPORARY_IDENTIFIER) && !io.identifier.equals("bool_out" + io.operation.booleanSubInputs.size)
 			NumberSubInput : !io.identifier.equals(TEMPORARY_IDENTIFIER) && !io.identifier.equals("num_out" + io.operation.numberSubInputs.size)
