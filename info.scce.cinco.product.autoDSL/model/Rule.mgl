@@ -397,6 +397,17 @@ graphModel Rule {
 			BooleanOutput[0,0], NumberOutput[1,1]
 		)		
 	}
+	
+	@style(nonCommutableOperation, "^")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
+	container Exponential extends NonCommutableOperation {
+		containableElements(
+			BooleanInput[0,0], NumberInput[2,2],
+			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanOutput[0,0], NumberOutput[1,1]
+		)
+	}
 
 	@style(nonCommutableOperation, "-")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateOperation")

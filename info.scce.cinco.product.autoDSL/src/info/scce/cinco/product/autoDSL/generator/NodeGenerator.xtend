@@ -50,6 +50,7 @@ import info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory.SharedMemory
 import info.scce.cinco.product.autoDSL.rule.rule.NumberOutput
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanOutput
 import info.scce.cinco.product.autoDSL.rule.rule.Equal
+import info.scce.cinco.product.autoDSL.rule.rule.Exponential
 
 class NodeGenerator extends RuleSwitch<CharSequence> {
 	
@@ -81,6 +82,12 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	«op.outputs.head.referenceOutput» = «FOR input : op.inputs.sortBy[y] SEPARATOR '*'»«
 									input.referenceInput»«
 								ENDFOR»;
+	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
+	'''
+	
+	override caseExponential(Exponential op)'''
+	//Exponential Operator
+	«op.outputs.head.referenceOutput» = pow(«op.inputs.sortBy[y].head.referenceInput», «op.inputs.sortBy[y].last.referenceInput»);
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	

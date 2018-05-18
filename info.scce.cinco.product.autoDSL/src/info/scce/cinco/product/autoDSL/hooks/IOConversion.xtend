@@ -42,6 +42,7 @@ import info.scce.cinco.product.autoDSL.rule.rule.SubRuleOutputs
 import info.scce.cinco.product.autoDSL.rule.rule.Subtraction
 
 import static extension info.scce.cinco.product.autoDSL.extensions.IOExtension.*
+import info.scce.cinco.product.autoDSL.rule.rule.Exponential
 
 abstract class IOConversion extends CincoCustomAction<IO> {
 	
@@ -74,6 +75,7 @@ abstract class IOConversion extends CincoCustomAction<IO> {
 			DirectNumberOutput : root.newDirectNumberOutput(0,0)
 			Division : root.newDivision(0,0)
 			Equal : root.newEqual(0,0)
+			Exponential : root.newExponential(0,0)
 			Greater : root.newGreater(0,0)
 			GreaterOrEqual : root.newGreaterOrEqual(0,0)
 			Less : root.newLess(0,0)
