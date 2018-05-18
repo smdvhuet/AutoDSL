@@ -275,6 +275,7 @@ class RuleGenerator implements IGenerator<Rule> {
 		includes.add('"core/IO.h"');
 
 		getPIDs(rule, includes, privateMemberVars)
+		if(rule.exponentials.length > 0){includes.add("<math.h>")}
 		getSubRules(rule, includes, privateMemberVars)
 		getSubRuleInputs(rule, includes, publicMemberVars)
 		getSubRuleOutputs(rule, includes, publicMemberVars)
