@@ -202,11 +202,12 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	// SubRule execution
 	«IF RuleGenerator.isStateRule(rule.rule)»
 		«IDHasher.GetStringHash(rule.rule.id)».Execute(input, output);
-	«ELSE»«IF RuleGenerator.isGuardRule(rule.rule) || RuleGenerator.isNeutralRule(rule.rule)»
-				«IDHasher.GetStringHash(rule.rule.id)».Execute(input);
-			«ELSE»
-				//SubRule is not StateRule, GuardRule or NeutralRule
-			«ENDIF»
+	«ELSEIF RuleGenerator.isGuardRule(rule.rule)»
+		return «IDHasher.GetStringHash(rule.rule.id)».Execute(input);
+	«ELSEIF RuleGenerator.isNeutralRule(rule.rule)»
+		«IDHasher.GetStringHash(rule.rule.id)».Execute(input);
+	«ELSE»
+		//SubRule is not StateRule, GuardRule or NeutralRule
 	«ENDIF»
 	
 	«IF !rule.booleanSubOutputs.nullOrEmpty»//BooleanSubOutputs
