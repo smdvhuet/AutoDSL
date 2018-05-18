@@ -25,6 +25,9 @@ struct CarInputs {
   double PhysicalAcceleration;
   double Steering;
   double dTime;
+
+  double InputThrottle;
+  double InputBrake;
 };
 
 struct CarOutputs {

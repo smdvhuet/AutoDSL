@@ -28,6 +28,8 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	var HashMap<Integer, String> knownGuard = new HashMap<Integer, String>()
 	
 	override generate(AutoDSL dsl, IPath targetDir, IProgressMonitor monitor) {
+		IDHasher.Clear();
+		
 		knownRuleTypes.clear();
 		knownDSLTypes.clear();
 		
@@ -57,8 +59,9 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		copyStaticHeaderAndCpp(staticFolder, thisBundle, "cppcode/StateMachine")
 		copyStaticHeaderAndCpp(staticFolder, thisBundle, "cppcode/State")
 		copyStaticHeaderAndCpp(staticFolder, thisBundle, "cppcode/Guard")
-		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/Rule.h", staticFolder)
+		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/StateRule.h", staticFolder)
 		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/GuardRule.h", staticFolder)
+		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/NeutralRule.h", staticFolder)
 			
 		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/IO.h", staticFolder)
 		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/IDGenerator.h", staticFolder)
@@ -400,14 +403,14 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	}
 	
 	private def getPrefix(AutoDSL dsl){
-		getPrefix(dsl.eResource.URI.path)
+		getPrefix(dsl.eResource.URI.path, mainFolder)
 	}
 	
 	private def getPrefix(Rule rule){
-		getPrefix(rule.eResource.URI.path)
+		getPrefix(rule.eResource.URI.path, mainFolder)
 	}
 	
-	private def getPrefix(String filePath){
+	public static  def getPrefix(String filePath, IFolder mainFolder){
 		var projectName = mainFolder.project.name;
 		var projectRelativeFilePath = filePath.substring(filePath.indexOf(projectName) + projectName.length + 1, filePath.length);
 		var folders = projectRelativeFilePath.split("/");

@@ -34,7 +34,6 @@ import info.scce.cinco.product.autoDSL.rule.rule.Division
 import info.scce.cinco.product.autoDSL.rule.rule.SubRuleInputs
 import info.scce.cinco.product.autoDSL.rule.rule.SubRuleOutputs
 import info.scce.cinco.product.autoDSL.rule.rule.SubRule
-import javax.xml.stream.events.Comment
 import java.util.Iterator
 import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInput
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInput
@@ -50,6 +49,7 @@ import info.scce.cinco.product.autoDSL.rule.rule.LoadNumber
 import info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory.SharedMemory
 import info.scce.cinco.product.autoDSL.rule.rule.NumberOutput
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanOutput
+import info.scce.cinco.product.autoDSL.rule.rule.Equal
 
 class NodeGenerator extends RuleSwitch<CharSequence> {
 	
@@ -57,7 +57,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override casePIDController(PIDController op)'''
 		//PID Controller
-		«op.outputs.head.referenceOutput» = pid«IDHasher.GetStringHash(op.id)».calculate(«op.inputs.sortBy[y].head.referenceInput», «op.inputs.sortBy[y].last.referenceInput», 0.1);
+		«op.outputs.head.referenceOutput» = pid«IDHasher.GetStringHash(op.id)».calculate(«op.inputs.sortBy[y].head.referenceInput», «op.inputs.sortBy[y].last.referenceInput», input.dTime);
 		
 		«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
@@ -154,6 +154,12 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
 	'''
 	
+	override caseEqual(Equal op)'''
+	//Equal Operator
+	«op.outputs.head.referenceOutput» = «op.inputs.sortBy[y].head.referenceInput» == «op.inputs.sortBy[y].last.referenceInput»;
+	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
+	'''
+	
 	override caseDecision(Decision d)'''
 	if(«d.booleanInputs.head.referenceInput»){
 		«d.outgoing.filter(ControlFlowDecisionTrue).head.getTargetElement.doSwitch»
@@ -182,36 +188,39 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	«IF !rule.booleanSubInputs.nullOrEmpty»//BooleanSubInputs
 	«val Iterator<BooleanSubOutput> refBoolIns = rule.rule.subRuleInputss.head.booleanSubOutputs.iterator»
 	«FOR in:rule.booleanSubInputs»
-		«refBoolIns.next.referenceOutput» = «in.referenceInput»;
+		«IDHasher.GetStringHash(rule.rule.id)».«refBoolIns.next.referenceOutput» = «in.referenceInput»;
 	«ENDFOR»
 	
 	«ENDIF»
 	«IF !rule.numberSubInputs.nullOrEmpty»//NumberSubInputs
 	«val Iterator<NumberSubOutput> refNumberIns = rule.rule.subRuleInputss.head.numberSubOutputs.iterator»
 	«FOR in:rule.numberSubInputs»
-		«refNumberIns.next.referenceOutput» = «in.referenceInput»;
+		«IDHasher.GetStringHash(rule.rule.id)».«refNumberIns.next.referenceOutput» = «in.referenceInput»;
 	«ENDFOR»
 	
 	«ENDIF»
-	// SubRule start
-	«FOR Node node:rule.rule.operations»
-		«IF node.incoming.nullOrEmpty&&!(node instanceof Comment)»
-			«node.doSwitch»
-		«ENDIF»
-	«ENDFOR»
-	// SubRule end
+	// SubRule execution
+	«IF RuleGenerator.isStateRule(rule.rule)»
+		«IDHasher.GetStringHash(rule.rule.id)».Execute(input, output);
+	«ELSEIF RuleGenerator.isGuardRule(rule.rule)»
+		return «IDHasher.GetStringHash(rule.rule.id)».Execute(input);
+	«ELSEIF RuleGenerator.isNeutralRule(rule.rule)»
+		«IDHasher.GetStringHash(rule.rule.id)».Execute(input);
+	«ELSE»
+		//SubRule is not StateRule, GuardRule or NeutralRule
+	«ENDIF»
 	
 	«IF !rule.booleanSubOutputs.nullOrEmpty»//BooleanSubOutputs
 	«val Iterator<BooleanSubInput> refBoolOuts = rule.rule.subRuleOutputss.head.booleanSubInputs.iterator»
 	«FOR out:rule.booleanSubOutputs»
-		bool «out.referenceOutput» = «refBoolOuts.next.referenceInput»;
+		bool «out.referenceOutput» = «IDHasher.GetStringHash(rule.rule.id)».«refBoolOuts.next.identifier»;
 	«ENDFOR»
 	
 	«ENDIF»
 	«IF !rule.numberSubOutputs.nullOrEmpty»//NumberSubOutputs
 	«val Iterator<NumberSubInput> refNumberOuts = rule.rule.subRuleOutputss.head.numberSubInputs.iterator»
 	«FOR out:rule.numberSubOutputs»
-		double «out.referenceOutput» = «refNumberOuts.next.referenceInput»;
+		double «out.referenceOutput» = «IDHasher.GetStringHash(rule.rule.id)».«refNumberOuts.next.identifier»;
 	«ENDFOR»
 	
 	«ENDIF»
@@ -225,10 +234,10 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	override caseSubRuleOutputs(SubRuleOutputs out)'''
 	//SubRule Outputs
 	«FOR BooleanSubInput port:out.booleanSubInputs»
-		«IDHasher.GetStringHash(out.rootElement.id)+"_"+port.identifier» = «port.referenceInput»;
+		«port.identifier» = «port.referenceInput»;
 	«ENDFOR»
 	«FOR NumberSubInput port:out.numberSubInputs»
-		«IDHasher.GetStringHash(out.rootElement.id)+"_"+port.identifier» = «port.referenceInput»;
+		«port.identifier» = «port.referenceInput»;
 	«ENDFOR»
 	«if(!out.getSuccessors.nullOrEmpty)out.getSuccessors.head.doSwitch»
 	'''
@@ -252,7 +261,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseStoredPIDController(StoredPIDController pid)'''
 	//Stored PID
-	«pid.outputs.head.referenceOutput» = SharedMemory::«pid.data.rootElement.memoryName».«pid.data.label».calculate(«pid.inputs.sortBy[y].head.referenceInput», «pid.inputs.sortBy[y].last.referenceInput», 0.1);
+	«pid.outputs.head.referenceOutput» = SharedMemory::«pid.data.rootElement.memoryName».«pid.data.label».calculate(«pid.inputs.sortBy[y].head.referenceInput», «pid.inputs.sortBy[y].last.referenceInput», input.dTime);
 	
 	«if(!pid.getSuccessors.nullOrEmpty)pid.getSuccessors.head.doSwitch»
 	'''
@@ -287,12 +296,12 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 			NumberSubOutput:	if(out.container instanceof SubRule){
 									IDHasher.GetStringHash(out.id)
 								}else{
-									IDHasher.GetStringHash(out.rootElement.id)+"_"+out.identifier
+									out.identifier
 								}
 			BooleanSubOutput:	if(out.container instanceof SubRule){
 									IDHasher.GetStringHash(out.id)
 								}else{
-									IDHasher.GetStringHash(out.rootElement.id)+"_"+out.identifier
+									out.identifier
 								}
 			NumberOutput:		if(out.container instanceof LoadNumber){
 									"SharedMemory::"+(out.container as LoadNumber).data.rootElement.memoryName+"."+(out.container as LoadNumber).data.label
@@ -314,12 +323,12 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 			NumberSubOutput:	if(out.container instanceof SubRule){
 									IDHasher.GetStringHash(out.id)
 								}else{
-									IDHasher.GetStringHash(out.rootElement.id)+"_"+out.identifier
+									out.identifier
 								}
 			BooleanSubOutput:	if(out.container instanceof SubRule){
 									IDHasher.GetStringHash(out.id)
 								}else{
-									IDHasher.GetStringHash(out.rootElement.id)+"_"+out.identifier
+									out.identifier
 								}
 			NumberOutput:		if(out.container instanceof LoadNumber){
 									"SharedMemory::"+(out.container as LoadNumber).data.rootElement.memoryName+"."+(out.container as LoadNumber).data.label
