@@ -4,6 +4,7 @@ import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInput
 import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInput
 import info.scce.cinco.product.autoDSL.rule.rule.SubRuleOutputs
 import info.scce.cinco.product.autoDSL.rule.rule.IO
+import info.scce.cinco.product.autoDSL.rule.rule.Operation
 
 class SubRuleOutputsExtension {
 		
@@ -17,25 +18,27 @@ class SubRuleOutputsExtension {
 		return false
 	}
 		
-	static def addRemainingSubInputs(IO newPort, SubRuleOutputs outputs){
-		val model = outputs.rootElement
-		for (outputNode : model.subRuleOutputss) {
+	static def addRemainingSubInputs(IO newPort){
+		for (outputNode : newPort.rootElement.subRuleOutputss) {
 			//Create Port with same name in all subRuleOutput-Nodes
 			switch newPort {
-				BooleanSubInput : {
+				BooleanSubInput :
 					if (!outputNode.hasPortWithID(newPort.identifier)){
 						val newSharedPort = outputNode.newBooleanSubInput(0,0)
 						newSharedPort.identifier = newPort.identifier
 					}
-				}
-				NumberSubInput : {
+				NumberSubInput :
 					if (!outputNode.hasPortWithID(newPort.identifier)){
 						val newSharedPort = outputNode.newNumberSubInput(0,0)
 						newSharedPort.identifier = newPort.identifier
 					}
-				}
 			}
 		}
+	}
+	
+	static def referenceSize(Operation op){
+		val referenceObject = op.rootElement.subRuleOutputss.findFirst[it != op]
+		if(referenceObject != null) referenceObject.inputs.size else 0
 	}
 
 }
