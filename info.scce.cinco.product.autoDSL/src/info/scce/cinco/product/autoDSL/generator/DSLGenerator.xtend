@@ -47,7 +47,6 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		EclipseFileUtils.mkdirs(staticFolder,monitor)
 		
 		generateStatic()
-		new SharedMemoryGenerator().generate(dsl,targetDir,monitor)
 		
 		EclipseFileUtils.writeToFile(mainFolder.getFile(getDSLClassName(dsl) + ".h"), generateStateMachineHeader(dsl))
 		EclipseFileUtils.writeToFile(mainFolder.getFile(getDSLClassName(dsl) + ".cpp"), generateStateMachineBody(dsl))
