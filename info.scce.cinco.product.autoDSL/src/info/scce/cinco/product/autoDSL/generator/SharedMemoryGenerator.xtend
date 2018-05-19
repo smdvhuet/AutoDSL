@@ -1,102 +1,41 @@
 package info.scce.cinco.product.autoDSL.generator
 
-import de.jabc.cinco.meta.plugin.generator.runtime.IGenerator
 import info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory.SharedMemory
-import org.eclipse.core.runtime.IPath
-import org.eclipse.core.runtime.IProgressMonitor
 import java.util.ArrayList
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.IFolder
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator
 import de.jabc.cinco.meta.core.utils.EclipseFileUtils
-import info.scce.cinco.product.autoDSL.autodsl.autodsl.AutoDSL
 import java.util.HashMap
 
-class SharedMemoryGenerator  implements IGenerator<AutoDSL> {
+class SharedMemoryGenerator{
 	
-	var HashMap<Integer, String> knownMemory =  new HashMap<Integer, String>()
+	static var HashMap<Integer, String> knownMemory =  new HashMap<Integer, String>()
 	
-	override generate(AutoDSL dsl, IPath targetDir, IProgressMonitor monitor) {
-		val ArrayList<SharedMemory> sharedMemories = new ArrayList<SharedMemory>()
-		for(state:dsl.states){
-			for(node:state.componentNodes){
-				for(it:node.rule.loadBooleans){
-					if(!sharedMemories.contains(it.data.rootElement)){
-						sharedMemories.add(it.data.rootElement)
-					}
-				}
-				for(it:node.rule.loadNumbers){
-					if(!sharedMemories.contains(it.data.rootElement)){
-						sharedMemories.add(it.data.rootElement)
-					}
-				}
-				for(it:node.rule.storedPIDControllers){
-					if(!sharedMemories.contains(it.data.rootElement)){
-						sharedMemories.add(it.data.rootElement)
-					}
-				}
-				for(it:node.rule.saveBooleans){
-					if(!sharedMemories.contains(it.data.rootElement)){
-						sharedMemories.add(it.data.rootElement)
-					}
-				}
-				for(it:node.rule.saveNumbers){
-					if(!sharedMemories.contains(it.data.rootElement)){
-						sharedMemories.add(it.data.rootElement)
-					}
-				}
-			}
+	def generate(SharedMemory memory) {
+		if(!knownMemory.containsKey(IDHasher.GetIntHash(memory.id))){
+			val ArrayList<String> srcFolders = new ArrayList<String>()
+			srcFolders.add("src-gen")
+			
+			val IProject project = ProjectCreator.getProject(memory.eResource)
+			var IFolder mainFolder = project.getFolder("src-gen")
+			EclipseFileUtils.writeToFile(mainFolder.getFile(memory.memoryName+".h"), generateStruct(memory))
+			EclipseFileUtils.writeToFile(mainFolder.getFile(memory.memoryName+".cpp"), generateCPP(memory))
+			
+			
 		}
-		for(guard:dsl.guards){
-			for(node:guard.componentNodes){
-				for(it:node.rule.loadBooleans){
-					if(!sharedMemories.contains(it.data.rootElement)){
-						sharedMemories.add(it.data.rootElement)
-					}
-				}
-				for(it:node.rule.loadNumbers){
-					if(!sharedMemories.contains(it.data.rootElement)){
-						sharedMemories.add(it.data.rootElement)
-					}
-				}
-				for(it:node.rule.storedPIDControllers){
-					if(!sharedMemories.contains(it.data.rootElement)){
-						sharedMemories.add(it.data.rootElement)
-					}
-				}
-				for(it:node.rule.saveBooleans){
-					if(!sharedMemories.contains(it.data.rootElement)){
-						sharedMemories.add(it.data.rootElement)
-					}
-				}
-				for(it:node.rule.saveNumbers){
-					if(!sharedMemories.contains(it.data.rootElement)){
-						sharedMemories.add(it.data.rootElement)
-					}
-				}
-			}
-		}
-		val ArrayList<String> srcFolders = new ArrayList<String>()
-		srcFolders.add("src-gen")
-		
-		val IProject project = ProjectCreator.getProject(dsl.eResource)
-		var IFolder mainFolder = project.getFolder("src-gen")
-		EclipseFileUtils.mkdirs(mainFolder,monitor)
-		EclipseFileUtils.writeToFile(mainFolder.getFile("SharedMemory.h"), generateStruct(sharedMemories))
-		EclipseFileUtils.writeToFile(mainFolder.getFile("SharedMemory.cpp"), generateCPP(sharedMemories))
+		return memory.memoryName;
 	}
 	
 //*********************************************************************************
-//							generating SharedMemory.h
+//							generating Header
 //*********************************************************************************
-	def generateStruct(ArrayList<SharedMemory> memories)'''
-	#ifndef AUTODSL_SHAREDMEMORY_H_
-	#define AUTODSL_SHAREDMEMORY_H_
+	def generateStruct(SharedMemory memory)'''
+	#ifndef AUTODSL_«memory.memoryName.toUpperCase»_H_
+	#define AUTODSL_«memory.memoryName.toUpperCase»_H_
 	
 	#include "core/PID.h"
 	namespace AutoDSL{
-	namespace SharedMemory{
-		«FOR memory:memories»
 		struct «memory.memoryName»{
 			//bools
 			«FOR bool:memory.storedBooleans»
@@ -114,36 +53,33 @@ class SharedMemoryGenerator  implements IGenerator<AutoDSL> {
 			«ENDFOR»
 		};
 		extern «memory.memoryName» g«memory.memoryName»_var;
-		«ENDFOR»
-	}
-	}
+	} //namespace AutoDSL
 	#endif
 	'''
-	
-	def generateCPP(ArrayList<SharedMemory> memories)'''
-	#include "SharedMemory.h"
+//*********************************************************************************
+//						generating global Variable
+//*********************************************************************************
+	def generateCPP(SharedMemory memory)'''
+	#include "«memory.memoryName».h"
 	namespace AutoDSL{
-	namespace SharedMemory{
-	«FOR memory:memories»
 		«memory.memoryName» g«memory.memoryName»_var;
-	«ENDFOR»
-	}
-	}
+	} //namespace AutoDSL
 	'''
 	
-	def getMemoryName(SharedMemory memory){
+	def static getMemoryName(SharedMemory memory){
 	  var id = 	IDHasher.GetIntHash(memory.id);
 	  var name = knownMemory.get(id);
 	  
 	  if(name == null){
 	  	var String[] names = memory.eResource().getURI().lastSegment().split(".sharedMemory").get(0).split("_")
 	  	
-	  	name = "";
+	  	name = DSLGenerator.getPrefix(memory.eResource.URI.path, ProjectCreator.getProject(memory.eResource).getFolder("src-gen"));
 	  	for(String n : names) {
 	  		name = name + n.toFirstUpper
 	  	}
 	  	
-	  	//safe the memory name
+	  	
+	  	//save the memory name
 	  	knownMemory.put(IDHasher.GetIntHash(name), name)
 	  }
 		

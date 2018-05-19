@@ -89,7 +89,7 @@ class RuleGenerator implements IGenerator<Rule> {
 				#include "«rule.name».h"
 				
 				#include "core/Utility.h"
-				#include "SharedMemory.h"
+				«addIncludes(rule.memories)»
 				
 				using namespace AutoDSL;
 				
@@ -155,7 +155,7 @@ class RuleGenerator implements IGenerator<Rule> {
 				#include "«rule.name».h"
 				
 				#include "core/Utility.h"
-				#include "SharedMemory.h"
+				«addIncludes(rule.memories)»
 				
 				using namespace AutoDSL;
 				
@@ -221,7 +221,7 @@ class RuleGenerator implements IGenerator<Rule> {
 				#include "«rule.name».h"
 				
 				#include "core/Utility.h"
-				#include "SharedMemory.h"
+				«addIncludes(rule.memories)»
 				
 				using namespace AutoDSL;
 				
@@ -270,7 +270,44 @@ class RuleGenerator implements IGenerator<Rule> {
 	
 //*********************************************************************************
 //				FUNCTIONS FOR NODES WITH OTHER GENERATED DEPENDENCIES
-//*********************************************************************************		
+//*********************************************************************************	
+
+	private def getMemories(Rule rule){
+		val ArrayList<String> sharedMemories = new ArrayList<String>()
+		val memoryGen = new SharedMemoryGenerator()
+		for(it:rule.loadBooleans){
+			val memoryName = memoryGen.generate(it.data.rootElement) 
+			if(!sharedMemories.contains(memoryName)){
+				sharedMemories.add(memoryName)
+			}
+		}
+		for(it:rule.loadNumbers){
+			val memoryName = memoryGen.generate(it.data.rootElement) 
+			if(!sharedMemories.contains(memoryName)){
+				sharedMemories.add(memoryName)
+			}
+		}
+		for(it:rule.storedPIDControllers){
+			val memoryName = memoryGen.generate(it.data.rootElement) 
+			if(!sharedMemories.contains(memoryName)){
+				sharedMemories.add(memoryName)
+			}
+		}
+		for(it:rule.saveBooleans){
+			val memoryName = memoryGen.generate(it.data.rootElement) 
+			if(!sharedMemories.contains(memoryName)){
+				sharedMemories.add(memoryName)
+			}
+		}
+		for(it:rule.saveNumbers){
+			val memoryName = memoryGen.generate(it.data.rootElement) 
+			if(!sharedMemories.contains(memoryName)){
+				sharedMemories.add(memoryName)
+			}
+		}
+		return sharedMemories
+	}
+		
 	private def getGeneralDependencies(Rule rule, List<String> includes, List<String> privateMemberVars, List<String> publicMemberVars){
 		includes.add('"core/IO.h"');
 

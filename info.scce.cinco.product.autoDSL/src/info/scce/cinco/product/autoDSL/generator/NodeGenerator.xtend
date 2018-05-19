@@ -54,8 +54,6 @@ import info.scce.cinco.product.autoDSL.rule.rule.Exponential
 
 class NodeGenerator extends RuleSwitch<CharSequence> {
 	
-	var HashMap<Integer, String> knownMemory =  new HashMap<Integer, String>()
-	
 	override casePIDController(PIDController op)'''
 		//PID Controller
 		«op.outputs.head.referenceOutput» = pid«IDHasher.GetStringHash(op.id)».calculate(«op.inputs.sortBy[y].head.referenceInput», «op.inputs.sortBy[y].last.referenceInput», input.dTime);
@@ -251,13 +249,13 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseSaveNumber(SaveNumber save)'''
 	//Saving Data
-	SharedMemory::«save.data.rootElement.memoryName».«save.data.label» = «save.inputs.head.referenceInput»;
+	«save.data.rootElement.memoryName».«save.data.label» = «save.inputs.head.referenceInput»;
 	«if(!save.getSuccessors.nullOrEmpty)save.getSuccessors.head.doSwitch»
 	'''
 	
 	override caseSaveBoolean(SaveBoolean save)'''
 	//Saving Data
-	SharedMemory::«save.data.rootElement.memoryName».«save.data.label» = «save.inputs.head.referenceInput»;
+	«save.data.rootElement.memoryName».«save.data.label» = «save.inputs.head.referenceInput»;
 	«if(!save.getSuccessors.nullOrEmpty)save.getSuccessors.head.doSwitch»
 	'''
 	
@@ -268,7 +266,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseStoredPIDController(StoredPIDController pid)'''
 	//Stored PID
-	«pid.outputs.head.referenceOutput» = SharedMemory::«pid.data.rootElement.memoryName».«pid.data.label».calculate(«pid.inputs.sortBy[y].head.referenceInput», «pid.inputs.sortBy[y].last.referenceInput», input.dTime);
+	«pid.outputs.head.referenceOutput» = «pid.data.rootElement.memoryName».«pid.data.label».calculate(«pid.inputs.sortBy[y].head.referenceInput», «pid.inputs.sortBy[y].last.referenceInput», input.dTime);
 	
 	«if(!pid.getSuccessors.nullOrEmpty)pid.getSuccessors.head.doSwitch»
 	'''
@@ -311,12 +309,12 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 									out.identifier
 								}
 			NumberOutput:		if(out.container instanceof LoadNumber){
-									"SharedMemory::"+(out.container as LoadNumber).data.rootElement.memoryName+"."+(out.container as LoadNumber).data.label
+									(out.container as LoadNumber).data.rootElement.memoryName+"."+(out.container as LoadNumber).data.label
 								}else{
 									IDHasher.GetStringHash(out.id)
 								}
 			BooleanOutput:		if(out.container instanceof LoadBoolean){
-									"SharedMemory::"+(out.container as LoadBoolean).data.rootElement.memoryName+"."+(out.container as LoadBoolean).data.label
+									(out.container as LoadBoolean).data.rootElement.memoryName+"."+(out.container as LoadBoolean).data.label
 								}else{
 									IDHasher.GetStringHash(out.id)
 								}
@@ -338,12 +336,12 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 									out.identifier
 								}
 			NumberOutput:		if(out.container instanceof LoadNumber){
-									"SharedMemory::"+(out.container as LoadNumber).data.rootElement.memoryName+"."+(out.container as LoadNumber).data.label
+									(out.container as LoadNumber).data.rootElement.memoryName+"."+(out.container as LoadNumber).data.label
 								}else{
 									"double "+IDHasher.GetStringHash(out.id)
 								}
 			BooleanOutput:		if(out.container instanceof LoadBoolean){
-									"SharedMemory::"+(out.container as LoadBoolean).data.rootElement.memoryName+"."+(out.container as LoadBoolean).data.label
+									(out.container as LoadBoolean).data.rootElement.memoryName+"."+(out.container as LoadBoolean).data.label
 								}else{
 									"bool "+IDHasher.GetStringHash(out.id)
 								}
@@ -387,21 +385,6 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	'''
 	
 	def getMemoryName(SharedMemory memory){
-		var id = 	IDHasher.GetIntHash(memory.id);
-		var name = knownMemory.get(id);
-		  
-		if(name == null){
-		var String[] names = memory.eResource().getURI().lastSegment().split(".sharedMemory").get(0).split("_")
-		
-		name = "";
-		for(String n : names) {
-			name = name + n.toFirstUpper
-		}
-		
-		//safe the memory name
-		  	knownMemory.put(IDHasher.GetIntHash(name), name)
-		}
-			
-		return "g"+name+"_var";
+		return "g"+SharedMemoryGenerator.getMemoryName(memory)+"_var";
 	}
 }
