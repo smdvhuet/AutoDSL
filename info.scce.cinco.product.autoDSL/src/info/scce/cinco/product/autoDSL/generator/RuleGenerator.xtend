@@ -98,6 +98,7 @@ class RuleGenerator implements IGenerator<Rule> {
 				«rule.name»::~«rule.name»() {}
 				
 				void «rule.name»::Execute(const ACCPlusPlus::IO::CarInputs &input, ACCPlusPlus::IO::CarOutputs &output){
+					(void*)&input; // Suppress unused warning
 					«nodeGenerator.doSwitch(node)»
 				}
 					
@@ -164,6 +165,7 @@ class RuleGenerator implements IGenerator<Rule> {
 				«rule.name»::~«rule.name»() {}
 				
 				bool «rule.name»::Execute(const ACCPlusPlus::IO::CarInputs &input){
+					(void*)&input; // Suppress unused warning
 					«nodeGenerator.doSwitch(node)»
 				}
 				
@@ -230,6 +232,7 @@ class RuleGenerator implements IGenerator<Rule> {
 				«rule.name»::~«rule.name»() {}
 				
 				void «rule.name»::Execute(const ACCPlusPlus::IO::CarInputs &input){
+					(void*)&input; // Suppress unused warning
 					«nodeGenerator.doSwitch(node)»
 				}
 				
