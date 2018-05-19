@@ -98,7 +98,16 @@ class RuleGenerator implements IGenerator<Rule> {
 				«rule.name»::~«rule.name»() {}
 				
 				void «rule.name»::Execute(const ACCPlusPlus::IO::CarInputs &input, ACCPlusPlus::IO::CarOutputs &output){
-					(void*)&input; // Suppress unused warning
+					«IF !usesParameterInput(rule)»
+					// Suppress unused input warning
+					(void*)&input;
+					
+					«ENDIF»
+					«IF !usesParameterOutput(rule)»
+					// Suppress unused output warning
+					(void*)&output;
+											
+					«ENDIF»
 					«nodeGenerator.doSwitch(node)»
 				}
 					
@@ -165,7 +174,11 @@ class RuleGenerator implements IGenerator<Rule> {
 				«rule.name»::~«rule.name»() {}
 				
 				bool «rule.name»::Execute(const ACCPlusPlus::IO::CarInputs &input){
-					(void*)&input; // Suppress unused warning
+					«IF !usesParameterInput(rule)»
+					// Suppress unused input warning
+					(void*)&input;
+					
+					«ENDIF»
 					«nodeGenerator.doSwitch(node)»
 				}
 				
@@ -232,7 +245,11 @@ class RuleGenerator implements IGenerator<Rule> {
 				«rule.name»::~«rule.name»() {}
 				
 				void «rule.name»::Execute(const ACCPlusPlus::IO::CarInputs &input){
-					(void*)&input; // Suppress unused warning
+					«IF !usesParameterInput(rule)»
+					// Suppress unused input warning
+					(void*)&input;
+					
+					«ENDIF»
 					«nodeGenerator.doSwitch(node)»
 				}
 				
@@ -420,6 +437,13 @@ class RuleGenerator implements IGenerator<Rule> {
 		return !isPossibleGuardRule(rule) && !isPossibleStateRule(rule)
 	}
 	
+	public static def boolean usesParameterInput(Rule rule){
+		return rule.operations.filter[it.numberCarInputs.length > 0].length > 0  || rule.operations.filter[it.booleanCarInputs.length > 0].length > 0 || rule.subRules.length > 0
+	}
+	
+	public static def boolean usesParameterOutput(Rule rule){
+		return rule.operations.filter[it.numberCarOutputs.length > 0].length > 0  || rule.operations.filter[it.booleanCarOutputs.length > 0].length > 0 || rule.subRules.length > 0
+	}
 //*********************************************************************************
 //					FUNCTIONS FOR WRITING TO GENERATED .h and .cpp	
 //*********************************************************************************			
