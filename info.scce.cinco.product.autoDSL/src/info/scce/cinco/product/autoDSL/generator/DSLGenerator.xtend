@@ -68,6 +68,11 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/Type.h", staticFolder)
 		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/Utility.h", staticFolder)
 		
+		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/ILogSink.h", staticFolder)
+		EclipseFileUtils.copyFromBundleToDirectory(thisBundle, "cppcode/Logger.h", staticFolder)
+		copyStaticHeaderAndCpp(staticFolder, thisBundle, "cppcode/LogMessage")
+		copyStaticHeaderAndCpp(staticFolder, thisBundle, "cppcode/Debug")
+		
 		copyStaticHeaderAndCpp(staticFolder, thisBundle, "cppcode/PID")
 	}
 	
@@ -106,6 +111,9 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	
 	private def generateStateMachineBody(AutoDSL dsl)'''
 	#include "«getDSLClassName(dsl)».h"
+	
+	#include "core/Logger.h"
+	ACCPlusPlus::Logger gLogger;
 	
 	«getIncludes(dsl)»
 	

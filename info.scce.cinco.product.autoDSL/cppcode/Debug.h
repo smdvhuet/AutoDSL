@@ -1,24 +1,12 @@
 #ifndef ACCPLUSPLUS_DEBUG_H_
 #define ACCPLUSPLUS_DEBUG_H_
 
+#define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
+
 #define DEBUG_MEMORY_HISTORY_LENGTH 256
 #define DEBUG_MEMORY_ENTRIES_COUNT 65536
 
-#ifdef _WIN32
-#include <intrin.h>
-uint64_t rdtsc() {
-  return __rdtsc();
-}
-#else
-#include <inttypes.h>
-#include <cstdio>
-uint64_t rdtsc() {
-  unsigned int lo, hi;
-  __asm__ __volatile__("rdtsc" : "=a" (lo), "=d" (hi));
-  return ((uint64_t)hi << 32) | lo;
-}
-#endif 
-
+unsigned long long rdtsc();
 #define CPU_CYCLE rdtsc()
 
 struct debug_location_info {
@@ -28,7 +16,7 @@ struct debug_location_info {
 };
 
 struct debug_event {
-  uint64_t time;
+  unsigned long long time;
   const char* event_name;
   debug_location_info location;
   double value;
@@ -51,7 +39,6 @@ extern debug_table gDebug_table;
 #define CURRENT_DEBUG_FRAME gDebug_table.frames[gDebug_table_pos & (DEBUG_MEMORY_HISTORY_LENGTH - 1)]
 #define CURRENT_DEBUG_FRAME_ENTRY CURRENT_DEBUG_FRAME.events[(gDebug_frame_pos - 1) & (DEBUG_MEMORY_ENTRIES_COUNT - 1)]
 #define GET_DEBUG_FRAME_ENTRY gDebug_frame_pos++; CURRENT_DEBUG_FRAME_ENTRY
-#define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 #define STORE_EVENT(EventName, Value)  GET_DEBUG_FRAME_ENTRY = {CPU_CYCLE, #EventName, {__FILENAME__, __LINE__, __FUNCTION__}, (double)Value};
 
 #define ACC_LOG(EventName, Value) STORE_EVENT(EventName, Value)
@@ -59,7 +46,7 @@ extern debug_table gDebug_table;
 #include <iomanip>
 #include "Logger.h"
 
-extern Logger gLogger;
+extern ACCPlusPlus::Logger gLogger;
 
 #define ACC_LOG2(msg)                                                \
   gLogger() << std::left << "[" << CPU_CYCLE << "] "                 \
@@ -67,5 +54,4 @@ extern Logger gLogger;
             << std::setfill(' ') << std::setw(20) << __FUNCTION__        \
             << std::setfill(' ') << std::setw(7)  << __LINE__            \
             << std::setfill(' ') << std::setw(10) <<  msg;
-
 #endif // ACCPLUSPLUS_DEBUG_H_

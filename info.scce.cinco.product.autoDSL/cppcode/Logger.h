@@ -5,6 +5,7 @@
 #include "LogMessage.h"
 #include <vector>
 
+namespace ACCPlusPlus {
 class Logger {
 public:
   void flush(const LogMessage &msg) {
@@ -16,5 +17,5 @@ public:
 
   std::vector<ILogSink *> sinks_;
 };
-
+} // namespace ACCPlusPlus
 #endif // ACCPLUSPLUS_LOGGER_H_

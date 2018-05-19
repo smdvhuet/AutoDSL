@@ -3,6 +3,8 @@
 
 #include <sstream>
 
+namespace ACCPlusPlus {
+
 class Logger;
 
 class LogMessage {
@@ -26,4 +28,5 @@ private:
   Logger *owner_;
   std::ostringstream buffer_;
 };
-#endif // ACCPLUSPLUS_LOGMESSAGE_H_ 
+} // namespace ACCPlusPlus
+#endif // ACCPLUSPLUS_LOGMESSAGE_H_

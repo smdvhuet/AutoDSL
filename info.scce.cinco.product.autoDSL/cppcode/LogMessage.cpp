@@ -2,9 +2,11 @@
 
 #include "Logger.h"
 
+using namespace ACCPlusPlus;
+
 LogMessage::LogMessage(Logger &owner) : owner_(&owner) {}
 LogMessage::LogMessage(LogMessage &&other) { *this = std::move(other); }
-LogMessage::~LogMessage() { owner_ != nullptr ? owner_->flush(*this) : NULL; }
+LogMessage::~LogMessage() { if(owner_ != nullptr) owner_->flush(*this); }
 
 LogMessage &LogMessage::operator=(LogMessage &&other) {
   if (this != &other) {
