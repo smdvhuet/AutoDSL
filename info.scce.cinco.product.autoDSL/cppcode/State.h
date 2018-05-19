@@ -8,17 +8,15 @@
 namespace ACCPlusPlus {
 class State : public StateRule {
 public:
-  State(const std::vector<StateRule*> &);
+  State(const std::string &, const std::vector<StateRule *> &);
   ~State();
 
   void onEntry();
   void Execute(const IO::CarInputs &, IO::CarOutputs &);
   void onExit();
 
-  std::string Name();
-
 private:
-  const std::vector<StateRule*> rules_;
+  const std::vector<StateRule *> rules_;
 };
 } // namespace ACCPlusPlus
 #endif // ACCPLUSPLUS_STATE_H_

@@ -16,9 +16,5 @@ namespace ACCPlusPlus {
     virtual bool Execute(const IO::CarInputs &) = 0;
     virtual void onExit() = 0;
   };
-
-  namespace Globals {
-    static std::map<Utility::IDType, GuardRule *> gGuardRuleRegister;
-  }
 } // namespace ACCPlusPlus
 #endif // ACCPLUSPLUS_GUARDRULE_H_

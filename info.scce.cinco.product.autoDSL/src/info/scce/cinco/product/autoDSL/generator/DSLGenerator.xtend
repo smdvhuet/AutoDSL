@@ -198,19 +198,20 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	private def initAllOffStates(AutoDSL dsl)'''
 	//Initialize OffStates
 	«FOR state : dsl.offStates»
-	«getStateName(state)» = new State({});
+	«getStateName(state)» = new State("«getStateName(state).toFirstUpper().substring(0, getStateName(state).length - 1)»", {});
 	«ENDFOR»	
 	'''
 	
 	private def initAllStates(AutoDSL dsl)'''
 	//Initialize states
 	«FOR state : dsl.states»
-	«getStateName(state)» = new State({
-		«FOR container : state.componentNodes SEPARATOR ','»
-		«IF container.rule != null»
-		new «getRuleClassName(container.rule)»()
-		«ENDIF»
-		«ENDFOR»
+	«getStateName(state)» = new State(
+	    "«getStateName(state).toFirstUpper().substring(0, getStateName(state).length - 1)»", std::vector<StateRule*> {
+			«FOR container : state.componentNodes SEPARATOR ','»
+			«IF container.rule != null»
+			new «getRuleClassName(container.rule)»()
+			«ENDIF»
+			«ENDFOR»
 	});
 	«ENDFOR»	
 	'''
@@ -218,12 +219,13 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	private def initAllGuards(AutoDSL dsl)'''
 	//Initialize guards
 	«FOR guard : dsl.guards»
-	«getGuardName(guard)» = new Guard({
-		«FOR container : guard.componentNodes SEPARATOR ','»
-		«IF container.rule != null»
-		new «getRuleClassName(container.rule)»()
-		«ENDIF»
-		«ENDFOR»
+	«getGuardName(guard)» = new Guard(
+	    "«getGuardName(guard).toFirstUpper().substring(0, getGuardName(guard).length - 1)»", std::vector<GuardRule*> {
+			«FOR container : guard.componentNodes SEPARATOR ','»
+			«IF container.rule != null»
+			new «getRuleClassName(container.rule)»()
+			«ENDIF»
+			«ENDFOR»
 	});
 	«ENDFOR»	
 	'''
