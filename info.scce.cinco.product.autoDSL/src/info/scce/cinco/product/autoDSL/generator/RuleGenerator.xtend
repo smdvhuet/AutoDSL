@@ -103,11 +103,6 @@ class RuleGenerator implements IGenerator<Rule> {
 					(void*)&input;
 					
 					«ENDIF»
-					«IF !usesParameterOutput(rule)»
-					// Suppress unused output warning
-					(void*)&output;
-											
-					«ENDIF»
 					«nodeGenerator.doSwitch(node)»
 				}
 					
@@ -441,9 +436,6 @@ class RuleGenerator implements IGenerator<Rule> {
 		return rule.operations.filter[it.numberCarInputs.length > 0].length > 0  || rule.operations.filter[it.booleanCarInputs.length > 0].length > 0 || rule.subRules.length > 0
 	}
 	
-	public static def boolean usesParameterOutput(Rule rule){
-		return rule.operations.filter[it.numberCarOutputs.length > 0].length > 0  || rule.operations.filter[it.booleanCarOutputs.length > 0].length > 0 || rule.subRules.length > 0
-	}
 //*********************************************************************************
 //					FUNCTIONS FOR WRITING TO GENERATED .h and .cpp	
 //*********************************************************************************			
