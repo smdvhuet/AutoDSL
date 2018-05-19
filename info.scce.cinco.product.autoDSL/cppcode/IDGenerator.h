@@ -19,7 +19,7 @@ private:
 } // namespace Utility
 
 namespace Globals {
-static Utility::IDGenerator gIDGenerator;
+  static Utility::IDGenerator gIDGenerator;
 }
 
 } // namespace ACCPlusPlus

@@ -16,9 +16,5 @@ public:
   virtual void Execute(const IO::CarInputs &, IO::CarOutputs &) = 0;
   virtual void onExit() = 0;
 };
-
-namespace Globals {
-static std::map<Utility::IDType, StateRule *> gRuleRegister;
-}
 } // namespace ACCPlusPlus
 #endif // ACCPLUSPLUS_STATERULE_H_

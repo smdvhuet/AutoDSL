@@ -16,9 +16,5 @@ namespace ACCPlusPlus {
     virtual void Execute(const IO::CarInputs &) = 0;
     virtual void onExit() = 0;
   };
-
-  namespace Globals {
-    static std::map<Utility::IDType, NeutralRule *> gNeutralRuleRegister;
-  }
 } // namespace ACCPlusPlus
 #endif // ACCPLUSPLUS_NEUTRALRULE_H_
