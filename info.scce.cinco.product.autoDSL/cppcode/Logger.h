@@ -10,7 +10,7 @@ class Logger {
 public:
   void flush(const LogMessage &msg) {
     std::string flush_string = msg.buffer_.str() + "\n";
-    for (int i = 0; i < sinks_.size(); i++)
+    for (size_t i = 0; i < sinks_.size(); i++)
       (*sinks_[i])(flush_string);
   }
   LogMessage operator()() { return LogMessage(*this); }
