@@ -276,31 +276,31 @@ class RuleGenerator implements IGenerator<Rule> {
 		val ArrayList<String> sharedMemories = new ArrayList<String>()
 		val memoryGen = new SharedMemoryGenerator()
 		for(it:rule.loadBooleans){
-			val memoryName = memoryGen.generate(it.data.rootElement) 
+			val memoryName = '"'+memoryGen.generate(it.data.rootElement)+'.h"'  
 			if(!sharedMemories.contains(memoryName)){
 				sharedMemories.add(memoryName)
 			}
 		}
 		for(it:rule.loadNumbers){
-			val memoryName = memoryGen.generate(it.data.rootElement) 
+			val memoryName = '"'+memoryGen.generate(it.data.rootElement)+'.h"'  
 			if(!sharedMemories.contains(memoryName)){
 				sharedMemories.add(memoryName)
 			}
 		}
 		for(it:rule.storedPIDControllers){
-			val memoryName = memoryGen.generate(it.data.rootElement) 
+			val memoryName = '"'+memoryGen.generate(it.data.rootElement)+'.h"'  
 			if(!sharedMemories.contains(memoryName)){
 				sharedMemories.add(memoryName)
 			}
 		}
 		for(it:rule.saveBooleans){
-			val memoryName = memoryGen.generate(it.data.rootElement) 
+			val memoryName = '"'+memoryGen.generate(it.data.rootElement)+'.h"'  
 			if(!sharedMemories.contains(memoryName)){
 				sharedMemories.add(memoryName)
 			}
 		}
 		for(it:rule.saveNumbers){
-			val memoryName = memoryGen.generate(it.data.rootElement) 
+			val memoryName = '"'+memoryGen.generate(it.data.rootElement)+'.h"'  
 			if(!sharedMemories.contains(memoryName)){
 				sharedMemories.add(memoryName)
 			}
