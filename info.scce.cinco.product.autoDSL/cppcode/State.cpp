@@ -19,7 +19,7 @@ void State::onEntry() {
 }
 
 void State::Execute(const IO::CarInputs &input, IO::CarOutputs &output) {
-  ACC_LOG2("Execute '" << Name() << "'", 0)
+  ACC_LOG2("Execute '" << Name() << "'")
     for (std::vector<StateRule *>::const_iterator it = rules_.begin();
       it != rules_.end(); ++it)
       (*it)->Execute(input, output);
