@@ -206,7 +206,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	//Initialize states
 	«FOR state : dsl.states»
 	«getStateName(state)» = new State(
-	    "«getStateName(state).toFirstUpper().substring(0, getStateName(state).length - 1)»", std::vector<StateRule*> {
+	    "«getStateName(state).toFirstUpper().substring(0, getStateName(state).length - 1)»", {
 			«FOR container : state.componentNodes SEPARATOR ','»
 			«IF container.rule != null»
 			new «getRuleClassName(container.rule)»()
@@ -220,7 +220,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	//Initialize guards
 	«FOR guard : dsl.guards»
 	«getGuardName(guard)» = new Guard(
-	    "«getGuardName(guard).toFirstUpper().substring(0, getGuardName(guard).length - 1)»", std::vector<GuardRule*> {
+	    "«getGuardName(guard).toFirstUpper().substring(0, getGuardName(guard).length - 1)»", {
 			«FOR container : guard.componentNodes SEPARATOR ','»
 			«IF container.rule != null»
 			new «getRuleClassName(container.rule)»()

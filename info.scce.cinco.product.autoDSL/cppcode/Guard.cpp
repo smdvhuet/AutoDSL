@@ -4,7 +4,7 @@
 
 using namespace ACCPlusPlus;
 
-Guard::Guard(const std::string &name, std::vector<GuardRule *> &guards)
+Guard::Guard(const std::string &name, const std::vector<GuardRule *> &guards)
   : GuardRule(name), guards_{ guards } {}
 
 Guard::~Guard() {

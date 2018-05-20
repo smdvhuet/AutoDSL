@@ -1,6 +1,9 @@
 #ifndef ACCPLUSPLUS_DEBUG_H_
 #define ACCPLUSPLUS_DEBUG_H_
 
+#ifndef _WIN32
+#include <cstring>
+#endif 
 #define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 
 #define DEBUG_MEMORY_HISTORY_LENGTH 256

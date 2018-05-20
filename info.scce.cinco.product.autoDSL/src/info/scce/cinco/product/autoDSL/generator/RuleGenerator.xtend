@@ -90,6 +90,10 @@ class RuleGenerator implements IGenerator<Rule> {
 				
 				#include "core/Utility.h"
 				«addIncludes(rule.memories)»
+				«IF !usesParameterInput(rule)»
+				
+				#define UNUSED_VAR(x) (void)&x;
+				«ENDIF»
 				
 				using namespace AutoDSL;
 				
@@ -100,7 +104,7 @@ class RuleGenerator implements IGenerator<Rule> {
 				void «rule.name»::Execute(const ACCPlusPlus::IO::CarInputs &input, ACCPlusPlus::IO::CarOutputs &output){
 					«IF !usesParameterInput(rule)»
 					// Suppress unused input warning
-					(void*)&input;
+					UNUSED_VAR(input)
 					
 					«ENDIF»
 					«nodeGenerator.doSwitch(node)»
@@ -162,6 +166,11 @@ class RuleGenerator implements IGenerator<Rule> {
 				#include "core/Utility.h"
 				«addIncludes(rule.memories)»
 				
+				«IF !usesParameterInput(rule)»
+				
+				#define UNUSED_VAR(x) (void)&x;
+				«ENDIF»
+				
 				using namespace AutoDSL;
 				
 				«rule.name»::«rule.name»() : ACCPlusPlus::GuardRule("«rule.name»")«IF rule.PIDControllers.length > 0»«FOR pid : rule.PIDControllers», pid«IDHasher.GetStringHash(pid.id)»(«pid.p», «pid.i», «pid.d»)«ENDFOR»«ENDIF»{}
@@ -171,7 +180,7 @@ class RuleGenerator implements IGenerator<Rule> {
 				bool «rule.name»::Execute(const ACCPlusPlus::IO::CarInputs &input){
 					«IF !usesParameterInput(rule)»
 					// Suppress unused input warning
-					(void*)&input;
+					UNUSED_VAR(input);
 					
 					«ENDIF»
 					«nodeGenerator.doSwitch(node)»
@@ -232,6 +241,10 @@ class RuleGenerator implements IGenerator<Rule> {
 				
 				#include "core/Utility.h"
 				«addIncludes(rule.memories)»
+				«IF !usesParameterInput(rule)»
+				
+				#define UNUSED_VAR(x) (void)&x;
+				«ENDIF»
 				
 				using namespace AutoDSL;
 				
@@ -242,7 +255,7 @@ class RuleGenerator implements IGenerator<Rule> {
 				void «rule.name»::Execute(const ACCPlusPlus::IO::CarInputs &input){
 					«IF !usesParameterInput(rule)»
 					// Suppress unused input warning
-					(void*)&input;
+					UNUSED_VAR(input);
 					
 					«ENDIF»
 					«nodeGenerator.doSwitch(node)»
