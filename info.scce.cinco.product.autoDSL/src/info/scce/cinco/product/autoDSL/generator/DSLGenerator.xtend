@@ -207,7 +207,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	«FOR state : dsl.states»
 	«getStateName(state)» = new State(
 	    "«getStateName(state).toFirstUpper().substring(0, getStateName(state).length - 1)»", {
-			«FOR container : state.componentNodes SEPARATOR ','»
+			«FOR container : state.componentNodes.sortBy[y] SEPARATOR ','»
 			«IF container.rule != null»
 			new «getRuleClassName(container.rule)»()
 			«ENDIF»
