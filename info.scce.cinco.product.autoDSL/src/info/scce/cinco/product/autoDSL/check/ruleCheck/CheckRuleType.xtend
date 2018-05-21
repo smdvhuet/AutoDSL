@@ -28,6 +28,8 @@ class CheckRuleType extends RuleCheck{
 				}
 			}
 		}
+		if(!rule.subRules.filter[it.rule.isGuardRule].filter[!it.successors.empty].empty)
+			rule.addError("Guards used as SubRules must not have outgoing ControllFlow")
 	}
 	
 	private def boolean containsCarOutputs(Rule rule) {
