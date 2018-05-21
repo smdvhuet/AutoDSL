@@ -24,6 +24,8 @@ import info.scce.cinco.product.autoDSL.rule.rule.Operation
 import info.scce.cinco.product.autoDSL.rule.rule.Rule
 import info.scce.cinco.product.autoDSL.rule.rule.Subtraction
 import java.util.ArrayList
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanCarInput
+import info.scce.cinco.product.autoDSL.rule.rule.NumberCarInput
 
 class CheckForUnreachableOperations extends RuleCheck{
 	
@@ -62,8 +64,10 @@ class CheckForUnreachableOperations extends RuleCheck{
 		var ArrayList<Pair<Integer,Float>> numberInputValues = newArrayList
 		for(input : op.inputs){
 			switch input {
+				BooleanCarInput : inputValues.add(BooleanOrDynamic.DYNAMIC)
 				BooleanInputPort : inputValues.add(input.origin.staticBooleanValue)
 				BooleanStaticInput : inputValues.add(input.staticValue.booleanValue.toBooleanOrDynamic)
+				NumberCarInput : numberInputValues.add(input.y->null)
 				NumberInputPort : numberInputValues.add(input.y->input.origin.staticNumberValue)
 				NumberStaticInput : numberInputValues.add(input.y->input.staticValue.floatValue)
 			}
