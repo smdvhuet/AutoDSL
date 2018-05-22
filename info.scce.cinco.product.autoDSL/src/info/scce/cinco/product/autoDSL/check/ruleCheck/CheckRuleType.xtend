@@ -7,6 +7,7 @@ import info.scce.cinco.product.autoDSL.rule.rule.SubRuleOutputs
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanCarOutput
 import info.scce.cinco.product.autoDSL.rule.rule.NumberCarOutput
 import info.scce.cinco.product.autoDSL.rule.rule.SubRule
+import info.scce.cinco.product.autoDSL.rule.rule.EndNode
 
 class CheckRuleType extends RuleCheck{
 	
@@ -19,16 +20,14 @@ class CheckRuleType extends RuleCheck{
 			rule.addError("This Rule is a Guard and must therefore not contain CarOutputs")
 		if(rule.isGuardRule || isSubRule){
 			//Check if all paths end with correct outputs
-			for(node : rule.operations){
-				if(node.successors.empty){
-					if(rule.isGuardRule && !(node instanceof BooleanGuardOutput) && !((node instanceof SubRule) && (node as SubRule).rule.isGuardRule))
-						rule.addError("Rule contains a path that doesn't end with a GuardOutput-Node, although it contains one or more GuardOutputs")
-					if(hasSubRuleOutputs && !(node instanceof SubRuleOutputs))
+			for(node : rule.endNodes.map[it.predecessors].flatten){
+				if(rule.isGuardRule && !(node instanceof BooleanGuardOutput) && !((node instanceof SubRule) && (node as SubRule).rule.isGuardRule))
+					rule.addError("Rule contains a path that doesn't end with a GuardOutput-Node, although it contains one or more GuardOutputs")
+				if(hasSubRuleOutputs && !(node instanceof SubRuleOutputs))
 						rule.addError("Rule contains a path that doesn't end with a SubRuleOutputs-Node, although it contains one or more SubRuleOutputs")
-				}
 			}
 		}
-		if(!rule.subRules.filter[it.rule.isGuardRule].filter[!it.successors.empty].empty)
+		if(!rule.subRules.filter[it.rule.isGuardRule].filter[!it.successors.filter[!(it instanceof EndNode)].empty].empty)
 			rule.addError("Guards used as SubRules must not have outgoing ControllFlow")
 	}
 	
