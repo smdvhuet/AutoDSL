@@ -10,6 +10,7 @@ import "platform:/resource/info.scce.cinco.product.autoDSL/model/SharedMemory.mg
 @mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckSubRuleUpdate")
 @mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckSubRuleIOIdentifiers")
 @mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckEqualSubRulePorts")
+@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateRule")
 graphModel Rule {
 	package info.scce.cinco.product.autoDSL.rule
 	nsURI "http://cinco.scce.info/product/rule"
@@ -21,11 +22,29 @@ graphModel Rule {
 		SubRuleOutputs[0,*],
 		Comment[0,*],
 		Save[0,*],
-		Load[0,*]
+		Load[0,*],
+		StartNode[1,1],
+		EndNode[1,*]
 	)
 	
 	@readOnly
 	attr EString as name
+	
+	@style(startEndNode, "Start")
+	node StartNode{
+		outgoingEdges(ControlFlowBasic[0,1], StartEdge[0,1])
+	}
+	
+	@style(startEndNode, "Ende")
+	node EndNode{
+		incomingEdges(ControlFlow[0,*], EndEdge[0,*])
+	}
+	
+	@style(controlFlow)
+	edge StartEdge
+	
+	@style(controlFlow)
+	edge EndEdge
 	
 	
 	abstract container Save extends Operation{

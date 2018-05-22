@@ -230,6 +230,20 @@ nodeStyle comment(1) {
 	}
 }
 
+nodeStyle startEndNode(1) {
+	rectangle {
+		appearance {
+			background (0, 0, 0)
+			foreground (255, 255, 255)
+		}
+		size (120,90)
+		multiText {
+			position (CENTER, MIDDLE)
+			value "%s"
+		}	
+	}
+}
+
 nodeStyle pid (3) {
 	roundedRectangle {
 		size (120, fix 20)
