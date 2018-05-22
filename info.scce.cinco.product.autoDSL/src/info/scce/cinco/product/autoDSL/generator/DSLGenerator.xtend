@@ -111,9 +111,6 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	private def generateStateMachineBody(AutoDSL dsl)'''
 	#include "«getDSLClassName(dsl)».h"
 	
-	#include "core/Logger.h"
-	ACCPlusPlus::Logger gLogger;
-	
 	«getIncludes(dsl)»
 	
 	using namespace AutoDSL;

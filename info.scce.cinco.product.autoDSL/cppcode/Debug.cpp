@@ -14,3 +14,10 @@ unsigned long long rdtsc() {
   return ((uint64_t)hi << 32) | lo;
 }
 #endif 
+
+
+size_t gDebug_table_pos;
+size_t gDebug_frame_pos;
+debug_table gDebug_table;
+
+ACCPlusPlus::Logger gLogger;
