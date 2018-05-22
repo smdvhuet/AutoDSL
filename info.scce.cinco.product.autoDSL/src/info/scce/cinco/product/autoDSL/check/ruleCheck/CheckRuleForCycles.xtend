@@ -8,6 +8,7 @@ import java.util.HashMap
 import info.scce.cinco.product.autoDSL.rule.rule.Output
 import java.util.List
 import java.util.ArrayList
+import info.scce.cinco.product.autoDSL.rule.rule.EndNode
 
 class CheckRuleForCycles extends RuleCheck{
 	
@@ -19,15 +20,19 @@ class CheckRuleForCycles extends RuleCheck{
 			visited.put(container, false);
 			finished.put(container, false);
 		}
-		val startContainer = containers.findFirst[x | x.getIncoming().size == 0];
-		if(startContainer != null){
-			if(!depthFirstSearchControlFlow(startContainer, visited, finished)){
+		val startNodes = rule.startNodes;
+		if(!startNodes.empty && !startNodes.get(0).successors.empty && !(startNodes.get(0).successors.get(0) instanceof EndNode)){
+			val startNode = startNodes.get(0);
+			val startContainer = startNode.successors.get(0) as Container;
+			if(startContainer != null){
+				if(!depthFirstSearchControlFlow(startContainer, visited, finished)){
 					rule.addError("Cycle in control flow found")
 					return;
-			}
-			if(!checkForDataFlowDependencyError(startContainer, new ArrayList<Output>(), startContainer)){
+				}
+				if(!checkForDataFlowDependencyError(startContainer, new ArrayList<Output>(), startContainer)){
 				
-			}
+				}
+			}	
 		}
 	}
 	
