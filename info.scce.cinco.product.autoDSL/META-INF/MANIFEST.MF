@@ -24,8 +24,13 @@ Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,org.eclipse
  de.jabc.cinco.meta.plugin.generator.runtime,de.jabc.cinco.meta.plugin
  .generator.runtime,de.jabc.cinco.meta.plugin.generator.runtime,de.jab
  c.cinco.meta.plugin.generator.runtime,de.jabc.cinco.meta.plugin.gener
- ator.runtime,de.jabc.cinco.meta.plugin.mcam.runtime,de.jabc.cinco.met
- a.plugin.generator.runtime
+ ator.runtime,de.jabc.cinco.meta.plugin.generator.runtime,de.jabc.cinc
+ o.meta.plugin.generator.runtime,de.jabc.cinco.meta.plugin.generator.r
+ untime,de.jabc.cinco.meta.plugin.generator.runtime,de.jabc.cinco.meta
+ .plugin.generator.runtime,de.jabc.cinco.meta.plugin.generator.runtime
+ ,de.jabc.cinco.meta.plugin.generator.runtime,de.jabc.cinco.meta.plugi
+ n.generator.runtime,de.jabc.cinco.meta.plugin.generator.runtime,de.ja
+ bc.cinco.meta.plugin.mcam.runtime
 Bundle-ActivationPolicy: lazy
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
@@ -61,9 +66,9 @@ Export-Package: info.scce.cinco.product.autoDSL.autodsl.adapter,info.s
  .views.impl,info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory
  .views.util,info.scce.cinco.product.autoDSL.sharedMemory.mcam.adapter
  ,info.scce.cinco.product.autoDSL.sharedMemory.mcam.cli,info.scce.cinc
- o.product.autoDSL.rule.mcam.adapter,info.scce.cinco.product.autoDSL.r
- ule.mcam.cli,info.scce.cinco.product.autoDSL.autodsl.mcam.adapter,inf
- o.scce.cinco.product.autoDSL.autodsl.mcam.cli
+ o.product.autoDSL.autodsl.mcam.adapter,info.scce.cinco.product.autoDS
+ L.autodsl.mcam.cli,info.scce.cinco.product.autoDSL.rule.mcam.adapter,
+ info.scce.cinco.product.autoDSL.rule.mcam.cli
 Bundle-Name: %pluginName
 Bundle-Version: 1.0.0
 Bundle-ClassPath: .

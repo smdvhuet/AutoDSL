@@ -518,7 +518,7 @@ graphModel Rule {
 	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	@palette("Sonstiges")
 	container BooleanGuardOutput extends Operation {
-		outgoingEdges(*[0,0])
+		outgoingEdges(ControlFlow[0,0], EndEdge[1,1])
 		containableElements(
 			BooleanInput[1,1], NumberInput[0,0],
 			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
@@ -625,6 +625,7 @@ graphModel Rule {
 	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.AddBooleanSubOutput")
 	@palette("SubRuleIO")
 	container SubRuleInputs extends CommutableOperation {
+		incomingEdges(ControlFlow[0,0], StartEdge[1,1])
 		containableElements(
 			BooleanInput[0,0], NumberInput[0,0],
 			BooleanSubOutput[0,*], NumberSubOutput[0,*],
@@ -641,7 +642,7 @@ graphModel Rule {
 	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteSubRuleOutputs")
 	@palette("SubRuleIO")
 	container SubRuleOutputs extends CommutableOperation {
-		outgoingEdges(ControlFlow[0,0])
+		outgoingEdges(ControlFlow[0,0], EndEdge[1,1])
 		containableElements(
 			BooleanCarInput[0,0], BooleanInputPort[0,0], BooleanStaticInput[0,0], NumberCarInput[0,0], NumberInputPort[0,0], NumberStaticInput[0,0],
 			BooleanSubInput[0,*], NumberSubInput[0,*], 
