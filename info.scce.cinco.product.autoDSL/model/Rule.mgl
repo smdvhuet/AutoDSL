@@ -165,7 +165,9 @@ graphModel Rule {
 	}
 	
 
-	abstract node IO {}
+	abstract node IO {
+		attr EBoolean as logged 
+	}
 	abstract node Input extends IO {}
 	abstract node BooleanInput extends Input {}
 	abstract node NumberInput extends Input {}
