@@ -3,7 +3,7 @@ grammar info.scce.testdsl.TestDSL with org.eclipse.xtext.common.Terminals
 generate testDSL "http://www.scce.info/testdsl/TestDSL"
 
 prog: 
-	ops+=(EventHandler | Event | Configuration | Always | Variable)*
+	ops+=(EventHandler | Event | OneTimeEvent | Configuration | Always | Variable)*
 ;
 
 Variable:
@@ -15,11 +15,12 @@ Configuration:
 ;
 
 EventHandler:
-	{EventHandler} "check" name=ID ":" "when" event=[Event] eventtype=("isActive" | "ends" | "starts")
-	"(" ("errorMessage=" errmsg=STRING ",")?
-	("maximumReactionTime=" maxtime=INT)?")""{"
+	{EventHandler} "check" name=ID ":" "when" ( (event=[Event] eventtype=("isActive" | "ends" | "starts")) | (eventOneTime=[OneTimeEvent] "triggers") )
+	("(" ("errorMessage=" errmsg=STRING ",")?
+	("maximumReactionTime=" maxtime=INT)?")")? "{"
 		invariants=Invariants
-"}";
+	"}"
+;
 
 Invariants: 
     {Invariants} invs+=Expression ";" (invs+=Expression ";")*
@@ -28,7 +29,13 @@ Invariants:
 Event: 
 	 "event" name=ID "{" 
 			"startCondition:" startCond=Expression
-			"endCondition:" (endCond=Expression) | "timepassed" time=INT 
+			"endCondition:" ( (endCond=Expression) | "timepassed" time=INT )
+		"}"
+;
+
+OneTimeEvent: 
+	 "event" name=ID "{" 
+			"trigger:" trigger=Expression
 		"}"
 ;
 
@@ -52,7 +59,7 @@ AndExpr returns Expression:
 ;
 
 RelExpr returns Expression:
-	AddExpr ({Rel.left=current} op=('<'|'<='|'==') right=AddExpr)*
+	AddExpr ({Rel.left=current} op=('<'|'<='|'=='|"!=") right=AddExpr)*
 ;
 
 AddExpr returns Expression:
@@ -67,10 +74,20 @@ UnExpr returns Expression:
 	{Negation} op=('!'|"-") exprAtom=AtomExpr | AtomExpr
 ;
 
-AtomExpr returns Expression: 
-	{Literal} value=INT | '(' expr=Expression ')' | intvar=INT_VAR ('[' intVarDiff=INT ('ms')? ']')? | boolvar=BOOL_VAR ('[' boolVarDiff=INT ('ms')? ']')? | var=[Variable]
+State:
+	{State}
+	(("adasState" ('[' stateTimeDiff=INT ('ms')? ']')?) | lit=TEMPSTATES)
 ;
 
+AtomExpr returns Expression: 
+	{Literal} value=INT | '(' expr=Expression ')' | intvar=INT_VAR ('[' intTimeDiff=INT ('ms')? ']')? | boolvar=BOOL_VAR ('[' boolTimeDiff=INT ('ms')? ']')? | var=[Variable] 
+	|  firstState=State op=('=='|"!=") secondState=State
+;
+
+
+terminal TEMPSTATES:
+	"StateA" | "StateB"
+;
 terminal INT_VAR: 
 	"inta" | "intb" | "intc"
 ;
