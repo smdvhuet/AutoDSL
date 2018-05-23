@@ -68,7 +68,7 @@ UnExpr returns Expression:
 ;
 
 AtomExpr returns Expression: 
-	{Literal} value=INT | '(' expr=Expression ')' | intvar=INT_VAR | boolvar=BOOL_VAR | var=[Variable]
+	{Literal} value=INT | '(' expr=Expression ')' | intvar=INT_VAR ('[' intVarDiff=INT ('ms')? ']')? | boolvar=BOOL_VAR ('[' boolVarDiff=INT ('ms')? ']')? | var=[Variable]
 ;
 
 terminal INT_VAR: 
