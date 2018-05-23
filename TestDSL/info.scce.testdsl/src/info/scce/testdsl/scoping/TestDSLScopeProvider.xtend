@@ -3,6 +3,14 @@
  */
 package info.scce.testdsl.scoping
 
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EReference
+import info.scce.testdsl.testDSL.TestDSLPackage
+import org.eclipse.xtext.scoping.Scopes
+import java.util.ArrayList
+import info.scce.testdsl.testDSL.Variable
+import info.scce.testdsl.testDSL.TestDSLFactory
+import org.eclipse.emf.ecore.EPackage
 
 /**
  * This class contains custom scoping description.
@@ -11,5 +19,15 @@ package info.scce.testdsl.scoping
  * on how and when to use it.
  */
 class TestDSLScopeProvider extends AbstractTestDSLScopeProvider {
-
+	override getScope(EObject ctx, EReference ref) {
+		if (ref == TestDSLPackage.Literals.EXPRESSION__VAR) {
+			val scopeList = new ArrayList<EObject>()
+			val factory = EPackage.Registry.INSTANCE.getEFactory(TestDSLPackage.eNS_URI) as TestDSLFactory;
+			val asd = factory.createVariable
+			asd.name = "hallo"
+			scopeList.add(asd)
+			return Scopes.scopeFor(scopeList)
+		}
+		return super.getScope(ctx, ref)
+	}
 }

@@ -1,9 +1,17 @@
 grammar info.scce.testdsl.TestDSL with org.eclipse.xtext.common.Terminals
 
+import "http://cinco.scce.info/product/sharedMemory" as sharedMem
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
 generate testDSL "http://www.scce.info/testdsl/TestDSL"
 
 prog: 
+	(imports+=Import)*
 	ops+=(EventHandler | Event | Configuration | Always | Variable)*
+;
+
+Import:
+	'import' importURI=STRING
 ;
 
 Variable:
@@ -68,7 +76,7 @@ UnExpr returns Expression:
 ;
 
 AtomExpr returns Expression: 
-	{Literal} value=INT | '(' expr=Expression ')' | intvar=INT_VAR | boolvar=BOOL_VAR | var=[Variable]
+	{Literal} value=INT | '(' expr=Expression ')' | {SharedMemInt} intvar=INT_VAR | boolvar=BOOL_VAR | var=[Variable]
 ;
 
 terminal INT_VAR: 

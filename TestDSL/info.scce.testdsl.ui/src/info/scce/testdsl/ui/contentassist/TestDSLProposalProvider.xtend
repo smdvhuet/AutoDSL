@@ -3,10 +3,18 @@
  */
 package info.scce.testdsl.ui.contentassist
 
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtext.Assignment
+import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext
+import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor
 
 /**
  * See https://www.eclipse.org/Xtext/documentation/304_ide_concepts.html#content-assist
  * on how to customize the content assistant.
  */
 class TestDSLProposalProvider extends AbstractTestDSLProposalProvider {
+	override completeAtomExpr_Intvar(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		super.completeAtomExpr_Intvar(model, assignment, context, acceptor)
+		acceptor.accept(createCompletionProposal("hello", context))
+	}
 }
