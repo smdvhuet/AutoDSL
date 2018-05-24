@@ -193,24 +193,24 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	«IF !rule.booleanSubInputs.nullOrEmpty»//BooleanSubInputs
 	«val Iterator<BooleanSubOutput> refBoolIns = rule.rule.subRuleInputss.head.booleanSubOutputs.iterator»
 	«FOR in:rule.booleanSubInputs»
-		«IDHasher.GetStringHash(rule.rule.id)».«refBoolIns.next.referenceOutput» = «in.referenceInput»;
+		«IDHasher.GetStringHash(rule.id)».«refBoolIns.next.referenceOutput» = «in.referenceInput»;
 	«ENDFOR»
 	
 	«ENDIF»
 	«IF !rule.numberSubInputs.nullOrEmpty»//NumberSubInputs
 	«val Iterator<NumberSubOutput> refNumberIns = rule.rule.subRuleInputss.head.numberSubOutputs.iterator»
 	«FOR in:rule.numberSubInputs»
-		«IDHasher.GetStringHash(rule.rule.id)».«refNumberIns.next.referenceOutput» = «in.referenceInput»;
+		«IDHasher.GetStringHash(rule.id)».«refNumberIns.next.referenceOutput» = «in.referenceInput»;
 	«ENDFOR»
 	
 	«ENDIF»
 	// SubRule execution
 	«IF RuleGenerator.isStateRule(rule.rule)»
-		«IDHasher.GetStringHash(rule.rule.id)».Execute(input, output);
+		«IDHasher.GetStringHash(rule.id)».Execute(input, output);
 	«ELSEIF RuleGenerator.isGuardRule(rule.rule)»
 		return «IDHasher.GetStringHash(rule.rule.id)».Execute(input);
 	«ELSEIF RuleGenerator.isNeutralRule(rule.rule)»
-		«IDHasher.GetStringHash(rule.rule.id)».Execute(input);
+		«IDHasher.GetStringHash(rule.id)».Execute(input);
 	«ELSE»
 		//SubRule is not StateRule, GuardRule or NeutralRule
 	«ENDIF»
@@ -218,14 +218,14 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	«IF !rule.booleanSubOutputs.nullOrEmpty»//BooleanSubOutputs
 	«val Iterator<BooleanSubInput> refBoolOuts = rule.rule.subRuleOutputss.head.booleanSubInputs.iterator»
 	«FOR out:rule.booleanSubOutputs»
-		bool «out.referenceOutput» = «IDHasher.GetStringHash(rule.rule.id)».«refBoolOuts.next.identifier»;
+		bool «out.referenceOutput» = «IDHasher.GetStringHash(rule.id)».«refBoolOuts.next.identifier»;
 	«ENDFOR»
 	
 	«ENDIF»
 	«IF !rule.numberSubOutputs.nullOrEmpty»//NumberSubOutputs
 	«val Iterator<NumberSubInput> refNumberOuts = rule.rule.subRuleOutputss.head.numberSubInputs.iterator»
 	«FOR out:rule.numberSubOutputs»
-		double «out.referenceOutput» = «IDHasher.GetStringHash(rule.rule.id)».«refNumberOuts.next.identifier»;
+		double «out.referenceOutput» = «IDHasher.GetStringHash(rule.id)».«refNumberOuts.next.identifier»;
 	«ENDFOR»
 	
 	«ENDIF»

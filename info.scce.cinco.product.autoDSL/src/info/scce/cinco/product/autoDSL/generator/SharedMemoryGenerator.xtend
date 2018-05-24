@@ -73,7 +73,7 @@ class SharedMemoryGenerator{
 	  if(name == null){
 	  	var String[] names = memory.eResource().getURI().lastSegment().split(".sharedMemory").get(0).split("_")
 	  	
-	  	name = DSLGenerator.getPrefix(memory.eResource.URI.path, ProjectCreator.getProject(memory.eResource).getFolder("src-gen"));
+	  	name = NamingUtilities.getPrefix(memory.eResource.URI.path, ProjectCreator.getProject(memory.eResource).getFolder("src-gen"));
 	  	for(String n : names) {
 	  		name = name + n.toFirstUpper
 	  	}

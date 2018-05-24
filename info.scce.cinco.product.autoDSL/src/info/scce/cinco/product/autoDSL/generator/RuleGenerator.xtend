@@ -87,7 +87,7 @@ class RuleGenerator implements IGenerator<Rule> {
 				return
 				'''	
 				#include "«rule.name».h"
-				
+				#include "core/Debug.h"
 				#include "core/Utility.h"
 				«addIncludes(rule.memories)»
 				«IF !usesParameterInput(rule)»
@@ -102,6 +102,7 @@ class RuleGenerator implements IGenerator<Rule> {
 				«rule.name»::~«rule.name»() {}
 				
 				void «rule.name»::Execute(const ACCPlusPlus::IO::CarInputs &input, ACCPlusPlus::IO::CarOutputs &output){
+					ACC_LOG2("Execute" << "'«rule.name»'")
 					«IF !usesParameterInput(rule)»
 					// Suppress unused input warning
 					UNUSED_VAR(input)
@@ -162,7 +163,7 @@ class RuleGenerator implements IGenerator<Rule> {
 				return
 				'''	
 				#include "«rule.name».h"
-				
+				#include "core/Debug.h"
 				#include "core/Utility.h"
 				«addIncludes(rule.memories)»
 				
@@ -178,6 +179,7 @@ class RuleGenerator implements IGenerator<Rule> {
 				«rule.name»::~«rule.name»() {}
 				
 				bool «rule.name»::Execute(const ACCPlusPlus::IO::CarInputs &input){
+					ACC_LOG2("Execute" << "'«rule.name»'")
 					«IF !usesParameterInput(rule)»
 					// Suppress unused input warning
 					UNUSED_VAR(input);
@@ -235,10 +237,26 @@ class RuleGenerator implements IGenerator<Rule> {
 	private def generateNeutralRuleBody(Rule rule, NodeGenerator nodeGenerator){
 		for(Node node : rule.operations){
 			if(node.incoming.nullOrEmpty&&!(node instanceof Comment)){
-				return
-				'''	
-				#include "«rule.name».h"
+				var ArrayList<String> includes = new ArrayList(); 
+				var ArrayList<String> publicMemberVars = new ArrayList();
+
+				this.getSubRuleOutputs(rule, includes, publicMemberVars)
 				
+				for(var int i =0; i < publicMemberVars.length; i++){
+					if(publicMemberVars.get(i).startsWith("//") || publicMemberVars.get(i).startsWith("\n")){
+						publicMemberVars.remove(i);		
+						i--;
+					}
+				}
+					
+				for(var int i = 0; i < publicMemberVars.length; i++){
+					var nameWithSemicolon = publicMemberVars.get(i).substring(publicMemberVars.get(i).indexOf(" ") + 1);
+					publicMemberVars.set(i , nameWithSemicolon.substring(0, nameWithSemicolon.length - 1))
+				}
+				
+				return'''	
+				#include "«rule.name».h"
+				#include "core/Debug.h"
 				#include "core/Utility.h"
 				«addIncludes(rule.memories)»
 				«IF !usesParameterInput(rule)»
@@ -253,18 +271,22 @@ class RuleGenerator implements IGenerator<Rule> {
 				«rule.name»::~«rule.name»() {}
 				
 				void «rule.name»::Execute(const ACCPlusPlus::IO::CarInputs &input){
+					ACC_LOG2("Execute" << "'«rule.name»'")
 					«IF !usesParameterInput(rule)»
 					// Suppress unused input warning
 					UNUSED_VAR(input);
 					
 					«ENDIF»
 					«nodeGenerator.doSwitch(node)»
+					«FOR member : publicMemberVars»
+					ACC_LOG2("Output '«member»' has been set to " << "'" << «member» << "'")  
+					«ENDFOR»
 				}
 				
 				void «rule.name»::onEntry(){}
 					
 				void «rule.name»::onExit(){}'''
-			}
+				}
 		}
 	}
 	
@@ -293,7 +315,7 @@ class RuleGenerator implements IGenerator<Rule> {
 	}
 	
 	private def getPrefix(Rule rule){
-		DSLGenerator.getPrefix(rule.eResource.URI.path, mainFolder)
+		NamingUtilities.getPrefix(rule.eResource.URI.path, mainFolder)
 	}
 	
 //*********************************************************************************
@@ -364,7 +386,7 @@ class RuleGenerator implements IGenerator<Rule> {
 			for(SubRule subRule : rule.subRules){
 				var subRuleNameClassName = getSubRuleClassName(subRule.rule);
 				includes.add('"' + subRuleNameClassName + '.h"');
-				memberVars.add(subRuleNameClassName + " " + IDHasher.GetStringHash(subRule.rule.id) + ";");
+				memberVars.add(subRuleNameClassName + " " + IDHasher.GetStringHash(subRule.id) + ";");
 			}
 		}
 	}
@@ -472,19 +494,18 @@ class RuleGenerator implements IGenerator<Rule> {
 	}
 	
 	private def ArrayToCharSequence(List<String> list){
-		return'''
-		«FOR l : list»
-		«l»
-		«ENDFOR»
-		'''
+		ArrayToCharSequence("", list, "")
 	}
 		
 	private def ArrayToCharSequence(String prefix, List<String> list){
+		ArrayToCharSequence(prefix, list, "")
+	}
+	
+	private def ArrayToCharSequence(String prefix, List<String> list, String postfix){
 		return'''
 		«FOR l : list»
-		«prefix + l»
+		«prefix + l + postfix»
 		«ENDFOR»
 		'''
 	}
-	
 }

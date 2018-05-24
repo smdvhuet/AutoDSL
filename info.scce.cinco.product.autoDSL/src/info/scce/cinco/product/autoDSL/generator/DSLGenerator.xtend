@@ -82,7 +82,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 //*********************************************************************************
 //							GENERATE DSL HEADER AND BODY	
 //*********************************************************************************		
-	private def generateStateMachineHeader(AutoDSL dsl)'''
+	private def generateStateMachineHeader(AutoDSL dsl){'''
 	#ifndef AUTODSL_«getDSLClassName(dsl).toUpperCase()»_H_
 	#define AUTODSL_«getDSLClassName(dsl).toUpperCase()»_H_
 	
@@ -107,6 +107,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	} // namespace AutoDSL
 	#endif // AUTODSL_«getDSLClassName(dsl).toUpperCase()»H_
 	'''
+	}
 	
 	private def generateStateMachineBody(AutoDSL dsl)'''
 	#include "«getDSLClassName(dsl)».h"
@@ -141,21 +142,21 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	private def generateOffStateVars(AutoDSL dsl)'''
 	//OffStates
 	«FOR state : dsl.offStates»
-	State* «getStateName(state)»;
+	State* «getVarName(state)»;
 	«ENDFOR»
 	'''
 	
 	private def generateStateVars(AutoDSL dsl)'''
 	//States
 	«FOR state : dsl.states»
-	State* «getStateName(state)»;
+	State* «getVarName(state)»;
 	«ENDFOR»		
 	'''	
 	
 	private def generateGuardVars(AutoDSL dsl)'''
 	//Guards
 	«FOR guard : dsl.guards»
-	Guard* «getGuardName(guard)»;
+	Guard* «getVarName(guard)»;
 	«ENDFOR»		
 	'''	
 
@@ -166,7 +167,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	//Delete OffStates
 	«FOR state : dsl.offStates»
 	«IF IDHasher.Contains(state.id)»
-	delete «getStateName(state)»;
+	delete «getVarName(state)»;
 	«ENDIF»
 	«ENDFOR»	
 	'''
@@ -175,7 +176,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	//Delete states
 	«FOR state : dsl.states»
 	«IF IDHasher.Contains(state.id)»
-	delete «getStateName(state)»;
+	delete «getVarName(state)»;
 	«ENDIF»
 	«ENDFOR»	
 	'''
@@ -184,7 +185,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	//Delete guards
 	«FOR guard : dsl.guards»
 	«IF IDHasher.Contains(guard.id)»
-	delete «getGuardName(guard)»;
+	delete «getVarName(guard)»;
 	«ENDIF»
 	«ENDFOR»	
 	'''
@@ -195,15 +196,15 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	private def initAllOffStates(AutoDSL dsl)'''
 	//Initialize OffStates
 	«FOR state : dsl.offStates»
-	«getStateName(state)» = new State("«getStateName(state).toFirstUpper().substring(0, getStateName(state).length - 1)»", {});
+	«getVarName(state)» = new State("Off", {});
 	«ENDFOR»	
 	'''
 	
 	private def initAllStates(AutoDSL dsl)'''
 	//Initialize states
 	«FOR state : dsl.states»
-	«getStateName(state)» = new State(
-	    "«getStateName(state).toFirstUpper().substring(0, getStateName(state).length - 1)»", {
+	«getVarName(state)» = new State(
+	    "«state.label»", {
 			«FOR container : state.componentNodes.sortBy[y] SEPARATOR ','»
 			«IF container.rule != null»
 			new «getRuleClassName(container.rule)»()
@@ -216,8 +217,8 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	private def initAllGuards(AutoDSL dsl)'''
 	//Initialize guards
 	«FOR guard : dsl.guards»
-	«getGuardName(guard)» = new Guard(
-	    "«getGuardName(guard).toFirstUpper().substring(0, getGuardName(guard).length - 1)»", {
+	«getVarName(guard)» = new Guard(
+	    "«guard.label»", {
 			«FOR container : guard.componentNodes SEPARATOR ','»
 			«IF container.rule != null»
 			new «getRuleClassName(container.rule)»()
@@ -253,47 +254,13 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 //								GENERATE CLASS NAMES
 //*********************************************************************************
 	private def getDSLClassName(AutoDSL dsl){
-	  var id = 	IDHasher.GetIntHash(dsl.id);
-	  var name = knownDSLTypes.get(id);
-	  
-	  if(name == null){
-	  	var String[] names = dsl.eResource().getURI().lastSegment().split(".autodsl").get(0).split("_")
-	  	
-	  	name = getPrefix(dsl);
-	  	for(String n : names) {
-	  		name = name + n.toFirstUpper
-	  	}
-	  	
-	  	//safe the dsltype name
-	  	knownDSLTypes.put(IDHasher.GetIntHash(name), name)
-	  }
-		
-	  return name;
+	  return NamingUtilities.getTypeName(dsl, knownDSLTypes, mainFolder)
 	}
 
-
 	private def getRuleClassName(Rule rule){
-	  var id = 	IDHasher.GetIntHash(rule.id);
-	  var name = knownRuleTypes.get(id);
-	  
-	  if(name == null){
-	  	var String[] names = rule.eResource().getURI().lastSegment().split(".rule").get(0).split("_")
-
-	  	name = getPrefix(rule);
-	  	for(String n : names) {
-	  		name = name + n.toFirstUpper
-	  	}
-	  	
-	  	rule.name = name;
-	  		  	
-	  	//generate to file
-	  	(new RuleGenerator()).generate(rule, targetDir, monitor);
-	  	
-	  	//safe the ruletype name
-	  	knownRuleTypes.put(IDHasher.GetIntHash(rule.id), name)
-	  }
-		
-	  return name;
+	  rule.name = NamingUtilities.getTypeName(rule, knownRuleTypes, mainFolder)
+	  (new RuleGenerator()).generate(rule, targetDir, monitor);
+	  return rule.name;
 	}
 	
 //*********************************************************************************
@@ -303,92 +270,22 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	//Select entry state
 	SetEntryState(«getStateName(dsl.offStates.get(0).id)»);
 	'''
-
-	private def getStateName(OffState state){
-		var id = IDHasher.GetIntHash(state.id);
-		var name = knownState.get(id);
-		
-		if(name == null){
-			//construct new offstate name
-			val postfix = "_";
-			var label = "offstate";
-			name = label + postfix;
-			
-			//try to use the user defined name. if it is already used add a counter to the name.
-			var nameCount = 0;
-			while(knownState.containsValue(name)){
-				nameCount++;
-				name = label + nameCount + postfix;
-			}
-			
-			//safe the generated name 
-			knownState.put(id, name);
-		}
-		
-		return name;
+	
+	private def getVarName(OffState state){
+		return NamingUtilities.getOffStateVarName(state, knownState)
 	}
 	
-	private def getStateName(State state){
-		var id = IDHasher.GetIntHash(state.id);
-		var name = knownState.get(id);
-		
-		if(name == null){
-			//construct new state name
-			val prefix = "state_";
-			val postfix = "_";
-			
-			//replace all spaces in the name
-			var label = state.label;
-			label = label.replaceAll(" ", "_");
-			
-			name = prefix + label + postfix;
-			
-			//try to use the user defined name. if it is already used add a counter to the name.
-			var nameCount = 0;
-			while(knownState.containsValue(name)){
-				nameCount++;
-				name = prefix + label + nameCount + postfix;
-			}
-			
-			//safe the generated name 
-			knownState.put(id, name);
-		}
-		
-		return name;
+	private def getVarName(State state){
+		return NamingUtilities.getStateVarName(state, knownState)
 	}
 	
+	private def getVarName(Guard guard){
+		return NamingUtilities.getGuardVarName(guard, knownGuard)
+	}
+		
 	//!use only if the state has already been registered
 	private def getStateName(String id){
 		return knownState.get(IDHasher.GetIntHash(id));
-	}
-	
-	private def getGuardName(Guard guard){
-		var id = IDHasher.GetIntHash(guard.id);
-		var name = knownGuard.get(id);
-		
-		if(name == null){
-			//construct new guard name
-			val prefix = "guard_";
-			val postfix = "_";
-			
-			//replace all spaces in the name
-			var label = guard.label;
-			label = label.replaceAll(" ", "_");
-			
-			name = prefix + label + postfix;
-			
-			//try to use the user defined name. if it is already used add a counter to the name.
-			var nameCount = 0;
-			while(knownGuard.containsValue(name)){
-				nameCount++;
-				name = prefix + label + nameCount + postfix;
-			}
-			
-			//safe the generated name 
-			knownGuard.put(id, name);
-		}
-		
-		return name;
 	}
 	
 	//!use only if the guard has already been registered
@@ -407,26 +304,4 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		«ENDFOR»
 		'''
 	}
-	
-	private def getPrefix(AutoDSL dsl){
-		getPrefix(dsl.eResource.URI.path, mainFolder)
-	}
-	
-	private def getPrefix(Rule rule){
-		getPrefix(rule.eResource.URI.path, mainFolder)
-	}
-	
-	public static  def getPrefix(String filePath, IFolder mainFolder){
-		var projectName = mainFolder.project.name;
-		var projectRelativeFilePath = filePath.substring(filePath.indexOf(projectName) + projectName.length + 1, filePath.length);
-		var folders = projectRelativeFilePath.split("/");
-		
-		var prefix = "";
-		for(var i = 0; i < folders.length - 1; i++){
-			prefix += folders.get(i).toFirstUpper();
-		}
-		
-		return prefix;
-	}
-	
 }
