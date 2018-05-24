@@ -29,6 +29,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	
 	override generate(AutoDSL dsl, IPath targetDir, IProgressMonitor monitor) {
 		IDHasher.Clear();
+		SharedMemoryGenerator.Clear();
 		
 		knownRuleTypes.clear();
 		knownDSLTypes.clear();
