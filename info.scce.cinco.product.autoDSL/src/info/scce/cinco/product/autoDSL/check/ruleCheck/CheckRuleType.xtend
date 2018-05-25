@@ -12,6 +12,11 @@ import info.scce.cinco.product.autoDSL.rule.rule.EndNode
 class CheckRuleType extends RuleCheck{
 	
 	override check(Rule rule) {
+		for(op : rule.operations){
+			if(op.successors.empty) op.addError("at least 1 succeeding Operation or EndNode required")
+			if(op.predecessors.empty) op.addError("at least 1 preceding Operation or StartNode required")
+		}
+		
 		val hasSubRuleOutputs = !rule.subRuleOutputss.empty
 		val isSubRule = !rule.subRuleInputss.empty || hasSubRuleOutputs 
 		if(rule.isGuardRule && isSubRule)

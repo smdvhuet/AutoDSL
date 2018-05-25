@@ -44,7 +44,7 @@ class CheckRuleForCycles extends RuleCheck{
 			return false;
 		}
 		list.addAll(op.outputs);
-		val successors = container.getSuccessors().map[x | x as Container];
+		val successors = container.getSuccessors().filter[it instanceof Container].map[it as Container];
 		for(successor: successors){
 			if(!checkForDataFlowDependencyError(successor, list, startContainer)){
 				return false;
@@ -82,7 +82,7 @@ class CheckRuleForCycles extends RuleCheck{
 			return false;
 		}
 		visited.put(container, true);
-		val successors = container.getSuccessors().map[x | x as Container];
+		val successors = container.getSuccessors().filter[it instanceof Container].map[it as Container];
 		
 		for(successorContainer : successors){
 			if(!depthFirstSearchControlFlow(successorContainer, visited, finished)){
