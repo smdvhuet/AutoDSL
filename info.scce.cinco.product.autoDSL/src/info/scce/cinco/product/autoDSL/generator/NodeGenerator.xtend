@@ -51,6 +51,7 @@ import info.scce.cinco.product.autoDSL.rule.rule.NumberOutput
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanOutput
 import info.scce.cinco.product.autoDSL.rule.rule.Equal
 import info.scce.cinco.product.autoDSL.rule.rule.Exponential
+import info.scce.cinco.product.autoDSL.rule.rule.StaticNumberValue
 
 class NodeGenerator extends RuleSwitch<CharSequence> {
 	
@@ -271,6 +272,11 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	«if(!pid.getSuccessors.nullOrEmpty)pid.getSuccessors.head.doSwitch»
 	'''
 	
+	override caseStaticNumberValue(StaticNumberValue node)'''
+	«node.outputs.head.referenceOutput» = «node.inputs.head.referenceInput»;
+	«if(!node.getSuccessors.nullOrEmpty)node.getSuccessors.head.doSwitch»
+	'''
+	
 	override caseNode(Node n)'''/*Node «n.toString» not found*/
 	«if(!n.getSuccessors.nullOrEmpty)n.getSuccessors.head.doSwitch»
 	'''
@@ -386,5 +392,9 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	def getMemoryName(SharedMemory memory){
 		return "g"+SharedMemoryGenerator.getMemoryName(memory)+"_var";
+	}
+	
+	def escapeIdentifier(CharSequence id){
+		
 	}
 }
