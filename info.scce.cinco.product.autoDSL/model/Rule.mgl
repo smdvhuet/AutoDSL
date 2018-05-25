@@ -528,7 +528,7 @@ graphModel Rule {
 		attr EString as comment := ""
 	}
 	
-	@style(startEndNode, "Ende")
+	@style(startEndNode, "End")
 	@palette("Sonstiges")
 	node EndNode{
 		incomingEdges(ControlFlow[0,*], EndEdge[0,*])
