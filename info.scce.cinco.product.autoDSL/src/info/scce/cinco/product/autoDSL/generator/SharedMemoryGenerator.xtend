@@ -24,7 +24,7 @@ class SharedMemoryGenerator{
 			
 			
 		}
-		return memory.memoryName;
+		return memory.memoryName
 	}
 	
 //*********************************************************************************
@@ -67,8 +67,8 @@ class SharedMemoryGenerator{
 	'''
 	
 	def static getMemoryName(SharedMemory memory){
-	  var id = 	IDHasher.GetIntHash(memory.id);
-	  var name = knownMemory.get(id);
+	  var id = 	IDHasher.GetIntHash(memory.id)
+	  var name = knownMemory.get(id)
 	  
 	  if(name == null){
 	  	var String[] names = memory.eResource().getURI().lastSegment().split(".sharedMemory").get(0).split("_")
@@ -83,7 +83,11 @@ class SharedMemoryGenerator{
 	  	knownMemory.put(IDHasher.GetIntHash(name), name)
 	  }
 		
-	  return name;
+	  return name
+	}
+	
+	def static Clear(){
+		knownMemory.clear
 	}
 	
 }
