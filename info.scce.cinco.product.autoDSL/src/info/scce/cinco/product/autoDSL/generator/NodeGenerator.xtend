@@ -52,6 +52,8 @@ import info.scce.cinco.product.autoDSL.rule.rule.BooleanOutput
 import info.scce.cinco.product.autoDSL.rule.rule.Equal
 import info.scce.cinco.product.autoDSL.rule.rule.Exponential
 import info.scce.cinco.product.autoDSL.rule.rule.StaticNumberValue
+import info.scce.cinco.product.autoDSL.rule.rule.StartNode
+import info.scce.cinco.product.autoDSL.rule.rule.EndNode
 
 class NodeGenerator extends RuleSwitch<CharSequence> {
 	
@@ -277,6 +279,13 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	«if(!node.getSuccessors.nullOrEmpty)node.getSuccessors.head.doSwitch»
 	'''
 	
+	override caseStartNode(StartNode node)'''
+	«if(!node.getSuccessors.nullOrEmpty)node.getSuccessors.head.doSwitch»
+	'''
+	override caseEndNode(EndNode node)'''
+	//END
+	«if(!node.getSuccessors.nullOrEmpty)node.getSuccessors.head.doSwitch»
+	'''
 	override caseNode(Node n)'''/*Node «n.toString» not found*/
 	«if(!n.getSuccessors.nullOrEmpty)n.getSuccessors.head.doSwitch»
 	'''

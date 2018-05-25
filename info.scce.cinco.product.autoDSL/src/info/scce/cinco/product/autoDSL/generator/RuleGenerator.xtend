@@ -82,8 +82,7 @@ class RuleGenerator implements IGenerator<Rule> {
 	}
 	
 	private def generateRuleBody(Rule rule, NodeGenerator nodeGenerator){
-		for(Node node : rule.operations){
-			if(node.incoming.nullOrEmpty&&!(node instanceof Comment)){
+		var node = rule.startNodes.head
 				return
 				'''	
 				#include "«rule.name».h"
@@ -114,8 +113,6 @@ class RuleGenerator implements IGenerator<Rule> {
 				void «rule.name»::onEntry(){}
 				
 				void «rule.name»::onExit(){}'''
-			}
-		}
 	}
 	
 //*********************************************************************************
@@ -158,8 +155,7 @@ class RuleGenerator implements IGenerator<Rule> {
 	}
 	
 	private def generateGuardRuleBody(Rule rule, NodeGenerator nodeGenerator){
-		for(Node node : rule.operations){
-			if(node.incoming.nullOrEmpty&&!(node instanceof Comment)){
+		var node = rule.startNodes.head
 				return
 				'''	
 				#include "«rule.name».h"
@@ -191,8 +187,6 @@ class RuleGenerator implements IGenerator<Rule> {
 				void «rule.name»::onEntry(){}
 					
 				void «rule.name»::onExit(){}'''
-			}
-		}
 	}
 	
 //*********************************************************************************
@@ -235,8 +229,7 @@ class RuleGenerator implements IGenerator<Rule> {
 	}
 	
 	private def generateNeutralRuleBody(Rule rule, NodeGenerator nodeGenerator){
-		for(Node node : rule.operations){
-			if(node.incoming.nullOrEmpty&&!(node instanceof Comment)){
+		var node = rule.startNodes.head
 				var ArrayList<String> includes = new ArrayList(); 
 				var ArrayList<String> publicMemberVars = new ArrayList();
 
@@ -286,8 +279,6 @@ class RuleGenerator implements IGenerator<Rule> {
 				void «rule.name»::onEntry(){}
 					
 				void «rule.name»::onExit(){}'''
-				}
-		}
 	}
 	
 //*********************************************************************************
