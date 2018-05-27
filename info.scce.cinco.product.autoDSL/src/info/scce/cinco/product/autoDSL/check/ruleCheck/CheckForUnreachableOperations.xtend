@@ -47,8 +47,8 @@ class CheckForUnreachableOperations extends RuleCheck{
 			}
 			for(outgoing : decision.outgoing){
 				switch outgoing {
-					ControlFlowDecisionFalse : switch decisionTrue { case TRUE : outgoing.addWarning("Operation unreachable/Decision is static") default: { throw new RuntimeException("Not implemented"); } }
-					ControlFlowDecisionTrue : switch decisionTrue { case FALSE : outgoing.addWarning("Operation unreachable/Decision is static") default: { throw new RuntimeException("Not implemented");} }
+					ControlFlowDecisionFalse : switch decisionTrue { case TRUE : outgoing.addWarning("Operation unreachable/Decision is static") default: {} }
+					ControlFlowDecisionTrue : switch decisionTrue { case FALSE : outgoing.addWarning("Operation unreachable/Decision is static") default: {} }
 				}
 			}
 		}
