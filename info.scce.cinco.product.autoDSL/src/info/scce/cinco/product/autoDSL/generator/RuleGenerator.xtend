@@ -10,8 +10,6 @@ import org.eclipse.core.runtime.IPath
 import org.eclipse.core.runtime.IProgressMonitor
 import java.util.ArrayList
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanGuardOutput
-import info.scce.cinco.product.autoDSL.rule.rule.Comment
-import graphmodel.Node
 import info.scce.cinco.product.autoDSL.rule.rule.PIDController
 import info.scce.cinco.product.autoDSL.rule.rule.SubRule
 import info.scce.cinco.product.autoDSL.rule.rule.SubRuleInputs
