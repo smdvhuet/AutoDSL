@@ -3,7 +3,6 @@ package info.scce.cinco.product.autoDSL.check.autoDSLCheck
 import info.scce.cinco.product.autoDSL.autodsl.autodsl.AutoDSL
 import info.scce.cinco.product.autoDSL.autodsl.mcam.modules.checks.AutoDSLCheck
 import info.scce.cinco.product.autoDSL.rule.rule.Rule
-import info.scce.cinco.product.autoDSL.rule.rule.Operation
 
 class CheckForInvalidRulesInGuards extends AutoDSLCheck{
 	
@@ -20,7 +19,7 @@ class CheckForInvalidRulesInGuards extends AutoDSLCheck{
 		}
 	}
 		
-	def hasCarOutputs(Rule rule){
+	def boolean hasCarOutputs(Rule rule){
 		if(!rule.directBooleanOutputs.empty)
 			return true
 		else if (!rule.directNumberOutputs.empty)

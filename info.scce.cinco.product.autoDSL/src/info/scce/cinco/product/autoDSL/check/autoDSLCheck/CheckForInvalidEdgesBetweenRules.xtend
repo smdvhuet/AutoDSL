@@ -5,7 +5,6 @@ import info.scce.cinco.product.autoDSL.autodsl.mcam.modules.checks.AutoDSLCheck
 import org.eclipse.emf.common.util.EList
 import info.scce.cinco.product.autoDSL.autodsl.autodsl.ComponentNode
 import info.scce.cinco.product.autoDSL.autodsl.autodsl.State
-import java.util.HashMap
 import graphmodel.Node
 import java.util.HashSet
 
