@@ -38,7 +38,7 @@ class LayoutManager {
 			// Either a conversion occurred (Node not really new, no actions necessary.)
 			// Or a node has been created within a NonCommutableOperation after its deletion.
 			switch op {
-				NonCommutableOperation case ( op.inputs.findFirst[!it.equals(io)]?.y != io.y + 2 * NODE_HEIGHT ) : io.placeVertically
+				NonCommutableOperation case ( op.inputs.findFirst[!it.equals(io)] != null && op.inputs.findFirst[!it.equals(io)].y != io.y + 2 * NODE_HEIGHT ) : io.placeVertically
 			}
 		}
 	}
