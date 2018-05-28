@@ -35,10 +35,10 @@ import info.scce.cinco.product.autoDSL.rule.rule.SubRuleInputs
 import info.scce.cinco.product.autoDSL.rule.rule.SubRuleOutputs
 import info.scce.cinco.product.autoDSL.rule.rule.SubRule
 import java.util.Iterator
-import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInput
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInput
-import info.scce.cinco.product.autoDSL.rule.rule.NumberSubOutput
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubOutput
+import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInputPort
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInputPort
+import info.scce.cinco.product.autoDSL.rule.rule.NumberSubOutputPort
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubOutputPort
 import java.util.HashMap
 import info.scce.cinco.product.autoDSL.rule.rule.Load
 import info.scce.cinco.product.autoDSL.rule.rule.StoredPIDController
@@ -193,16 +193,16 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	'''
 	
 	override caseSubRule(SubRule rule)'''
-	«IF !rule.booleanSubInputs.nullOrEmpty»//BooleanSubInputs
-	«val Iterator<BooleanSubOutput> refBoolIns = rule.rule.subRuleInputss.head.booleanSubOutputs.iterator»
-	«FOR in:rule.booleanSubInputs»
+	«IF !rule.booleanSubInputPorts.nullOrEmpty»//BooleanSubInputs
+	«val Iterator<BooleanSubOutputPort> refBoolIns = rule.rule.subRuleInputss.head.booleanSubOutputPorts.iterator»
+	«FOR in:rule.booleanSubInputPorts»
 		«IDHasher.GetStringHash(rule.id)».«refBoolIns.next.referenceOutput» = «in.referenceInput»;
 	«ENDFOR»
 	
 	«ENDIF»
-	«IF !rule.numberSubInputs.nullOrEmpty»//NumberSubInputs
-	«val Iterator<NumberSubOutput> refNumberIns = rule.rule.subRuleInputss.head.numberSubOutputs.iterator»
-	«FOR in:rule.numberSubInputs»
+	«IF !rule.numberSubInputPorts.nullOrEmpty»//NumberSubInputs
+	«val Iterator<NumberSubOutputPort> refNumberIns = rule.rule.subRuleInputss.head.numberSubOutputPorts.iterator»
+	«FOR in:rule.numberSubInputPorts»
 		«IDHasher.GetStringHash(rule.id)».«refNumberIns.next.referenceOutput» = «in.referenceInput»;
 	«ENDFOR»
 	
@@ -218,16 +218,16 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 		//SubRule is not StateRule, GuardRule or NeutralRule
 	«ENDIF»
 	
-	«IF !rule.booleanSubOutputs.nullOrEmpty»//BooleanSubOutputs
-	«val Iterator<BooleanSubInput> refBoolOuts = rule.rule.subRuleOutputss.head.booleanSubInputs.iterator»
-	«FOR out:rule.booleanSubOutputs»
+	«IF !rule.booleanSubOutputPorts.nullOrEmpty»//BooleanSubOutputs
+	«val Iterator<BooleanSubInputPort> refBoolOuts = rule.rule.subRuleOutputss.head.booleanSubInputPorts.iterator»
+	«FOR out:rule.booleanSubOutputPorts»
 		bool «out.referenceOutput» = «IDHasher.GetStringHash(rule.id)».«refBoolOuts.next.identifier»;
 	«ENDFOR»
 	
 	«ENDIF»
-	«IF !rule.numberSubOutputs.nullOrEmpty»//NumberSubOutputs
-	«val Iterator<NumberSubInput> refNumberOuts = rule.rule.subRuleOutputss.head.numberSubInputs.iterator»
-	«FOR out:rule.numberSubOutputs»
+	«IF !rule.numberSubOutputPorts.nullOrEmpty»//NumberSubOutputs
+	«val Iterator<NumberSubInputPort> refNumberOuts = rule.rule.subRuleOutputss.head.numberSubInputPorts.iterator»
+	«FOR out:rule.numberSubOutputPorts»
 		double «out.referenceOutput» = «IDHasher.GetStringHash(rule.id)».«refNumberOuts.next.identifier»;
 	«ENDFOR»
 	
@@ -241,10 +241,10 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	override caseSubRuleOutputs(SubRuleOutputs out)'''
 	//SubRule Outputs
-	«FOR BooleanSubInput port:out.booleanSubInputs»
+	«FOR BooleanSubInputPort port:out.booleanSubInputPorts»
 		«port.identifier» = «port.referenceInput»;
 	«ENDFOR»
-	«FOR NumberSubInput port:out.numberSubInputs»
+	«FOR NumberSubInputPort port:out.numberSubInputPorts»
 		«port.identifier» = «port.referenceInput»;
 	«ENDFOR»
 	«if(!out.getSuccessors.nullOrEmpty)out.getSuccessors.head.doSwitch»
@@ -313,12 +313,12 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 		switch out{
 			NumberCarOutput :	"output."+out.outputtype.toString
 			BooleanCarOutput:	"output."+out.outputtype.toString
-			NumberSubOutput:	if(out.container instanceof SubRule){
+			NumberSubOutputPort:	if(out.container instanceof SubRule){
 									IDHasher.GetStringHash(out.id)
 								}else{
 									out.identifier
 								}
-			BooleanSubOutput:	if(out.container instanceof SubRule){
+			BooleanSubOutputPort:	if(out.container instanceof SubRule){
 									IDHasher.GetStringHash(out.id)
 								}else{
 									out.identifier
@@ -340,12 +340,12 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 		switch out{
 			NumberCarOutput :	"output."+out.outputtype.toString
 			BooleanCarOutput:	"output."+out.outputtype.toString
-			NumberSubOutput:	if(out.container instanceof SubRule){
+			NumberSubOutputPort:	if(out.container instanceof SubRule){
 									IDHasher.GetStringHash(out.id)
 								}else{
 									out.identifier
 								}
-			BooleanSubOutput:	if(out.container instanceof SubRule){
+			BooleanSubOutputPort:	if(out.container instanceof SubRule){
 									IDHasher.GetStringHash(out.id)
 								}else{
 									out.identifier
@@ -368,29 +368,29 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	«FOR rule:mainRule.subRules»
 		«IF !knownSubRules.containsValue(rule.rule)»
 			«knownSubRules.put(IDHasher.GetIntHash(rule.rule.id),rule.rule)»
-			«IF !rule.booleanSubInputs.nullOrEmpty && !rule.numberSubInputs.nullOrEmpty && !rule.booleanSubOutputs.nullOrEmpty && !rule.numberSubOutputs.nullOrEmpty»//subRule «IDHasher.GetIntHash(rule.rule.id)»«ENDIF»
-			«IF !rule.booleanSubInputs.nullOrEmpty»//BooleanSubInputs
-			«val Iterator<BooleanSubOutput> refBoolIns = rule.rule.subRuleInputss.head.booleanSubOutputs.iterator»
-			«FOR BooleanSubInput in:rule.booleanSubInputs»
+			«IF !rule.booleanSubInputPorts.nullOrEmpty && !rule.numberSubInputPorts.nullOrEmpty && !rule.booleanSubOutputPorts.nullOrEmpty && !rule.numberSubOutputPorts.nullOrEmpty»//subRule «IDHasher.GetIntHash(rule.rule.id)»«ENDIF»
+			«IF !rule.booleanSubInputPorts.nullOrEmpty»//BooleanSubInputs
+			«val Iterator<BooleanSubOutputPort> refBoolIns = rule.rule.subRuleInputss.head.booleanSubOutputPorts.iterator»
+			«FOR BooleanSubInputPort in:rule.booleanSubInputPorts»
 				bool «refBoolIns.next.referenceOutput»;
 			«ENDFOR»
 			
 			«ENDIF»
-			«IF !rule.numberSubInputs.nullOrEmpty»//NumberSubInputs
-			«val Iterator<NumberSubOutput> refNumberIns = rule.rule.subRuleInputss.head.numberSubOutputs.iterator»
-			«FOR NumberSubInput in:rule.numberSubInputs»
+			«IF !rule.numberSubInputPorts.nullOrEmpty»//NumberSubInputs
+			«val Iterator<NumberSubOutputPort> refNumberIns = rule.rule.subRuleInputss.head.numberSubOutputPorts.iterator»
+			«FOR NumberSubInputPort in:rule.numberSubInputPorts»
 				double «refNumberIns.next.referenceOutput»;
 			«ENDFOR»
 			
 			«ENDIF»
-			«IF !rule.booleanSubOutputs.nullOrEmpty»//BooleanSubOutputs
-			«FOR BooleanSubInput out:rule.rule.subRuleOutputss.head.booleanSubInputs»
+			«IF !rule.booleanSubOutputPorts.nullOrEmpty»//BooleanSubOutputs
+			«FOR BooleanSubInputPort out:rule.rule.subRuleOutputss.head.booleanSubInputPorts»
 				bool «IDHasher.GetStringHash(rule.rule.id)+"_"+out.identifier»;
 			«ENDFOR»
 			
 			«ENDIF»
-			«IF !rule.numberSubOutputs.nullOrEmpty»//NumberSubOutputs
-			«FOR NumberSubInput out:rule.rule.subRuleOutputss.head.numberSubInputs»
+			«IF !rule.numberSubOutputPorts.nullOrEmpty»//NumberSubOutputs
+			«FOR NumberSubInputPort out:rule.rule.subRuleOutputss.head.numberSubInputPorts»
 				double «IDHasher.GetStringHash(rule.rule.id)+"_"+out.identifier»;
 			«ENDFOR»
 			

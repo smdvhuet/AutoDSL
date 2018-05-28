@@ -2,17 +2,13 @@ package info.scce.cinco.product.autoDSL.hooks
 
 import de.jabc.cinco.meta.runtime.action.CincoCustomAction
 import info.scce.cinco.product.autoDSL.rule.rule.Addition
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanCarInput
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanCarOutput
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanGuardOutput
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanInputPort
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanOutputPort
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanStaticInput
 import info.scce.cinco.product.autoDSL.rule.rule.Decision
 import info.scce.cinco.product.autoDSL.rule.rule.DirectBooleanOutput
 import info.scce.cinco.product.autoDSL.rule.rule.DirectNumberOutput
 import info.scce.cinco.product.autoDSL.rule.rule.Division
 import info.scce.cinco.product.autoDSL.rule.rule.Equal
+import info.scce.cinco.product.autoDSL.rule.rule.Exponential
 import info.scce.cinco.product.autoDSL.rule.rule.Greater
 import info.scce.cinco.product.autoDSL.rule.rule.GreaterOrEqual
 import info.scce.cinco.product.autoDSL.rule.rule.IO
@@ -26,11 +22,6 @@ import info.scce.cinco.product.autoDSL.rule.rule.Maximum
 import info.scce.cinco.product.autoDSL.rule.rule.Minimum
 import info.scce.cinco.product.autoDSL.rule.rule.Multiplication
 import info.scce.cinco.product.autoDSL.rule.rule.Negation
-import info.scce.cinco.product.autoDSL.rule.rule.NumberCarInput
-import info.scce.cinco.product.autoDSL.rule.rule.NumberCarOutput
-import info.scce.cinco.product.autoDSL.rule.rule.NumberInputPort
-import info.scce.cinco.product.autoDSL.rule.rule.NumberOutputPort
-import info.scce.cinco.product.autoDSL.rule.rule.NumberStaticInput
 import info.scce.cinco.product.autoDSL.rule.rule.Operation
 import info.scce.cinco.product.autoDSL.rule.rule.PIDController
 import info.scce.cinco.product.autoDSL.rule.rule.SaveBoolean
@@ -42,7 +33,6 @@ import info.scce.cinco.product.autoDSL.rule.rule.SubRuleOutputs
 import info.scce.cinco.product.autoDSL.rule.rule.Subtraction
 
 import static extension info.scce.cinco.product.autoDSL.extensions.IOExtension.*
-import info.scce.cinco.product.autoDSL.rule.rule.Exponential
 
 abstract class IOConversion extends CincoCustomAction<IO> {
 	
@@ -100,22 +90,10 @@ abstract class IOConversion extends CincoCustomAction<IO> {
 		for (input : tmpOp.inputs) input.delete
 		for (output : tmpOp.outputs) output.delete
 		for (input : op.inputs.filter[it != io]){
-			switch input {
-				BooleanCarInput : tmpOp.newBooleanCarInput(0,0)
-				BooleanInputPort : tmpOp.newBooleanInputPort(0,0)
-				BooleanStaticInput : tmpOp.newBooleanStaticInput(0,0)
-				NumberCarInput : tmpOp.newNumberCarInput(0,0)
-				NumberInputPort : tmpOp.newNumberInputPort(0,0)
-				NumberStaticInput : tmpOp.newNumberStaticInput(0,0)
-			}
+			tmpOp.createNewOfSameType(input)
 		}
 		for (output : op.outputs.filter[it != io]){
-			switch output {
-				BooleanCarOutput : tmpOp.newBooleanCarOutput(0,0)
-				BooleanOutputPort : tmpOp.newBooleanOutputPort(0,0)
-				NumberCarOutput : tmpOp.newNumberCarOutput(0,0)
-				NumberOutputPort : tmpOp.newNumberOutputPort(0,0)
-			}
+			tmpOp.createNewOfSameType(output)
 		}
 		val p = io.canCreateConversionTarget(tmpOp)
 		tmpOp.delete

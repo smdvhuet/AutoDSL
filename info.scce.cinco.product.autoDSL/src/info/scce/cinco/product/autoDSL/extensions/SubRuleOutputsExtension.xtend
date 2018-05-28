@@ -1,18 +1,17 @@
 package info.scce.cinco.product.autoDSL.extensions
 
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInput
-import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInput
-import info.scce.cinco.product.autoDSL.rule.rule.SubRuleOutputs
 import info.scce.cinco.product.autoDSL.rule.rule.IO
 import info.scce.cinco.product.autoDSL.rule.rule.Operation
+import info.scce.cinco.product.autoDSL.rule.rule.SubRuleOutputs
+
+import static extension info.scce.cinco.product.autoDSL.extensions.IOExtension.*
 
 class SubRuleOutputsExtension {
 		
 	static def hasPortWithID(SubRuleOutputs op, String ID){
 		for (port : op.inputs) {
 			switch port{
-				BooleanSubInput case port.identifier == ID : return true	
-				NumberSubInput case port.identifier == ID :return true	
+				case port.identifier == ID : return true
 			}
 		}
 		return false
@@ -21,17 +20,8 @@ class SubRuleOutputsExtension {
 	static def addRemainingSubInputs(IO newPort){
 		for (outputNode : newPort.rootElement.subRuleOutputss) {
 			//Create Port with same name in all subRuleOutput-Nodes
-			switch newPort {
-				BooleanSubInput :
-					if (!outputNode.hasPortWithID(newPort.identifier)){
-						val newSharedPort = outputNode.newBooleanSubInput(0,0)
-						newSharedPort.identifier = newPort.identifier
-					}
-				NumberSubInput :
-					if (!outputNode.hasPortWithID(newPort.identifier)){
-						val newSharedPort = outputNode.newNumberSubInput(0,0)
-						newSharedPort.identifier = newPort.identifier
-					}
+			if (!outputNode.hasPortWithID(newPort.identifier)){
+				outputNode.createNewOfSameType(newPort).identifier = newPort.identifier
 			}
 		}
 	}

@@ -10,6 +10,6 @@ class AddNumberSubOutput extends CincoCustomAction<SubRuleInputs> {
 	}
 
 	override execute(SubRuleInputs inp) {
-		inp.newNumberSubOutput(0,0)
+		inp.newNumberSubOutputPort(0,0)
 	}
 }

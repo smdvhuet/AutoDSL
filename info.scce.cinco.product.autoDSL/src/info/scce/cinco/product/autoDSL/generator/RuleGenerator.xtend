@@ -13,10 +13,10 @@ import info.scce.cinco.product.autoDSL.rule.rule.BooleanGuardOutput
 import info.scce.cinco.product.autoDSL.rule.rule.PIDController
 import info.scce.cinco.product.autoDSL.rule.rule.SubRule
 import info.scce.cinco.product.autoDSL.rule.rule.SubRuleInputs
-import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInput
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInput
-import info.scce.cinco.product.autoDSL.rule.rule.NumberSubOutput
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubOutput
+import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInputPort
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInputPort
+import info.scce.cinco.product.autoDSL.rule.rule.NumberSubOutputPort
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubOutputPort
 import info.scce.cinco.product.autoDSL.rule.rule.SubRuleOutputs
 import java.util.List
 
@@ -386,12 +386,12 @@ class RuleGenerator implements IGenerator<Rule> {
 			memberVars.add("//SubRule inputs");
 			
 			for(SubRuleInputs input : rule.subRuleInputss){
-				for(NumberSubOutput in : input.numberSubOutputs){
+				for(NumberSubOutputPort in : input.numberSubOutputPorts){
 					var typeName = in.identifier;
 					memberVars.add("double " + typeName + ";");
 				}
 				
-				for(BooleanSubOutput in : input.booleanSubOutputs){
+				for(BooleanSubOutputPort in : input.booleanSubOutputPorts){
 					var typeName = in.identifier;
 					memberVars.add("bool " + typeName + ";");
 				}
@@ -408,12 +408,12 @@ class RuleGenerator implements IGenerator<Rule> {
 			memberVars.add("//SubRule outputs");
 			
 			for(SubRuleOutputs output : rule.subRuleOutputss){
-				for(NumberSubInput out : output.numberSubInputs){
+				for(NumberSubInputPort out : output.numberSubInputPorts){
 					var typeName = out.identifier;
 					memberVars.add("double " + typeName + ";");
 				}
 				
-				for(BooleanSubInput out : output.booleanSubInputs){
+				for(BooleanSubInputPort out : output.booleanSubInputPorts){
 					var typeName = out.identifier;
 					memberVars.add("bool " + typeName + ";");
 				}

@@ -92,7 +92,7 @@ graphModel Rule {
 		attr EString as label
 		containableElements(
 			BooleanCarInput[0,0], BooleanInputPort[0,0], BooleanStaticInput[0,0], NumberCarInput[0,0], NumberInputPort[0,0], NumberStaticInput[0,0],
-			BooleanSubInput[0,*], NumberSubInput[0,*], BooleanSubOutput[0,*], NumberSubOutput[0,*], 
+			BooleanSubInputPort[0,*], NumberSubInputPort[0,*], BooleanSubOutputPort[0,*], NumberSubOutputPort[0,*], 
 			BooleanCarOutput[0,0], BooleanOutputPort[0,0], NumberCarOutput[0,0], NumberOutputPort[0,0]
 		)
 	}
@@ -239,7 +239,7 @@ graphModel Rule {
 	container Addition extends CommutableOperation {
 		containableElements(
 			BooleanInput[0,0], NumberInput[1,*],
-			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanSubInputPort[0,0], NumberSubInputPort[0,0], BooleanSubOutputPort[0,0], NumberSubOutputPort[0,0],
 			BooleanOutput[0,0], NumberOutput[1,1]
 		)
 	}
@@ -251,7 +251,7 @@ graphModel Rule {
 	container Division extends NonCommutableOperation {
 		containableElements(
 			BooleanInput[0,0], NumberInput[2,2],
-			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanSubInputPort[0,0], NumberSubInputPort[0,0], BooleanSubOutputPort[0,0], NumberSubOutputPort[0,0],
 			BooleanOutput[0,0], NumberOutput[1,1]
 		)
 	}
@@ -263,7 +263,7 @@ graphModel Rule {
 	container Exponential extends NonCommutableOperation {
 		containableElements(
 			BooleanInput[0,0], NumberInput[2,2],
-			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanSubInputPort[0,0], NumberSubInputPort[0,0], BooleanSubOutputPort[0,0], NumberSubOutputPort[0,0],
 			BooleanOutput[0,0], NumberOutput[1,1]
 		)
 	}
@@ -275,7 +275,7 @@ graphModel Rule {
 	container Maximum extends CommutableOperation {
 		containableElements(
 			BooleanInput[0,0], NumberInput[1,*],
-			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanSubInputPort[0,0], NumberSubInputPort[0,0], BooleanSubOutputPort[0,0], NumberSubOutputPort[0,0],
 			BooleanOutput[0,0], NumberOutput[1,1]
 		)
 	}
@@ -287,7 +287,7 @@ graphModel Rule {
 	container Minimum extends CommutableOperation {
 		containableElements(
 			BooleanInput[0,0], NumberInput[1,*],
-			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanSubInputPort[0,0], NumberSubInputPort[0,0], BooleanSubOutputPort[0,0], NumberSubOutputPort[0,0],
 			BooleanOutput[0,0], NumberOutput[1,1]
 		)
 	}
@@ -299,7 +299,7 @@ graphModel Rule {
 	container Multiplication extends CommutableOperation {
 		containableElements(
 			BooleanInput[0,0], NumberInput[1,*],
-			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanSubInputPort[0,0], NumberSubInputPort[0,0], BooleanSubOutputPort[0,0], NumberSubOutputPort[0,0],
 			BooleanOutput[0,0], NumberOutput[1,1]
 		)		
 	}
@@ -311,7 +311,7 @@ graphModel Rule {
 	container Subtraction extends NonCommutableOperation {
 		containableElements(
 			BooleanInput[0,0], NumberInput[2,2],
-			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanSubInputPort[0,0], NumberSubInputPort[0,0], BooleanSubOutputPort[0,0], NumberSubOutputPort[0,0],
 			BooleanOutput[0,0], NumberOutput[1,1]
 		)
 	}
@@ -325,7 +325,7 @@ graphModel Rule {
 	container DirectBooleanOutput extends Operation {
 		containableElements(
 			BooleanInput[1,1], NumberInput[0,0],
-			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanSubInputPort[0,0], NumberSubInputPort[0,0], BooleanSubOutputPort[0,0], NumberSubOutputPort[0,0],
 			BooleanCarOutput[1,1], BooleanOutputPort[0,0], NumberOutput[0,0]
 		)
 	}
@@ -337,7 +337,7 @@ graphModel Rule {
 	container DirectNumberOutput extends Operation {
 		containableElements(
 			BooleanInput[0,0], NumberInput[1,1],
-			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanSubInputPort[0,0], NumberSubInputPort[0,0], BooleanSubOutputPort[0,0], NumberSubOutputPort[0,0],
 			BooleanOutput[0,0], NumberCarOutput[1,1], NumberOutputPort[0,0]
 		)
 	}
@@ -353,7 +353,7 @@ graphModel Rule {
 		outgoingEdges(ControlFlowDecisionFalse[1,1], ControlFlowDecisionTrue[1,1], ControlFlowBasic[0,0])
 		containableElements(
 			BooleanInput[1,1], NumberInput[0,0],
-			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanSubInputPort[0,0], NumberSubInputPort[0,0], BooleanSubOutputPort[0,0], NumberSubOutputPort[0,0],
 			BooleanOutput[0,0], NumberOutput[0,0]
 		)
 	}
@@ -365,7 +365,7 @@ graphModel Rule {
 	container Equal extends NonCommutableOperation {
 		containableElements(
 			BooleanInput[0,0], NumberInput[2,2],
-			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanSubInputPort[0,0], NumberSubInputPort[0,0], BooleanSubOutputPort[0,0], NumberSubOutputPort[0,0],
 			BooleanOutput[1,1], NumberOutput[0,0]
 		)
 	}
@@ -377,7 +377,7 @@ graphModel Rule {
 	container Less extends NonCommutableOperation {
 		containableElements(
 			BooleanInput[0,0], NumberInput[2,2],
-			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanSubInputPort[0,0], NumberSubInputPort[0,0], BooleanSubOutputPort[0,0], NumberSubOutputPort[0,0],
 			BooleanOutput[1,1], NumberOutput[0,0]
 		)
 	}
@@ -389,7 +389,7 @@ graphModel Rule {
 	container Greater extends NonCommutableOperation {
 		containableElements(
 			BooleanInput[0,0], NumberInput[2,2],
-			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanSubInputPort[0,0], NumberSubInputPort[0,0], BooleanSubOutputPort[0,0], NumberSubOutputPort[0,0],
 			BooleanOutput[1,1], NumberOutput[0,0]
 		)
 	}
@@ -401,7 +401,7 @@ graphModel Rule {
 	container GreaterOrEqual extends NonCommutableOperation {
 		containableElements(
 			BooleanInput[0,0], NumberInput[2,2],
-			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanSubInputPort[0,0], NumberSubInputPort[0,0], BooleanSubOutputPort[0,0], NumberSubOutputPort[0,0],
 			BooleanOutput[1,1], NumberOutput[0,0]
 		)
 	}
@@ -413,7 +413,7 @@ graphModel Rule {
 	container LessOrEqual extends NonCommutableOperation {
 		containableElements(
 			BooleanInput[0,0], NumberInput[2,2],
-			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanSubInputPort[0,0], NumberSubInputPort[0,0], BooleanSubOutputPort[0,0], NumberSubOutputPort[0,0],
 			BooleanOutput[1,1], NumberOutput[0,0]
 		)
 	}
@@ -425,7 +425,7 @@ graphModel Rule {
 	container LogicalAnd extends CommutableOperation {
 		containableElements(
 			BooleanInput[1,*], NumberInput[0,0],
-			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanSubInputPort[0,0], NumberSubInputPort[0,0], BooleanSubOutputPort[0,0], NumberSubOutputPort[0,0],
 			BooleanOutput[1,1], NumberOutput[0,0]
 		)
 	}
@@ -437,7 +437,7 @@ graphModel Rule {
 	container LogicalOr extends CommutableOperation {
 		containableElements(
 			BooleanInput[1,*], NumberInput[0,0],
-			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanSubInputPort[0,0], NumberSubInputPort[0,0], BooleanSubOutputPort[0,0], NumberSubOutputPort[0,0],
 			BooleanOutput[1,1], NumberOutput[0,0]
 		)
 	}
@@ -449,7 +449,7 @@ graphModel Rule {
 	container Negation extends Operation {
 		containableElements(
 			BooleanInput[1,1], NumberInput[0,0],
-			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanSubInputPort[0,0], NumberSubInputPort[0,0], BooleanSubOutputPort[0,0], NumberSubOutputPort[0,0],
 			BooleanOutput[1,1], NumberOutput[0,0]
 		)
 	}
@@ -516,7 +516,7 @@ graphModel Rule {
 		outgoingEdges(ControlFlowBasic[0,0], EndEdge[1,1])
 		containableElements(
 			BooleanInput[1,1], NumberInput[0,0],
-			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanSubInputPort[0,0], NumberSubInputPort[0,0], BooleanSubOutputPort[0,0], NumberSubOutputPort[0,0],
 			BooleanOutput[0,0], NumberOutput[0,0]
 		)
 	}
@@ -544,7 +544,7 @@ graphModel Rule {
 		attr EDouble as d
 		containableElements(
 			BooleanInput[0,0], NumberInput[2,2],
-			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanSubInputPort[0,0], NumberSubInputPort[0,0], BooleanSubOutputPort[0,0], NumberSubOutputPort[0,0],
 			BooleanOutput[0,0], NumberOutput[1,1]
 		)
 	}
@@ -563,7 +563,7 @@ graphModel Rule {
 		attr EString as name := ""
 		containableElements(
 			BooleanInput[0,0], NumberCarInput[0,0], NumberInputPort[0,0], NumberStaticInput[1,1],
-			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0], 
+			BooleanSubInputPort[0,0], NumberSubInputPort[0,0], BooleanSubOutputPort[0,0], NumberSubOutputPort[0,0], 
 			BooleanOutput[0,0], NumberCarOutput[0,0], NumberOutputPort[1,1]
 		)
 	}
@@ -579,7 +579,7 @@ graphModel Rule {
 		prime mem::StoredPIDController as data
 		containableElements(
 			BooleanInput[0,0], NumberInput[2,2],
-			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutput[0,0], NumberSubOutput[0,0],
+			BooleanSubInputPort[0,0], NumberSubInputPort[0,0], BooleanSubOutputPort[0,0], NumberSubOutputPort[0,0],
 			BooleanOutput[0,0], NumberOutput[1,1]
 		)
 	}
@@ -623,7 +623,7 @@ graphModel Rule {
 		incomingEdges(ControlFlow[0,0], StartEdge[1,1])
 		containableElements(
 			BooleanInput[0,0], NumberInput[0,0],
-			BooleanSubOutput[0,*], NumberSubOutput[0,*],
+			BooleanSubOutputPort[0,*], NumberSubOutputPort[0,*],
 			BooleanCarOutput[0,0], BooleanOutputPort[0,0], NumberCarOutput[0,0], NumberOutputPort[0,0]
 		)
 	}
@@ -640,7 +640,7 @@ graphModel Rule {
 		outgoingEdges(ControlFlowBasic[0,0], EndEdge[1,1])
 		containableElements(
 			BooleanCarInput[0,0], BooleanInputPort[0,0], BooleanStaticInput[0,0], NumberCarInput[0,0], NumberInputPort[0,0], NumberStaticInput[0,0],
-			BooleanSubInput[0,*], NumberSubInput[0,*], 
+			BooleanSubInputPort[0,*], NumberSubInputPort[0,*], 
 			BooleanOutput[0,0], NumberOutput[0,0]
 		)
 	}	
@@ -655,7 +655,7 @@ graphModel Rule {
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
 	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	@postAttributeValueChange("info.scce.cinco.product.autoDSL.hooks.UpdateSubRuleOutputs")
-	node BooleanSubInput extends BooleanInput {
+	node BooleanSubInputPort extends BooleanInput {
 		attr EString as identifier
 		incomingEdges(BooleanDataFlow[1,1])
 	}
@@ -666,7 +666,7 @@ graphModel Rule {
 	@icon("icons/subRule_out.png")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
 	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
-	node BooleanSubOutput extends BooleanOutput {
+	node BooleanSubOutputPort extends BooleanOutput {
 		attr EString as identifier
 		outgoingEdges(BooleanDataFlow[0,*])
 	}
@@ -678,7 +678,7 @@ graphModel Rule {
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
 	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	@postAttributeValueChange("info.scce.cinco.product.autoDSL.hooks.UpdateSubRuleOutputs")
-	node NumberSubInput extends NumberInput {
+	node NumberSubInputPort extends NumberInput {
 		attr EString as identifier
 		incomingEdges(NumberDataFlow[1,1])
 	}
@@ -689,7 +689,7 @@ graphModel Rule {
 	@icon("icons/subRule_out.png")
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
 	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
-	node NumberSubOutput extends NumberOutput {
+	node NumberSubOutputPort extends NumberOutput {
 		attr EString as identifier
 		outgoingEdges(NumberDataFlow[0,*])
 	}

@@ -12,7 +12,7 @@ class CreateSubRuleOutputs extends CincoPostCreateHook<SubRuleOutputs> {
 		if(output != null){ 
 			for (port : output.inputs) {
 				port.addRemainingSubInputs
-			}	
+			}
 		}
 	}
 

@@ -8,9 +8,8 @@ class AddBooleanSubInput extends CincoCustomAction<SubRuleOutputs> {
 	override getName() {
 		"Add Boolean Output"
 	}
-
+	
 	override execute(SubRuleOutputs outputs) {
-		outputs.newBooleanSubInput(0,0)
+		outputs.newBooleanSubInputPort(0,0)
 	}
-
 }

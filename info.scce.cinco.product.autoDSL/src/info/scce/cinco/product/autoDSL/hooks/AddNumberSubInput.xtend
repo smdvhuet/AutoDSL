@@ -8,9 +8,8 @@ class AddNumberSubInput extends CincoCustomAction<SubRuleOutputs> {
 	override getName() {
 		"Add Number Output"
 	}
-
-	override execute(SubRuleOutputs outputs) {
-		outputs.newNumberSubInput(0,0)
-	}
 	
+	override execute(SubRuleOutputs outputs) {
+		outputs.newNumberSubInputPort(0,0)
+	}
 }
