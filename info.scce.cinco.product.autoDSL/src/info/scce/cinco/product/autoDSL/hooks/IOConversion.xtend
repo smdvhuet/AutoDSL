@@ -28,8 +28,6 @@ import info.scce.cinco.product.autoDSL.rule.rule.SaveBoolean
 import info.scce.cinco.product.autoDSL.rule.rule.SaveNumber
 import info.scce.cinco.product.autoDSL.rule.rule.StaticNumberValue
 import info.scce.cinco.product.autoDSL.rule.rule.SubRule
-import info.scce.cinco.product.autoDSL.rule.rule.SubRuleInputs
-import info.scce.cinco.product.autoDSL.rule.rule.SubRuleOutputs
 import info.scce.cinco.product.autoDSL.rule.rule.Subtraction
 
 import static extension info.scce.cinco.product.autoDSL.extensions.IOExtension.*
@@ -56,6 +54,7 @@ abstract class IOConversion extends CincoCustomAction<IO> {
 	
 	override canExecute(IO io){
 		io.memorize
+		if(io.isSub){return true}
 		val root = io.rootElement
 		val tmpOp = switch op {
 			Addition : root.newAddition(0,0)
@@ -82,8 +81,6 @@ abstract class IOConversion extends CincoCustomAction<IO> {
 			SaveBoolean : root.newSaveBoolean(null,0,0)
 			SaveNumber : root.newSaveNumber(null,0,0)
 			SubRule : root.newSubRule(null,0,0)
-			SubRuleInputs : root.newSubRuleInputs(0,0)
-			SubRuleOutputs :root.newSubRuleOutputs(0,0)
 			Subtraction : root.newSubtraction(0,0)
 			StaticNumberValue : root.newStaticNumberValue(0,0)
 		}

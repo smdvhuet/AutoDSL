@@ -20,6 +20,12 @@ import info.scce.cinco.product.autoDSL.rule.rule.NumberInput
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanInput
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanOutput
 import info.scce.cinco.product.autoDSL.rule.rule.NumberOutput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInput
+import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubStaticInput
+import info.scce.cinco.product.autoDSL.rule.rule.NumberSubStaticInput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubCarInput
+import info.scce.cinco.product.autoDSL.rule.rule.NumberSubCarInput
 
 class IOExtension {
 	/**
@@ -48,26 +54,21 @@ class IOExtension {
 		}
 	}
 	
-	static def isPort (IO io) {
-		switch io {
-			BooleanInputPort : true
-			default : false
-		}
-	}
-	
 	static def isSub (IO io) {
 		switch io {
-			BooleanSubInputPort,
-			NumberSubInputPort : true
+			BooleanSubInput,
+			BooleanSubOutputPort,
+			NumberSubInput,
+			NumberSubOutputPort : true
 			default : false
 		}
 	}
 	
 	static def getIdentifier (IO io) {
 		switch io {
-			BooleanSubInputPort : io.identifier
+			BooleanSubInput : io.identifier
 			BooleanSubOutputPort : io.identifier
-			NumberSubInputPort : io.identifier
+			NumberSubInput : io.identifier
 			NumberSubOutputPort : io.identifier
 			default : throw new RuntimeException("Not implemented")
 		}
@@ -75,9 +76,9 @@ class IOExtension {
 	
 	static def setIdentifier (IO io, String id) {
 		switch io {
-			BooleanSubInputPort : io.identifier = id
+			BooleanSubInput : io.identifier = id
 			BooleanSubOutputPort : io.identifier = id
-			NumberSubInputPort : io.identifier = id
+			NumberSubInput : io.identifier = id
 			NumberSubOutputPort : io.identifier = id
 			default : throw new RuntimeException("Not implemented")
 		}
@@ -90,15 +91,19 @@ class IOExtension {
 			BooleanInputPort : op.newBooleanInputPort(0,0)
 			BooleanOutputPort : op.newBooleanOutputPort(0,0)
 			BooleanStaticInput : op.newBooleanStaticInput(0,0)
+			BooleanSubCarInput : op.newBooleanSubCarInput(0,0)
 			BooleanSubInputPort : op.newBooleanSubOutputPort(0,0)
 			BooleanSubOutputPort : op.newBooleanSubInputPort(0,0)
+			BooleanSubStaticInput : op.newBooleanSubStaticInput(0,0)
 			NumberCarInput : op.newNumberCarInput(0,0)
 			NumberCarOutput : op.newNumberCarOutput(0,0)
 			NumberInputPort : op.newNumberInputPort(0,0)
 			NumberOutputPort : op.newNumberOutputPort(0,0)
 			NumberStaticInput : op.newNumberStaticInput(0,0)
+			NumberSubCarInput : op.newNumberSubCarInput(0,0)
 			NumberSubInputPort : op.newNumberSubOutputPort(0,0)
 			NumberSubOutputPort : op.newNumberSubInputPort(0,0)
+			NumberSubStaticInput : op.newNumberSubStaticInput(0,0)
 			default : throw new RuntimeException("Not implemented")
 		}
 	}

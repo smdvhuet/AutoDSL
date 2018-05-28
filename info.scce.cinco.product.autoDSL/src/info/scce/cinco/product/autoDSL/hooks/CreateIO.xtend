@@ -1,11 +1,11 @@
 package info.scce.cinco.product.autoDSL.hooks
 
 import de.jabc.cinco.meta.runtime.hook.CincoPostCreateHook
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInputPort
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubOutputPort
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanOutput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInput
 import info.scce.cinco.product.autoDSL.rule.rule.IO
-import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInputPort
-import info.scce.cinco.product.autoDSL.rule.rule.NumberSubOutputPort
+import info.scce.cinco.product.autoDSL.rule.rule.NumberOutput
+import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInput
 import info.scce.cinco.product.autoDSL.rule.rule.SubRuleInputs
 import info.scce.cinco.product.autoDSL.rule.rule.SubRuleOutputs
 
@@ -19,20 +19,20 @@ class CreateIO extends CincoPostCreateHook<IO> {
 		if (io.container instanceof SubRuleInputs || io.container instanceof SubRuleOutputs) {
 			val op = io.operation
 			switch io {
-				NumberSubInputPort : {
-					io.identifier = "num_out" + op.numberSubInputPorts.size
+				NumberSubInput : {
+					io.identifier = "num_out" + op.numberSubInputs.size
 					if(op.inputs.size > op.referenceSize){
 						io.addRemainingSubInputs	
 					}
 				}
-				BooleanSubInputPort : {
-					io.identifier = "bool_out" + op.booleanSubInputPorts.size
+				BooleanSubInput : {
+					io.identifier = "bool_out" + op.booleanSubInputs.size
 					if(op.inputs.size > op.referenceSize){
 						io.addRemainingSubInputs	
 					}
 				}
-				NumberSubOutputPort : io.identifier = "num_in" + op.numberSubOutputPorts.size
-				BooleanSubOutputPort : io.identifier = "bool_in" + op.booleanSubOutputPorts.size
+				NumberOutput : io.identifier = "num_in" + op.numberOutputs.size
+				BooleanOutput : io.identifier = "bool_in" + op.booleanOutputs.size
 			}
 		}
 	}

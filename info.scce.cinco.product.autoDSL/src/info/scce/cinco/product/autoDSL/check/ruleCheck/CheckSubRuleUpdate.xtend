@@ -1,15 +1,15 @@
 package info.scce.cinco.product.autoDSL.check.ruleCheck
 
 import info.scce.cinco.product.autoDSL.rule.mcam.modules.checks.RuleCheck
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInputPort
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInput
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubOutputPort
 import info.scce.cinco.product.autoDSL.rule.rule.IO
-import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInputPort
+import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInput
 import info.scce.cinco.product.autoDSL.rule.rule.NumberSubOutputPort
 import info.scce.cinco.product.autoDSL.rule.rule.Rule
 import info.scce.cinco.product.autoDSL.rule.rule.SubRule
-import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.common.util.BasicEList
+import org.eclipse.emf.common.util.EList
 
 import static extension info.scce.cinco.product.autoDSL.extensions.IOExtension.*
 
@@ -40,10 +40,10 @@ class CheckSubRuleUpdate extends RuleCheck{
 	 */
 	def findSubIO(EList<IO> l, IO find) {
 		l.findFirst[switch it {
-			NumberSubInputPort  :  if (find instanceof NumberSubOutputPort)  streq((find as NumberSubOutputPort).identifier, it.identifier) else false
-			BooleanSubInputPort :  if (find instanceof BooleanSubOutputPort) streq((find as BooleanSubOutputPort).identifier, it.identifier) else false
-			NumberSubOutputPort :  if (find instanceof NumberSubInputPort)   streq((find as NumberSubInputPort).identifier, it.identifier) else false
-			BooleanSubOutputPort : if (find instanceof BooleanSubInputPort)  streq((find as BooleanSubInputPort).identifier, it.identifier) else false
+			NumberSubInput  :  if (find instanceof NumberSubOutputPort)  streq((find as NumberSubOutputPort).identifier, it.identifier) else false
+			BooleanSubInput :  if (find instanceof BooleanSubOutputPort) streq((find as BooleanSubOutputPort).identifier, it.identifier) else false
+			NumberSubOutputPort :  if (find instanceof NumberSubInput)   streq((find as NumberSubInput).identifier, it.identifier) else false
+			BooleanSubOutputPort : if (find instanceof BooleanSubInput)  streq((find as BooleanSubInput).identifier, it.identifier) else false
 			default: false
 		}]
 	}
