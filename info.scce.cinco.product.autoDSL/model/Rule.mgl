@@ -169,59 +169,6 @@ graphModel Rule {
 	abstract node BooleanOutput extends Output {}
 	abstract node NumberOutput extends Output {}
 	
-	//CarPorts Start
-	@style(input, "", "${inputtype}", "Boolean")
-	@icon("icons/CarInput.png")
-	@disable(move,resize)
-	@palette("CarPorts")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.ToStatic")
-	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToStatic")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
-	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
-	node BooleanCarInput extends BooleanInput {
-		attr CarInputTypeBoolean as inputtype
-	}
-	
-	@style(output, "${outputtype}", "Boolean")
-	@disable(move,resize)
-	@icon("icons/CarOutput.png")
-	@palette("CarPorts")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
-	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
-	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
-	node BooleanCarOutput extends BooleanOutput {
-		attr CarOutputTypeBoolean as outputtype
-	}
-	
-	@style(input, "", "${inputtype}", "Number")
-	@icon("icons/CarInput.png")
-	@disable(move,resize)
-	@palette("CarPorts")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.ToStatic")
-	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToStatic")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
-	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
-	node NumberCarInput extends NumberInput {
-		attr CarInputTypeNumber as inputtype
-	}
-	
-	@style(output, "${outputtype}", "Number")
-	@disable(move,resize)
-	@icon("icons/CarOutput.png")
-	@palette("CarPorts")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
-	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
-	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
-	node NumberCarOutput extends NumberOutput {
-		attr CarOutputTypeNumber as outputtype
-	}
-		
-	//CarPorts End
-	
 	abstract container Operation {
 		incomingEdges(ControlFlow[0,*])
 		outgoingEdges(ControlFlowBasic[0,1])
@@ -456,6 +403,31 @@ graphModel Rule {
 	//Logische Operationen Ende
 	
 	//Ports Start
+	@style(input, "", "${inputtype}", "Boolean")
+	@icon("icons/CarInput.png")
+	@disable(move,resize)
+	@palette("Ports")
+	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
+	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.ToStatic")
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToStatic")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
+	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
+	node BooleanCarInput extends BooleanInput {
+		attr CarInputTypeBoolean as inputtype
+	}
+	
+	@style(output, "${outputtype}", "Boolean")
+	@disable(move,resize)
+	@icon("icons/CarOutput.png")
+	@palette("Ports")
+	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
+	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
+	node BooleanCarOutput extends BooleanOutput {
+		attr CarOutputTypeBoolean as outputtype
+	}
+	
 	@style(input, "", "", "Boolean")
 	@disable(move,resize)
 	@palette("Ports")
@@ -479,6 +451,44 @@ graphModel Rule {
 	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	node BooleanOutputPort extends BooleanOutput {
 		outgoingEdges(BooleanDataFlow[1,*])
+	}
+	
+	@style(input, "", "${staticValue}", "Boolean")
+	@disable(move,resize)
+	@palette("Ports")
+	@icon("icons/StaticInput.png")
+	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.ToCar")
+	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
+	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
+	node BooleanStaticInput extends BooleanInput {
+		attr EBoolean as staticValue
+	}
+	
+	@style(input, "", "${inputtype}", "Number")
+	@icon("icons/CarInput.png")
+	@disable(move,resize)
+	@palette("Ports")
+	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
+	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.ToStatic")
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToStatic")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
+	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
+	node NumberCarInput extends NumberInput {
+		attr CarInputTypeNumber as inputtype
+	}
+	
+	@style(output, "${outputtype}", "Number")
+	@disable(move,resize)
+	@icon("icons/CarOutput.png")
+	@palette("Ports")
+	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
+	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
+	node NumberCarOutput extends NumberOutput {
+		attr CarOutputTypeNumber as outputtype
 	}
 		
 	@style(input, "", "", "Number")
@@ -504,6 +514,19 @@ graphModel Rule {
 	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	node NumberOutputPort extends NumberOutput {
 		outgoingEdges(NumberDataFlow[1,*])
+	}
+	
+	@style(input, "", "${staticValue}", "Number")
+	@disable(move,resize)
+	@palette("Ports")
+	@icon("icons/StaticInput.png")
+	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.ToCar")
+	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
+	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
+	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
+	node NumberStaticInput extends NumberInput {
+		attr EFloat as staticValue
 	}
 	//Ports Ende
 	
@@ -583,34 +606,6 @@ graphModel Rule {
 			BooleanOutput[0,0], NumberOutput[1,1]
 		)
 	}
-	
-	//StaticPorts Starts
-	@style(input, "", "${staticValue}", "Boolean")
-	@disable(move,resize)
-	@palette("StaticPorts")
-	@icon("icons/StaticInput.png")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.ToCar")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
-	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
-	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
-	node BooleanStaticInput extends BooleanInput {
-		attr EBoolean as staticValue
-	}
-	
-	@style(input, "", "${staticValue}", "Number")
-	@disable(move,resize)
-	@palette("StaticPorts")
-	@icon("icons/StaticInput.png")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.ToCar")
-	@contextMenuAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
-	@doubleClickAction("info.scce.cinco.product.autoDSL.hooks.ToPort")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
-	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
-	node NumberStaticInput extends NumberInput {
-		attr EFloat as staticValue
-	}
-	//StaticPorts Ende
 	
 	//SubRuleIO Start
 	@style(commutableOperation, "Inputs")
