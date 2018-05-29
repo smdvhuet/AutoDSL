@@ -574,9 +574,10 @@ graphModel Rule {
 		)
 	}
 	
-	@style(startEndNode, "Start")
+	@style(codeNode, "Code")
 	@palette("Sonstiges")
 	container ProgrammableNode extends Operation{
+		@multiLine
 		attr EString as code
 		containableElements(
 			BooleanInput[0,*], NumberInput[0,*],

@@ -169,6 +169,23 @@ nodeStyle startEndNode(1) {
 	}
 }
 
+nodeStyle codeNode(1) {
+	roundedRectangle {
+		appearance {
+			background (100, 100, 100)
+		}
+		size (120,30)
+		corner (10,10)
+		multiText {
+			appearance {
+				foreground (255, 255, 255)
+			}
+			position (CENTER, MIDDLE)
+			value "%s"
+		}	
+	}
+}
+
 nodeStyle pid (3) {
 	roundedRectangle {
 		size (120, fix 20)
