@@ -170,7 +170,7 @@ graphModel Rule {
 	abstract node NumberOutput extends Output {}
 	
 	//CarPorts Start
-	@style(carInput, "${inputtype}", "Boolean")
+	@style(input, "", "${inputtype}", "Boolean")
 	@icon("icons/CarInput.png")
 	@disable(move,resize)
 	@palette("CarPorts")
@@ -183,7 +183,7 @@ graphModel Rule {
 		attr CarInputTypeBoolean as inputtype
 	}
 	
-	@style(carOutput, "${outputtype}", "Boolean")
+	@style(output, "${outputtype}", "Boolean")
 	@disable(move,resize)
 	@icon("icons/CarOutput.png")
 	@palette("CarPorts")
@@ -195,7 +195,7 @@ graphModel Rule {
 		attr CarOutputTypeBoolean as outputtype
 	}
 	
-	@style(carInput, "${inputtype}", "Number")
+	@style(input, "", "${inputtype}", "Number")
 	@icon("icons/CarInput.png")
 	@disable(move,resize)
 	@palette("CarPorts")
@@ -208,7 +208,7 @@ graphModel Rule {
 		attr CarInputTypeNumber as inputtype
 	}
 	
-	@style(carOutput, "${outputtype}", "Number")
+	@style(output, "${outputtype}", "Number")
 	@disable(move,resize)
 	@icon("icons/CarOutput.png")
 	@palette("CarPorts")
@@ -456,7 +456,7 @@ graphModel Rule {
 	//Logische Operationen Ende
 	
 	//Ports Start
-	@style(inputPort, "Boolean")
+	@style(input, "", "", "Boolean")
 	@disable(move,resize)
 	@palette("Ports")
 	@icon("icons/inputPort.png")
@@ -469,7 +469,7 @@ graphModel Rule {
 		incomingEdges(BooleanDataFlow[1,1])
 	}
 	
-	@style(outputPort, "Boolean")
+	@style(output, "", "Boolean")
 	@disable(move,resize)
 	@icon("icons/outputPort.png")
 	@palette("Ports")
@@ -481,7 +481,7 @@ graphModel Rule {
 		outgoingEdges(BooleanDataFlow[1,*])
 	}
 		
-	@style(inputPort, "Number")
+	@style(input, "", "", "Number")
 	@disable(move,resize)
 	@palette("Ports")
 	@icon("icons/inputPort.png")
@@ -494,7 +494,7 @@ graphModel Rule {
 		incomingEdges(NumberDataFlow[1,1])
 	}
 
-	@style(outputPort, "Number")
+	@style(output, "", "Number")
 	@disable(move,resize)
 	@icon("icons/outputPort.png")
 	@palette("Ports")
@@ -585,7 +585,7 @@ graphModel Rule {
 	}
 	
 	//StaticPorts Starts
-	@style(staticInput, "${staticValue}", "Boolean")
+	@style(input, "", "${staticValue}", "Boolean")
 	@disable(move,resize)
 	@palette("StaticPorts")
 	@icon("icons/StaticInput.png")
@@ -598,7 +598,7 @@ graphModel Rule {
 		attr EBoolean as staticValue
 	}
 	
-	@style(staticInput, "${staticValue}", "Number")
+	@style(input, "", "${staticValue}", "Number")
 	@disable(move,resize)
 	@palette("StaticPorts")
 	@icon("icons/StaticInput.png")
@@ -656,7 +656,7 @@ graphModel Rule {
 		attr EString as identifier
 	}
 	
-	@style(subInput, "${identifier}", "Boolean")
+	@style(input, "${identifier}", "", "Boolean")
 	@disable(move,resize)
 	@palette("SubRulePorts")
 	@icon("icons/subRule_In.png")
@@ -670,7 +670,7 @@ graphModel Rule {
 		incomingEdges(BooleanDataFlow[1,1])
 	}
 	
-	@style(subInput, "${identifier}", "Boolean")
+	@style(input, "${identifier}", "${inputtype}", "Boolean")
 	@disable(move,resize)
 	@palette("SubRulePorts")
 	@icon("icons/subRule_In.png")
@@ -684,7 +684,7 @@ graphModel Rule {
 		attr CarInputTypeBoolean as inputtype
 	}
 	
-	@style(subInput, "${identifier}", "Boolean")
+	@style(input, "${identifier}", "${staticValue}", "Boolean")
 	@disable(move,resize)
 	@palette("SubRulePorts")
 	@icon("icons/subRule_In.png")
@@ -698,7 +698,7 @@ graphModel Rule {
 		attr EBoolean as staticValue
 	}
 	
-	@style(subOutput, "${identifier}", "Boolean")
+	@style(output, "${identifier}", "Boolean")
 	@disable(move,resize)
 	@palette("SubRulePorts")
 	@icon("icons/subRule_out.png")
@@ -709,7 +709,7 @@ graphModel Rule {
 		outgoingEdges(BooleanDataFlow[0,*])
 	}
 	
-	@style(subInput, "${identifier}", "Number")
+	@style(input, "${identifier}", "", "Number")
 	@disable(move,resize)
 	@palette("SubRulePorts")
 	@icon("icons/subRule_In.png")
@@ -723,7 +723,7 @@ graphModel Rule {
 		incomingEdges(NumberDataFlow[1,1])
 	}
 	
-	@style(subInput, "${identifier}", "Number")
+	@style(input, "${identifier}", "${inputtype}", "Number")
 	@disable(move,resize)
 	@palette("SubRulePorts")
 	@icon("icons/subRule_In.png")
@@ -737,7 +737,7 @@ graphModel Rule {
 		attr CarInputTypeNumber as inputtype
 	}
 	
-	@style(subInput, "${identifier}", "Number")
+	@style(input, "${identifier}", "${staticValue}", "Number")
 	@disable(move,resize)
 	@palette("SubRulePorts")
 	@icon("icons/subRule_In.png")
@@ -751,7 +751,7 @@ graphModel Rule {
 		attr EBoolean as staticValue
 	}
 	
-	@style(subOutput, "${identifier}", "Number")
+	@style(output, "${identifier}", "Number")
 	@disable(move,resize)
 	@palette("SubRulePorts")
 	@icon("icons/subRule_out.png")
