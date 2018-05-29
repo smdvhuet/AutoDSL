@@ -574,6 +574,17 @@ graphModel Rule {
 	
 	@style(startEndNode, "Start")
 	@palette("Sonstiges")
+	container ProgrammableNode extends Operation{
+		attr EString as code
+		containableElements(
+			BooleanInput[0,*], NumberInput[0,*],
+			BooleanSubInput[0,0], NumberSubInput[0,0], BooleanSubOutputPort[0,0], NumberSubOutputPort[0,0],
+			BooleanOutput[0,1], NumberOutput[0,1]
+		)
+	}
+	
+	@style(startEndNode, "Start")
+	@palette("Sonstiges")
 	node StartNode{
 		outgoingEdges(ControlFlowBasic[0,1], StartEdge[0,1])
 	}
