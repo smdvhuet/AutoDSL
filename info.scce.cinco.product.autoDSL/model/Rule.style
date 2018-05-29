@@ -176,13 +176,21 @@ nodeStyle codeNode(1) {
 		}
 		size (120,30)
 		corner (10,10)
-		multiText {
+		rectangle {
 			appearance {
-				foreground (255, 255, 255)
+				background (100, 100, 100)
+				foreground (100, 100, 100)
 			}
-			position (CENTER, MIDDLE)
-			value "%s"
-		}	
+			position (CENTER, TOP 5)
+			size (110, fix 20)
+			text {
+				appearance {
+					foreground (255, 255, 255)
+				}
+				position (CENTER, MIDDLE)
+				value "%s"
+			}	
+		}
 	}
 }
 
