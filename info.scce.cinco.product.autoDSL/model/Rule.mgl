@@ -679,6 +679,17 @@ graphModel Rule {
 		attr CarInputTypeBoolean as inputtype
 	}
 	
+	@style(output, "${identifier}", "Boolean")
+	@disable(move,resize)
+	@palette("SubRulePorts")
+	@icon("icons/outputPort.png")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
+	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
+	node BooleanSubOutputPort extends BooleanOutput {
+		attr EString as identifier
+		outgoingEdges(BooleanDataFlow[0,*])
+	}
+	
 	@style(input, "${identifier}", "${staticValue}", "Boolean")
 	@disable(move,resize)
 	@palette("SubRulePorts")
@@ -691,17 +702,6 @@ graphModel Rule {
 	@postAttributeValueChange("info.scce.cinco.product.autoDSL.hooks.UpdateSubRuleOutputs")
 	node BooleanSubStaticInput extends BooleanSubInput {
 		attr EBoolean as staticValue
-	}
-	
-	@style(output, "${identifier}", "Boolean")
-	@disable(move,resize)
-	@palette("SubRulePorts")
-	@icon("icons/outputPort.png")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
-	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
-	node BooleanSubOutputPort extends BooleanOutput {
-		attr EString as identifier
-		outgoingEdges(BooleanDataFlow[0,*])
 	}
 	
 	@style(input, "${identifier}", "", "Number")
@@ -732,6 +732,17 @@ graphModel Rule {
 		attr CarInputTypeNumber as inputtype
 	}
 	
+	@style(output, "${identifier}", "Number")
+	@disable(move,resize)
+	@palette("SubRulePorts")
+	@icon("icons/outputPort.png")
+	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
+	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
+	node NumberSubOutputPort extends NumberOutput {
+		attr EString as identifier
+		outgoingEdges(NumberDataFlow[0,*])
+	}
+	
 	@style(input, "${identifier}", "${staticValue}", "Number")
 	@disable(move,resize)
 	@palette("SubRulePorts")
@@ -744,17 +755,6 @@ graphModel Rule {
 	@postAttributeValueChange("info.scce.cinco.product.autoDSL.hooks.UpdateSubRuleOutputs")
 	node NumberSubStaticInput extends NumberSubInput {
 		attr EBoolean as staticValue
-	}
-	
-	@style(output, "${identifier}", "Number")
-	@disable(move,resize)
-	@palette("SubRulePorts")
-	@icon("icons/outputPort.png")
-	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
-	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
-	node NumberSubOutputPort extends NumberOutput {
-		attr EString as identifier
-		outgoingEdges(NumberDataFlow[0,*])
 	}
 	//SubRulePorts Ende
 }
