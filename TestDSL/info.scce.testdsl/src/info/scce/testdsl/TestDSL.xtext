@@ -7,7 +7,7 @@ generate testDSL "http://www.scce.info/testdsl/TestDSL"
 
 prog: 
 	(imports+=Import)*
-	ops+=(EventHandler | Event | Configuration | Always | Variable)*
+	ops+=(EventHandler | Event | OneTimeEvent | Configuration | Always | Variable)*
 ;
 
 Import:
@@ -24,11 +24,12 @@ Configuration:
 ;
 
 EventHandler:
-	{EventHandler} "check" name=ID ":" "when" event=[Event] eventtype=("isActive" | "ends" | "starts")
-	"(" ("errorMessage=" errmsg=STRING ",")?
-	("maximumReactionTime=" maxtime=INT)?")""{"
+	{EventHandler} "check" name=ID ":" "when" ( (event=[Event] eventtype=("isActive" | "ends" | "starts")) | (eventOneTime=[OneTimeEvent] "triggers") )
+	("(" ("errorMessage=" errmsg=STRING ",")?
+	("maximumReactionTime=" maxtime=INT)?")")? "{"
 		invariants=Invariants
-"}";
+	"}"
+;
 
 Invariants: 
     {Invariants} invs+=Expression ";" (invs+=Expression ";")*
@@ -37,7 +38,13 @@ Invariants:
 Event: 
 	 "event" name=ID "{" 
 			"startCondition:" startCond=Expression
-			"endCondition:" (endCond=Expression) | "timepassed" time=INT 
+			"endCondition:" ( (endCond=Expression) | "timepassed" time=INT )
+		"}"
+;
+
+OneTimeEvent: 
+	 "event" name=ID "{" 
+			"trigger:" trigger=Expression
 		"}"
 ;
 
@@ -61,7 +68,7 @@ AndExpr returns Expression:
 ;
 
 RelExpr returns Expression:
-	AddExpr ({Rel.left=current} op=('<'|'<='|'==') right=AddExpr)*
+	AddExpr ({Rel.left=current} op=('<'|'<='|'=='|'!=') right=AddExpr)*
 ;
 
 AddExpr returns Expression:
@@ -78,11 +85,21 @@ UnExpr returns Expression:
 
 AtomExpr returns Expression: 
 	{Literal} value=INT
-	//| '(' expr=Expression ')'
+	| '(' expr=Expression ')'
 	| {MonitorInt} ref=[monitor::StoredNumber]
-	| intvar=INT_VAR | boolvar=BOOL_VAR | '_' var=[Variable]
+	| intvar=INT_VAR ('[' intTimeDiff=INT ('ms')? ']')? | boolvar=BOOL_VAR ('[' boolTimeDiff=INT ('ms')? ']')?
+	| '$' var=[Variable]
+	|  leftState=State op=('=='|"!=") rightState=State
 ;
 
+State:
+	{State}
+	(("adasState" ('[' stateTimeDiff=INT ('ms')? ']')?) | lit=TEMPSTATES)
+;
+
+terminal TEMPSTATES:
+	"StateA" | "StateB"
+;
 terminal INT_VAR: 
 	"inta" | "intb" | "intc"
 ;
