@@ -387,12 +387,12 @@ class RuleGenerator implements IGenerator<Rule> {
 			
 			for(SubRuleInputs input : rule.subRuleInputss){
 				for(NumberSubOutputPort in : input.numberSubOutputPorts){
-					var typeName = in.identifier;
+					var typeName = NamingUtilities.toMemberVar(in.identifier);
 					memberVars.add("double " + typeName + ";");
 				}
 				
 				for(BooleanSubOutputPort in : input.booleanSubOutputPorts){
-					var typeName = in.identifier;
+					var typeName = NamingUtilities.toMemberVar(in.identifier);
 					memberVars.add("bool " + typeName + ";");
 				}
 			}
@@ -409,12 +409,12 @@ class RuleGenerator implements IGenerator<Rule> {
 			
 			for(SubRuleOutputs output : rule.subRuleOutputss){
 				for(NumberSubInputPort out : output.numberSubInputPorts){
-					var typeName = out.identifier;
+					var typeName = NamingUtilities.toMemberVar(out.identifier);
 					memberVars.add("double " + typeName + ";");
 				}
 				
 				for(BooleanSubInputPort out : output.booleanSubInputPorts){
-					var typeName = out.identifier;
+					var typeName = NamingUtilities.toMemberVar(out.identifier);
 					memberVars.add("bool " + typeName + ";");
 				}
 			}
