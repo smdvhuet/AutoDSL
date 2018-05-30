@@ -23,8 +23,12 @@ Configuration:
 	"configuration" name=ID "{" events+=[EventHandler] (","events+=[EventHandler])* "}"
 ;
 
+EventHandlerAnnotations:
+	{EventHandlerAnnotations} annotations+=EVENT_HANDLER_ANNOTATION
+;
+
 EventHandler:
-	{EventHandler} "check" name=ID ":" "when" ( (event=[Event] eventtype=("isActive" | "ends" | "starts")) | (eventOneTime=[OneTimeEvent] "triggers") )
+	{EventHandler} (annotations=EventHandlerAnnotations)? "check" name=ID ":" "when" ( (event=[Event] eventtype=("isActive" | "ends" | "starts")) | (eventOneTime=[OneTimeEvent] "triggers") )
 	("(" ("errorMessage=" errmsg=STRING ",")?
 	("maximumReactionTime=" maxtime=INT)?")")? "{"
 		invariants=Invariants
@@ -95,6 +99,10 @@ AtomExpr returns Expression:
 State:
 	{State}
 	(("adasState" ('[' stateTimeDiff=INT ('ms')? ']')?) | lit=TEMPSTATES)
+;
+
+terminal EVENT_HANDLER_ANNOTATION:
+	"@Blackbox" | "@Whitebox"
 ;
 
 terminal TEMPSTATES:
