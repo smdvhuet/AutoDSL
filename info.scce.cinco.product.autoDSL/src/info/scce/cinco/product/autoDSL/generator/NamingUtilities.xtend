@@ -39,7 +39,7 @@ class NamingUtilities {
 				nameCount++;
 				name = toMemberVar(prefix + customLabel + nameCount + postfix);
 			}
-			
+			                                                                              
 			//safe the generated name 
 			knownNames.put(id, name);
 		}

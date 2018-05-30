@@ -243,9 +243,11 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	//SubRule Outputs
 	«FOR BooleanSubInputPort port:out.booleanSubInputPorts»
 		«port.identifier» = «port.referenceInput»;
+		ACC_LOG2("Subrule input '«port.identifier»' is set to'" << «port.referenceInput» << "'.")
 	«ENDFOR»
 	«FOR NumberSubInputPort port:out.numberSubInputPorts»
 		«port.identifier» = «port.referenceInput»;
+		ACC_LOG2("Subrule input '«port.identifier»' is set to'" << «port.referenceInput» << "'.")
 	«ENDFOR»
 	«if(!out.getSuccessors.nullOrEmpty)out.getSuccessors.head.doSwitch»
 	'''
@@ -253,6 +255,7 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	override caseSaveNumber(SaveNumber save)'''
 	//Saving Data
 	«save.data.rootElement.memoryName».«save.data.label» = «save.inputs.head.referenceInput»;
+	ACC_LOG2("Sharedmemory '«save.data.rootElement.memoryName».«save.data.label»' is set to'" << «save.inputs.head.referenceInput» << "'.")
 	«if(!save.getSuccessors.nullOrEmpty)save.getSuccessors.head.doSwitch»
 	'''
 	
