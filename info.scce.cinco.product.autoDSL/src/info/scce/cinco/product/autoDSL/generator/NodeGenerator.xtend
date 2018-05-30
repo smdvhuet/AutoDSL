@@ -47,324 +47,551 @@ import info.scce.cinco.product.autoDSL.rule.rule.SaveBoolean
 import info.scce.cinco.product.autoDSL.rule.rule.LoadBoolean
 import info.scce.cinco.product.autoDSL.rule.rule.LoadNumber
 import info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory.SharedMemory
-import info.scce.cinco.product.autoDSL.rule.rule.NumberOutput
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanOutput
 import info.scce.cinco.product.autoDSL.rule.rule.Equal
 import info.scce.cinco.product.autoDSL.rule.rule.Exponential
 import info.scce.cinco.product.autoDSL.rule.rule.StaticNumberValue
 import info.scce.cinco.product.autoDSL.rule.rule.StartNode
 import info.scce.cinco.product.autoDSL.rule.rule.EndNode
+import info.scce.cinco.product.autoDSL.rule.rule.ProgrammableNode
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubCarInput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubStaticInput
+import info.scce.cinco.product.autoDSL.rule.rule.NumberSubCarInput
+import info.scce.cinco.product.autoDSL.rule.rule.NumberSubStaticInput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanInputPort
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanOutputPort
+import info.scce.cinco.product.autoDSL.rule.rule.NumberOutputPort
+import info.scce.cinco.product.autoDSL.rule.rule.NumberInputPort
+import info.scce.cinco.product.autoDSL.rule.rule.Operation
 
 class NodeGenerator extends RuleSwitch<CharSequence> {
 	
-	override casePIDController(PIDController op)'''
-		//PID Controller
-		«op.outputs.head.referenceOutput» = pid«IDHasher.GetStringHash(op.id)».calculate(«op.inputs.sortBy[y].head.referenceInput», «op.inputs.sortBy[y].last.referenceInput», input.dTime);
-		
-		«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
-	'''
+//*********************************************************************************
+//								GENERATE ARITHMETICAL NODES
+//*********************************************************************************
 	
-	override caseNegation(Negation op)'''
-	//Negation Operator
-	«op.booleanOutputs.head.referenceOutput» = !«op.booleanInputs.head.referenceInput»;
-	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
-	'''
-	
-	override caseAddition(Addition op)'''
+	//Addition
+	override caseAddition(Addition it)'''
 	//Addition Operator
-	«op.outputs.head.referenceOutput» = «FOR input : op.inputs.sortBy[y] SEPARATOR '+'»«
-									input.referenceInput»«
-								ENDFOR»;
-	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
+	«outputs.head.referenceOutput» = «FOR input : inputs.sortBy[y] SEPARATOR '+'»«input.referenceInput»«ENDFOR»;
+	«doLogging»
+	«nextNode»
 	'''
 	
-	override caseMultiplication(Multiplication op)'''
-	//Multiplication Operator
-	«op.outputs.head.referenceOutput» = «FOR input : op.inputs.sortBy[y] SEPARATOR '*'»«
-									input.referenceInput»«
-								ENDFOR»;
-	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
-	'''
-	
-	override caseExponential(Exponential op)'''
-	//Exponential Operator
-	«op.outputs.head.referenceOutput» = pow(«op.inputs.sortBy[y].head.referenceInput», «op.inputs.sortBy[y].last.referenceInput»);
-	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
-	'''
-	
-	override caseMaximum(Maximum op)'''
-	//Max Operator
-	double «IDHasher.GetStringHash(op.id)»[] = {«FOR  input : op.inputs.sortBy[y] SEPARATOR ','»«
-						input.referenceInput»«
-						ENDFOR»};
-	«op.outputs.head.referenceOutput» = ACCPlusPlus::Utility::max(«IDHasher.GetStringHash(op.id)»,«op.inputs.length»);
-	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
-	'''
-	
-	override caseMinimum(Minimum op)'''
-	//Min Operator
-	double «IDHasher.GetStringHash(op.id)»[] = {«FOR  input : op.inputs.sortBy[y] SEPARATOR ','»«
-							input.referenceInput»«
-						ENDFOR»};
-	«op.outputs.head.referenceOutput» = ACCPlusPlus::Utility::min(«IDHasher.GetStringHash(op.id)»,«op.inputs.length»);
-	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
-	'''
-	
-	override caseLogicalAnd(LogicalAnd op)'''
-	//And Operator
-	«op.outputs.head.referenceOutput» = «FOR in : op.inputs.sortBy[y] SEPARATOR '&&'»«
-										in.referenceInput»«
-									ENDFOR»;
-	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
-	'''
-	
-	override caseLogicalOr(LogicalOr op)'''
-	//Or Operator
-	«op.outputs.head.referenceOutput» = «FOR in : op.inputs.sortBy[y] SEPARATOR '||'»«
-											in.referenceInput»«
-										ENDFOR»;
-	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
-	'''
-	
-	override caseSubtraction(Subtraction op)'''
-	//Substraction Operator
-	«op.outputs.head.referenceOutput» = «op.inputs.sortBy[y].head.referenceInput» - «op.inputs.sortBy[y].last.referenceInput»;
-	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
-	'''
-	
-	override caseDivision(Division op)'''
+	//Division
+	override caseDivision(Division it)'''
 	//Division Operator
-	«op.outputs.head.referenceOutput» = «op.inputs.sortBy[y].head.referenceInput» / «op.inputs.sortBy[y].last.referenceInput»;
-	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
+	«outputs.head.referenceOutput» = «inputs.sortBy[y].head.referenceInput» / «inputs.sortBy[y].last.referenceInput»;
+	«doLogging»
+	«nextNode»
 	'''
 	
-	override caseLess(Less op)'''
-	//Less Operator
-	«op.outputs.head.referenceOutput» = «op.inputs.sortBy[y].head.referenceInput» < «op.inputs.sortBy[y].last.referenceInput»;
-	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
+	//Exponential
+	override caseExponential(Exponential it)'''
+	//Exponential Operator
+	«outputs.head.referenceOutput» = pow(«inputs.sortBy[y].head.referenceInput», «inputs.sortBy[y].last.referenceInput»);
+	«doLogging»
+	«nextNode»
 	'''
 	
-	override caseLessOrEqual(LessOrEqual op)'''
-	//LessOrEqual Operator
-	«op.outputs.head.referenceOutput» = «op.inputs.sortBy[y].head.referenceInput» <= «op.inputs.sortBy[y].last.referenceInput»;
-	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
+	//Maximum
+	override caseMaximum(Maximum it)'''
+	//Max Operator
+	double «IDHasher.GetStringHash(id)»[] = {«FOR  input : inputs.sortBy[y] SEPARATOR ','»«input.referenceInput»«ENDFOR»};
+	«outputs.head.referenceOutput» = ACCPlusPlus::Utility::max(«IDHasher.GetStringHash(id)»,«inputs.length»);
+	«doLogging»
+	«nextNode»
 	'''
 	
-	override caseGreater(Greater op)'''
-	//Greater Operator
-	«op.outputs.head.referenceOutput» = «op.inputs.sortBy[y].head.referenceInput» > «op.inputs.sortBy[y].last.referenceInput»;
-	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
+	//Minimum
+	override caseMinimum(Minimum it)'''
+	//Min Operator
+	double «IDHasher.GetStringHash(id)»[] = {«FOR  input : inputs.sortBy[y] SEPARATOR ','»«input.referenceInput»«ENDFOR»};
+	«outputs.head.referenceOutput» = ACCPlusPlus::Utility::min(«IDHasher.GetStringHash(id)»,«inputs.length»);
+	«doLogging»
+	«nextNode»
 	'''
 	
-	override caseGreaterOrEqual(GreaterOrEqual op)'''
-	//GreaterOrEqual Operator
-	«op.outputs.head.referenceOutput» = «op.inputs.sortBy[y].head.referenceInput» >= «op.inputs.sortBy[y].last.referenceInput»;
-	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
+	//Multiplication
+	override caseMultiplication(Multiplication it)'''
+	//Multiplication Operator
+	«outputs.head.referenceOutput» = «FOR input : inputs.sortBy[y] SEPARATOR '*'»«input.referenceInput»«ENDFOR»;
+	«doLogging»
+	«nextNode»
 	'''
 	
-	override caseEqual(Equal op)'''
-	//Equal Operator
-	«op.outputs.head.referenceOutput» = «op.inputs.sortBy[y].head.referenceInput» == «op.inputs.sortBy[y].last.referenceInput»;
-	«if(!op.getSuccessors.nullOrEmpty)op.getSuccessors.head.doSwitch»
+	//Substraction
+	override caseSubtraction(Subtraction it)'''
+	//Substraction Operator
+	«outputs.head.referenceOutput» = «inputs.sortBy[y].head.referenceInput» - «inputs.sortBy[y].last.referenceInput»;
+	«doLogging»
+	«nextNode»
 	'''
 	
-	override caseDecision(Decision d)'''
-	if(«d.booleanInputs.head.referenceInput»){
-		«d.outgoing.filter(ControlFlowDecisionTrue).head.getTargetElement.doSwitch»
-	}«IF !d.outgoing.filter(ControlFlowDecisionFalse).nullOrEmpty» else{
-		«d.outgoing.filter(ControlFlowDecisionFalse).head.getTargetElement.doSwitch»
+
+
+//*********************************************************************************
+//								GENERATE SUBRULEPORTS
+//*********************************************************************************
+
+	//BooleanSubInput
+	 override caseBooleanSubInputPort (BooleanSubInputPort it){
+	 	if(predecessors.nullOrEmpty){
+			"/*input not a reference*/"
+		}else{
+			val out = predecessors.head
+			if(out instanceof Output){
+				out.referenceOutputFromInput
+			}else{
+				"/*input is a reference for something thats not an output*/"
+			}
+		}
+	 }
+	 
+	 //BooleanSubCarInput
+	 override caseBooleanSubCarInput(BooleanSubCarInput it){
+	 	"input."+inputtype.toString
+	 }
+	 
+	 //BooleanSubOutput
+	 override caseBooleanSubOutputPort(BooleanSubOutputPort it){
+	 	if(container instanceof SubRule){
+			IDHasher.GetStringHash(id)
+		}else{
+			NamingUtilities.toMemberVar(identifier)
+		}
+	 }
+	 
+	 //BooleanSubStaticInput
+	 override caseBooleanSubStaticInput(BooleanSubStaticInput it){
+	 	staticValue.toString
+	 }
+	 
+	 //NumberSubInput
+	 override caseNumberSubInputPort(NumberSubInputPort it){
+	 	if(predecessors.nullOrEmpty){
+			"/*input not a reference*/"
+		}else{
+			val out = predecessors.head
+			if(out instanceof Output){
+				out.referenceOutputFromInput
+			}else{
+				"/*input is a reference for something thats not an output*/"
+			}
+		}
+	 }
+	 
+	 //NumberSubCarInput
+	 override caseNumberSubCarInput(NumberSubCarInput it){
+	 	"input."+inputtype.toString
+	 }
+	 
+	 //NumberSubOutput
+	 override caseNumberSubOutputPort(NumberSubOutputPort it){
+	 	if(container instanceof SubRule){
+			IDHasher.GetStringHash(id)
+		}else{
+			NamingUtilities.toMemberVar(identifier)
+		}
+	 }
+	 
+	 //NumberSubStaticInput
+	 override caseNumberSubStaticInput(NumberSubStaticInput it){
+	 	staticValue.toString
+	 }
+	 
+//*********************************************************************************
+//								GENERATE PORTS
+//*********************************************************************************
+	 
+	 //BooleanCarInput
+	 override caseBooleanCarInput(BooleanCarInput it){
+	 	"input."+inputtype.toString
+	 }
+	 
+	 //BooleanCarOut
+	 override caseBooleanCarOutput(BooleanCarOutput it){
+	 	"output."+outputtype.toString
+	 }
+
+	//BooleanInput
+	 override caseBooleanInputPort (BooleanInputPort it){
+	 	if(predecessors.nullOrEmpty){
+			"/*input not a reference*/"
+		}else{
+			val out = predecessors.head
+			if(out instanceof Output){
+				out.referenceOutputFromInput
+			}else{
+				"/*input is a reference for something thats not an output*/"
+			}
+		}
+	 }
+	 
+	 //BooleanStaticInput
+	 override caseBooleanStaticInput(BooleanStaticInput it){
+	 	staticValue.toString
+	 }
+	 
+	 //NumberCarInput
+	 override caseNumberCarInput(NumberCarInput it){
+	 	"input."+inputtype.toString
+	 }
+	 
+	 //NumberCarOutput
+	 override caseNumberCarOutput(NumberCarOutput it){
+	 	"output."+outputtype.toString
+	 }
+	 
+	 //NumberInput
+	 override caseNumberInputPort(NumberInputPort it){
+	 	if(predecessors.nullOrEmpty){
+			"/*input not a reference*/"
+		}else{
+			val out = predecessors.head
+			if(out instanceof Output){
+				out.referenceOutputFromInput
+			}else{
+				"/*input is a reference for something thats not an output*/"
+			}
+		}
+	 }
+	 
+	 //NumberStaticInput
+	 override caseNumberStaticInput(NumberStaticInput it){
+	 	staticValue.toString
+	 }
+
+//*********************************************************************************
+//								GENERATE DIRECT IO NODES
+//*********************************************************************************
+
+	//DirectBooleanOutput
+	override caseDirectBooleanOutput(DirectBooleanOutput it)'''
+	//Boolean Output
+	«booleanCarOutputs.head.referenceOutput» = «booleanInputs.head.referenceInput»;
+	«doLogging»
+	«nextNode»
+	'''
+
+	//DirectNumberOutput
+	override caseDirectNumberOutput(DirectNumberOutput it)'''
+	//Number Output
+	«numberCarOutputs.head.referenceOutput» = «numberInputs.head.referenceInput»;
+	«doLogging»
+	«nextNode»
+	'''
+	
+//*********************************************************************************
+//								GENERATE LOGICAL NODES
+//*********************************************************************************
+
+	//Decision
+	override caseDecision(Decision it)'''
+	if(«booleanInputs.head.referenceInput»){
+		«doLogging»
+		«outgoing.filter(ControlFlowDecisionTrue).head.getTargetElement.doSwitch»
+	}«IF !outgoing.filter(ControlFlowDecisionFalse).nullOrEmpty» else{
+		«doLogging»
+		«outgoing.filter(ControlFlowDecisionFalse).head.getTargetElement.doSwitch»
 	}«ENDIF»
 	'''
 	
-	override caseDirectNumberOutput(DirectNumberOutput out)'''
-	//Number Output
-	«out.numberCarOutputs.head.referenceOutput» = «out.numberInputs.head.referenceInput»;
-	«if(!out.getSuccessors.nullOrEmpty)out.getSuccessors.head.doSwitch»
+	//Equal
+	override caseEqual(Equal it)'''
+	//Equal Operator
+	«outputs.head.referenceOutput» = «inputs.sortBy[y].head.referenceInput» == «inputs.sortBy[y].last.referenceInput»;
+	«doLogging»
+	«nextNode»
 	'''
 	
-	override caseDirectBooleanOutput(DirectBooleanOutput out)'''
-	//Boolean Output
-	«out.booleanCarOutputs.head.referenceOutput» = «out.booleanInputs.head.referenceInput»;
-	«if(!out.getSuccessors.nullOrEmpty)out.getSuccessors.head.doSwitch»
-	'''	
-	override caseBooleanGuardOutput(BooleanGuardOutput out)'''
+	//Less
+	override caseLess(Less it)'''
+	//Less Operator
+	«outputs.head.referenceOutput» = «inputs.sortBy[y].head.referenceInput» < «inputs.sortBy[y].last.referenceInput»;
+	«doLogging»
+	«nextNode»
+	'''
+	
+	//Greater
+	override caseGreater(Greater it)'''
+	//Greater Operator
+	«outputs.head.referenceOutput» = «inputs.sortBy[y].head.referenceInput» > «inputs.sortBy[y].last.referenceInput»;
+	«doLogging»
+	«nextNode»
+	'''
+	
+	//GreaterOrEqual
+	override caseGreaterOrEqual(GreaterOrEqual it)'''
+	//GreaterOrEqual Operator
+	«outputs.head.referenceOutput» = «inputs.sortBy[y].head.referenceInput» >= «inputs.sortBy[y].last.referenceInput»;
+	«doLogging»
+	«nextNode»
+	'''
+	
+	//LessOrEqual
+	override caseLessOrEqual(LessOrEqual it)'''
+	//LessOrEqual Operator
+	«outputs.head.referenceOutput» = «inputs.sortBy[y].head.referenceInput» <= «inputs.sortBy[y].last.referenceInput»;
+	«doLogging»
+	«nextNode»
+	'''
+	
+	//And
+	override caseLogicalAnd(LogicalAnd it)'''
+	//And Operator
+	«outputs.head.referenceOutput» = «FOR in : inputs.sortBy[y] SEPARATOR '&&'»«in.referenceInput»«ENDFOR»;
+	«doLogging»
+	«nextNode»
+	'''
+	
+	//Or
+	override caseLogicalOr(LogicalOr it)'''
+	//Or Operator
+	«outputs.head.referenceOutput» = «FOR in : inputs.sortBy[y] SEPARATOR '||'»«in.referenceInput»«ENDFOR»;
+	«doLogging»
+	«nextNode»
+	'''
+
+	//Negation
+	override caseNegation(Negation it)'''
+	//Negation Operator
+	«booleanOutputs.head.referenceOutput» = !«booleanInputs.head.referenceInput»;
+	«doLogging»
+	«nextNode»
+	'''
+
+//*********************************************************************************
+//								GENERATE OTHER NODES
+//*********************************************************************************
+	
+	//GuardOutput
+	override caseBooleanGuardOutput(BooleanGuardOutput it)'''
 	//Guard Output
-	return «out.booleanInputs.head.referenceInput»;
+	return «booleanInputs.head.referenceInput»;
+	«doLogging»
+	«nextNode»
 	'''
 	
-	override caseSubRule(SubRule rule)'''
-	«IF !rule.booleanSubInputPorts.nullOrEmpty»//BooleanSubInputs
-	«val Iterator<BooleanSubOutputPort> refBoolIns = rule.rule.subRuleInputss.head.booleanSubOutputPorts.iterator»
-	«FOR in:rule.booleanSubInputPorts»
-		«IDHasher.GetStringHash(rule.id)».«refBoolIns.next.referenceOutput» = «in.referenceInput»;
+	//EndNode
+	override caseEndNode(EndNode node)'''
+	//END
+	'''
+	
+	//PID
+	override casePIDController(PIDController it)'''
+	//PID Controller
+	«outputs.head.referenceOutput» = pid«IDHasher.GetStringHash(id)».calculate(«inputs.sortBy[y].head.referenceInput», «inputs.sortBy[y].last.referenceInput», input.dTime);	
+	«doLogging»
+	«nextNode»
+	'''
+	
+	//TODO:ProgrammableNode
+	override caseProgrammableNode(ProgrammableNode it)'''
+	//ProgrammableNode
+	«code»
+	«doLogging»
+	«nextNode»
+	'''
+	
+	//StartNode
+	override caseStartNode(StartNode it)'''
+	«nextNode»
+	'''
+	
+	//StaticNumber
+	override caseStaticNumberValue(StaticNumberValue it)'''
+	«outputs.head.referenceOutput» = «inputs.head.referenceInput»;
+	«doLogging»
+	«nextNode»
+	'''
+
+//*********************************************************************************
+//								GENERATE SUBRULE IO NODES
+//*********************************************************************************
+	
+	//SubRuleInputs
+	override caseSubRuleInputs(SubRuleInputs it)'''
+	«doLogging»
+	«nextNode»
+	'''
+	
+	//SubRuleOutputs
+	override caseSubRuleOutputs(SubRuleOutputs it)'''
+	//SubRule Outputs
+	«FOR BooleanSubInputPort port:booleanSubInputPorts»
+		«NamingUtilities.toMemberVar(port.identifier)» = «port.referenceInput»;
+		ACC_LOG2("Subrule output '«NamingUtilities.toMemberVar(port.identifier)»' is set to'" << «port.referenceInput» << "'.")
+	«ENDFOR»
+	«FOR NumberSubInputPort port:numberSubInputPorts»
+		«NamingUtilities.toMemberVar(port.identifier)» = «port.referenceInput»;
+		ACC_LOG2("Subrule output '«NamingUtilities.toMemberVar(port.identifier)»' is set to'" << «port.referenceInput» << "'.")
+	«ENDFOR»
+	«doLogging»
+	«nextNode»
+	'''
+
+//*********************************************************************************
+//								GENERATE SUBRULES
+//*********************************************************************************
+	
+	override caseSubRule(SubRule it)'''
+	«IF !booleanSubInputPorts.nullOrEmpty»//BooleanSubInputs
+	«val Iterator<BooleanSubOutputPort> refBoolIns = rule.subRuleInputss.head.booleanSubOutputPorts.iterator»
+	«FOR in:booleanSubInputPorts»
+		«IDHasher.GetStringHash(id)».«refBoolIns.next.referenceOutput» = «in.referenceInput»;
 	«ENDFOR»
 	
 	«ENDIF»
-	«IF !rule.numberSubInputPorts.nullOrEmpty»//NumberSubInputs
-	«val Iterator<NumberSubOutputPort> refNumberIns = rule.rule.subRuleInputss.head.numberSubOutputPorts.iterator»
-	«FOR in:rule.numberSubInputPorts»
-		«IDHasher.GetStringHash(rule.id)».«refNumberIns.next.referenceOutput» = «in.referenceInput»;
+	«IF !numberSubInputPorts.nullOrEmpty»//NumberSubInputs
+	«val Iterator<NumberSubOutputPort> refNumberIns = rule.subRuleInputss.head.numberSubOutputPorts.iterator»
+	«FOR in:numberSubInputPorts»
+		«IDHasher.GetStringHash(id)».«refNumberIns.next.referenceOutput» = «in.referenceInput»;
 	«ENDFOR»
 	
 	«ENDIF»
 	// SubRule execution
-	«IF RuleGenerator.isStateRule(rule.rule)»
-		«IDHasher.GetStringHash(rule.id)».Execute(input, output);
-	«ELSEIF RuleGenerator.isGuardRule(rule.rule)»
-		return «IDHasher.GetStringHash(rule.rule.id)».Execute(input);
-	«ELSEIF RuleGenerator.isNeutralRule(rule.rule)»
-		«IDHasher.GetStringHash(rule.id)».Execute(input);
+	«IF RuleGenerator.isStateRule(rule)»
+		«IDHasher.GetStringHash(id)».Execute(input, output);
+	«ELSEIF RuleGenerator.isGuardRule(rule)»
+		return «IDHasher.GetStringHash(rule.id)».Execute(input);
+	«ELSEIF RuleGenerator.isNeutralRule(rule)»
+		«IDHasher.GetStringHash(id)».Execute(input);
 	«ELSE»
 		//SubRule is not StateRule, GuardRule or NeutralRule
 	«ENDIF»
 	
-	«IF !rule.booleanSubOutputPorts.nullOrEmpty»//BooleanSubOutputs
-	«val Iterator<BooleanSubInputPort> refBoolOuts = rule.rule.subRuleOutputss.head.booleanSubInputPorts.iterator»
-	«FOR out:rule.booleanSubOutputPorts»
-		bool «out.referenceOutput» = «IDHasher.GetStringHash(rule.id)».«refBoolOuts.next.identifier»;
+	«IF !booleanSubOutputPorts.nullOrEmpty»//BooleanSubOutputs
+	«val Iterator<BooleanSubInputPort> refBoolOuts = rule.subRuleOutputss.head.booleanSubInputPorts.iterator»
+	«FOR out:booleanSubOutputPorts»
+		bool «out.referenceOutput» = «IDHasher.GetStringHash(id)».«NamingUtilities.toMemberVar(refBoolOuts.next.identifier)»;
 	«ENDFOR»
 	
 	«ENDIF»
-	«IF !rule.numberSubOutputPorts.nullOrEmpty»//NumberSubOutputs
-	«val Iterator<NumberSubInputPort> refNumberOuts = rule.rule.subRuleOutputss.head.numberSubInputPorts.iterator»
-	«FOR out:rule.numberSubOutputPorts»
-		double «out.referenceOutput» = «IDHasher.GetStringHash(rule.id)».«refNumberOuts.next.identifier»;
+	«IF !numberSubOutputPorts.nullOrEmpty»//NumberSubOutputs
+	«val Iterator<NumberSubInputPort> refNumberOuts = rule.subRuleOutputss.head.numberSubInputPorts.iterator»
+	«FOR out:numberSubOutputPorts»
+		double «out.referenceOutput» = «IDHasher.GetStringHash(id)».«NamingUtilities.toMemberVar(refNumberOuts.next.identifier)»;
 	«ENDFOR»
 	
 	«ENDIF»
-	«if(!rule.getSuccessors.nullOrEmpty)rule.getSuccessors.head.doSwitch»
+	«doLogging»
+	«nextNode»
 	'''
+
+//*********************************************************************************
+//								GENERATE SHARED MEMORY NODES
+//*********************************************************************************
 	
-	override caseSubRuleInputs(SubRuleInputs in)'''
-	«if(!in.getSuccessors.nullOrEmpty)in.getSuccessors.head.doSwitch»
-	'''
-	
-	override caseSubRuleOutputs(SubRuleOutputs out)'''
-	//SubRule Outputs
-	«FOR BooleanSubInputPort port:out.booleanSubInputPorts»
-		«port.identifier» = «port.referenceInput»;
-		ACC_LOG2("Subrule input '«port.identifier»' is set to'" << «port.referenceInput» << "'.")
-	«ENDFOR»
-	«FOR NumberSubInputPort port:out.numberSubInputPorts»
-		«port.identifier» = «port.referenceInput»;
-		ACC_LOG2("Subrule input '«port.identifier»' is set to'" << «port.referenceInput» << "'.")
-	«ENDFOR»
-	«if(!out.getSuccessors.nullOrEmpty)out.getSuccessors.head.doSwitch»
-	'''
-	
-	override caseSaveNumber(SaveNumber save)'''
+	//SaveNumber
+	override caseSaveNumber(SaveNumber it)'''
 	//Saving Data
-	«save.data.rootElement.memoryName».«save.data.label» = «save.inputs.head.referenceInput»;
-	ACC_LOG2("Sharedmemory '«save.data.rootElement.memoryName».«save.data.label»' is set to'" << «save.inputs.head.referenceInput» << "'.")
-	«if(!save.getSuccessors.nullOrEmpty)save.getSuccessors.head.doSwitch»
+	«data.rootElement.memoryName».«data.label» = «inputs.head.referenceInput»;
+	ACC_LOG2("Sharedmemory '«data.rootElement.memoryName».«data.label»' is set to'" << «inputs.head.referenceInput» << "'.")
+	«doLogging»
+	«nextNode»
 	'''
 	
-	override caseSaveBoolean(SaveBoolean save)'''
+	//SaveBoolean
+	override caseSaveBoolean(SaveBoolean it)'''
 	//Saving Data
-	«save.data.rootElement.memoryName».«save.data.label» = «save.inputs.head.referenceInput»;
-	«if(!save.getSuccessors.nullOrEmpty)save.getSuccessors.head.doSwitch»
+	«data.rootElement.memoryName».«data.label» = «inputs.head.referenceInput»;
+	ACC_LOG2("Sharedmemory '«data.rootElement.memoryName».«data.label»' is set to'" << «inputs.head.referenceInput» << "'.")
+	«doLogging»
+	«nextNode»
 	'''
 	
-	override caseLoad(Load load)'''
-	«if(!load.getSuccessors.nullOrEmpty)load.getSuccessors.head.doSwitch»
+	//Load
+	override caseLoad(Load it)'''
+	«doLogging»
+	«nextNode»
 	'''
 	
-	
-	override caseStoredPIDController(StoredPIDController pid)'''
+	//StoredPID
+	override caseStoredPIDController(StoredPIDController it)'''
 	//Stored PID
-	«pid.outputs.head.referenceOutput» = «pid.data.rootElement.memoryName».«pid.data.label».calculate(«pid.inputs.sortBy[y].head.referenceInput», «pid.inputs.sortBy[y].last.referenceInput», input.dTime);
-	
-	«if(!pid.getSuccessors.nullOrEmpty)pid.getSuccessors.head.doSwitch»
+	«outputs.head.referenceOutput» = «data.rootElement.memoryName».«data.label».calculate(«inputs.sortBy[y].head.referenceInput», «inputs.sortBy[y].last.referenceInput», input.dTime);
+	«doLogging»
+	«nextNode»
 	'''
 	
-	override caseStaticNumberValue(StaticNumberValue node)'''
-	«node.outputs.head.referenceOutput» = «node.inputs.head.referenceInput»;
-	«if(!node.getSuccessors.nullOrEmpty)node.getSuccessors.head.doSwitch»
-	'''
+
+//*********************************************************************************
+//								GENERATE DEFAULT
+//*********************************************************************************
+
 	
-	override caseStartNode(StartNode node)'''
-	«if(!node.getSuccessors.nullOrEmpty)node.getSuccessors.head.doSwitch»
+	override caseNode(Node it)'''/*Node «toString» not found*/
+	«nextNode»
 	'''
-	override caseEndNode(EndNode node)'''
-	//END
-	«if(!node.getSuccessors.nullOrEmpty)node.getSuccessors.head.doSwitch»
-	'''
-	override caseNode(Node n)'''/*Node «n.toString» not found*/
-	«if(!n.getSuccessors.nullOrEmpty)n.getSuccessors.head.doSwitch»
-	'''
+
+//*********************************************************************************
+//								FUNCTIONS REFERENCE IO
+//*********************************************************************************
+
+	def referenceInput(Input it){
+		doSwitch
+	}
 	
-	def referenceInput(Input in){
-		switch in{
-			NumberStaticInput :	in.staticValue
-			NumberCarInput :	"input."+in.inputtype.toString
-			BooleanStaticInput:	in.staticValue
-			BooleanCarInput:	"input."+in.inputtype.toString
-			default :	if(in.predecessors.nullOrEmpty){
-							"/*input not a reference*/"
-						}else{
-							val out = in.predecessors.head
-							if(out instanceof Output){
-								out.referenceOutputFromInput
-							}else{
-								"/*input is a reference for something thats not an output*/"
-							}
-						}
+	def referenceOutputFromInput(Output it){
+		switch it{
+			NumberOutputPort:	if(container instanceof LoadNumber){
+									(container as LoadNumber).data.rootElement.memoryName+"."+(container as LoadNumber).data.label
+								}else{
+									IDHasher.GetStringHash(id)
+								}
+			BooleanOutputPort:	if(container instanceof LoadBoolean){
+									(container as LoadBoolean).data.rootElement.memoryName+"."+(container as LoadBoolean).data.label
+								}else{
+									IDHasher.GetStringHash(id)
+								}
+			default:			doSwitch
 		}	
 	}
 	
-	def referenceOutputFromInput(Output out){
-		switch out{
-			NumberCarOutput :	"output."+out.outputtype.toString
-			BooleanCarOutput:	"output."+out.outputtype.toString
-			NumberSubOutputPort:	if(out.container instanceof SubRule){
-									IDHasher.GetStringHash(out.id)
+	def referenceOutput(Output it){
+		switch it{
+			NumberOutputPort:	if(container instanceof LoadNumber){
+									(container as LoadNumber).data.rootElement.memoryName+"."+(container as LoadNumber).data.label
 								}else{
-									out.identifier
-								}
-			BooleanSubOutputPort:	if(out.container instanceof SubRule){
-									IDHasher.GetStringHash(out.id)
+									"double "+IDHasher.GetStringHash(id)
+									}
+			BooleanOutputPort:	if(container instanceof LoadBoolean){
+									(container as LoadBoolean).data.rootElement.memoryName+"."+(container as LoadBoolean).data.label
 								}else{
-									out.identifier
+									"bool "+IDHasher.GetStringHash(id)
 								}
-			NumberOutput:		if(out.container instanceof LoadNumber){
-									(out.container as LoadNumber).data.rootElement.memoryName+"."+(out.container as LoadNumber).data.label
-								}else{
-									IDHasher.GetStringHash(out.id)
-								}
-			BooleanOutput:		if(out.container instanceof LoadBoolean){
-									(out.container as LoadBoolean).data.rootElement.memoryName+"."+(out.container as LoadBoolean).data.label
-								}else{
-									IDHasher.GetStringHash(out.id)
-								}
+			default:			doSwitch
 		}	
+	}
+
+//*********************************************************************************
+//								FUNCTIONS FOR LOGGING
+//*********************************************************************************
+	
+	def doLogging(Operation it)'''
+	«FOR in:inputs»
+		«IF in.logged»
+			«in.logInput»
+		«ENDIF»
+	«ENDFOR»
+	«FOR out:outputs»
+			«IF out.logged»
+				«out.logOutput»
+			«ENDIF»
+		«ENDFOR»
+	'''
+	
+	//TODO
+	def logInput(Input it){
 	}
 	
-	def referenceOutput(Output out){
-		switch out{
-			NumberCarOutput :	"output."+out.outputtype.toString
-			BooleanCarOutput:	"output."+out.outputtype.toString
-			NumberSubOutputPort:	if(out.container instanceof SubRule){
-									IDHasher.GetStringHash(out.id)
-								}else{
-									out.identifier
-								}
-			BooleanSubOutputPort:	if(out.container instanceof SubRule){
-									IDHasher.GetStringHash(out.id)
-								}else{
-									out.identifier
-								}
-			NumberOutput:		if(out.container instanceof LoadNumber){
-									(out.container as LoadNumber).data.rootElement.memoryName+"."+(out.container as LoadNumber).data.label
-								}else{
-									"double "+IDHasher.GetStringHash(out.id)
-								}
-			BooleanOutput:		if(out.container instanceof LoadBoolean){
-									(out.container as LoadBoolean).data.rootElement.memoryName+"."+(out.container as LoadBoolean).data.label
-								}else{
-									"bool "+IDHasher.GetStringHash(out.id)
-								}
-		}	
+	//TODO
+	def logOutput(Output it){
 	}
+
+//*********************************************************************************
+//								OTHER FUNCTIONS
+//*********************************************************************************
 	
 	public def generateSubRulePorts(Rule mainRule)'''
 	«var HashMap<Integer, Rule> knownSubRules = new HashMap<Integer, Rule>()»
@@ -388,13 +615,13 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 			«ENDIF»
 			«IF !rule.booleanSubOutputPorts.nullOrEmpty»//BooleanSubOutputs
 			«FOR BooleanSubInputPort out:rule.rule.subRuleOutputss.head.booleanSubInputPorts»
-				bool «IDHasher.GetStringHash(rule.rule.id)+"_"+out.identifier»;
+				bool «IDHasher.GetStringHash(rule.rule.id)+"_"+NamingUtilities.toMemberVar(out.identifier)»;
 			«ENDFOR»
 			
 			«ENDIF»
 			«IF !rule.numberSubOutputPorts.nullOrEmpty»//NumberSubOutputs
 			«FOR NumberSubInputPort out:rule.rule.subRuleOutputss.head.numberSubInputPorts»
-				double «IDHasher.GetStringHash(rule.rule.id)+"_"+out.identifier»;
+				double «IDHasher.GetStringHash(rule.rule.id)+"_"+NamingUtilities.toMemberVar(out.identifier)»;
 			«ENDFOR»
 			
 			«ENDIF»
@@ -406,7 +633,9 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 		return "g"+SharedMemoryGenerator.getMemoryName(memory)+"_var";
 	}
 	
-	def escapeIdentifier(CharSequence id){
-		
+	def nextNode(Node it){
+		if(!getSuccessors.nullOrEmpty){
+			return getSuccessors.head.doSwitch
+		}
 	}
 }
