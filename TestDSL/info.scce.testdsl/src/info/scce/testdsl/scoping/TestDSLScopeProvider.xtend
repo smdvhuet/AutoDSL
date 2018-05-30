@@ -5,12 +5,29 @@ package info.scce.testdsl.scoping
 
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EReference
+import org.eclipse.core.resources.ResourcesPlugin
 import info.scce.testdsl.testDSL.TestDSLPackage
 import org.eclipse.xtext.scoping.Scopes
 import java.util.ArrayList
 import info.scce.testdsl.testDSL.Variable
 import info.scce.testdsl.testDSL.TestDSLFactory
 import org.eclipse.emf.ecore.EPackage
+import org.eclipse.xtext.EcoreUtil2
+import info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory.StoredNumber
+import info.scce.testdsl.testDSL.Import
+import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.util.EcoreUtil
+import info.scce.testdsl.testDSL.MonitorInt
+import de.jabc.cinco.meta.runtime.xapi.FileExtension
+import de.jabc.cinco.meta.runtime.xapi.WorkspaceExtension
+import graphmodel.GraphModel
+import info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory.SharedMemory
+import org.eclipse.xtext.util.SimpleAttributeResolver
+import org.eclipse.xtext.scoping.IScope
+import org.eclipse.xtext.naming.QualifiedName
+import graphmodel.Node
+import com.google.common.base.Function
+import info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory.StoredData
 
 /**
  * This class contains custom scoping description.
@@ -19,15 +36,29 @@ import org.eclipse.emf.ecore.EPackage
  * on how and when to use it.
  */
 class TestDSLScopeProvider extends AbstractTestDSLScopeProvider {
+	
+	protected extension WorkspaceExtension = new WorkspaceExtension
+	protected extension FileExtension = new FileExtension
+	
 	override getScope(EObject ctx, EReference ref) {
-		if (ref == TestDSLPackage.Literals.EXPRESSION__VAR) {
-			val scopeList = new ArrayList<EObject>()
-			val factory = EPackage.Registry.INSTANCE.getEFactory(TestDSLPackage.eNS_URI) as TestDSLFactory;
-			val asd = factory.createVariable
-			asd.name = "hallo"
-			scopeList.add(asd)
-			return Scopes.scopeFor(scopeList)
+		if (ctx instanceof MonitorInt) {
+			val model = ctx.getGraphModel("shared.sharedMemory");
+			if (model != null && model instanceof SharedMemory) {
+				return Scopes.scopeFor(model.allNodes, QualifiedName.wrapper(new LabelResolver), IScope.NULLSCOPE)				
+			}
 		}
 		return super.getScope(ctx, ref)
+	}
+
+	def getGraphModel(EObject obj, String filename) {
+		obj.resource?.project?.getFile(filename)?.graphModel
+	}
+	
+	static class LabelResolver implements Function<Node, String> {
+		
+		override apply(Node t) {
+			if (t instanceof StoredData) t.label else null
+		}
+		
 	}
 }

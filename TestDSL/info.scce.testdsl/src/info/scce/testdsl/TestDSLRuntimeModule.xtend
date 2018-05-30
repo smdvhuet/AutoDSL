@@ -3,9 +3,28 @@
  */
 package info.scce.testdsl
 
+import org.eclipse.xtext.scoping.IScopeProvider
+import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
+import org.eclipse.xtext.scoping.impl.SimpleLocalScopeProvider
+import org.eclipse.xtext.scoping.impl.ImportUriGlobalScopeProvider
+import org.eclipse.xtext.naming.SimpleNameProvider
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
 class TestDSLRuntimeModule extends AbstractTestDSLRuntimeModule {
+// contributed by org.eclipse.xtext.generator.scoping.AbstractScopingFragment
+	/*override configureIScopeProviderDelegate(com.google.inject.Binder binder) {
+		binder.bind(IScopeProvider).annotatedWith(com.google.inject.name.Names.named(AbstractDeclarativeScopeProvider.NAMED_DELEGATE)).to(SimpleLocalScopeProvider);
+	}
+
+	// contributed by org.eclipse.xtext.generator.scoping.AbstractScopingFragment
+	override bindIGlobalScopeProvider() {
+		return ImportUriGlobalScopeProvider;
+	}
+
+// contributed by org.eclipse.xtext.generator.exporting.SimpleNamesFragment
+	override bindIQualifiedNameProvider() {
+		return SimpleNameProvider;
+	}*/
 }
