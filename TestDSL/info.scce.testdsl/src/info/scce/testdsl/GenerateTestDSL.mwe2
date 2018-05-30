@@ -12,9 +12,8 @@ Workflow {
 
 	bean = StandaloneSetup {
 		scanClassPath = true
-		//platformUri = "/home/eckard00/accpp/"
 		registerGeneratedEPackage = "info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory.SharedmemoryPackage"
-		registerGenModelFile = "platform:/resource/info.scce.cinco.product.autoDSL/src-gen/model/SharedMemory.genmodel"
+		registerGenModelFile = "platform:/resource/info.scce.testdsl/src/info/scce/testdsl/SharedMemory.genmodel"
 	}
 	
 	component = XtextGenerator {
@@ -48,8 +47,8 @@ Workflow {
 			validator = {
 				// composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
 			}
-			referencedResource = "platform:/resource/info.scce.cinco.product.autoDSL/src-gen/model/SharedMemory.genmodel"
-			//referencedResource = "platform:/resource/info.scce.testdsl/src/info/scce/testdsl/SharedMemory.genmodel"
+			//referencedResource = "platform:/resource/info.scce.cinco.product.autoDSL/src-gen/model/SharedMemory.genmodel"
+			referencedResource = "platform:/resource/info.scce.testdsl/src/info/scce/testdsl/SharedMemory.genmodel"
 			//fragment = scoping.ImportURIScopingFragment auto-inject {} 
 			//fragment = exporting.SimpleNamesFragment auto-inject {} 
 			

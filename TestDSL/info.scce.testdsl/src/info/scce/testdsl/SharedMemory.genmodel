@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/info.scce.cinco.product.autoDSL/src-gen" modelPluginID="info.scce.cinco.product.autoDSL"
+    modelName="SharedMemory" complianceLevel="8.0" copyrightFields="false" editPluginID="info.scce.cinco.product.autoDSL.edit"
+    editorPluginID="info.scce.cinco.product.autoDSL.editor" testsPluginID="info.scce.cinco.product.autoDSL.tests"
+    runtimeVersion="2.10" usedGenPackages="platform:/resource/de.jabc.cinco.meta.core.mgl.model/model/GraphModel.genmodel#//graphmodel"
+    operationReflection="true">
+  <genPackages prefix="Sharedmemory" basePackage="info.scce.cinco.product.autoDSL.sharedMemory"
+      disposableProviderFactory="true" ecorePackage="http://cinco.scce.info/product/sharedMemory#/">
+    <genClasses ecoreClass="http://cinco.scce.info/product/sharedMemory#//StoredPIDController">
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/getStoredPIDControllerView"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/getStoredDataView"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/getP"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/setP">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/setP/_arg"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/getD"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/setD">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/setD/_arg"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/getI"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/setI">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/setI/_arg"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/getLabel"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/setLabel">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/setLabel/_arg"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/getInternalStoredPIDController"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/isExactlyStoredPIDController"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/isExactlyStoredData"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/canMoveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/canMoveTo/sharedMemory"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/canMoveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/canMoveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/moveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/moveTo/sharedMemory"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/moveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/moveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/s_moveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/s_moveTo/sharedMemory"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/s_moveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/s_moveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/s_moveTo.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/s_moveTo.1/container"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/s_moveTo.1/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/s_moveTo.1/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/postMove">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/postMove/source"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/postMove/target"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/postMove/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/postMove/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/postMove/deltaX"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/postMove/deltaY"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/getX"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/getY"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/getWidth"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/getHeight"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/preDelete"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/postResize">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/postResize/modelElement"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/postResize/direction"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/postResize/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/postResize/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/getRootElement"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredPIDController/postSave"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="http://cinco.scce.info/product/sharedMemory#//StoredData">
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredData/getStoredDataView"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredData/getLabel"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredData/setLabel">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredData/setLabel/_arg"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredData/getInternalStoredData"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredData/isExactlyStoredData"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredData/canMoveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredData/canMoveTo/sharedMemory"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredData/canMoveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredData/canMoveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredData/moveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredData/moveTo/sharedMemory"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredData/moveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredData/moveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredData/s_moveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredData/s_moveTo/sharedMemory"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredData/s_moveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredData/s_moveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredData/s_moveTo.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredData/s_moveTo.1/container"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredData/s_moveTo.1/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredData/s_moveTo.1/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredData/postMove">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredData/postMove/source"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredData/postMove/target"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredData/postMove/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredData/postMove/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredData/postMove/deltaX"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredData/postMove/deltaY"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredData/getX"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredData/getY"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredData/getWidth"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredData/getHeight"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredData/preDelete"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredData/postResize">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredData/postResize/modelElement"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredData/postResize/direction"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredData/postResize/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredData/postResize/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredData/getRootElement"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredData/postSave"/>
+    </genClasses>
+    <genClasses ecoreClass="http://cinco.scce.info/product/sharedMemory#//SharedMemory">
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/getSharedMemoryView"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/getInternalSharedMemory"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/isExactlySharedMemory"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/canNewStoredBoolean"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/canNewStoredNumber"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/canNewStoredPIDController"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredBoolean">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredBoolean/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredBoolean/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredBoolean.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredBoolean.1/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredBoolean.1/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredBoolean.1/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredBoolean.1/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredBoolean.2">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredBoolean.2/id"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredBoolean.2/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredBoolean.2/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredBoolean.3">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredBoolean.3/id"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredBoolean.3/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredBoolean.3/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredBoolean.3/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredBoolean.3/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredNumber">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredNumber/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredNumber/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredNumber.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredNumber.1/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredNumber.1/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredNumber.1/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredNumber.1/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredNumber.2">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredNumber.2/id"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredNumber.2/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredNumber.2/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredNumber.3">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredNumber.3/id"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredNumber.3/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredNumber.3/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredNumber.3/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredNumber.3/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredPIDController">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredPIDController/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredPIDController/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredPIDController.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredPIDController.1/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredPIDController.1/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredPIDController.1/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredPIDController.1/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredPIDController.2">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredPIDController.2/id"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredPIDController.2/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredPIDController.2/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredPIDController.3">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredPIDController.3/id"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredPIDController.3/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredPIDController.3/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredPIDController.3/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newStoredPIDController.3/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/getStoredDatas"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/getStoredBooleans"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/getStoredNumbers"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/getStoredPIDControllers"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newSharedMemory">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newSharedMemory/path"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newSharedMemory/fileName"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//SharedMemory/newSharedMemory/postCreateHook"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/getRootElement"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//SharedMemory/postSave"/>
+    </genClasses>
+    <genClasses ecoreClass="http://cinco.scce.info/product/sharedMemory#//StoredNumber">
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredNumber/getStoredNumberView"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredNumber/getStoredDataView"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredNumber/getDefaultValue"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredNumber/setDefaultValue">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/setDefaultValue/_arg"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredNumber/getLabel"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredNumber/setLabel">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/setLabel/_arg"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredNumber/getInternalStoredNumber"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredNumber/isExactlyStoredNumber"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredNumber/isExactlyStoredData"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredNumber/canMoveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/canMoveTo/sharedMemory"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/canMoveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/canMoveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredNumber/moveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/moveTo/sharedMemory"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/moveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/moveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredNumber/s_moveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/s_moveTo/sharedMemory"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/s_moveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/s_moveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredNumber/s_moveTo.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/s_moveTo.1/container"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/s_moveTo.1/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/s_moveTo.1/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredNumber/postMove">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/postMove/source"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/postMove/target"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/postMove/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/postMove/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/postMove/deltaX"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/postMove/deltaY"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredNumber/getX"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredNumber/getY"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredNumber/getWidth"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredNumber/getHeight"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredNumber/preDelete"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredNumber/postResize">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/postResize/modelElement"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/postResize/direction"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/postResize/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredNumber/postResize/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredNumber/getRootElement"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredNumber/postSave"/>
+    </genClasses>
+    <genClasses ecoreClass="http://cinco.scce.info/product/sharedMemory#//StoredBoolean">
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/getStoredBooleanView"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/getStoredDataView"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/isDefaultValue"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/setDefaultValue">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/setDefaultValue/_arg"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/getLabel"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/setLabel">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/setLabel/_arg"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/getInternalStoredBoolean"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/isExactlyStoredBoolean"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/isExactlyStoredData"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/canMoveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/canMoveTo/sharedMemory"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/canMoveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/canMoveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/moveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/moveTo/sharedMemory"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/moveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/moveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/s_moveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/s_moveTo/sharedMemory"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/s_moveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/s_moveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/s_moveTo.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/s_moveTo.1/container"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/s_moveTo.1/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/s_moveTo.1/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/postMove">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/postMove/source"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/postMove/target"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/postMove/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/postMove/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/postMove/deltaX"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/postMove/deltaY"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/getX"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/getY"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/getWidth"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/getHeight"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/preDelete"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/postResize">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/postResize/modelElement"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/postResize/direction"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/postResize/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/postResize/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/getRootElement"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//StoredBoolean/postSave"/>
+    </genClasses>
+    <nestedGenPackages prefix="Internal" disposableProviderFactory="true" ecorePackage="http://cinco.scce.info/product/sharedMemory#//internal">
+      <genClasses ecoreClass="http://cinco.scce.info/product/sharedMemory#//internal/InternalStoredPIDController">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute http://cinco.scce.info/product/sharedMemory#//internal/InternalStoredPIDController/p"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute http://cinco.scce.info/product/sharedMemory#//internal/InternalStoredPIDController/d"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute http://cinco.scce.info/product/sharedMemory#//internal/InternalStoredPIDController/i"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute http://cinco.scce.info/product/sharedMemory#//internal/InternalStoredPIDController/label"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//internal/InternalStoredPIDController/getOutgoingConstraints"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//internal/InternalStoredPIDController/getIncomingConstraints"/>
+      </genClasses>
+      <genClasses ecoreClass="http://cinco.scce.info/product/sharedMemory#//internal/InternalStoredData">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute http://cinco.scce.info/product/sharedMemory#//internal/InternalStoredData/label"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//internal/InternalStoredData/getOutgoingConstraints"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//internal/InternalStoredData/getIncomingConstraints"/>
+      </genClasses>
+      <genClasses ecoreClass="http://cinco.scce.info/product/sharedMemory#//internal/InternalSharedMemory">
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//internal/InternalSharedMemory/getContainmentConstraints"/>
+      </genClasses>
+      <genClasses ecoreClass="http://cinco.scce.info/product/sharedMemory#//internal/InternalStoredNumber">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute http://cinco.scce.info/product/sharedMemory#//internal/InternalStoredNumber/defaultValue"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute http://cinco.scce.info/product/sharedMemory#//internal/InternalStoredNumber/label"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//internal/InternalStoredNumber/getOutgoingConstraints"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//internal/InternalStoredNumber/getIncomingConstraints"/>
+      </genClasses>
+      <genClasses ecoreClass="http://cinco.scce.info/product/sharedMemory#//internal/InternalStoredBoolean">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute http://cinco.scce.info/product/sharedMemory#//internal/InternalStoredBoolean/defaultValue"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute http://cinco.scce.info/product/sharedMemory#//internal/InternalStoredBoolean/label"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//internal/InternalStoredBoolean/getOutgoingConstraints"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//internal/InternalStoredBoolean/getIncomingConstraints"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Views" disposableProviderFactory="true" ecorePackage="http://cinco.scce.info/product/sharedMemory#//views">
+      <genClasses ecoreClass="http://cinco.scce.info/product/sharedMemory#//views/StoredPIDControllerView">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference http://cinco.scce.info/product/sharedMemory#//views/StoredPIDControllerView/internalStoredPIDController"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//views/StoredPIDControllerView/getP"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//views/StoredPIDControllerView/setP">
+          <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//views/StoredPIDControllerView/setP/_arg"/>
+        </genOperations>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//views/StoredPIDControllerView/getD"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//views/StoredPIDControllerView/setD">
+          <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//views/StoredPIDControllerView/setD/_arg"/>
+        </genOperations>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//views/StoredPIDControllerView/getI"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//views/StoredPIDControllerView/setI">
+          <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//views/StoredPIDControllerView/setI/_arg"/>
+        </genOperations>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//views/StoredPIDControllerView/getLabel"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//views/StoredPIDControllerView/setLabel">
+          <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//views/StoredPIDControllerView/setLabel/_arg"/>
+        </genOperations>
+      </genClasses>
+      <genClasses ecoreClass="http://cinco.scce.info/product/sharedMemory#//views/StoredDataView">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference http://cinco.scce.info/product/sharedMemory#//views/StoredDataView/internalStoredData"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//views/StoredDataView/getLabel"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//views/StoredDataView/setLabel">
+          <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//views/StoredDataView/setLabel/_arg"/>
+        </genOperations>
+      </genClasses>
+      <genClasses ecoreClass="http://cinco.scce.info/product/sharedMemory#//views/SharedMemoryView">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference http://cinco.scce.info/product/sharedMemory#//views/SharedMemoryView/internalSharedMemory"/>
+      </genClasses>
+      <genClasses ecoreClass="http://cinco.scce.info/product/sharedMemory#//views/StoredNumberView">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference http://cinco.scce.info/product/sharedMemory#//views/StoredNumberView/internalStoredNumber"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//views/StoredNumberView/getDefaultValue"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//views/StoredNumberView/setDefaultValue">
+          <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//views/StoredNumberView/setDefaultValue/_arg"/>
+        </genOperations>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//views/StoredNumberView/getLabel"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//views/StoredNumberView/setLabel">
+          <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//views/StoredNumberView/setLabel/_arg"/>
+        </genOperations>
+      </genClasses>
+      <genClasses ecoreClass="http://cinco.scce.info/product/sharedMemory#//views/StoredBooleanView">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference http://cinco.scce.info/product/sharedMemory#//views/StoredBooleanView/internalStoredBoolean"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//views/StoredBooleanView/isDefaultValue"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//views/StoredBooleanView/setDefaultValue">
+          <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//views/StoredBooleanView/setDefaultValue/_arg"/>
+        </genOperations>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//views/StoredBooleanView/getLabel"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/sharedMemory#//views/StoredBooleanView/setLabel">
+          <genParameters ecoreParameter="http://cinco.scce.info/product/sharedMemory#//views/StoredBooleanView/setLabel/_arg"/>
+        </genOperations>
+      </genClasses>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>
