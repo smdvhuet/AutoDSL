@@ -1,0 +1,53 @@
+# Beispiel 2
+        • Wenn der Fahrer den ACC Taster schließt und die Bremse nicht betätigt, muss das ACC aktiviert werden.
+          - Start: ACCTasterPressed and not DriverBreaks
+          - End: ?
+          - Effect: State changed to ACCActive
+
+        • Wenn der Fahrer die Bremse betätigt, muss das ACC deaktiviert werden.
+          - Start: DriverBreaks 
+          - End: ?
+          - Effect: inState(ACCInactive)
+
+        • Wenn der Fahrer den ACC Taster schließt, muss die aktuelle Geschwindigkeit als Soll-Geschwindigkeit gesetzt werden.
+          - Start: ACCTasterPressed
+          - End: ?
+          - Effect: TargetSpeed = CurrentSpeed
+
+        • Wenn das ACC aktiv ist, muss das ACC die Soll-Geschwindigkeit so einregeln, dass die Soll-Geschwindigkeit nicht um mehr als den Toleranzbereich Geschwindigkeit überschritten wird.
+          - Start: inState(ACCActive) and not CarInFront
+          - End: Not inState(ACCActive) or not CarInFront
+          - Effect: CurrentSpeed - TargetSeed <= SpeedDiffTolerance
+
+        • Wenn das ACC aktiv ist, muss das ACC den Soll-Abstand so einregeln, dass der Soll-Abstand nicht um mehr als den Toleranzbereich Abstandunterschritten wird.
+          - Start: inState(ACCActive) and CarInFront
+          - End: Not inState(ACCActive)
+          - Effect: CurrentDistance - TargetDistance >= TargetDiffTolerance
+
+        • Wenn das ACC aktiv ist und kein vorausfahrendes Fahrzeug wahrgenommen wird, muss das ACC die Soll-Geschwindigkeit einregeln.
+          - Start: inState(ACCActive) and not CarInFront
+          - End: Not inState(ACCActive) or CarInFront 
+          - Effect: [Schwierig, hier vll beschreiben dass die Differenz kleiner werden muss]
+
+        • Wenn das ACC aktiv ist und ein mit negativer relativer Geschwindigkeit vorausfahrendes Fahrzeug wahrgenommen wird, muss das ACC den Soll-Abstand einregeln unter Berücksichtigung der Regelanweisung für die Soll-Geschwindigkeit (#4).
+          - Start: inState(ACCActive) and CarInFront and CurrentSpeed > SpeedOfCarInFront 
+          - End: Not inState(ACCActive) or not CarInFront
+          - Effect: [Auch schwierig, hier auch wieder beschreiben dass die Differenz zwischen Abstand und Soll-Abstand sinkt]
+
+        • Wenn das ACC aktiviert ist und ein vorausfahrendes Fahrzeug wahrgenommen wird, das mit positiver Relativer Geschwindigkeit außerhalb des Soll-Abstandes fährt, regelt das ACC die Soll-Geschwindigkeit ein.
+          - Start: inState(ACCActive) and CarInFront and CurrentSpeed < SpeedOfCarInFront and CurrentDistance > TargetDistance
+          - End: Not inState(ACCActive) or not CarInFront or CurrentSpeed > SpeedOfCarInFront or CurrentDistance < TargetDistance
+          - Effect: [Schwierig, s.o]
+
+        • Wenn das ACC aktiviert ist und ein vorausfahrendes Fahrzeug wahrgenommen wird, das mit positiver Relativer Geschwindigkeit innerhalb des Soll-Abstandes fährt, regelt das ACC den Soll-Abstand ein ohne die Soll-Geschwindigkeit zu überschreiten.
+          - Start: inState(ACCActive) and CarInFront and CurrentSpeed < SpeedOfCarInFront and CurrentDistance < TargetDistance
+          - End: Not inState(ACCActive) or not CarInFront or CurrentSpeed < SpeedOfCarInFront or  CurrentDistance > TargetDistance
+          - Effect: [Schwierig, s.o]
+
+        • Bei Anfordern einer negativen Beschleunigung unterhalb eines Grenzwertes, wird eine Warnung ausgegeben.
+          - Start:
+          - End: 
+          - Effect: 
+
+
+

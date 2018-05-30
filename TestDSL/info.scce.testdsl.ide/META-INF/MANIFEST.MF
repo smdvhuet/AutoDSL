@@ -9,3 +9,6 @@ Require-Bundle: info.scce.testdsl,
  org.eclipse.xtext.ide,
  org.eclipse.xtext.xbase.ide
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: info.scce.testdsl.ide.contentassist.antlr,
+ info.scce.testdsl.ide.contentassist.antlr.internal
+
