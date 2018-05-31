@@ -60,7 +60,7 @@ struct CSVTable {
 
   void NextFrame() {
     current_line = frames_captured++;
-    current_line = current_line & LOG_HISTORY_LENGTH - 1;
+    current_line = current_line & (LOG_HISTORY_LENGTH - 1);
 
     ClearRow(current_line);
   }
