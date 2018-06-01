@@ -19,6 +19,11 @@ import info.scce.cinco.product.autoDSL.rule.rule.NumberSubOutputPort
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubOutputPort
 import info.scce.cinco.product.autoDSL.rule.rule.SubRuleOutputs
 import java.util.List
+import info.scce.cinco.product.autoDSL.rule.rule.ProgrammableNode
+import info.scce.cinco.product.autoDSL.rule.rule.NumberOutput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanOutput
+import info.scce.cinco.product.autoDSL.rule.rule.NumberProgrammableNodeInput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanProgrammableNodeInput
 
 class RuleGenerator implements IGenerator<Rule> {
 	var IFolder mainFolder
@@ -74,6 +79,8 @@ class RuleGenerator implements IGenerator<Rule> {
 		  void onExit();
 		«addMemberVars("public", publicMemberVars)»
 		«addMemberVars("private", privateMemberVars)»
+		
+		«generateProgrammableNodeDeclerations(rule.programmableNodes)»
 		};
 		} // namespace AutoDSL
 		#endif // AUTODSL_«rule.name.toUpperCase()»_H_'''
@@ -110,7 +117,8 @@ class RuleGenerator implements IGenerator<Rule> {
 					
 				void «rule.name»::onEntry(){}
 				
-				void «rule.name»::onExit(){}'''
+				void «rule.name»::onExit(){}
+				«generateProgrammableNodeImplementations(rule.programmableNodes,rule)»'''
 	}
 	
 //*********************************************************************************
@@ -147,6 +155,8 @@ class RuleGenerator implements IGenerator<Rule> {
 		  void onExit();
 		«addMemberVars("public", publicMemberVars)»
 		«addMemberVars("private", privateMemberVars)»
+		
+		«generateProgrammableNodeDeclerations(rule.programmableNodes)»
 		};
 		} // namespace AutoDSL
 		#endif // AUTODSL_«rule.name.toUpperCase()»_H_'''
@@ -184,7 +194,8 @@ class RuleGenerator implements IGenerator<Rule> {
 				
 				void «rule.name»::onEntry(){}
 					
-				void «rule.name»::onExit(){}'''
+				void «rule.name»::onExit(){}
+				«generateProgrammableNodeImplementations(rule.programmableNodes,rule)»'''
 	}
 	
 //*********************************************************************************
@@ -221,6 +232,8 @@ class RuleGenerator implements IGenerator<Rule> {
 		  void onExit();
 		«addMemberVars("public", publicMemberVars)»
 		«addMemberVars("private", privateMemberVars)»
+		
+		«generateProgrammableNodeDeclerations(rule.programmableNodes)»
 		};
 		} // namespace AutoDSL
 		#endif // AUTODSL_«rule.name.toUpperCase()»_H_'''
@@ -276,7 +289,8 @@ class RuleGenerator implements IGenerator<Rule> {
 				
 				void «rule.name»::onEntry(){}
 					
-				void «rule.name»::onExit(){}'''
+				void «rule.name»::onExit(){}
+				«generateProgrammableNodeImplementations(rule.programmableNodes,rule)»'''
 	}
 	
 //*********************************************************************************
@@ -494,6 +508,71 @@ class RuleGenerator implements IGenerator<Rule> {
 		return'''
 		«FOR l : list»
 		«prefix + l + postfix»
+		«ENDFOR»
+		'''
+	}
+	
+	private def generateProgrammableNodeDeclerations(List<ProgrammableNode> list){
+		val ArrayList<CharSequence> functions = new ArrayList<CharSequence>()
+		for(it : list){
+			var f = ""
+			if(outputs.nullOrEmpty){
+				f += "void "
+			}else if(outputs.head instanceof NumberOutput){
+				f += "double "
+			}else if(outputs.head instanceof BooleanOutput){
+				f += "bool "
+			}
+			f += IDHasher.GetStringHash(id)+'''(«
+			FOR in : inputs SEPARATOR ','
+				»«IF in instanceof NumberProgrammableNodeInput
+					» double «in.identifier
+					»«ELSE»«IF in instanceof BooleanProgrammableNodeInput
+						» bool «in.identifier
+					»«ENDIF
+				»«ENDIF
+			»«ENDFOR»);'''
+			functions.add(f)
+		}
+		return'''
+		private:
+			«FOR f : functions»
+				«f»
+			«ENDFOR»
+		'''
+	}
+	
+	private def generateProgrammableNodeImplementations(List<ProgrammableNode> list, Rule rule){
+		val ArrayList<CharSequence> functions = new ArrayList<CharSequence>()
+		for(it : list){
+			var f = ""
+			if(outputs.nullOrEmpty){
+				f += "void "
+			}else if(outputs.head instanceof NumberOutput){
+				f += "double "
+			}else if(outputs.head instanceof BooleanOutput){
+				f += "bool "
+			}
+			f += rule.name+"::"+IDHasher.GetStringHash(id)+
+			'''
+				(«
+				FOR in : inputs SEPARATOR ','
+					»«IF in instanceof NumberProgrammableNodeInput
+						» double «in.identifier
+						»«ELSE»«IF in instanceof BooleanProgrammableNodeInput
+							» bool «in.identifier
+						»«ENDIF
+					»«ENDIF
+				»«ENDFOR»){
+					«code»
+				}
+			'''
+			functions.add(f)
+		}
+		return'''
+		«FOR f : functions»
+			
+			«f»
 		«ENDFOR»
 		'''
 	}

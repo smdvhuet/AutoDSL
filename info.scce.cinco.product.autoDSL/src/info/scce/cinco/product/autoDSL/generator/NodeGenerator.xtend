@@ -62,6 +62,12 @@ import info.scce.cinco.product.autoDSL.rule.rule.BooleanOutputPort
 import info.scce.cinco.product.autoDSL.rule.rule.NumberOutputPort
 import info.scce.cinco.product.autoDSL.rule.rule.NumberInputPort
 import info.scce.cinco.product.autoDSL.rule.rule.Operation
+import info.scce.cinco.product.autoDSL.rule.rule.NumberProgrammableNodeStaticInput
+import info.scce.cinco.product.autoDSL.rule.rule.NumberProgrammableNodeInputPort
+import info.scce.cinco.product.autoDSL.rule.rule.NumberProgrammableNodeCarInput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanProgrammableNodeStaticInput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanProgrammableNodeInputPort
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanProgrammableNodeCarInput
 
 class NodeGenerator extends RuleSwitch<CharSequence> {
 	
@@ -280,6 +286,58 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	«doLogging»
 	«nextNode»
 	'''
+
+//*********************************************************************************
+//								GENERATE PROGRAMMABLE NODE PORTS
+//*********************************************************************************
+
+	//BooleanProgrammableNodeInput
+	 override caseBooleanProgrammableNodeInputPort (BooleanProgrammableNodeInputPort it){
+	 	if(predecessors.nullOrEmpty){
+			"/*input not a reference*/"
+		}else{
+			val out = predecessors.head
+			if(out instanceof Output){
+				out.referenceOutputFromInput
+			}else{
+				"/*input is a reference for something thats not an output*/"
+			}
+		}
+	 }
+
+	 //BooleanProgrammableNodeCarInput
+	 override caseBooleanProgrammableNodeCarInput(BooleanProgrammableNodeCarInput it){
+	 	"input."+inputtype.toString
+	 }
+	 
+	 //BooleanProgrammableNodeStaticInput
+	 override caseBooleanProgrammableNodeStaticInput(BooleanProgrammableNodeStaticInput it){
+	 	staticValue.toString
+	 }
+	 
+	 //NumberProgrammableNodeInput
+	 override caseNumberProgrammableNodeInputPort(NumberProgrammableNodeInputPort it){
+	 	if(predecessors.nullOrEmpty){
+			"/*input not a reference*/"
+		}else{
+			val out = predecessors.head
+			if(out instanceof Output){
+				out.referenceOutputFromInput
+			}else{
+				"/*input is a reference for something thats not an output*/"
+			}
+		}
+	 }
+	 
+	 //NumberProgrammableNodeCarInput
+	 override caseNumberProgrammableNodeCarInput(NumberProgrammableNodeCarInput it){
+	 	"input."+inputtype.toString
+	 }
+	 
+	 //NumberProgrammableNodeStaticInput
+	 override caseNumberProgrammableNodeStaticInput(NumberProgrammableNodeStaticInput it){
+	 	staticValue.toString
+	 }
 	
 //*********************************************************************************
 //								GENERATE LOGICAL NODES
@@ -385,10 +443,14 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	«nextNode»
 	'''
 	
-	//TODO:ProgrammableNode
+	//ProgrammableNode
 	override caseProgrammableNode(ProgrammableNode it)'''
 	//ProgrammableNode
-	«code»
+	«IF outputs.nullOrEmpty»
+		«IDHasher.GetStringHash(id)»(«FOR in : inputs SEPARATOR ','» «in.referenceInput»«ENDFOR»);
+	«ELSE»
+		«outputs.head.referenceOutput» = «IDHasher.GetStringHash(id)»(«FOR in : inputs SEPARATOR ','» «in.referenceInput»«ENDFOR»);
+	«ENDIF»
 	«doLogging»
 	«nextNode»
 	'''
