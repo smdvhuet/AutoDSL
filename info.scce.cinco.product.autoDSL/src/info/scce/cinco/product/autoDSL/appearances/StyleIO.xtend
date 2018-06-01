@@ -26,7 +26,6 @@ class StyleIO implements StyleAppearanceProvider<IO> {
 
 	override getAppearance(IO io, String element) {
 		val app = StyleFactory.eINSTANCE.createAppearance
-		//TODO wait until app.imagePath is fixed (works just fine under Cinco 0.7)
 		switch io {
 			BooleanStaticInput, NumberStaticInput, BooleanSubStaticInput, NumberSubStaticInput : app.imagePath = "icons/StaticInput.png"
 			BooleanCarInput, NumberCarInput, BooleanSubCarInput, NumberSubCarInput : app.imagePath = "icons/CarInput.png"
