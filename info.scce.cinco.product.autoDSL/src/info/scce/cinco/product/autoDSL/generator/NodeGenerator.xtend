@@ -570,12 +570,12 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 	
 	def doLogging(Operation it)'''
 	«FOR in:inputs»
-		«IF !in.loggingIdentifier.empty»
+		«IF !in.loggingIdentifier.nullOrEmpty»
 			«in.logInput»
 		«ENDIF»
 	«ENDFOR»
 	«FOR out:outputs»
-			«IF !out.loggingIdentifier.empty»
+			«IF !out.loggingIdentifier.nullOrEmpty»
 				«out.logOutput»
 			«ENDIF»
 		«ENDFOR»
