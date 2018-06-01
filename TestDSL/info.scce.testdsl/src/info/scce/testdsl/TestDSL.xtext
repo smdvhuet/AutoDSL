@@ -72,7 +72,7 @@ AndExpr returns Expression:
 ;
 
 RelExpr returns Expression:
-	AddExpr ({Rel.left=current} op=('<'|'<='|'=='|'!=') right=AddExpr)*
+	AddExpr ({Rel.left=current} op=('<'|'<='|'=='|'!='|'>'|'>=') right=AddExpr)*
 ;
 
 AddExpr returns Expression:
