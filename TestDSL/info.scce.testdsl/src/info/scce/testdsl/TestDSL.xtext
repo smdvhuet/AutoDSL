@@ -110,9 +110,9 @@ terminal TEMPSTATES:
 	"StateA" | "StateB"
 ;
 terminal INT_VAR: 
-	"inta" | "intb" | "intc"
+	"DistanceFront" | "DistanceRear" | "TimeDistanceFront" | "LeadingCarRelativeSpeed" | "Throttle" | "Brake" | "Steering" | "SetSpeed" | "SetDistance" | "InputThrottle" | "InputBrake"
 ;
 
 terminal BOOL_VAR: 
-	"boolx" | "booly" | "boolz"
+	"SystemOnButton" | "SystemActiveButton" | "HasLeadingCar" | "HasEngineError" | "HasSteeringError" | "HasGearboxError" | "DecrementSetDistanceButton" | "IncrementSetDistanceButton" | "DecrementSetSpeedButton" | "IncrementSetSpeedButton" | "ObstacleDetectedWarning" | "ErrorWarning" | "SystemOn" | "SystemActive" | "HeadlightsOn" 
 ;
