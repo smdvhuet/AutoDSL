@@ -581,12 +581,20 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 		«ENDFOR»
 	'''
 	
-	//TODO
 	def logInput(Input it){
+		var split = it.referenceInput.toString().split(" ");
+		if(split.length > 1)
+			'''ACC_LOG("«it.loggingIdentifier»",«split.get(1)»)'''
+		else
+			'''ACC_LOG("«it.loggingIdentifier»",«split.get(0)»)'''
 	}
 	
-	//TODO
 	def logOutput(Output it){
+		var split = it.referenceOutput.toString().split(" ");
+		if(split.length > 1)
+			'''ACC_LOG("«it.loggingIdentifier»",«split.get(1)»)'''
+		else
+			'''ACC_LOG("«it.loggingIdentifier»",«split.get(0)»)'''
 	}
 
 //*********************************************************************************
