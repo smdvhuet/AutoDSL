@@ -88,7 +88,8 @@ UnExpr returns Expression:
 ;
 
 AtomExpr returns Expression: 
-	{Literal} value=INT
+	{IntLiteral} value=INT
+	| {BoolLiteral} ("true" | "false")	
 	| '(' expr=Expression ')'
 	| {MonitorInt} ref=[monitor::StoredNumber]
 	| intvar=INT_VAR ('[' intTimeDiff=INT ('ms')? ']')? | boolvar=BOOL_VAR ('[' boolTimeDiff=INT ('ms')? ']')?
