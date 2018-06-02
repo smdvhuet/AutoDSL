@@ -1,6 +1,7 @@
 @primeviewer
 @style("model/SharedMemory.style")
 @mcam("check")
+@mcam_checkmodule("info.scce.cinco.product.autoDSL.check.sharedMemoryCheck.CheckForInvalidIdentifiers")
 graphModel SharedMemory {
 	package info.scce.cinco.product.autoDSL.sharedMemory
 	nsURI "http://cinco.scce.info/product/sharedMemory"
