@@ -13,6 +13,8 @@ import info.scce.cinco.product.autoDSL.autodsl.autodsl.State
 import info.scce.cinco.product.autoDSL.autodsl.autodsl.Guard
 import info.scce.cinco.product.autoDSL.rule.rule.Rule
 import java.util.HashMap
+import info.scce.cinco.product.autoDSL.autodsl.autodsl.ComponentNode
+import java.util.ArrayList
 
 class DSLGenerator implements IGenerator<AutoDSL> {
 	var IProgressMonitor monitor;
@@ -206,7 +208,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	«FOR state : dsl.states»
 	«getVarName(state)» = new State(
 	    "«state.label»", {
-			«FOR container : state.componentNodes.sortBy[y] SEPARATOR ','»
+			«FOR container : getOrderedStateContainer(state) SEPARATOR ','»
 			«IF container.rule != null»
 			new «getRuleClassName(container.rule)»()
 			«ENDIF»
@@ -304,5 +306,17 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		#include "«ruleName».h"
 		«ENDFOR»
 		'''
+	}
+	
+	private def getOrderedStateContainer(State state){
+		var ArrayList<ComponentNode> output = new ArrayList<ComponentNode>();
+		var nextContainer = state.componentNodes.findFirst[it.incoming.length == 0];
+		
+		while(nextContainer != null){
+			output.add(nextContainer);
+			nextContainer = nextContainer.successors.head;
+		}
+		
+		return output;
 	}
 }

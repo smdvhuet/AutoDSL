@@ -230,10 +230,11 @@ class RuleGenerator implements IGenerator<Rule> {
 		  void Execute(const ACCPlusPlus::IO::CarInputs &);	
 		  void onEntry();
 		  void onExit();
+		«generateProgrammableNodeDeclerations(rule.programmableNodes)»
+		  		
 		«addMemberVars("public", publicMemberVars)»
 		«addMemberVars("private", privateMemberVars)»
 		
-		«generateProgrammableNodeDeclerations(rule.programmableNodes)»
 		};
 		} // namespace AutoDSL
 		#endif // AUTODSL_«rule.name.toUpperCase()»_H_'''
