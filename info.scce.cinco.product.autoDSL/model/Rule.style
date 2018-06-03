@@ -62,14 +62,13 @@ edgeStyle dataFlow {
 nodeStyle input (3) {
 	appearanceProvider ("info.scce.cinco.product.autoDSL.appearances.StyleIO")
 	rectangle {
-		appearance io
 		size (110,20)
 		image {
 			position (LEFT, MIDDLE)
 			size (fix 16,fix 16)
 			path ( "icons/CarInput.png" )
 		}
-		text {
+		text label {
 			position ( LEFT 16, MIDDLE)
 			value "%s : %s : %s"
 		}
@@ -79,16 +78,15 @@ nodeStyle input (3) {
 nodeStyle output (2) {
 	appearanceProvider ("info.scce.cinco.product.autoDSL.appearances.StyleIO")
 	rectangle {
-		appearance io
 		size (110,20)
 		image {
 			position (RIGHT, MIDDLE)
 			size (fix 16,fix 16)
 			path ( "icons/CarOutput.png" )
 		}
-		text {
+		text label {
 			position ( LEFT, MIDDLE)
-			value "%s : %s"			
+			value "%s : %s"
 		}
 	}
 }

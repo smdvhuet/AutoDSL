@@ -1,31 +1,41 @@
 package info.scce.cinco.product.autoDSL.extensions
 
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanCarInput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanCarOutput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanInput
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanInputPort
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanOutput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanOutputPort
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanProgrammableNodeCarInput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanProgrammableNodeInput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanProgrammableNodeInputPort
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanProgrammableNodeStaticInput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanStaticInput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubCarInput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInput
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInputPort
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubOutputPort
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubStaticInput
 import info.scce.cinco.product.autoDSL.rule.rule.IO
+import info.scce.cinco.product.autoDSL.rule.rule.NumberCarInput
+import info.scce.cinco.product.autoDSL.rule.rule.NumberCarOutput
+import info.scce.cinco.product.autoDSL.rule.rule.NumberInput
 import info.scce.cinco.product.autoDSL.rule.rule.NumberInputPort
+import info.scce.cinco.product.autoDSL.rule.rule.NumberOutput
+import info.scce.cinco.product.autoDSL.rule.rule.NumberOutputPort
+import info.scce.cinco.product.autoDSL.rule.rule.NumberProgrammableNodeCarInput
+import info.scce.cinco.product.autoDSL.rule.rule.NumberProgrammableNodeInput
+import info.scce.cinco.product.autoDSL.rule.rule.NumberProgrammableNodeInputPort
+import info.scce.cinco.product.autoDSL.rule.rule.NumberProgrammableNodeStaticInput
+import info.scce.cinco.product.autoDSL.rule.rule.NumberStaticInput
+import info.scce.cinco.product.autoDSL.rule.rule.NumberSubCarInput
+import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInput
 import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInputPort
 import info.scce.cinco.product.autoDSL.rule.rule.NumberSubOutputPort
-import info.scce.cinco.product.autoDSL.rule.rule.Operation
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanCarInput
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanStaticInput
-import info.scce.cinco.product.autoDSL.rule.rule.NumberCarInput
-import info.scce.cinco.product.autoDSL.rule.rule.NumberStaticInput
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanCarOutput
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanOutputPort
-import info.scce.cinco.product.autoDSL.rule.rule.NumberCarOutput
-import info.scce.cinco.product.autoDSL.rule.rule.NumberOutputPort
-import info.scce.cinco.product.autoDSL.rule.rule.NumberInput
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanInput
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanOutput
-import info.scce.cinco.product.autoDSL.rule.rule.NumberOutput
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInput
-import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInput
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubStaticInput
 import info.scce.cinco.product.autoDSL.rule.rule.NumberSubStaticInput
-import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubCarInput
-import info.scce.cinco.product.autoDSL.rule.rule.NumberSubCarInput
+import info.scce.cinco.product.autoDSL.rule.rule.Operation
+import info.scce.cinco.product.autoDSL.rule.rule.Output
+import info.scce.cinco.product.autoDSL.rule.rule.ProgrammableNode
 
 class IOExtension {
 	/**
@@ -54,6 +64,15 @@ class IOExtension {
 		}
 	}
 	
+	static def isProgrammableNode (IO io) {
+		switch io {
+			BooleanProgrammableNodeInput,
+			NumberProgrammableNodeInput,
+			Output case (io.operation instanceof ProgrammableNode) : true
+			default : false
+		}
+	}
+	
 	static def isSub (IO io) {
 		switch io {
 			BooleanSubInput,
@@ -66,8 +85,10 @@ class IOExtension {
 	
 	static def getIdentifier (IO io) {
 		switch io {
+			BooleanProgrammableNodeInput : io.identifier
 			BooleanSubInput : io.identifier
 			BooleanSubOutputPort : io.identifier
+			NumberProgrammableNodeInput : io.identifier
 			NumberSubInput : io.identifier
 			NumberSubOutputPort : io.identifier
 			default : throw new RuntimeException("Not implemented")
@@ -90,6 +111,9 @@ class IOExtension {
 			BooleanCarOutput : op.newBooleanCarOutput(0,0)
 			BooleanInputPort : op.newBooleanInputPort(0,0)
 			BooleanOutputPort : op.newBooleanOutputPort(0,0)
+			BooleanProgrammableNodeCarInput : op.newBooleanProgrammableNodeCarInput(0,0)
+			BooleanProgrammableNodeInputPort : op.newBooleanProgrammableNodeInputPort(0,0)
+			BooleanProgrammableNodeStaticInput : op.newBooleanProgrammableNodeStaticInput(0,0)
 			BooleanStaticInput : op.newBooleanStaticInput(0,0)
 			BooleanSubCarInput : op.newBooleanSubCarInput(0,0)
 			BooleanSubInputPort : op.newBooleanSubOutputPort(0,0)
@@ -99,6 +123,9 @@ class IOExtension {
 			NumberCarOutput : op.newNumberCarOutput(0,0)
 			NumberInputPort : op.newNumberInputPort(0,0)
 			NumberOutputPort : op.newNumberOutputPort(0,0)
+			NumberProgrammableNodeCarInput : op.newNumberProgrammableNodeCarInput(0,0)
+			NumberProgrammableNodeInputPort : op.newNumberProgrammableNodeInputPort(0,0)
+			NumberProgrammableNodeStaticInput : op.newNumberProgrammableNodeStaticInput(0,0)
 			NumberStaticInput : op.newNumberStaticInput(0,0)
 			NumberSubCarInput : op.newNumberSubCarInput(0,0)
 			NumberSubInputPort : op.newNumberSubOutputPort(0,0)

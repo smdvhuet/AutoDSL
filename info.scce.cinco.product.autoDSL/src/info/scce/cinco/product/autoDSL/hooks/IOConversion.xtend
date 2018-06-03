@@ -3,6 +3,7 @@ package info.scce.cinco.product.autoDSL.hooks
 import de.jabc.cinco.meta.runtime.action.CincoCustomAction
 import info.scce.cinco.product.autoDSL.rule.rule.Addition
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanGuardOutput
+import info.scce.cinco.product.autoDSL.rule.rule.BooleanProgrammableNodeInput
 import info.scce.cinco.product.autoDSL.rule.rule.Decision
 import info.scce.cinco.product.autoDSL.rule.rule.DirectBooleanOutput
 import info.scce.cinco.product.autoDSL.rule.rule.DirectNumberOutput
@@ -22,8 +23,10 @@ import info.scce.cinco.product.autoDSL.rule.rule.Maximum
 import info.scce.cinco.product.autoDSL.rule.rule.Minimum
 import info.scce.cinco.product.autoDSL.rule.rule.Multiplication
 import info.scce.cinco.product.autoDSL.rule.rule.Negation
+import info.scce.cinco.product.autoDSL.rule.rule.NumberProgrammableNodeInput
 import info.scce.cinco.product.autoDSL.rule.rule.Operation
 import info.scce.cinco.product.autoDSL.rule.rule.PIDController
+import info.scce.cinco.product.autoDSL.rule.rule.ProgrammableNode
 import info.scce.cinco.product.autoDSL.rule.rule.SaveBoolean
 import info.scce.cinco.product.autoDSL.rule.rule.SaveNumber
 import info.scce.cinco.product.autoDSL.rule.rule.StaticNumberValue
@@ -37,10 +40,13 @@ abstract class IOConversion extends CincoCustomAction<IO> {
 	protected int x
 	protected int y
 	protected Operation op
+	protected String programmableNodeID
+	
 	def memorize(IO io){
 		x = io.x
 		y = io.y
 		op = io.operation
+		switch io { BooleanProgrammableNodeInput, NumberProgrammableNodeInput : programmableNodeID = io.identifier }
 	}
 
 	override getName() {
@@ -78,11 +84,13 @@ abstract class IOConversion extends CincoCustomAction<IO> {
 			Multiplication : root.newMultiplication(0,0)
 			Negation : root.newNegation(0,0)
 			PIDController : root.newPIDController(0,0)
+			ProgrammableNode : root.newProgrammableNode(0,0)
 			SaveBoolean : root.newSaveBoolean(null,0,0)
 			SaveNumber : root.newSaveNumber(null,0,0)
 			SubRule : root.newSubRule(null,0,0)
 			Subtraction : root.newSubtraction(0,0)
 			StaticNumberValue : root.newStaticNumberValue(0,0)
+			default : throw new RuntimeException("Missing Implementation in IOConversion. '" + op.class.name + "' to be added to switch.")
 		}
 		for (input : tmpOp.inputs) input.delete
 		for (output : tmpOp.outputs) output.delete

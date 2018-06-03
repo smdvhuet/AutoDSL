@@ -637,7 +637,7 @@ graphModel Rule {
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
 	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	node NumberProgrammableNodeStaticInput extends NumberProgrammableNodeInput {
-		attr EBoolean as staticValue
+		attr EFloat as staticValue
 	}
 	//ProgrammableNodePorts Ende
 	
@@ -686,6 +686,7 @@ graphModel Rule {
 	}
 	
 	@style(codeNode, "Code")
+	@postResize("info.scce.cinco.product.autoDSL.hooks.ResizeOperation")
 	@palette("Sonstiges")
 	container ProgrammableNode extends Operation{
 		@multiLine
@@ -885,7 +886,7 @@ graphModel Rule {
 	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	@postAttributeValueChange("info.scce.cinco.product.autoDSL.hooks.UpdateSubRuleOutputs")
 	node NumberSubStaticInput extends NumberSubInput {
-		attr EBoolean as staticValue
+		attr EFloat as staticValue
 	}
 	//SubRulePorts Ende
 }
