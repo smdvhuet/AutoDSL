@@ -27,6 +27,7 @@ private:
 public:
   void Run(const IO::CarInputs& input, IO::CarOutputs& output);
   bool isInEntryState();
+  const std::string GetCurrentStateName();
 
 protected:
   void AddTransition(State *const &from, State *const &to,

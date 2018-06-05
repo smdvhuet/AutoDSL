@@ -23,6 +23,7 @@ void StateMachine::Run(const IO::CarInputs& input, IO::CarOutputs& output) {
 } 
 
 bool StateMachine::isInEntryState() { return entry_state_ == current_state_; }
+const std::string StateMachine::GetCurrentStateName() { return current_state_->Name(); }
 
 void StateMachine::AddTransition(State *const &from, State *const &to,
   Guard *const &guard) {
