@@ -13,6 +13,7 @@ import "platform:/resource/info.scce.cinco.product.autoDSL/model/SharedMemory.mg
 @mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckForSingleOutputOnProgrammableNode")
 @mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckForSingleOutgoingEdgeFromStartNode")
 @mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckForUniqueLoggingIdentifiers")
+@mcam_checkmodule("info.scce.cinco.product.autoDSL.check.ruleCheck.CheckForOutputPortUsage")
 @postCreate("info.scce.cinco.product.autoDSL.hooks.CreateRule")
 graphModel Rule {
 	package info.scce.cinco.product.autoDSL.rule
@@ -472,7 +473,7 @@ graphModel Rule {
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
 	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	node BooleanOutputPort extends BooleanOutput {
-		outgoingEdges(BooleanDataFlow[1,*])
+		outgoingEdges(BooleanDataFlow[0,*])
 	}
 	
 	@style(input, "", "${staticValue}", "Boolean")
@@ -535,7 +536,7 @@ graphModel Rule {
 	@postCreate("info.scce.cinco.product.autoDSL.hooks.CreateIO")
 	@preDelete("info.scce.cinco.product.autoDSL.hooks.DeleteIO")
 	node NumberOutputPort extends NumberOutput {
-		outgoingEdges(NumberDataFlow[1,*])
+		outgoingEdges(NumberDataFlow[0,*])
 	}
 	
 	@style(input, "", "${staticValue}", "Number")
