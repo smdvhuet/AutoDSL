@@ -16,13 +16,17 @@ class CheckSubRuleIOIdentifiers extends RuleCheck {
 				it.addError("Empty identifier found")
 			else if (!l.add(it.identifier))
 				it.addError("Duplicate identifier found: " + id)
-		]]
+			]
+			l.clear
+		]
 		rule.subRuleOutputss.forEach[it.inputs.forEach[
 			val id = it.identifier
 			if (id.empty)
 				it.addError("Empty identifier found")
 			else if (!l.add(it.identifier))
 				it.addError("Duplicate identifier found: " + id)
-		]]
+			]
+			l.clear
+		]
 	}
 }
