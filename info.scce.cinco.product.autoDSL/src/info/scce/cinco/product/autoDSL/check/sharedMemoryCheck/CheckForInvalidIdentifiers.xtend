@@ -31,5 +31,8 @@ class CheckForInvalidIdentifiers extends SharedMemoryCheck {
 		else if (identifier.contains(" ")){
 			node.addError("Labels may not contain any spaces")
 		}
+		else if (!identifier.matches("^[A-Za-z_][A-Za-z0-9_]*$")){
+			node.addError("Labels may only contain alphanumeric characters or '_'")
+		}
 	}
 }
