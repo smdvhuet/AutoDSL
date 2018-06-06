@@ -3,15 +3,15 @@
  */
 package info.scce.testdsl.ui.contentassist
 
+import de.jabc.cinco.meta.runtime.xapi.FileExtension
+import de.jabc.cinco.meta.runtime.xapi.WorkspaceExtension
+import info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory.SharedMemory
+import info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory.StoredData
+import info.scce.testdsl.testDSL.MonitorData
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.Assignment
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext
 import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor
-import de.jabc.cinco.meta.runtime.xapi.FileExtension
-import de.jabc.cinco.meta.runtime.xapi.WorkspaceExtension
-import graphmodel.GraphModel
-import info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory.SharedMemory
-import info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory.StoredData
 
 /**
  * See https://www.eclipse.org/Xtext/documentation/304_ide_concepts.html#content-assist
@@ -24,13 +24,15 @@ class TestDSLProposalProvider extends AbstractTestDSLProposalProvider {
 	
 	override completeAtomExpr_Ref(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
 		super.completeAtomExpr_Ref(model, assignment, context, acceptor)
-		val mem = model.getGraphModel("shared.sharedMemory")
-		if (mem != null && mem instanceof SharedMemory) {
-			mem.allNodes.forEach[
-				acceptor.accept(createCompletionProposal((it as StoredData).label, context))
-			]
+		if (model instanceof MonitorData) {
+			val mem = model.getGraphModel((model as MonitorData).importScope.path)
+			if (mem != null && mem instanceof SharedMemory) {
+				mem.allNodes.forEach[
+					acceptor.accept(createCompletionProposal((it as StoredData).label, context))
+				]
+			}
+		
 		}
-		//acceptor.accept(createCompletionProposal("hello", context))
 	}
 	
 	def getGraphModel(EObject obj, String filename) {

@@ -12,7 +12,7 @@ prog:
 
 Import:
 //	'import' importedNamespace=STRING
-	'import' path=STRING
+	'import' path=STRING 'as' name=ID
 ;
 
 Variable:
@@ -91,15 +91,20 @@ AtomExpr returns Expression:
 	{IntLiteral} value=INT
 	| {BoolLiteral} ("true" | "false")	
 	| '(' expr=Expression ')'
-	| {MonitorInt} ref=[monitor::StoredNumber]
-	| intvar=INT_VAR ('[' intTimeDiff=INT ('ms')? ']')? | boolvar=BOOL_VAR ('[' boolTimeDiff=INT ('ms')? ']')?
-	| '$' var=[Variable]
-	|  leftState=State op=('=='|"!=") rightState=State
+	| {MonitorData} importScope=[Import] '.' ref=[monitor::StoredData] diff=TimeDiffExtension?
+	| intvar=INT_VAR diff=TimeDiffExtension?| boolvar=BOOL_VAR diff=TimeDiffExtension?
+	| var=[Variable]
+	| leftState=State op=('=='|"!=") rightState=State
 ;
+
 
 State:
 	{State}
-	(("adasState" ('[' stateTimeDiff=INT ('ms')? ']')?) | lit=TEMPSTATES)
+	(("adasState" diff=TimeDiffExtension?) | lit=TEMPSTATES)
+;
+
+TimeDiffExtension:
+	{TimeDiffExtension} '[' timeDiff=INT ('ms')? ']'
 ;
 
 terminal EVENT_HANDLER_ANNOTATION:
