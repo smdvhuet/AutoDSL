@@ -14,7 +14,6 @@ import info.scce.cinco.product.autoDSL.rule.rule.Multiplication
 import info.scce.cinco.product.autoDSL.rule.rule.Negation
 import info.scce.cinco.product.autoDSL.rule.rule.NumberStaticInput
 import info.scce.cinco.product.autoDSL.rule.rule.PIDController
-import info.scce.cinco.product.autoDSL.rule.rule.Rule
 import info.scce.cinco.product.autoDSL.rule.rule.Subtraction
 import info.scce.cinco.product.autoDSL.rule.rule.util.RuleSwitch
 import info.scce.cinco.product.autoDSL.rule.rule.NumberCarInput
@@ -39,7 +38,6 @@ import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInputPort
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInputPort
 import info.scce.cinco.product.autoDSL.rule.rule.NumberSubOutputPort
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubOutputPort
-import java.util.HashMap
 import info.scce.cinco.product.autoDSL.rule.rule.Load
 import info.scce.cinco.product.autoDSL.rule.rule.StoredPIDController
 import info.scce.cinco.product.autoDSL.rule.rule.SaveNumber
@@ -662,42 +660,6 @@ class NodeGenerator extends RuleSwitch<CharSequence> {
 //*********************************************************************************
 //								OTHER FUNCTIONS
 //*********************************************************************************
-	
-	public def generateSubRulePorts(Rule mainRule)'''
-	«var HashMap<Integer, Rule> knownSubRules = new HashMap<Integer, Rule>()»
-	«FOR rule:mainRule.subRules»
-		«IF !knownSubRules.containsValue(rule.rule)»
-			«knownSubRules.put(IDHasher.GetIntHash(rule.rule.id),rule.rule)»
-			«IF !rule.booleanSubInputPorts.nullOrEmpty && !rule.numberSubInputPorts.nullOrEmpty && !rule.booleanSubOutputPorts.nullOrEmpty && !rule.numberSubOutputPorts.nullOrEmpty»//subRule «IDHasher.GetIntHash(rule.rule.id)»«ENDIF»
-			«IF !rule.booleanSubInputPorts.nullOrEmpty»//BooleanSubInputs
-			«val Iterator<BooleanSubOutputPort> refBoolIns = rule.rule.subRuleInputss.head.booleanSubOutputPorts.iterator»
-			«FOR BooleanSubInputPort in:rule.booleanSubInputPorts»
-				bool «refBoolIns.next.referenceOutput»;
-			«ENDFOR»
-			
-			«ENDIF»
-			«IF !rule.numberSubInputPorts.nullOrEmpty»//NumberSubInputs
-			«val Iterator<NumberSubOutputPort> refNumberIns = rule.rule.subRuleInputss.head.numberSubOutputPorts.iterator»
-			«FOR NumberSubInputPort in:rule.numberSubInputPorts»
-				double «refNumberIns.next.referenceOutput»;
-			«ENDFOR»
-			
-			«ENDIF»
-			«IF !rule.booleanSubOutputPorts.nullOrEmpty»//BooleanSubOutputs
-			«FOR BooleanSubInputPort out:rule.rule.subRuleOutputss.head.booleanSubInputPorts»
-				bool «IDHasher.GetStringHash(rule.rule.id)+"_"+NamingUtilities.toMemberVar(out.identifier)»;
-			«ENDFOR»
-			
-			«ENDIF»
-			«IF !rule.numberSubOutputPorts.nullOrEmpty»//NumberSubOutputs
-			«FOR NumberSubInputPort out:rule.rule.subRuleOutputss.head.numberSubInputPorts»
-				double «IDHasher.GetStringHash(rule.rule.id)+"_"+NamingUtilities.toMemberVar(out.identifier)»;
-			«ENDFOR»
-			
-			«ENDIF»
-		«ENDIF»
-	«ENDFOR»
-	'''
 	
 	def getMemoryName(SharedMemory memory){
 		return "g"+SharedMemoryGenerator.getMemoryName(memory)+"_var";

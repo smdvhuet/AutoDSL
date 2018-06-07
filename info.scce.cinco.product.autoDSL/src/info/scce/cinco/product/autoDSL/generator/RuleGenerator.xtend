@@ -12,12 +12,10 @@ import java.util.ArrayList
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanGuardOutput
 import info.scce.cinco.product.autoDSL.rule.rule.PIDController
 import info.scce.cinco.product.autoDSL.rule.rule.SubRule
-import info.scce.cinco.product.autoDSL.rule.rule.SubRuleInputs
 import info.scce.cinco.product.autoDSL.rule.rule.NumberSubInputPort
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubInputPort
 import info.scce.cinco.product.autoDSL.rule.rule.NumberSubOutputPort
 import info.scce.cinco.product.autoDSL.rule.rule.BooleanSubOutputPort
-import info.scce.cinco.product.autoDSL.rule.rule.SubRuleOutputs
 import java.util.List
 import info.scce.cinco.product.autoDSL.rule.rule.ProgrammableNode
 import info.scce.cinco.product.autoDSL.rule.rule.NumberOutput
@@ -398,18 +396,17 @@ class RuleGenerator implements IGenerator<Rule> {
 	private def getSubRuleInputs(Rule rule, List<String> includes, List<String> memberVars){
 		//Generate own (subrule) inputs
 		if(rule.subRuleInputss.length > 0){
-			memberVars.add("//SubRule inputs");
+			memberVars.add("//SubRule inputs")
 			
-			for(SubRuleInputs input : rule.subRuleInputss){
-				for(NumberSubOutputPort in : input.numberSubOutputPorts){
-					var typeName = NamingUtilities.toMemberVar(in.identifier);
-					memberVars.add("double " + typeName + ";");
-				}
-				
-				for(BooleanSubOutputPort in : input.booleanSubOutputPorts){
-					var typeName = NamingUtilities.toMemberVar(in.identifier);
-					memberVars.add("bool " + typeName + ";");
-				}
+			var input = rule.subRuleInputss.head
+			for(NumberSubOutputPort in : input.numberSubOutputPorts){
+				var typeName = NamingUtilities.toMemberVar(in.identifier)
+				memberVars.add("double " + typeName + ";");
+			}
+			
+			for(BooleanSubOutputPort in : input.booleanSubOutputPorts){
+				var typeName = NamingUtilities.toMemberVar(in.identifier)
+				memberVars.add("bool " + typeName + ";")
 			}
 		}
 	}
@@ -417,21 +414,21 @@ class RuleGenerator implements IGenerator<Rule> {
 	private def getSubRuleOutputs(Rule rule, List<String> includes, List<String> memberVars){
 		//Generate own (subrule) outputs
 		if(rule.subRuleOutputss.length > 0){
-			if(rule.subRuleInputss.length > 0)
-				memberVars.add("\n");
+			if(rule.subRuleInputss.length > 0){
+				memberVars.add("\n")
+			}
 				
-			memberVars.add("//SubRule outputs");
+			memberVars.add("//SubRule outputs")
 			
-			for(SubRuleOutputs output : rule.subRuleOutputss){
-				for(NumberSubInputPort out : output.numberSubInputPorts){
-					var typeName = NamingUtilities.toMemberVar(out.identifier);
-					memberVars.add("double " + typeName + ";");
-				}
-				
-				for(BooleanSubInputPort out : output.booleanSubInputPorts){
-					var typeName = NamingUtilities.toMemberVar(out.identifier);
-					memberVars.add("bool " + typeName + ";");
-				}
+			var output = rule.subRuleOutputss.head
+			for(NumberSubInputPort out : output.numberSubInputPorts){
+				var typeName = NamingUtilities.toMemberVar(out.identifier)
+				memberVars.add("double " + typeName + ";")
+			}
+			
+			for(BooleanSubInputPort out : output.booleanSubInputPorts){
+				var typeName = NamingUtilities.toMemberVar(out.identifier)
+				memberVars.add("bool " + typeName + ";")
 			}
 		}
 	}
