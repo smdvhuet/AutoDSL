@@ -50,6 +50,20 @@ class NamingUtilities {
 	public static def toMemberVar(String memberVarName){
 		var output = memberVarName.trim();
 		
+		//Remove special characters
+		var tmp = ""
+		for (var int i = 0; i < output.length; i++){
+			if (Character.isAlphabetic(output.charAt(i)) || Character.isDigit(output.charAt(i)) || Character.isWhitespace(output.charAt(i))){
+				tmp += output.charAt(i)
+			}
+		}
+		output = tmp
+		
+		//Check if output consists of at least one and also begins with a letter
+		if(!Character.isAlphabetic((output.charAt(0))))
+			throw new InvalidParameterException("The member variable name must start with a letter.")
+		
+		
 		//Make letters after space uppercase
 		var outputParts = output.split(" ")
 		output = ""
@@ -57,11 +71,9 @@ class NamingUtilities {
 			output += part.substring(0, 1).toUpperCase() + part.substring(1)
 		}
 		
+		//Remove blank spaces
 		output = output.replace(" ", "");
-		
-		if(!Character.isAlphabetic((output.charAt(0))))
-			throw new InvalidParameterException("The member variable name must start with an letter.")
-		
+				
 		//Convert upper case letters to lowercases with underscore before
 		if(Character.isUpperCase(output.charAt(0))){
 			if(output.length > 1)
