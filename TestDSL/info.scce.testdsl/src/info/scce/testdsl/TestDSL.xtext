@@ -7,7 +7,7 @@ generate testDSL "http://www.scce.info/testdsl/TestDSL"
 
 prog: 
 	(imports+=Import)*
-	ops+=(EventHandler | Event | OneTimeEvent | Configuration | Always | Variable)*
+	ops+=(Monitor | Test | Configuration | Variable)*
 ;
 
 Import:
@@ -15,53 +15,45 @@ Import:
 	'import' path=STRING 'as' name=ID
 ;
 
-Variable:
-	"var" name=ID "=" expr=Expression	
-;
-
 Configuration:
-	"configuration" name=ID "{" events+=[EventHandler] (","events+=[EventHandler])* "}"
+	"def" "Configuration" name=ID "{"
+	 	monitors+=[Monitor] (","monitors+=[Monitor])*
+	 "}"
 ;
 
-EventHandlerAnnotations:
-	{EventHandlerAnnotations} annotations+=EVENT_HANDLER_ANNOTATION
+Monitor:
+	{Monitor} "def" "Monitor" name=ID "{"
+		tests+=[Test] ("," tests+=[Test])* 
+	"}"
 ;
 
-EventHandler:
-	{EventHandler} (annotations=EventHandlerAnnotations)? "check" name=ID ":" "when" ( (event=[Event] eventtype=("isActive" | "ends" | "starts")) | (eventOneTime=[OneTimeEvent] "triggers") )
-	("(" ("errorMessage=" errmsg=STRING ",")?
-	("maximumReactionTime=" maxtime=INT)?")")? "{"
-		invariants=Invariants
+Test:
+	{Test} "def" "Test" name=ID "{"
+	"Invariants" "{"
+		invariants = Invariants
+	"}"
+	("Conditions" "{"
+		conditions = Invariants
+	"}")?
+	("Options" "{"
+		("Delay" "=" delay = INT) ?
+		("TimesToRun" "=" timesToRun = INT) ?
+		("RunFrequency" "=" runFrequence = INT)?
+	"}") ?
 	"}"
 ;
 
 Invariants: 
-    {Invariants} invs+=Expression ";" (invs+=Expression ";")*
+    {Invariants} invs+= Expression ("," invs+=Expression ",")*
 ;
 
-Event: 
-	 "event" name=ID "{" 
-			"startCondition:" startCond=Expression
-			"endCondition:" ( (endCond=Expression) | "timepassed" time=INT )
-		"}"
-;
-
-OneTimeEvent: 
-	 "event" name=ID "{" 
-			"trigger:" trigger=Expression
-		"}"
-;
-
-Always:
-	"always" "{"
-		invariants=Invariants
-	"}"
+Variable:
+	"def" name=ID ":" expr=Expression	
 ;
 
 Expression: 
  	OrExpr
 ;
-
 
 OrExpr returns Expression:
 	AndExpr ({Or.left=current} op='or' right=AndExpr)*
@@ -105,10 +97,6 @@ State:
 
 TimeDiffExtension:
 	{TimeDiffExtension} '[' timeDiff=INT ('ms')? ']'
-;
-
-terminal EVENT_HANDLER_ANNOTATION:
-	"@Blackbox" | "@Whitebox"
 ;
 
 terminal TEMPSTATES:
