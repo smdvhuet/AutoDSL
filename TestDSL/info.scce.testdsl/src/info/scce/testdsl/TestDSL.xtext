@@ -11,7 +11,6 @@ prog:
 ;
 
 Import:
-//	'import' importedNamespace=STRING
 	'import' path=STRING 'as' name=ID
 ;
 
@@ -27,19 +26,27 @@ Monitor:
 	"}"
 ;
 
+OptionFeature:
+	{OptionDelay} ("Delay" "=" delay = INT) |
+	{OptionTimesToRun} ("TimesToRun" "=" timesToRun = INT) |
+	{OptionRunFrequency} ("RunFrequency" "=" runFrequency = INT)
+;
+
+TestFeature:
+	{TestInvariants} ("Invariants" "{"
+		invariants = Invariants
+	"}") | 
+	{TestConditions} ("Conditions" "{"
+		conditions = Invariants
+	"}") |
+	{TestOptions} ("Options" "{"
+		(options+=OptionFeature)*
+	"}")
+;
+
 Test:
 	{Test} "def" "Test" name=ID "{"
-	"Invariants" "{"
-		invariants = Invariants
-	"}"
-	("Conditions" "{"
-		conditions = Invariants
-	"}")?
-	("Options" "{"
-		("Delay" "=" delay = INT) ?
-		("TimesToRun" "=" timesToRun = INT) ?
-		("RunFrequency" "=" runFrequence = INT)?
-	"}") ?
+		(testFeatures+=TestFeature)*
 	"}"
 ;
 

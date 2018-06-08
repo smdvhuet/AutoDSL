@@ -3,6 +3,15 @@
  */
 package info.scce.testdsl.validation
 
+import org.eclipse.xtext.validation.Check
+import info.scce.testdsl.testDSL.Test
+import info.scce.testdsl.testDSL.TestDSLPackage
+import info.scce.testdsl.testDSL.TestInvariants
+import info.scce.testdsl.testDSL.TestConditions
+import info.scce.testdsl.testDSL.TestOptions
+import info.scce.testdsl.testDSL.OptionDelay
+import info.scce.testdsl.testDSL.OptionRunFrequency
+import info.scce.testdsl.testDSL.OptionTimesToRun
 
 /**
  * This class contains custom validation rules. 
@@ -11,15 +20,75 @@ package info.scce.testdsl.validation
  */
 class TestDSLValidator extends AbstractTestDSLValidator {
 	
-//  public static val INVALID_NAME = 'invalidName'
-//
-//	@Check
-//	def checkGreetingStartsWithCapital(Greeting greeting) {
-//		if (!Character.isUpperCase(greeting.name.charAt(0))) {
-//			warning('Name should start with a capital', 
-//					TestDSLPackage.Literals.GREETING__NAME,
-//					INVALID_NAME)
-//		}
-//	}
+	@Check
+	def checkTestFeatures(Test test) {
+		var sawInvariants = false;
+		var sawConditions = false;
+		var sawOptions = false;
+		for (f : test.testFeatures) {
+			switch (f) {
+				TestInvariants: {
+					if (sawInvariants) {
+						error('Cannot have multiple Invariants blocks', TestDSLPackage.Literals.TEST__TEST_FEATURES)
+						return
+					}
+					sawInvariants = true;
+				}
+				
+				TestConditions: {
+					if (sawConditions) {
+						error('Cannot have multiple Conditions blocks', TestDSLPackage.Literals.TEST__TEST_FEATURES)
+						return
+					}
+					sawConditions = true;
+				}
+				
+				TestOptions: {
+					if (sawOptions) {
+						error('Cannot have multiple Options blocks', TestDSLPackage.Literals.TEST__TEST_FEATURES)
+						return
+					}
+					sawOptions = true;
+				}
+			}
+		}
+
+		if (!sawInvariants || !sawConditions) {
+			error('Test requires Invariants and Conditions blocks', TestDSLPackage.Literals.TEST__TEST_FEATURES)
+		}
+	}
 	
+	@Check
+	def checkOptionsFeatures(TestOptions opts) {
+		var sawDelay = false;
+		var sawRunFreq = false;
+		var sawTimes = false;
+		for (o : opts.options) {
+			switch (o) {
+				OptionDelay: {
+					if (sawDelay) {
+						error('Cannot have multiple Delays', TestDSLPackage.Literals.TEST_OPTIONS__OPTIONS)
+						return
+					}
+					sawDelay = true;
+				}
+				
+				OptionRunFrequency: {
+					if (sawRunFreq) {
+						error('Cannot have multiple RunFrequencys', TestDSLPackage.Literals.TEST_OPTIONS__OPTIONS)
+						return
+					}
+					sawRunFreq = true;
+				}
+				
+				OptionTimesToRun: {
+					if (sawTimes) {
+						error('Cannot have multiple TimeToRuns', TestDSLPackage.Literals.TEST_OPTIONS__OPTIONS)
+						return
+					}
+					sawTimes = true;
+				}
+			}
+		}
+	}
 }
