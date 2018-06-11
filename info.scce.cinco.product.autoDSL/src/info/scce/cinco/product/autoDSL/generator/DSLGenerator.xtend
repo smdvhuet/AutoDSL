@@ -76,6 +76,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		copyStaticHeaderAndCpp(staticFolder, thisBundle, "cppcode/Debug")
 		
 		copyStaticHeaderAndCpp(staticFolder, thisBundle, "cppcode/PID")
+		copyStaticHeaderAndCpp(staticFolder, thisBundle, "cppcode/Test")
 	}
 	
 	def copyStaticHeaderAndCpp(IFolder folder, String bundle, String file){
