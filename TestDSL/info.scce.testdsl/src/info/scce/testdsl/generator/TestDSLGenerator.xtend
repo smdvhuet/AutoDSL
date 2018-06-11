@@ -7,6 +7,8 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
+import info.scce.testdsl.testDSL.Configuration
+import info.scce.testdsl.testDSL.Test
 
 /**
  * Generates code from your model files on save.
@@ -16,10 +18,41 @@ import org.eclipse.xtext.generator.IGeneratorContext
 class TestDSLGenerator extends AbstractGenerator {
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
-//		fsa.generateFile('greetings.txt', 'People to greet: ' + 
-//			resource.allContents
-//				.filter(typeof(Greeting))
-//				.map[name]
-//				.join(', '))
+		var configs = resource.allContents.filter(typeof(Configuration)).toList;
+		
+		if(configs == null){
+			System.out.println("No configuration for monitoring found.")
+			return;
+		}
+		
+		if(configs.length != 1){
+			System.out.println("There can only be one configuration for monitoring. Generation of monitoring aborted.")
+			return;
+		}
+			
+		var monitors = configs.get(0).monitors
+		
+		monitors.forEach[
+			tests.forEach[fsa.generateFile("Tests/" + it.name + ".h", generateTest(it))]
+		];
+		
+		System.out.println("Generated monitors.")
+	}
+	
+	def generateTest(Test test){
+		return '''
+		#ifndef AUTODSL_MONITORING_«test.name.toUpperCase»_H_
+		#define AUTODSL_MONITORING_«test.name.toUpperCase»_H_
+		#include "core/Test.h"
+		
+		namespace AutoDSL{
+		namespace Monitoring {
+		class «test.name» : public ACCPlusPlus::Test{
+		
+		};
+		} // namespace AutoDSL
+		} // namespace Monitoring
+		#endif // AUTODSL_MONITORING_«test.name.toUpperCase»_H_
+		'''
 	}
 }
