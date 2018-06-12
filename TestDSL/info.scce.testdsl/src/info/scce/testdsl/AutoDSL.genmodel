@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/info.scce.cinco.product.autoDSL/src-gen" modelPluginID="info.scce.cinco.product.autoDSL"
+    modelName="AutoDSL" complianceLevel="8.0" copyrightFields="false" editPluginID="info.scce.cinco.product.autoDSL.edit"
+    editorPluginID="info.scce.cinco.product.autoDSL.editor" testsPluginID="info.scce.cinco.product.autoDSL.tests"
+    runtimeVersion="2.10" usedGenPackages="platform:/resource/de.jabc.cinco.meta.core.mgl.model/model/GraphModel.genmodel#//graphmodel platform:/resource/info.scce.testdsl/src/info/scce/testdsl/Rule.genmodel#//rule"
+    operationReflection="true">
+  <genPackages prefix="Autodsl" basePackage="info.scce.cinco.product.autoDSL.autodsl"
+      disposableProviderFactory="true" ecorePackage="http://cinco.scce.info/product/autodsl#/">
+    <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//ComponentNode">
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/getComponentNodeView"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/getLabel"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/setLabel">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/setLabel/_arg"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/getInternalComponentNode"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/isExactlyComponentNode"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/getLibraryComponentUID"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/setLibraryComponentUID">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/setLibraryComponentUID/id"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/getRule"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/getComponentNodeSuccessors"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/getComponentNodePredecessors"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/canNewSyscompToSyscomp">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/canNewSyscompToSyscomp/target"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/newSyscompToSyscomp">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/newSyscompToSyscomp/target"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/newSyscompToSyscomp/id"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/newSyscompToSyscomp.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/newSyscompToSyscomp.1/target"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/canMoveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/canMoveTo/guard"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/canMoveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/canMoveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/canMoveTo.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/canMoveTo.1/state"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/canMoveTo.1/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/canMoveTo.1/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/moveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/moveTo/guard"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/moveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/moveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/s_moveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/s_moveTo/guard"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/s_moveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/s_moveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/moveTo.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/moveTo.1/state"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/moveTo.1/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/moveTo.1/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/s_moveTo.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/s_moveTo.1/state"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/s_moveTo.1/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/s_moveTo.1/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/s_moveTo.2">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/s_moveTo.2/container"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/s_moveTo.2/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/s_moveTo.2/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/postMove">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/postMove/source"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/postMove/target"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/postMove/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/postMove/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/postMove/deltaX"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/postMove/deltaY"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/getX"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/getY"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/getWidth"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/getHeight"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/preDelete"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/postResize">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/postResize/modelElement"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/postResize/direction"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/postResize/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//ComponentNode/postResize/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/getRootElement"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//ComponentNode/postSave"/>
+    </genClasses>
+    <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//Guard">
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/getGuardView"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/getLabel"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/setLabel">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/setLabel/_arg"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/getInternalGuard"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/isExactlyGuard"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/getOffStateSuccessors"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/getStateSuccessors"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/getOffStatePredecessors"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/getStatePredecessors"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/canNewGuardToState">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/canNewGuardToState/target"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/canNewGuardToState.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/canNewGuardToState.1/target"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/newGuardToState">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newGuardToState/target"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newGuardToState/id"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/newGuardToState.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newGuardToState.1/target"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/newGuardToState.2">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newGuardToState.2/target"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newGuardToState.2/id"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/newGuardToState.3">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newGuardToState.3/target"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/canMoveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/canMoveTo/autoDSL"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/canMoveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/canMoveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/moveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/moveTo/autoDSL"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/moveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/moveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/s_moveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/s_moveTo/autoDSL"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/s_moveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/s_moveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/s_moveTo.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/s_moveTo.1/container"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/s_moveTo.1/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/s_moveTo.1/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/postMove">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/postMove/source"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/postMove/target"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/postMove/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/postMove/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/postMove/deltaX"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/postMove/deltaY"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/getX"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/getY"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/getWidth"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/getHeight"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/preDelete"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/postResize">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/postResize/modelElement"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/postResize/direction"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/postResize/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/postResize/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/getComponentNodes"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/canNewComponentNode"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/newComponentNode">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newComponentNode/rule"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newComponentNode/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newComponentNode/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/newComponentNode.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newComponentNode.1/rule"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newComponentNode.1/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newComponentNode.1/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newComponentNode.1/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newComponentNode.1/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/newComponentNode.2">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newComponentNode.2/rule"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newComponentNode.2/id"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newComponentNode.2/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newComponentNode.2/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/newComponentNode.3">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newComponentNode.3/rule"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newComponentNode.3/id"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newComponentNode.3/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newComponentNode.3/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newComponentNode.3/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//Guard/newComponentNode.3/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/getRootElement"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//Guard/postSave"/>
+    </genClasses>
+    <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//StateToGuard">
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//StateToGuard/getStateToGuardView"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//StateToGuard/getInternalStateToGuard"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//StateToGuard/isExactlyStateToGuard"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//StateToGuard/getTargetElement"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//StateToGuard/canReconnectSource">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//StateToGuard/canReconnectSource/source"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//StateToGuard/canReconnectSource.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//StateToGuard/canReconnectSource.1/source"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//StateToGuard/canReconnectTarget">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//StateToGuard/canReconnectTarget/target"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//StateToGuard/reconnectSource">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//StateToGuard/reconnectSource/source"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//StateToGuard/reconnectSource.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//StateToGuard/reconnectSource.1/source"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//StateToGuard/reconnectTarget">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//StateToGuard/reconnectTarget/target"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//StateToGuard/preDelete"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//StateToGuard/getRootElement"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//StateToGuard/postSave"/>
+    </genClasses>
+    <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//GuardToState">
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//GuardToState/getGuardToStateView"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//GuardToState/getInternalGuardToState"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//GuardToState/isExactlyGuardToState"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//GuardToState/getSourceElement"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//GuardToState/canReconnectSource">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//GuardToState/canReconnectSource/source"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//GuardToState/canReconnectTarget">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//GuardToState/canReconnectTarget/target"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//GuardToState/canReconnectTarget.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//GuardToState/canReconnectTarget.1/target"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//GuardToState/reconnectSource">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//GuardToState/reconnectSource/source"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//GuardToState/reconnectTarget">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//GuardToState/reconnectTarget/target"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//GuardToState/reconnectTarget.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//GuardToState/reconnectTarget.1/target"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//GuardToState/preDelete"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//GuardToState/getRootElement"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//GuardToState/postSave"/>
+    </genClasses>
+    <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//AutoDSL">
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/getAutoDSLView"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/getInternalAutoDSL"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/isExactlyAutoDSL"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/canNewOffState"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/canNewState"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/canNewGuard"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/newOffState">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newOffState/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newOffState/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/newOffState.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newOffState.1/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newOffState.1/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newOffState.1/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newOffState.1/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/newOffState.2">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newOffState.2/id"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newOffState.2/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newOffState.2/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/newOffState.3">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newOffState.3/id"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newOffState.3/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newOffState.3/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newOffState.3/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newOffState.3/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/newState">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newState/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newState/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/newState.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newState.1/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newState.1/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newState.1/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newState.1/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/newState.2">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newState.2/id"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newState.2/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newState.2/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/newState.3">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newState.3/id"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newState.3/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newState.3/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newState.3/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newState.3/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/newGuard">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newGuard/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newGuard/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/newGuard.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newGuard.1/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newGuard.1/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newGuard.1/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newGuard.1/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/newGuard.2">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newGuard.2/id"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newGuard.2/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newGuard.2/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/newGuard.3">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newGuard.3/id"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newGuard.3/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newGuard.3/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newGuard.3/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newGuard.3/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/getOffStates"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/getStates"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/getGuards"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/newAutoDSL">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newAutoDSL/path"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newAutoDSL/fileName"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//AutoDSL/newAutoDSL/postCreateHook"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/getRootElement"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//AutoDSL/postSave"/>
+    </genClasses>
+    <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//OffState">
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//OffState/getOffStateView"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//OffState/getInternalOffState"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//OffState/isExactlyOffState"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//OffState/getGuardSuccessors"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//OffState/getGuardPredecessors"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//OffState/canNewStateToGuard">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/canNewStateToGuard/target"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//OffState/newStateToGuard">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/newStateToGuard/target"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/newStateToGuard/id"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//OffState/newStateToGuard.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/newStateToGuard.1/target"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//OffState/canMoveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/canMoveTo/autoDSL"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/canMoveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/canMoveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//OffState/moveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/moveTo/autoDSL"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/moveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/moveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//OffState/s_moveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/s_moveTo/autoDSL"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/s_moveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/s_moveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//OffState/s_moveTo.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/s_moveTo.1/container"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/s_moveTo.1/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/s_moveTo.1/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//OffState/postMove">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/postMove/source"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/postMove/target"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/postMove/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/postMove/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/postMove/deltaX"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/postMove/deltaY"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//OffState/getX"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//OffState/getY"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//OffState/getWidth"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//OffState/getHeight"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//OffState/preDelete"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//OffState/postResize">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/postResize/modelElement"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/postResize/direction"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/postResize/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//OffState/postResize/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//OffState/getRootElement"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//OffState/postSave"/>
+    </genClasses>
+    <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//State">
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/getStateView"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/getLabel"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/setLabel">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/setLabel/_arg"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/getInternalState"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/isExactlyState"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/getGuardSuccessors"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/getGuardPredecessors"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/canNewStateToGuard">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/canNewStateToGuard/target"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/newStateToGuard">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newStateToGuard/target"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newStateToGuard/id"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/newStateToGuard.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newStateToGuard.1/target"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/canMoveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/canMoveTo/autoDSL"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/canMoveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/canMoveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/canMoveTo.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/canMoveTo.1/state"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/canMoveTo.1/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/canMoveTo.1/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/moveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/moveTo/autoDSL"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/moveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/moveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/s_moveTo">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/s_moveTo/autoDSL"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/s_moveTo/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/s_moveTo/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/moveTo.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/moveTo.1/state"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/moveTo.1/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/moveTo.1/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/s_moveTo.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/s_moveTo.1/state"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/s_moveTo.1/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/s_moveTo.1/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/s_moveTo.2">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/s_moveTo.2/container"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/s_moveTo.2/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/s_moveTo.2/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/postMove">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/postMove/source"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/postMove/target"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/postMove/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/postMove/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/postMove/deltaX"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/postMove/deltaY"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/getX"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/getY"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/getWidth"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/getHeight"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/preDelete"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/postResize">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/postResize/modelElement"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/postResize/direction"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/postResize/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/postResize/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/getStates"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/getComponentNodes"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/canNewState"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/canNewComponentNode"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/newState">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newState/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newState/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/newState.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newState.1/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newState.1/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newState.1/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newState.1/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/newState.2">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newState.2/id"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newState.2/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newState.2/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/newState.3">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newState.3/id"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newState.3/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newState.3/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newState.3/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newState.3/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/newComponentNode">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newComponentNode/rule"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newComponentNode/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newComponentNode/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/newComponentNode.1">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newComponentNode.1/rule"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newComponentNode.1/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newComponentNode.1/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newComponentNode.1/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newComponentNode.1/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/newComponentNode.2">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newComponentNode.2/rule"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newComponentNode.2/id"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newComponentNode.2/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newComponentNode.2/y"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/newComponentNode.3">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newComponentNode.3/rule"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newComponentNode.3/id"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newComponentNode.3/x"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newComponentNode.3/y"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newComponentNode.3/width"/>
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//State/newComponentNode.3/height"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/getRootElement"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//State/postSave"/>
+    </genClasses>
+    <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//SyscompToSyscomp">
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//SyscompToSyscomp/getSyscompToSyscompView"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//SyscompToSyscomp/getInternalSyscompToSyscomp"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//SyscompToSyscomp/isExactlySyscompToSyscomp"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//SyscompToSyscomp/getSourceElement"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//SyscompToSyscomp/getTargetElement"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//SyscompToSyscomp/canReconnectSource">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//SyscompToSyscomp/canReconnectSource/source"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//SyscompToSyscomp/canReconnectTarget">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//SyscompToSyscomp/canReconnectTarget/target"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//SyscompToSyscomp/reconnectSource">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//SyscompToSyscomp/reconnectSource/source"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//SyscompToSyscomp/reconnectTarget">
+        <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//SyscompToSyscomp/reconnectTarget/target"/>
+      </genOperations>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//SyscompToSyscomp/preDelete"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//SyscompToSyscomp/getRootElement"/>
+      <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//SyscompToSyscomp/postSave"/>
+    </genClasses>
+    <nestedGenPackages prefix="Internal" disposableProviderFactory="true" ecorePackage="http://cinco.scce.info/product/autodsl#//internal">
+      <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//internal/InternalComponentNode">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute http://cinco.scce.info/product/autodsl#//internal/InternalComponentNode/label"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute http://cinco.scce.info/product/autodsl#//internal/InternalComponentNode/libraryComponentUID"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//internal/InternalComponentNode/getRule"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//internal/InternalComponentNode/getOutgoingConstraints"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//internal/InternalComponentNode/getIncomingConstraints"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//internal/InternalComponentNode/getComponentNodeSuccessors"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//internal/InternalComponentNode/getComponentNodePredecessors"/>
+      </genClasses>
+      <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//internal/InternalGuard">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute http://cinco.scce.info/product/autodsl#//internal/InternalGuard/label"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//internal/InternalGuard/getOutgoingConstraints"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//internal/InternalGuard/getIncomingConstraints"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//internal/InternalGuard/getOffStateSuccessors"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//internal/InternalGuard/getStateSuccessors"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//internal/InternalGuard/getOffStatePredecessors"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//internal/InternalGuard/getStatePredecessors"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//internal/InternalGuard/getContainmentConstraints"/>
+      </genClasses>
+      <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//internal/InternalStateToGuard"/>
+      <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//internal/InternalGuardToState"/>
+      <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//internal/InternalAutoDSL">
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//internal/InternalAutoDSL/getContainmentConstraints"/>
+      </genClasses>
+      <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//internal/InternalOffState">
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//internal/InternalOffState/getOutgoingConstraints"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//internal/InternalOffState/getIncomingConstraints"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//internal/InternalOffState/getGuardSuccessors"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//internal/InternalOffState/getGuardPredecessors"/>
+      </genClasses>
+      <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//internal/InternalState">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute http://cinco.scce.info/product/autodsl#//internal/InternalState/label"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//internal/InternalState/getOutgoingConstraints"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//internal/InternalState/getIncomingConstraints"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//internal/InternalState/getGuardSuccessors"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//internal/InternalState/getGuardPredecessors"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//internal/InternalState/getContainmentConstraints"/>
+      </genClasses>
+      <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//internal/InternalSyscompToSyscomp"/>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Views" disposableProviderFactory="true" ecorePackage="http://cinco.scce.info/product/autodsl#//views">
+      <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//views/ComponentNodeView">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference http://cinco.scce.info/product/autodsl#//views/ComponentNodeView/internalComponentNode"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//views/ComponentNodeView/getLabel"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//views/ComponentNodeView/setLabel">
+          <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//views/ComponentNodeView/setLabel/_arg"/>
+        </genOperations>
+      </genClasses>
+      <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//views/GuardView">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference http://cinco.scce.info/product/autodsl#//views/GuardView/internalGuard"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//views/GuardView/getLabel"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//views/GuardView/setLabel">
+          <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//views/GuardView/setLabel/_arg"/>
+        </genOperations>
+      </genClasses>
+      <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//views/StateToGuardView">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference http://cinco.scce.info/product/autodsl#//views/StateToGuardView/internalStateToGuard"/>
+      </genClasses>
+      <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//views/GuardToStateView">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference http://cinco.scce.info/product/autodsl#//views/GuardToStateView/internalGuardToState"/>
+      </genClasses>
+      <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//views/AutoDSLView">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference http://cinco.scce.info/product/autodsl#//views/AutoDSLView/internalAutoDSL"/>
+      </genClasses>
+      <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//views/OffStateView">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference http://cinco.scce.info/product/autodsl#//views/OffStateView/internalOffState"/>
+      </genClasses>
+      <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//views/StateView">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference http://cinco.scce.info/product/autodsl#//views/StateView/internalState"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//views/StateView/getLabel"/>
+        <genOperations ecoreOperation="http://cinco.scce.info/product/autodsl#//views/StateView/setLabel">
+          <genParameters ecoreParameter="http://cinco.scce.info/product/autodsl#//views/StateView/setLabel/_arg"/>
+        </genOperations>
+      </genClasses>
+      <genClasses ecoreClass="http://cinco.scce.info/product/autodsl#//views/SyscompToSyscompView">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference http://cinco.scce.info/product/autodsl#//views/SyscompToSyscompView/internalSyscompToSyscomp"/>
+      </genClasses>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>

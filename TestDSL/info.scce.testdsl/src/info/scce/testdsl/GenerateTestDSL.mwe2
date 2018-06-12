@@ -14,6 +14,8 @@ Workflow {
 		scanClassPath = true
 		registerGeneratedEPackage = "info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory.SharedmemoryPackage"
 		registerGenModelFile = "platform:/resource/info.scce.testdsl/src/info/scce/testdsl/SharedMemory.genmodel"
+		registerGeneratedEPackage = "info.scce.cinco.product.autoDSL.autodsl.autodsl.AutodslPackage"
+		registerGenModelFile = "platform:/resource/info.scce.testdsl/src/info/scce/testdsl/AutoDSL.genmodel"
 	}
 	
 	component = XtextGenerator {
@@ -49,6 +51,7 @@ Workflow {
 			}
 			//referencedResource = "platform:/resource/info.scce.cinco.product.autoDSL/src-gen/model/SharedMemory.genmodel"
 			referencedResource = "platform:/resource/info.scce.testdsl/src/info/scce/testdsl/SharedMemory.genmodel"
+			referencedResource = "platform:/resource/info.scce.testdsl/src/info/scce/testdsl/AutoDSL.genmodel"
 			//fragment = scoping.ImportURIScopingFragment auto-inject {} 
 			//fragment = exporting.SimpleNamesFragment auto-inject {} 
 			

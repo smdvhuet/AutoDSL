@@ -16,6 +16,8 @@ import org.eclipse.emf.ecore.EReference
 import org.eclipse.xtext.naming.QualifiedName
 import org.eclipse.xtext.scoping.IScope
 import org.eclipse.xtext.scoping.Scopes
+import info.scce.testdsl.testDSL.State
+import info.scce.cinco.product.autoDSL.autodsl.autodsl.AutoDSL
 
 /**
  * This class contains custom scoping description.
@@ -37,6 +39,14 @@ class TestDSLScopeProvider extends AbstractTestDSLScopeProvider {
 					return Scopes.scopeFor(model.allNodes, QualifiedName.wrapper(new LabelResolver), IScope.NULLSCOPE)				
 				}
 			}
+		} else if (ctx instanceof State && ref == TestDSLPackage.Literals.STATE__REF) {
+			val imp = (ctx as State).importScope;
+			if (imp.path != null) {
+				val model = ctx.getGraphModel(imp.path);
+				if (model != null && model instanceof AutoDSL) {
+					return Scopes.scopeFor(model.allNodes, QualifiedName.wrapper(new StateNameResolver), IScope.NULLSCOPE)				
+				}
+			}
 		}
 		return super.getScope(ctx, ref)
 	}
@@ -49,6 +59,14 @@ class TestDSLScopeProvider extends AbstractTestDSLScopeProvider {
 		
 		override apply(Node t) {
 			if (t instanceof StoredData) t.label else null
+		}
+		
+	}
+	
+	static class StateNameResolver implements Function<Node, String> {
+		
+		override apply(Node t) {
+			if (t instanceof info.scce.cinco.product.autoDSL.autodsl.autodsl.State) t.label else null
 		}
 		
 	}

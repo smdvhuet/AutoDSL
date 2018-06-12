@@ -12,6 +12,8 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.Assignment
 import org.eclipse.xtext.ui.editor.contentassist.ContentAssistContext
 import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor
+import info.scce.testdsl.testDSL.State
+import info.scce.cinco.product.autoDSL.autodsl.autodsl.AutoDSL
 
 /**
  * See https://www.eclipse.org/Xtext/documentation/304_ide_concepts.html#content-assist
@@ -29,6 +31,19 @@ class TestDSLProposalProvider extends AbstractTestDSLProposalProvider {
 			if (mem != null && mem instanceof SharedMemory) {
 				mem.allNodes.forEach[
 					acceptor.accept(createCompletionProposal((it as StoredData).label, context))
+				]
+			}
+		
+		}
+	}
+	
+	override completeState_Ref(EObject model, Assignment assignment, ContentAssistContext context, ICompletionProposalAcceptor acceptor) {
+		super.completeState_Ref(model, assignment, context, acceptor)
+		if (model instanceof State) {
+			val dsl = model.getGraphModel((model as State).importScope.path)
+			if (dsl != null && dsl instanceof AutoDSL) {
+				dsl.allNodes.forEach[
+					acceptor.accept(createCompletionProposal((it as info.scce.cinco.product.autoDSL.autodsl.autodsl.State).label, context))
 				]
 			}
 		
