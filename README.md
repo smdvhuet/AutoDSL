@@ -1,3 +1,11 @@
-Um das Projekt zu öffnen müsst ihr eclipse DSL verwenden, wir gucken später wie das mit Cinco funktioniert
+- TestDSL und AutoDSL repos clonen
+- Neuen Workspace anlegen
+- Rechtsklick -> Import... -> Projects from Git -> Existing local repository -> [...]
+- Beide Projekte importieren
+- Rechtsklick auf ```info.scce.cinco.product.autoDSL/model/AutoDSLTool.cpd``` -> Generate Cinco Product
+- 2-30 Minuten warten
+(Bisher ziemlich identisch zum normalen Setup für AutoDSL)
+- Rechtsklick auf ```info.scce.testdsl/src/info/scce/testdsl/TestDSL.xtext``` -> Run As -> Generate xtext artifacts
+(Fehler ignorieren, auf Proceed klicken)
 
-https://www.eclipse.org/downloads/packages/eclipse-ide-java-and-dsl-developers/junosr2
+Dann: Starten indem man einen Rechtklick auf ```info.scce.testdsl``` oder ```info.scce.autodsl``` macht und Run As -> Eclipse Application auswählt.
