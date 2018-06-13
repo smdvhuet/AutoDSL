@@ -33,6 +33,9 @@ import org.eclipse.emf.mwe2.language.mwe2.BooleanLiteral
 import info.scce.testdsl.testDSL.Invariants
 import java.util.List
 import java.util.ArrayList
+import info.scce.testdsl.testDSL.OptionDelay
+import info.scce.testdsl.testDSL.OptionTimesToRun
+import info.scce.testdsl.testDSL.OptionRunFrequency
 
 /**
  * Generates code from your model files on save.
@@ -73,6 +76,7 @@ class TestDSLGenerator extends AbstractGenerator {
 		namespace AutoDSL{
 		namespace Monitoring {
 		class «test.name» : public ACCPlusPlus::Test{
+			«generateConstructor(test)»
 			«FOR t : test.testFeatures»
 			«generateTest(t)»
 			«ENDFOR»
@@ -111,6 +115,29 @@ class TestDSLGenerator extends AbstractGenerator {
 			}
 			
 			return "void Condition" + "() override {\n  return " + test + ";\n}\n\n"
+		}
+		
+
+	}
+	
+	def generateConstructor(Test test){
+		var delay = 0;
+		var timesToRun = -1;
+		var runFrequence = 0;
+		
+		for(feature : test.testFeatures)
+		if(feature instanceof TestOptions){
+			var options = (feature as TestOptions).options;
+
+			for(option : options){
+				switch option{
+					case OptionDelay: delay = (option as OptionDelay).delay
+					case OptionTimesToRun: timesToRun = (option as OptionTimesToRun).timesToRun
+					case OptionRunFrequency: runFrequence = (option as OptionRunFrequency).runFrequency
+				}
+			}
+			
+			return test.name + "() : Test(" + delay + ", " + timesToRun + ", " + runFrequence + "){}\n\n"
 		}
 	}
 	
