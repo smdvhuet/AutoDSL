@@ -130,7 +130,7 @@ class TestDSLValidator extends AbstractTestDSLValidator {
 			}
 			Rel:{
 				if(((expr.op == "==")||(expr.op == "!=")) && expr.left.expressionType == expr.right.expressionType)
-					return expr.left.expressionType
+					return ExpressionType.TBool
 				else if(expr.left.expressionType == ExpressionType.TNumber && expr.right.expressionType == ExpressionType.TNumber)
 					return ExpressionType.TNumber
 				else 
