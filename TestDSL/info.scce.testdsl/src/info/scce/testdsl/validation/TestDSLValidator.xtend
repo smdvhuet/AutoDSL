@@ -12,6 +12,10 @@ import info.scce.testdsl.testDSL.TestOptions
 import info.scce.testdsl.testDSL.OptionDelay
 import info.scce.testdsl.testDSL.OptionRunFrequency
 import info.scce.testdsl.testDSL.OptionTimesToRun
+import info.scce.testdsl.testDSL.Expression
+import info.scce.testdsl.testDSL.*
+import info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory.StoredNumber
+import info.scce.testdsl.validation.TestDSLValidator.ExpressionType
 
 /**
  * This class contains custom validation rules. 
@@ -89,6 +93,97 @@ class TestDSLValidator extends AbstractTestDSLValidator {
 					sawTimes = true;
 				}
 			}
+		}
+	}
+	
+	@Check
+	def checkExpressionType(Invariants inv){
+		for (var i = 0; i<inv.invs.size; i++) {
+			var expr = inv.invs.get(i)
+			if(expr.expressionType != ExpressionType.TBool){
+				error("All Invariants must be Booleans", TestDSLPackage.Literals.INVARIANTS__INVS,i)
+			}
+		}
+	}
+	
+	@Check
+	def checkExpressionType(Variable variable){
+		if(variable.expr.expressionType == ExpressionType.TUnknown){
+			error("Invalid Expression. Can not resolve to Boolean or Number", TestDSLPackage.Literals.VARIABLE__EXPR)
+		}
+	}
+	
+	
+	
+	def getExpressionType(Expression expr) {
+		switch(expr) {
+			Or:{
+				if(expr.left.expressionType ==  ExpressionType.TBool && expr.right.expressionType == ExpressionType.TBool)
+					return ExpressionType.TBool
+				else
+					return ExpressionType.TUnknown}
+			And:{
+				if(expr.left.expressionType ==  ExpressionType.TBool && expr.right.expressionType == ExpressionType.TBool)
+					return ExpressionType.TBool
+				else
+					return ExpressionType.TUnknown
+			}
+			Rel:{
+				if(((expr.op == "==")||(expr.op == "!=")) && expr.left.expressionType == expr.right.expressionType)
+					return expr.left.expressionType
+				else if(expr.left.expressionType == ExpressionType.TNumber && expr.right.expressionType == ExpressionType.TNumber)
+					return ExpressionType.TNumber
+				else 
+					return ExpressionType.TUnknown
+			}
+			Add:{
+				if(expr.left.expressionType == ExpressionType.TNumber && expr.right.expressionType == ExpressionType.TNumber)
+					return ExpressionType.TNumber
+				else 
+					return ExpressionType.TUnknown
+			}
+			Mult:{
+				if(expr.left.expressionType == ExpressionType.TNumber && expr.right.expressionType == ExpressionType.TNumber)
+					return ExpressionType.TNumber
+				else 
+					return ExpressionType.TUnknown
+			}
+			Negation:{
+				if(expr.op == "!" && expr.exprAtom.expressionType == ExpressionType.TBool)
+					return ExpressionType.TBool
+				else if(expr.op == "-" && expr.exprAtom.expressionType == ExpressionType.TNumber)
+					return ExpressionType.TNumber
+				else 
+					return ExpressionType.TUnknown
+			}
+			//Atoms
+			IntLiteral: return ExpressionType.TNumber
+			BoolLiteral: return ExpressionType.TBool
+			Subexpression: return expr.expr.expressionType
+			MonitorData:{
+				if(expr.ref instanceof StoredNumber)
+					return ExpressionType.TNumber
+				else 
+					return ExpressionType.TBool
+			}
+			IntVarAtom: return ExpressionType.TNumber
+			BoolVarAtom: return ExpressionType.TBool
+			VarAtom: return expr.^var.expr.expressionType
+			StateComparison: return ExpressionType.TBool
+			//default
+			default: return ExpressionType.TUnknown
+		}
+	}
+	
+	public enum ExpressionType {
+		TNumber, TBool, TUnknown;
+	}
+	
+	def toString(ExpressionType typ){
+		switch (typ){
+			case ExpressionType.TNumber:return "Number"
+			case ExpressionType.TBool:return "Boolean"
+			default: return "UnknownType"
 		}
 	}
 }
