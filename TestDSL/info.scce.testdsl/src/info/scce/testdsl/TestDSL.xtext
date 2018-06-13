@@ -89,7 +89,7 @@ UnExpr returns Expression:
 
 AtomExpr returns Expression: 
 	{IntLiteral} value=INT
-	| {BoolLiteral} ("true" | "false")	
+	| {BoolLiteral} value=("true" | "false")	
 	| {Subexpression} '(' expr=Expression ')'
 	| {MonitorData} importScope=[Import] '.' ref=[monitor::StoredData] diff=TimeDiffExtension?
 	| {IntVarAtom} intvar=INT_VAR diff=TimeDiffExtension?
@@ -98,13 +98,12 @@ AtomExpr returns Expression:
 	| {StateComparison} leftState=State op=('==='|"!==") rightState=State
 ;
 
-
 State:
 	({CurrentState} "adasState" diff=TimeDiffExtension?) | {StateRef} importScope=[Import] '.' ref=[autodsl::State]
 ;
 
 TimeDiffExtension:
-	{TimeDiffExtension} '[' timeDiff=INT ('ms')? ']'
+	{TimeDiffExtension} '[' timeDiff=INT ']'
 ;
 
 terminal INT_VAR: 
