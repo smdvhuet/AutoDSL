@@ -57,7 +57,7 @@ class TestDSLGenerator extends AbstractGenerator {
 		var monitors = configs.get(0).monitors
 		
 		monitors.forEach[
-			tests.forEach[fsa.generateFile("Tests/" + it.name + ".h", generateTest(it))]
+			tests.forEach[fsa.generateFile("tests/" + it.name + ".h", generateTest(it))]
 		];
 		
 		System.out.println("Generated monitors.")
@@ -72,7 +72,7 @@ class TestDSLGenerator extends AbstractGenerator {
 		
 		namespace AutoDSL{
 		namespace Monitoring {
-		class «test.name» : public ACCPlusPlus::Test{
+		class «test.name» : public ACCPlusPlus::Monitoring::Test{
 		public:
 			«generateConstructor(test)»
 		protected:
@@ -136,7 +136,7 @@ class TestDSLGenerator extends AbstractGenerator {
 				}
 			}
 			
-			return test.name + "() : Test(" + delay + ", " + timesToRun + ", " + runFrequence + "){}\n\n"
+			return test.name + "() : ACCPlusPlus::Monitoring::Test(" + delay + ", " + timesToRun + ", " + runFrequence + "){}\n\n"
 		}
 	}
 	
