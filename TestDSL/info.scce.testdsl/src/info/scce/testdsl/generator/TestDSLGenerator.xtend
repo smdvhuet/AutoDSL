@@ -10,7 +10,6 @@ import org.eclipse.xtext.generator.IGeneratorContext
 import info.scce.testdsl.testDSL.Configuration
 import info.scce.testdsl.testDSL.Test
 import info.scce.testdsl.testDSL.Expression
-import org.eclipse.xtext.xtext.generator.parser.antlr.splitting.simpleExpressions.OrExpression
 import info.scce.testdsl.testDSL.IntLiteral
 import info.scce.testdsl.testDSL.BoolLiteral
 import info.scce.testdsl.testDSL.Subexpression
@@ -29,8 +28,6 @@ import info.scce.testdsl.testDSL.TestInvariants
 import info.scce.testdsl.testDSL.TestConditions
 import info.scce.testdsl.testDSL.TestOptions
 import info.scce.testdsl.testDSL.TestFeature
-import org.eclipse.emf.mwe2.language.mwe2.BooleanLiteral
-import info.scce.testdsl.testDSL.Invariants
 import java.util.List
 import java.util.ArrayList
 import info.scce.testdsl.testDSL.OptionDelay
@@ -76,7 +73,9 @@ class TestDSLGenerator extends AbstractGenerator {
 		namespace AutoDSL{
 		namespace Monitoring {
 		class «test.name» : public ACCPlusPlus::Test{
+		public:
 			«generateConstructor(test)»
+		protected:
 			«FOR t : test.testFeatures»
 			«generateTest(t)»
 			«ENDFOR»
@@ -141,7 +140,7 @@ class TestDSLGenerator extends AbstractGenerator {
 		}
 	}
 	
-	def generateExpression(Expression exp){
+	def Object generateExpression(Expression exp){
 		switch exp{
 			Or: return exp.left.generateExpression + " || " + exp.right.generateExpression
 			And: return exp.left.generateExpression + " && " + exp.right.generateExpression
