@@ -1,11 +1,8 @@
 #include "Test.h"
 
-Test::Test(std::function<void()> action,
-           std::function<bool()> condition /* = nullptr */,
-           int execution_delay /* = 0 */, int times_to_execute /* = -1 */,
+Test::Test(int execution_delay /* = 0 */, int times_to_execute /* = -1 */,
            int execution_frequence /* = 0 */)
-    : action_{action}, condition_{condition},
-      times_to_execute_(times_to_execute),
+    : times_to_execute_(times_to_execute),
       execution_frequence_(execution_frequence), last_execution_(0),
       execution_delay_(execution_delay) {}
 
@@ -29,7 +26,7 @@ bool Test::checkTestCondition() {
     last_execution_ = 0;
   }
 
-  if (condition != NULL && !condition_())
+  if (!Condition())
     return false;
 
   return true;
@@ -55,11 +52,12 @@ void Test::executeDelayedTests() {
 }
 
 void Test::runTest() {
-  if (action_ != NULL)
-    action_();
+  Action();
 
   if (times_to_execute_ > 0)
     times_to_execute--;
 }
 
 bool Test::isRemovedTest() { return times_to_execute_ == 0; }
+
+bool Test::Condition() {}

@@ -8,7 +8,7 @@ using namespace ACCPlusPlus;
 void StateMachine::Run(const IO::CarInputs& input, IO::CarOutputs& output) {
   gLogger() << "\n";
   ACC_LOG2("Running dsl")
-    current_state_->Execute(input, output);
+  current_state_->Execute(input, output);
   for (std::vector<Transition>::iterator it =
     transitions_[current_state_->ID()].begin();
     it != transitions_[current_state_->ID()].end(); ++it) {
