@@ -52,7 +52,7 @@ Test:
 ;
 
 Invariants: 
-    {Invariants} invs+= Expression ("," invs+=Expression)*
+    {Invariants} invs+= Expression ("," invs+=Expression)* (","?)
 ;
 
 Variable:
