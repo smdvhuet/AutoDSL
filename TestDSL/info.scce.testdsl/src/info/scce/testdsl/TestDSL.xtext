@@ -88,7 +88,7 @@ UnExpr returns Expression:
 ;
 
 AtomExpr returns Expression: 
-	{IntLiteral} value=INT
+	{IntLiteral} value=FLOAT
 	| {BoolLiteral} value=("true" | "false")	
 	| {Subexpression} '(' expr=Expression ')'
 	| {MonitorData} importScope=[Import] '.' ref=[monitor::StoredData] diff=TimeDiffExtension?
@@ -113,3 +113,5 @@ terminal INT_VAR:
 terminal BOOL_VAR: 
 	"SystemOnButton" | "SystemActiveButton" | "HasLeadingCar" | "HasEngineError" | "HasSteeringError" | "HasGearboxError" | "DecrementSetDistanceButton" | "IncrementSetDistanceButton" | "DecrementSetSpeedButton" | "IncrementSetSpeedButton" | "ObstacleDetectedWarning" | "ErrorWarning" | "SystemOn" | "SystemActive" | "HeadlightsOn" 
 ;
+
+terminal FLOAT returns ecore::EFloat: INT '.' INT;
