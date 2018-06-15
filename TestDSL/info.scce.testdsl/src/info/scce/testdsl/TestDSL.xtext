@@ -88,7 +88,8 @@ UnExpr returns Expression:
 ;
 
 AtomExpr returns Expression: 
-	{IntLiteral} value=FLOAT
+	{IntLiteral} value=INT
+	| {FloatLiteral} value=FLOAT
 	| {BoolLiteral} value=("true" | "false")	
 	| {Subexpression} '(' expr=Expression ')'
 	| {MonitorData} importScope=[Import] '.' ref=[monitor::StoredData] diff=TimeDiffExtension?

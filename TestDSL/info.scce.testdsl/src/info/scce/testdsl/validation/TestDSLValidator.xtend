@@ -157,7 +157,7 @@ class TestDSLValidator extends AbstractTestDSLValidator {
 					return ExpressionType.TUnknown
 			}
 			//Atoms
-			IntLiteral: return ExpressionType.TNumber
+			IntLiteral, FloatLiteral: return ExpressionType.TNumber
 			BoolLiteral: return ExpressionType.TBool
 			Subexpression: return expr.expr.expressionType
 			MonitorData:{

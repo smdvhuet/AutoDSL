@@ -33,6 +33,7 @@ import java.util.ArrayList
 import info.scce.testdsl.testDSL.OptionDelay
 import info.scce.testdsl.testDSL.OptionTimesToRun
 import info.scce.testdsl.testDSL.OptionRunFrequency
+import info.scce.testdsl.testDSL.FloatLiteral
 
 /**
  * Generates code from your model files on save.
@@ -149,6 +150,7 @@ class TestDSLGenerator extends AbstractGenerator {
 			Mult: return exp.left.generateExpression + " " + exp.op + " " + exp.right.generateExpression
 			Negation: return exp.op + exp.exprAtom.generateExpression
 			IntLiteral: return exp.value
+			FloatLiteral: return exp.value
 			BoolLiteral: return exp.value
 			Subexpression: return "(" + exp.expr.generateExpression + ")"
 			MonitorData: return "MonitorData"
