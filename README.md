@@ -1,3 +1,4 @@
+- Cinco runterladen: https://ls5download.cs.tu-dortmund.de/
 - TestDSL und AutoDSL repos clonen
 - Neuen Workspace anlegen
 - Rechtsklick -> Import... -> Projects from Git -> Existing local repository -> [...]
