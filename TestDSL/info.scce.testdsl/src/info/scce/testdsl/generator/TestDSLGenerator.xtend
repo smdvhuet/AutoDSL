@@ -33,6 +33,8 @@ import java.util.ArrayList
 import info.scce.testdsl.testDSL.OptionDelay
 import info.scce.testdsl.testDSL.OptionTimesToRun
 import info.scce.testdsl.testDSL.OptionRunFrequency
+import info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory.SharedMemory
+import info.scce.cinco.product.autoDSL.generator.SharedMemoryGenerator
 import info.scce.testdsl.testDSL.FloatLiteral
 
 /**
@@ -150,10 +152,10 @@ class TestDSLGenerator extends AbstractGenerator {
 			Mult: return exp.left.generateExpression + " " + exp.op + " " + exp.right.generateExpression
 			Negation: return exp.op + exp.exprAtom.generateExpression
 			IntLiteral: return exp.value
-			FloatLiteral: return exp.value
 			BoolLiteral: return exp.value
+			FloatLiteral: return exp.value
 			Subexpression: return "(" + exp.expr.generateExpression + ")"
-			MonitorData: return "MonitorData"
+			MonitorData: return generateMonitorData(exp)
 			IntVarAtom: if(exp.diff == null) { return "gDebug_table.getColumn(" + exp.intvar + ")->values[gDebug_table.current_line - " + exp.diff.timeDiff + "]" }
 						else {return "gDebug_table.getColumn(" + exp.intvar + ")->values[gDebug_table.current_line]"}
 			BoolVarAtom: if(exp.diff == null) { return "gDebug_table.getColumn(" + exp.boolvar + ")->values[gDebug_table.current_line - " + exp.diff.timeDiff + "]" }
@@ -161,6 +163,11 @@ class TestDSLGenerator extends AbstractGenerator {
 			VarAtom: return exp.^var.name + "()"
 			StateComparison: return "StateComparison" 
 		}
+	}
+	
+	def generateMonitorData(MonitorData data){
+		var sharedMemory = data.ref.eContainer.eContainer as SharedMemory
+		return "g" + SharedMemoryGenerator.getMemoryName(sharedMemory) + "_var." + data.ref.label
 	}
 
 	def generateVariables(List<TestFeature> features){
