@@ -25,7 +25,7 @@ private:
   };
 
 public:
-  State *current_state_;
+  State *current_state_ = 0;
   void Run(const IO::CarInputs& input, IO::CarOutputs& output);
   bool isInEntryState();
   const std::string GetCurrentStateName();
@@ -37,7 +37,7 @@ protected:
   void SetEntryState(State *const &entry_state);
 
 private:
-  State *entry_state_;
+  State *entry_state_ = 0;
 
   using TransitionRegister = std::map<Utility::IDType, std::vector<Transition>>;
   TransitionRegister transitions_;
