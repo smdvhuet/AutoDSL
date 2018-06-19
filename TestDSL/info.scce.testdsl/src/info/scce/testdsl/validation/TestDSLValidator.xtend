@@ -113,7 +113,51 @@ class TestDSLValidator extends AbstractTestDSLValidator {
 		}
 	}
 	
-	
+	@Check
+	def checkUniqueIDs(prog prog) {
+		val idList = newArrayList()
+		var name = ""
+		for (var i = 0; i < prog.ops.size; i++) {
+			var o = prog.ops.get(i)
+			switch(o) {
+				Monitor: {
+					name = o.name;
+					if (idList.contains(name)) {
+						error(name + " is already in use.", TestDSLPackage.Literals.PROG__OPS, i)
+						return
+					}
+					idList.add(name)
+				}
+				
+				Test: {
+					name = o.name;
+					if (idList.contains(name)) {
+						error(name + " is already in use.", TestDSLPackage.Literals.PROG__OPS, i)
+						return 
+					}
+					idList.add(name)
+				}
+				
+				Configuration: {
+					name = o.name;
+					if (idList.contains(name)) {
+						error(name + " is already in use.", TestDSLPackage.Literals.PROG__OPS, i)
+						return
+					}
+					idList.add(name)
+				}
+				
+				Variable: {
+					name = o.name;
+					if (idList.contains(name)) {
+						error(name + " is already in use.", TestDSLPackage.Literals.PROG__OPS, i)
+						return
+					}
+					idList.add(name)
+				}
+			}
+		}
+	}
 	
 	def getExpressionType(Expression expr) {
 		switch(expr) {
