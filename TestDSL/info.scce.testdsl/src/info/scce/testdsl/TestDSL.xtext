@@ -1,0 +1,118 @@
+grammar info.scce.testdsl.TestDSL with org.eclipse.xtext.common.Terminals
+
+import "http://cinco.scce.info/product/sharedMemory" as monitor
+import "http://cinco.scce.info/product/autodsl" as autodsl
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+generate testDSL "http://www.scce.info/testdsl/TestDSL"
+
+prog: 
+	(imports+=Import)*
+	ops+=(Monitor | Test | Configuration | Variable)*
+;
+
+Import:
+	'import' path=STRING 'as' name=ID
+;
+
+Configuration:
+	"def" "Configuration" name=ID "{"
+	 	monitors+=[Monitor] (","monitors+=[Monitor])*
+	 "}"
+;
+
+Monitor:
+	{Monitor} "def" "Monitor" name=ID "{"
+		tests+=[Test] ("," tests+=[Test])* 
+	"}"
+;
+
+OptionFeature:
+	{OptionDelay} ("Delay" "=" delay = INT) |
+	{OptionTimesToRun} ("TimesToRun" "=" timesToRun = INT) |
+	{OptionRunFrequency} ("RunFrequency" "=" runFrequency = INT)
+;
+
+TestFeature:
+	{TestInvariants} ("Invariants" "{"
+		invariants = Invariants
+	"}") | 
+	{TestConditions} ("Conditions" "{"
+		conditions = Invariants
+	"}") |
+	{TestOptions} ("Options" "{"
+		(options+=OptionFeature)*
+	"}")
+;
+
+Test:
+	{Test} "def" "Test" name=ID "{"
+		(testFeatures+=TestFeature)*
+	"}"
+;
+
+Invariants: 
+    {Invariants} invs+= Expression ("," invs+=Expression)* (","?)
+;
+
+Variable:
+	"def" name=ID ":" expr=Expression	
+;
+
+Expression: 
+ 	OrExpr
+;
+
+OrExpr returns Expression:
+	AndExpr ({Or.left=current} op='or' right=AndExpr)*
+;
+
+AndExpr returns Expression:
+	RelExpr ({And.left=current} op='and' right=RelExpr)*
+;
+
+RelExpr returns Expression:
+	AddExpr ({Rel.left=current} op=('<'|'<='|'=='|'!='|'>'|'>=') right=AddExpr)*
+;
+
+AddExpr returns Expression:
+	MultExpr ({Add.left=current} op=('+'|'-') right=MultExpr)*
+;
+
+MultExpr returns Expression:
+	UnExpr ({Mult.left=current} op=('*'|'/') right=UnExpr)*
+;
+
+UnExpr returns Expression: 
+	{Negation} op=('!'|"-") exprAtom=AtomExpr | AtomExpr
+;
+
+AtomExpr returns Expression: 
+	{IntLiteral} value=INT
+	| {FloatLiteral} value=FLOAT
+	| {BoolLiteral} value=("true" | "false")	
+	| {Subexpression} '(' expr=Expression ')'
+	| {MonitorData} importScope=[Import] '.' ref=[monitor::StoredData] diff=TimeDiffExtension?
+	| {IntVarAtom} intvar=INT_VAR diff=TimeDiffExtension?
+	| {BoolVarAtom} boolvar=BOOL_VAR diff=TimeDiffExtension?
+	| {VarAtom} var=[Variable]
+	| {StateComparison} leftState=State op=('==='|"!==") rightState=State
+;
+
+State:
+	({CurrentState} "adasState" diff=TimeDiffExtension?) | {StateRef} importScope=[Import] '.' ref=[autodsl::State]
+;
+
+TimeDiffExtension:
+	{TimeDiffExtension} '[' timeDiff=INT ']'
+;
+
+terminal INT_VAR: 
+	"DistanceFront" | "DistanceRear" | "TimeDistanceFront" | "LeadingCarRelativeSpeed" | "Throttle" | "Brake" | "Steering" | "SetSpeed" | "SetDistance" | "InputThrottle" | "InputBrake"
+;
+
+terminal BOOL_VAR: 
+	"SystemOnButton" | "SystemActiveButton" | "HasLeadingCar" | "HasEngineError" | "HasSteeringError" | "HasGearboxError" | "DecrementSetDistanceButton" | "IncrementSetDistanceButton" | "DecrementSetSpeedButton" | "IncrementSetSpeedButton" | "ObstacleDetectedWarning" | "ErrorWarning" | "SystemOn" | "SystemActive" | "HeadlightsOn" 
+;
+
+terminal FLOAT returns ecore::EFloat: INT '.' INT;
