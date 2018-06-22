@@ -30,8 +30,13 @@ Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,org.eclipse
  .plugin.generator.runtime,de.jabc.cinco.meta.plugin.generator.runtime
  ,de.jabc.cinco.meta.plugin.generator.runtime,de.jabc.cinco.meta.plugi
  n.generator.runtime,de.jabc.cinco.meta.plugin.generator.runtime,de.ja
- bc.cinco.meta.plugin.mcam.runtime,de.jabc.cinco.meta.plugin.generator
- .runtime
+ bc.cinco.meta.plugin.generator.runtime,de.jabc.cinco.meta.plugin.gene
+ rator.runtime,de.jabc.cinco.meta.plugin.generator.runtime,de.jabc.cin
+ co.meta.plugin.generator.runtime,de.jabc.cinco.meta.plugin.generator.
+ runtime,de.jabc.cinco.meta.plugin.generator.runtime,de.jabc.cinco.met
+ a.plugin.generator.runtime,de.jabc.cinco.meta.plugin.generator.runtim
+ e,de.jabc.cinco.meta.plugin.generator.runtime,de.jabc.cinco.meta.plug
+ in.generator.runtime,de.jabc.cinco.meta.plugin.mcam.runtime
 Bundle-ActivationPolicy: lazy
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
@@ -46,31 +51,30 @@ Export-Package: info.scce.cinco.product.autoDSL.autodsl.adapter,info.s
  product.autoDSL.autodsl.autodsl.views,info.scce.cinco.product.autoDSL
  .autodsl.autodsl.views.impl,info.scce.cinco.product.autoDSL.autodsl.a
  utodsl.views.util,info.scce.cinco.product.autoDSL.autodsl.factory,inf
- o.scce.cinco.product.autoDSL.generator,info.scce.cinco.product.autoDS
- L.hooks,info.scce.cinco.product.autoDSL.rule.adapter,info.scce.cinco.
- product.autoDSL.rule.factory,info.scce.cinco.product.autoDSL.rule.rul
- e,info.scce.cinco.product.autoDSL.rule.rule.impl,info.scce.cinco.prod
- uct.autoDSL.rule.rule.internal,info.scce.cinco.product.autoDSL.rule.r
- ule.internal.impl,info.scce.cinco.product.autoDSL.rule.rule.internal.
- util,info.scce.cinco.product.autoDSL.rule.rule.util,info.scce.cinco.p
- roduct.autoDSL.rule.rule.views,info.scce.cinco.product.autoDSL.rule.r
- ule.views.impl,info.scce.cinco.product.autoDSL.rule.rule.views.util,i
- nfo.scce.cinco.product.autoDSL.sharedMemory.factory,info.scce.cinco.p
- roduct.autoDSL.sharedMemory.adapter,info.scce.cinco.product.autoDSL.s
- haredMemory.sharedmemory,info.scce.cinco.product.autoDSL.sharedMemory
- .sharedmemory.impl,info.scce.cinco.product.autoDSL.sharedMemory.share
- dmemory.internal,info.scce.cinco.product.autoDSL.sharedMemory.sharedm
- emory.internal.impl,info.scce.cinco.product.autoDSL.sharedMemory.shar
- edmemory.internal.util,info.scce.cinco.product.autoDSL.sharedMemory.s
- haredmemory.util,info.scce.cinco.product.autoDSL.sharedMemory.sharedm
- emory.views,info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory
- .views.impl,info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory
- .views.util,info.scce.cinco.product.autoDSL.sharedMemory.mcam.adapter
- ,info.scce.cinco.product.autoDSL.sharedMemory.mcam.cli,info.scce.cinc
- o.product.autoDSL.rule.mcam.adapter,info.scce.cinco.product.autoDSL.r
- ule.mcam.cli,info.scce.cinco.product.autoDSL.autodsl.mcam.adapter,inf
- o.scce.cinco.product.autoDSL.autodsl.mcam.cli,info.scce.cinco.product
- .autoDSL.appearances
+ o.scce.cinco.product.autoDSL.hooks,info.scce.cinco.product.autoDSL.ru
+ le.adapter,info.scce.cinco.product.autoDSL.rule.factory,info.scce.cin
+ co.product.autoDSL.rule.rule,info.scce.cinco.product.autoDSL.rule.rul
+ e.impl,info.scce.cinco.product.autoDSL.rule.rule.internal,info.scce.c
+ inco.product.autoDSL.rule.rule.internal.impl,info.scce.cinco.product.
+ autoDSL.rule.rule.internal.util,info.scce.cinco.product.autoDSL.rule.
+ rule.util,info.scce.cinco.product.autoDSL.rule.rule.views,info.scce.c
+ inco.product.autoDSL.rule.rule.views.impl,info.scce.cinco.product.aut
+ oDSL.rule.rule.views.util,info.scce.cinco.product.autoDSL.sharedMemor
+ y.factory,info.scce.cinco.product.autoDSL.sharedMemory.adapter,info.s
+ cce.cinco.product.autoDSL.sharedMemory.sharedmemory,info.scce.cinco.p
+ roduct.autoDSL.sharedMemory.sharedmemory.impl,info.scce.cinco.product
+ .autoDSL.sharedMemory.sharedmemory.internal,info.scce.cinco.product.a
+ utoDSL.sharedMemory.sharedmemory.internal.impl,info.scce.cinco.produc
+ t.autoDSL.sharedMemory.sharedmemory.internal.util,info.scce.cinco.pro
+ duct.autoDSL.sharedMemory.sharedmemory.util,info.scce.cinco.product.a
+ utoDSL.sharedMemory.sharedmemory.views,info.scce.cinco.product.autoDS
+ L.sharedMemory.sharedmemory.views.impl,info.scce.cinco.product.autoDS
+ L.sharedMemory.sharedmemory.views.util,info.scce.cinco.product.autoDS
+ L.appearances,info.scce.cinco.product.autoDSL.sharedMemory.mcam.adapt
+ er,info.scce.cinco.product.autoDSL.sharedMemory.mcam.cli,info.scce.ci
+ nco.product.autoDSL.rule.mcam.adapter,info.scce.cinco.product.autoDSL
+ .rule.mcam.cli,info.scce.cinco.product.autoDSL.autodsl.mcam.adapter,i
+ nfo.scce.cinco.product.autoDSL.autodsl.mcam.cli
 Bundle-Name: %pluginName
 Bundle-Version: 1.0.0
 Bundle-ClassPath: .

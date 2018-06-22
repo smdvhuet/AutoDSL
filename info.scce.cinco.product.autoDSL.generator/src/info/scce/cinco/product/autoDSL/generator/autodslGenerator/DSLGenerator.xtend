@@ -1,4 +1,4 @@
-package info.scce.cinco.product.autoDSL.generator
+package info.scce.cinco.product.autoDSL.generator.autodslGenerator
 
 import de.jabc.cinco.meta.core.utils.EclipseFileUtils
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator
@@ -15,6 +15,10 @@ import info.scce.cinco.product.autoDSL.rule.rule.Rule
 import java.util.HashMap
 import info.scce.cinco.product.autoDSL.autodsl.autodsl.ComponentNode
 import java.util.ArrayList
+import info.scce.testdsl.generator.TestDSLGenerator
+import org.eclipse.xtext.EcoreUtil2
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.emf.common.util.URI
 
 class DSLGenerator implements IGenerator<AutoDSL> {
 	var IProgressMonitor monitor;
@@ -53,10 +57,19 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		
 		EclipseFileUtils.writeToFile(mainFolder.getFile(getDSLClassName(dsl) + ".h"), generateStateMachineHeader(dsl))
 		EclipseFileUtils.writeToFile(mainFolder.getFile(getDSLClassName(dsl) + ".cpp"), generateStateMachineBody(dsl))
+	
+		var gen = new TestDSLGenerator()
+		for (r : project.members) {
+			if (r.fileExtension == "test") {
+				var res = new ResourceSetImpl().getResource(URI.createURI(r.locationURI.toString), true);
+				// TODO change TestDSLGenerator not to extend AbstractGenerator, make own doGenerate and pass mainFolder and other required objects
+				//gen.doGenerate(res, null, null)
+			}
+		}
 	}
 	
 	def generateStatic(){
-		val thisBundle = "info.scce.cinco.product.autoDSL"
+		val thisBundle = "info.scce.cinco.product.autoDSL.generator"
 			
 		copyStaticHeaderAndCpp(staticFolder, thisBundle, "cppcode/StateMachine")
 		copyStaticHeaderAndCpp(staticFolder, thisBundle, "cppcode/State")

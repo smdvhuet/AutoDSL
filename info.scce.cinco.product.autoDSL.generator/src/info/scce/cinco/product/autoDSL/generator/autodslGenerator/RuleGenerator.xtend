@@ -1,4 +1,4 @@
-package info.scce.cinco.product.autoDSL.generator
+package info.scce.cinco.product.autoDSL.generator.autodslGenerator
 
 import de.jabc.cinco.meta.core.utils.EclipseFileUtils
 import de.jabc.cinco.meta.core.utils.projects.ProjectCreator

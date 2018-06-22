@@ -1,4 +1,4 @@
-package info.scce.cinco.product.autoDSL.generator
+package info.scce.cinco.product.autoDSL.generator.autodslGenerator
 
 import graphmodel.Node
 import info.scce.cinco.product.autoDSL.rule.rule.Addition

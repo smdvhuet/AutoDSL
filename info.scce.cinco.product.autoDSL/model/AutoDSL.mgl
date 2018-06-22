@@ -7,7 +7,8 @@ import "platform:/resource/info.scce.cinco.product.autoDSL/model/Rule.mgl" as ru
 @mcam_checkmodule("info.scce.cinco.product.autoDSL.check.autoDSLCheck.CheckForUnreachableStates")
 @mcam_checkmodule("info.scce.cinco.product.autoDSL.check.autoDSLCheck.CheckForInvalidRulesInStates")
 @mcam_checkmodule("info.scce.cinco.product.autoDSL.check.autoDSLCheck.CheckForInvalidEdgesBetweenRules")
-@generatable("info.scce.cinco.product.autoDSL.generator.DSLGenerator","/src-gen/")
+@generatable("info.scce.cinco.product.autoDSL.generator", "info.scce.cinco.product.autoDSL.generator.autodslGenerator.DSLGenerator",
+"/src-gen/")
 graphModel AutoDSL {
 	package info.scce.cinco.product.autoDSL.autodsl
 	nsURI "http://cinco.scce.info/product/autodsl"

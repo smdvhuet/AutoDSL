@@ -1,4 +1,4 @@
-package info.scce.cinco.product.autoDSL.generator
+package info.scce.cinco.product.autoDSL.generator.autodslGenerator
 
 import java.util.HashMap;
 

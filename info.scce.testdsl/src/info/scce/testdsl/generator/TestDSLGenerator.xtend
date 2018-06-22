@@ -34,7 +34,6 @@ import info.scce.testdsl.testDSL.OptionDelay
 import info.scce.testdsl.testDSL.OptionTimesToRun
 import info.scce.testdsl.testDSL.OptionRunFrequency
 import info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory.SharedMemory
-import info.scce.cinco.product.autoDSL.generator.SharedMemoryGenerator
 import info.scce.testdsl.testDSL.FloatLiteral
 
 /**
@@ -167,7 +166,7 @@ class TestDSLGenerator extends AbstractGenerator {
 	
 	def generateMonitorData(MonitorData data){
 		var sharedMemory = data.ref.eContainer.eContainer as SharedMemory
-		return "g" + SharedMemoryGenerator.getMemoryName(sharedMemory) + "_var." + data.ref.label
+		"blub"//return "g" + SharedMemoryGenerator.getMemoryName(sharedMemory) + "_var." + data.ref.label
 	}
 
 	def generateVariables(List<TestFeature> features){
