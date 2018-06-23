@@ -5,7 +5,6 @@
 */plugin.xml
 */plugin.properties
 */jabc.project
-*/META-INF/MANIFEST.MF
 .metadata/
 info.scce.cinco.product.autoDSL.autodsl.editor.graphiti/
 info.scce.cinco.product.autoDSL.autodsl.gratext/

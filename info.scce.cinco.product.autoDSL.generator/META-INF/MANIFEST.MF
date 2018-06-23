@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: info.scce.cinco.product.autoDSL.generator;singleton:=true
+Export-Package: info.scce.cinco.product.autoDSL.generator.autodslGener
+ ator
+Bundle-Name: Generator
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: info.scce.cinco.product.autoDSL;bundle-version="1.0.0",
+ com.google.guava,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtend.lib,
+ org.eclipse.xtend.lib.macro,
+ de.jabc.cinco.meta.core.utils;bundle-version="1.0.0",
+ de.jabc.cinco.meta.plugin.generator.runtime;bundle-version="1.0.0",
+ org.eclipse.core.resources;bundle-version="3.10.1",
+ org.eclipse.core.runtime;bundle-version="3.11.1",
+ info.scce.testdsl;bundle-version="1.0.0",
+ org.eclipse.xtext;bundle-version="2.9.1"
+Bundle-ManifestVersion: 2
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+
