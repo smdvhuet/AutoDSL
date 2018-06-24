@@ -37,7 +37,10 @@ void WriteCSVToFile(const char *filename, CSVTable table) {
   for (size_t i = 0; i < table.current_line; i++) {
     file << table.frames_captured - table.current_line + i << ";";
     for (it = table.columns.begin(); it != table.columns.end(); it++) {
-      file << it->second.values[i] << ";";
+      if (it->second.union_type == 0)
+        file << it->second.values[i].double_value << ";";
+      else
+        file << it->second.values[i].string_value << ";";
     }
 
     file << "\n";

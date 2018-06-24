@@ -33,8 +33,19 @@ extern ACCPlusPlus::Logger gLogger;
 struct CSVTable;
 extern void WriteCSVToFile(const char *filename, CSVTable table);
 
+
+union CSVColumnType {
+  double double_value;
+  const char* string_value;
+};
+
 struct CSVColumn {
-  double values[LOG_HISTORY_LENGTH];
+  int union_type;
+  CSVColumnType values[LOG_HISTORY_LENGTH];
+
+  CSVColumn() {
+    union_type = 0;
+  }
 };
 
 struct CSVTable {
@@ -68,14 +79,26 @@ struct CSVTable {
   void ClearRow(int index) {
     CSVTable::CSVTableType::iterator it;
     for (it = columns.begin(); it != columns.end(); it++) {
-      it->second.values[index] = 0;
+      if (it->second.union_type == 0)
+        it->second.values[index].double_value = 0;
+      else
+        it->second.values[index].string_value = "";
     }
+  }
+
+  void SetValue(const char* header, double value) {
+    this->getColumn(header)->union_type = 0;
+    this->getColumn(header)->values[this->current_line].double_value = value;
+  }
+
+  void SetValue(const char* header, const char* value) {
+    this->getColumn(header)->union_type = 1;
+    this->getColumn(header)->values[this->current_line].string_value = value;
   }
 };
 
 extern CSVTable gDebug_table;
-#define ACC_LOG(Name, Value)                                                   \
-  gDebug_table.getColumn(Name)->values[gDebug_table.current_line] = Value;
+#define ACC_LOG(Name, Value) gDebug_table.SetValue(Name, Value);
 #define NEXT_FRAME gDebug_table.NextFrame();
 #define WriteCSV(FILENAME) WriteCSVToFile(FILENAME, gDebug_table);
 #endif // ACCPLUSPLUS_DEBUG_H_
