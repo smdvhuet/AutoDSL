@@ -206,7 +206,7 @@ class TestDSLGenerator extends AbstractGenerator {
 	
 	def String generateState(State state){
 		switch state{
-			CurrentState: return if(state.diff != null) {
+			CurrentState: if(state.diff != null) {
 				return 'gDebug_table.getColumn("Active state")->values[gDebug_table.current_line - ' + state.diff.timeDiff  + '].string_value'
 			} else {
 				return "gDebug_table.getColumn(" + '"' + "Active state" + '"' + ")->values[gDebug_table.current_line].string_value"
