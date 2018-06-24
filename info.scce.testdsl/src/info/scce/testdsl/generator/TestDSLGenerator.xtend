@@ -35,6 +35,13 @@ import info.scce.testdsl.testDSL.OptionTimesToRun
 import info.scce.testdsl.testDSL.OptionRunFrequency
 import info.scce.cinco.product.autoDSL.sharedMemory.sharedmemory.SharedMemory
 import info.scce.testdsl.testDSL.FloatLiteral
+import org.eclipse.core.runtime.IProgressMonitor
+import org.eclipse.core.runtime.IPath
+import org.eclipse.core.resources.IFolder
+import java.util.HashMap
+import info.scce.testdsl.testDSL.State
+import info.scce.testdsl.testDSL.CurrentState
+import info.scce.testdsl.testDSL.StateRef
 
 /**
  * Generates code from your model files on save.
@@ -42,8 +49,36 @@ import info.scce.testdsl.testDSL.FloatLiteral
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#code-generation
  */
 class TestDSLGenerator extends AbstractGenerator {
-
+	var IProgressMonitor monitor;
+	var IPath targetDir;
+	
+	var IFolder mainFolder
+	var IFolder staticFolder
+	
+	var HashMap<Integer, String> knownRuleTypes =  new HashMap<Integer, String>()
+	var HashMap<Integer, String> knownDSLTypes =  new HashMap<Integer, String>()
+	
+	var HashMap<Integer, String> knownState = new HashMap<Integer, String>()
+	var HashMap<Integer, String> knownGuard = new HashMap<Integer, String>()
+	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
+		System.out.printf("doGenerate is not being used.")
+	}
+	
+	def generate(Resource resource, IPath targetDir, IProgressMonitor monitor, IFolder mainFolder, IFolder staticFolder, HashMap<Integer, String> knownRuleTypes, HashMap<Integer, String> knownDSLTypes,
+		HashMap<Integer, String> knownState, HashMap<Integer, String> knownGuard){
+		this.targetDir = targetDir;
+		this.monitor = monitor;
+		
+		this.mainFolder = mainFolder;
+		this.staticFolder = staticFolder;
+		
+		this.knownRuleTypes = knownRuleTypes;
+		this.knownDSLTypes = knownDSLTypes;
+		
+		this.knownState = knownState;
+		this.knownGuard = knownGuard;
+		
 		var configs = resource.allContents.filter(typeof(Configuration)).toList;
 		
 		if(configs == null){
@@ -59,7 +94,7 @@ class TestDSLGenerator extends AbstractGenerator {
 		var monitors = configs.get(0).monitors
 		
 		monitors.forEach[
-			tests.forEach[fsa.generateFile("tests/" + it.name + ".h", generateTest(it))]
+			//tests.forEach[fsa.generateFile("tests/" + it.name + ".h", generateTest(it))]
 		];
 		
 		System.out.println("Generated monitors.")
@@ -155,18 +190,29 @@ class TestDSLGenerator extends AbstractGenerator {
 			FloatLiteral: return exp.value
 			Subexpression: return "(" + exp.expr.generateExpression + ")"
 			MonitorData: return generateMonitorData(exp)
-			IntVarAtom: if(exp.diff == null) { return "gDebug_table.getColumn(" + exp.intvar + ")->values[gDebug_table.current_line - " + exp.diff.timeDiff + "]" }
-						else {return "gDebug_table.getColumn(" + exp.intvar + ")->values[gDebug_table.current_line]"}
-			BoolVarAtom: if(exp.diff == null) { return "gDebug_table.getColumn(" + exp.boolvar + ")->values[gDebug_table.current_line - " + exp.diff.timeDiff + "]" }
-						else {return "gDebug_table.getColumn(" + exp.boolvar + ")->values[gDebug_table.current_line]"}
+			IntVarAtom: if(exp.diff != null) { return "gDebug_table.getColumn(" + exp.intvar + ")->values[gDebug_table.current_line - " + exp.diff.timeDiff + "].double_value" }
+						else {return "gDebug_table.getColumn(" + exp.intvar + ")->values[gDebug_table.current_line].double_value"}
+			BoolVarAtom: if(exp.diff != null) { return "gDebug_table.getColumn(" + exp.boolvar + ")->values[gDebug_table.current_line - " + exp.diff.timeDiff + "].double_value" }
+						else {return "gDebug_table.getColumn(" + exp.boolvar + ")->values[gDebug_table.current_line].double_value"}
 			VarAtom: return exp.^var.name + "()"
-			StateComparison: return "StateComparison" 
+			StateComparison: return generateState(exp.leftState) + exp.op + generateState(exp.rightState)
 		}
 	}
 	
 	def generateMonitorData(MonitorData data){
 		var sharedMemory = data.ref.eContainer.eContainer as SharedMemory
 		"blub"//return "g" + SharedMemoryGenerator.getMemoryName(sharedMemory) + "_var." + data.ref.label
+	}
+	
+	def String generateState(State state){
+		switch state{
+			CurrentState: return if(state.diff != null) {
+				return 'gDebug_table.getColumn("Active state")->values[gDebug_table.current_line - ' + state.diff.timeDiff  + '].string_value'
+			} else {
+				return "gDebug_table.getColumn(" + '"' + "Active state" + '"' + ")->values[gDebug_table.current_line].string_value"
+			}
+			StateRef: return '"' + state.ref.label + '"' 
+		}
 	}
 
 	def generateVariables(List<TestFeature> features){
