@@ -42,6 +42,7 @@ import java.util.HashMap
 import info.scce.testdsl.testDSL.State
 import info.scce.testdsl.testDSL.CurrentState
 import info.scce.testdsl.testDSL.StateRef
+import de.jabc.cinco.meta.core.utils.EclipseFileUtils
 
 /**
  * Generates code from your model files on save.
@@ -54,6 +55,7 @@ class TestDSLGenerator extends AbstractGenerator {
 	
 	var IFolder mainFolder
 	var IFolder staticFolder
+	var IFolder testFolder
 	
 	var HashMap<Integer, String> knownRuleTypes =  new HashMap<Integer, String>()
 	var HashMap<Integer, String> knownDSLTypes =  new HashMap<Integer, String>()
@@ -93,8 +95,11 @@ class TestDSLGenerator extends AbstractGenerator {
 			
 		var monitors = configs.get(0).monitors
 		
+		testFolder = mainFolder.getFolder("tests")
+		EclipseFileUtils.mkdirs(testFolder,monitor)
+		
 		monitors.forEach[
-			//tests.forEach[fsa.generateFile("tests/" + it.name + ".h", generateTest(it))]
+			tests.forEach[EclipseFileUtils.writeToFile(testFolder.getFile(it.name + ".h"), generateTest(it))]
 		];
 		
 		System.out.println("Generated monitors.")

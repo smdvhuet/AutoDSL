@@ -63,7 +63,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 			if (r.fileExtension == "test") {
 				var res = new ResourceSetImpl().getResource(URI.createURI(r.locationURI.toString), true);
 				// TODO change TestDSLGenerator not to extend AbstractGenerator, make own doGenerate and pass mainFolder and other required objects
-				//gen.doGenerate(res, null, null)
+				gen.generate(res, targetDir, monitor, mainFolder,staticFolder, knownRuleTypes, knownDSLTypes, knownState, knownGuard)		
 			}
 		}
 	}
