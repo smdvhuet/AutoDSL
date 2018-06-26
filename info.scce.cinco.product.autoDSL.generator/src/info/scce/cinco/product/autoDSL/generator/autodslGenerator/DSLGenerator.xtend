@@ -16,7 +16,6 @@ import java.util.HashMap
 import info.scce.cinco.product.autoDSL.autodsl.autodsl.ComponentNode
 import java.util.ArrayList
 import info.scce.testdsl.generator.TestDSLGenerator
-import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.common.util.URI
 
@@ -62,7 +61,6 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		for (r : project.members) {
 			if (r.fileExtension == "test") {
 				var res = new ResourceSetImpl().getResource(URI.createURI(r.locationURI.toString), true);
-				// TODO change TestDSLGenerator not to extend AbstractGenerator, make own doGenerate and pass mainFolder and other required objects
 				gen.generate(res, targetDir, monitor, mainFolder,staticFolder, knownRuleTypes, knownDSLTypes, knownState, knownGuard)		
 			}
 		}
@@ -114,6 +112,8 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	  «getDSLClassName(dsl)»();
 	  ~«getDSLClassName(dsl)»();
 		
+	  virtual void Run(const IO::CarInputs& input, IO::CarOutputs& output) override;
+		
 	private:
 	  «if(dsl.offStates.length() > 0) generateOffStateVars(dsl)»
 	  
@@ -151,6 +151,11 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	  «if(dsl.states.length() > 0) deleteStateVars(dsl)»
 	  
 	  «if(dsl.guards.length() > 0) deleteGuardVars(dsl)»
+	}
+	
+	void «getDSLClassName(dsl)»::Run(const IO::CarInputs& input, IO::CarOutputs& output){
+	  StateMachine::Run(input, output);
+	  «logSharedMemory(dsl)»
 	}
 	'''	
 //*********************************************************************************
@@ -266,7 +271,19 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	private def getOutgoingEdges(Guard guard){
 		return guard.outgoing.filter[it.targetElement instanceof State] + guard.outgoing.filter[it.targetElement instanceof OffState];
 	}	
-	
+		
+//*********************************************************************************
+//						  ADD SHAREDMEMORY TO BE LOGGED
+//*********************************************************************************
+	private def logSharedMemory(AutoDSL dsl){
+		var output = "";
+		var sharedMemoryStructs = SharedMemoryGenerator.externSharedMemoryVars;
+		for(externStructVar : sharedMemoryStructs.keySet)
+			output += 'ACC_LOG("' + externStructVar + '", static_cast<double>(' + sharedMemoryStructs.get(externStructVar) + '))\n'
+			
+		return output;	
+	}
+
 //*********************************************************************************
 //								GENERATE CLASS NAMES
 //*********************************************************************************
@@ -311,15 +328,44 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 	}
 	
 	private def getIncludes(AutoDSL dsl){
+		//Generate everything to make dependencies known
 		initAllOffStates(dsl)
 		initAllStates(dsl)
 		initAllGuards(dsl)
 		
-		return '''
-		«FOR ruleName : knownRuleTypes.values»
-		#include "«ruleName».h"
-		«ENDFOR»
-		'''
+		if(dsl.offStates.length() > 0) generateOffStateVars(dsl)
+	  	if(dsl.states.length() > 0) generateStateVars(dsl)
+	  	if(dsl.guards.length() > 0) generateGuardVars(dsl)
+		
+		if(dsl.offStates.length() > 0) initAllOffStates(dsl)
+	  	if(dsl.states.length() > 0) initAllStates(dsl)
+	    if(dsl.guards.length() > 0) initAllGuards(dsl)
+	    if(dsl.allEdges.length > 0) initConnections(dsl)
+	    if(dsl.offStates.length > 0) chooseEntryState(dsl)
+		
+		var String output = "";
+		
+		for(ruleName : knownRuleTypes.values)
+			output += '#include "' + ruleName + '.h"\n'
+			
+		//Extract SharedMemory includes from variable names
+		var sharedMemoryIncludes = SharedMemoryGenerator.externSharedMemoryVars.keySet.toList;
+		for(var i = 0; i < sharedMemoryIncludes.size(); i++)
+			sharedMemoryIncludes.set(i, sharedMemoryIncludes.get(i).substring(0, sharedMemoryIncludes.get(i).indexOf(".")))
+		
+		//Remove duplicate includes
+		for(var i = 0; i < sharedMemoryIncludes.size(); i++)
+			for(var x = i + 1; x < sharedMemoryIncludes.size(); x++){
+				if(sharedMemoryIncludes.get(i) == sharedMemoryIncludes.get(x)){
+					sharedMemoryIncludes.remove(x);
+					x--;
+				}
+			}
+			
+		for(x : sharedMemoryIncludes)
+			output += '#include "' + x + '.h"\n'
+		
+		return output
 	}
 	
 	private def getOrderedStateContainer(State state){

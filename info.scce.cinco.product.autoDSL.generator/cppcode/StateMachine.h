@@ -25,7 +25,7 @@ private:
   };
 
 public:
-  void Run(const IO::CarInputs& input, IO::CarOutputs& output);
+  virtual void Run(const IO::CarInputs& input, IO::CarOutputs& output);
   bool isInEntryState();
   const std::string GetCurrentStateName();
 

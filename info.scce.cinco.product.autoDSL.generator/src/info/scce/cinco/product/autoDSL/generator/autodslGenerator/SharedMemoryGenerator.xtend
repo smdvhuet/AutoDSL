@@ -11,6 +11,7 @@ import java.util.HashMap
 class SharedMemoryGenerator{
 	
 	static var HashMap<Integer, String> knownMemory =  new HashMap<Integer, String>()
+	public static var HashMap<String,String> externSharedMemoryVars = new HashMap<String, String>()
 	
 	def generate(SharedMemory memory) {
 		if(!knownMemory.containsKey(IDHasher.GetIntHash(memory.id))){
@@ -40,11 +41,13 @@ class SharedMemoryGenerator{
 			//bools
 			«FOR bool:memory.storedBooleans»
 			bool «bool.label» = «bool.defaultValue»;
+			«if (externSharedMemoryVars.get(memory.memoryName + "." + bool.label) == null){ externSharedMemoryVars.put(memory.memoryName + "." + bool.label, "g" + memory.memoryName + "_var." + bool.label); }»
 			«ENDFOR»
 			
 			//numbers
 			«FOR number:memory.storedNumbers»
 			double «number.label» = «number.defaultValue»;
+			«if (externSharedMemoryVars.get(memory.memoryName + "." + number.label) == null){ externSharedMemoryVars.put(memory.memoryName + "." + number.label, "g" + memory.memoryName + "_var." + number.label); }»
 			«ENDFOR»
 			
 			//PIDs
@@ -78,7 +81,6 @@ class SharedMemoryGenerator{
 	  		name = name + n.toFirstUpper
 	  	}
 	  	
-	  	
 	  	//save the memory name
 	  	knownMemory.put(IDHasher.GetIntHash(name), name)
 	  }
@@ -88,6 +90,7 @@ class SharedMemoryGenerator{
 	
 	def static Clear(){
 		knownMemory.clear
+		externSharedMemoryVars.clear()
 	}
 	
 }
