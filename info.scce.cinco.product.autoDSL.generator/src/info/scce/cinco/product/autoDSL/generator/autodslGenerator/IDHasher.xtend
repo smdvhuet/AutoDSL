@@ -28,4 +28,6 @@ class IDHasher {
 	public static def boolean Contains(String stringHash){
 		return stringHash2IdHash.containsKey(stringHash);
 	}
+	
+	public static def HashMap<String, Integer> GetKnownHashes() { return stringHash2IdHash; }
 }

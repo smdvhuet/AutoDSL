@@ -63,12 +63,15 @@ class TestDSLGenerator extends AbstractGenerator {
 	var HashMap<Integer, String> knownState = new HashMap<Integer, String>()
 	var HashMap<Integer, String> knownGuard = new HashMap<Integer, String>()
 	
+	var HashMap<Integer, String> knownMemory =  new HashMap<Integer, String>()
+	var HashMap<String,Integer> knownStringToIdHash = new HashMap<String, Integer>()
+	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		System.out.printf("doGenerate is not being used.")
 	}
 	
 	def generate(Resource resource, IPath targetDir, IProgressMonitor monitor, IFolder mainFolder, IFolder staticFolder, HashMap<Integer, String> knownRuleTypes, HashMap<Integer, String> knownDSLTypes,
-		HashMap<Integer, String> knownState, HashMap<Integer, String> knownGuard){
+		HashMap<Integer, String> knownState, HashMap<Integer, String> knownGuard, HashMap<Integer, String> knownMemory, HashMap<String, Integer> knownStringToIdHash){
 		this.targetDir = targetDir;
 		this.monitor = monitor;
 		
@@ -80,6 +83,9 @@ class TestDSLGenerator extends AbstractGenerator {
 		
 		this.knownState = knownState;
 		this.knownGuard = knownGuard;
+		
+		this.knownMemory = knownMemory;
+		this.knownStringToIdHash = knownStringToIdHash;
 		
 		var configs = resource.allContents.filter(typeof(Configuration)).toList;
 		
@@ -109,8 +115,8 @@ class TestDSLGenerator extends AbstractGenerator {
 		return '''
 		#ifndef AUTODSL_MONITORING_«test.name.toUpperCase»_H_
 		#define AUTODSL_MONITORING_«test.name.toUpperCase»_H_
-		#include "core/Test.h"
-		#include "core/Debug.h"
+		#include "../core/Test.h"
+		#include "../core/Debug.h"
 		
 		namespace AutoDSL{
 		namespace Monitoring {
@@ -141,7 +147,7 @@ class TestDSLGenerator extends AbstractGenerator {
 					test += " &&\n"
 			}
 			
-			return "void Action" + "() override {\n  return " + test + ";\n}\n\n"
+			return "void Action" + "() override {\n " + test + ";\n}\n\n"
 		}
 		
 		if(feature instanceof TestConditions){
@@ -155,7 +161,7 @@ class TestDSLGenerator extends AbstractGenerator {
 					test += " &&\n"
 			}
 			
-			return "void Condition" + "() override {\n  return " + test + ";\n}\n\n"
+			return "bool Condition" + "() override {\n  return " + test + ";\n}\n\n"
 		}
 		
 
@@ -205,8 +211,10 @@ class TestDSLGenerator extends AbstractGenerator {
 	}
 	
 	def generateMonitorData(MonitorData data){
-		var sharedMemory = data.ref.eContainer.eContainer as SharedMemory
-		"blub"//return "g" + SharedMemoryGenerator.getMemoryName(sharedMemory) + "_var." + data.ref.label
+		var id = knownStringToIdHash.get(data.ref)
+		var sharedMemoryName = knownMemory.get(id)
+		
+		return "g" + sharedMemoryName + "_var." + data.ref.label
 	}
 	
 	def String generateState(State state){

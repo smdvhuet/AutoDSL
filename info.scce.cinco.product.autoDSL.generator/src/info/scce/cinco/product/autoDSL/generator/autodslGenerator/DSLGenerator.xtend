@@ -61,7 +61,7 @@ class DSLGenerator implements IGenerator<AutoDSL> {
 		for (r : project.members) {
 			if (r.fileExtension == "test") {
 				var res = new ResourceSetImpl().getResource(URI.createURI(r.locationURI.toString), true);
-				gen.generate(res, targetDir, monitor, mainFolder,staticFolder, knownRuleTypes, knownDSLTypes, knownState, knownGuard)		
+				gen.generate(res, targetDir, monitor, mainFolder,staticFolder, knownRuleTypes, knownDSLTypes, knownState, knownGuard, SharedMemoryGenerator.GetKnownSharedMemory, IDHasher.GetKnownHashes);		
 			}
 		}
 	}

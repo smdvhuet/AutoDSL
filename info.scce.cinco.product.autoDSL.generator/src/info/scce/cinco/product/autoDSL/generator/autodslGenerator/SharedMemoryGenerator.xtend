@@ -22,8 +22,6 @@ class SharedMemoryGenerator{
 			var IFolder mainFolder = project.getFolder("src-gen")
 			EclipseFileUtils.writeToFile(mainFolder.getFile(memory.memoryName+".h"), generateStruct(memory))
 			EclipseFileUtils.writeToFile(mainFolder.getFile(memory.memoryName+".cpp"), generateCPP(memory))
-			
-			
 		}
 		return memory.memoryName
 	}
@@ -93,4 +91,5 @@ class SharedMemoryGenerator{
 		externSharedMemoryVars.clear()
 	}
 	
+	def static HashMap<Integer, String> GetKnownSharedMemory(){ return knownMemory; }
 }
